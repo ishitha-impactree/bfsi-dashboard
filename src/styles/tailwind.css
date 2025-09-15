@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Primary Colors */
+    --primary-background: #7856ff;
+    --primary-foreground: #ffffff;
+    --primary-light: #5990ff33;
+    --primary-dark: #2b3674;
+
+    /* Secondary Colors */
+    --secondary-background: #ffffff;
+    --secondary-foreground: #232538;
+    --secondary-light: #f6f9ff;
+    --secondary-dark: #000000;
+
+    /* Accent Colors */
+    --accent-success: #05ff00;
+    --accent-warning: #fba900;
+    --accent-danger: #fe3200;
+    --accent-info: #38c4f7;
+
+    /* Text Colors */
+    --text-primary: #232538;
+    --text-secondary: #29303f7f;
+    --text-muted: #a6a6a6;
+    --text-accent: #fba900;
+    --text-white: #ffffff;
+    --text-dark: #000000;
+
+    /* Background Colors */
+    --bg-main: #f6f5f3;
+    --bg-card: #ffffff;
+    --bg-overlay: #b7c2d87f;
+    --bg-dark: #323b4e;
+    --bg-light: #f6f9ff;
+
+    /* Border Colors */
+    --border-primary: #b7c1d77f;
+    --border-secondary: #b7c2d87f;
+    --border-light: #e6e6e6;
+    --border-accent: #f24405;
+
+    /* Typography Variables */
+    --font-size-xs: 8px;
+    --font-size-sm: 10px;
+    --font-size-base: 13px;
+    --font-size-md: 14px;
+    --font-size-lg: 16px;
+    --font-size-xl: 18px;
+    --font-size-2xl: 22px;
+    --font-size-3xl: 36px;
+
+    /* Font Weight Variables */
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* Line Height Variables */
+    --line-height-xs: 10px;
+    --line-height-sm: 13px;
+    --line-height-base: 16px;
+    --line-height-md: 17px;
+    --line-height-lg: 20px;
+    --line-height-xl: 24px;
+    --line-height-2xl: 29px;
+    --line-height-3xl: 47px;
+
+    /* Spacing Variables */
+    --spacing-xs: 2px;
+    --spacing-sm: 4px;
+    --spacing-base: 6px;
+    --spacing-md: 8px;
+    --spacing-lg: 10px;
+    --spacing-xl: 12px;
+    --spacing-2xl: 14px;
+    --spacing-3xl: 16px;
+    --spacing-4xl: 18px;
+    --spacing-5xl: 20px;
+    --spacing-6xl: 22px;
+    --spacing-7xl: 24px;
+    --spacing-8xl: 26px;
+    --spacing-9xl: 32px;
+    --spacing-10xl: 34px;
+
+    /* Border Radius Variables */
+    --radius-none: 0px;
+    --radius-xs: 1px;
+    --radius-sm: 2px;
+    --radius-base: 4px;
+    --radius-md: 5px;
+    --radius-lg: 6px;
+    --radius-xl: 8px;
+    --radius-2xl: 12px;
+    --radius-3xl: 14px;
+    --radius-4xl: 16px;
+    --radius-5xl: 22px;
+
+    /* Component-specific Colors */
+    --header-bg: #000000;
+    --header-text: #ffffff;
+    --header-accent: #fba900;
+
+    /* Button Colors */
+    --button-primary-bg: #7856ff;
+    --button-success-bg: #05ff00;
+    --button-warning-bg: #fed600;
+    --button-danger-bg: #fe3200;
+
+    /* Chart Colors */
+    --chart-primary: #0511f2;
+    --chart-secondary: #5990ff33;
+    --chart-background: #ffffff;
+
+    /* Progress Bar Colors */
+    --progress-bg: #323b4e;
+    --progress-fill: #38c4f7;
+  }
+}
