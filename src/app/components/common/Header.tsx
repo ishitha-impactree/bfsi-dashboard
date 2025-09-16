@@ -1,155 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Routes, Route } from 'react-router-dom';
-
-const UnderDevelopment = () => {
-  return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '60vh',
-      textAlign: 'center',
-      padding: '2rem',
-      maxWidth: '800px',
-      margin: '0 auto'
-    }}>
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100px',
-        height: '100px',
-        borderRadius: '50%',
-        backgroundColor: '#e3f2fd',
-        color: '#1976d2',
-        marginBottom: '2rem',
-        animation: 'pulse 2s infinite ease-in-out'
-      }}>
-        <svg 
-          width="50" 
-          height="50" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke="currentColor" 
-          strokeWidth="1.5"
-        >
-          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
-        </svg>
-      </div>
-      
-      <h1 style={{
-        fontSize: '2.5rem',
-        fontWeight: 600,
-        color: '#333',
-        marginBottom: '1rem',
-        lineHeight: 1.2
-      }}>
-        Under Development
-      </h1>
-      
-      <p style={{
-        fontSize: '1.25rem',
-        color: '#666',
-        fontWeight: 400,
-        lineHeight: 1.6,
-        maxWidth: '500px'
-      }}>
-        This page is currently in progress. Our team is working hard to bring you 
-        this feature soon. Please check back later!
-      </p>
-      
-      <div style={{
-        width: '200px',
-        height: '4px',
-        backgroundColor: '#e0e0e0',
-        borderRadius: '2px',
-        marginTop: '2rem',
-        overflow: 'hidden',
-        position: 'relative'
-      }}>
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          height: '100%',
-          width: '60%',
-          backgroundColor: '#1976d2',
-          animation: 'progress 2s infinite ease-in-out'
-        }} />
-      </div>
-      
-      <style>
-        {`
-          @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
-            100% { transform: scale(1); opacity: 1; }
-          }
-          @keyframes progress {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(250%); }
-          }
-        `}
-      </style>
-    </div>
-  );
-};
-
-type DropdownOption = { value: string; label: string };
-type DropdownProps = {
-  className?: string;
-  padding?: string;
-  options: DropdownOption[];
-};
-
-const Dropdown: React.FC<DropdownProps> = ({ className, padding, options }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  
-  return (
-    <div className={className} style={{ position: 'relative', display: 'inline-block' }}>
-      <button 
-        style={{ 
-          padding: padding,
-          border: '1px solid #ccc',
-          borderRadius: '4px',
-          backgroundColor: 'white',
-          cursor: 'pointer'
-        }}
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        Options ▼
-      </button>
-      {isOpen && (
-        <div style={{
-          position: 'absolute',
-          top: '100%',
-          right: 0,
-          backgroundColor: 'white',
-          border: '1px solid #ccc',
-          borderRadius: '4px',
-          minWidth: '120px',
-          zIndex: 1000,
-          marginTop: '4px'
-        }}>
-          {options.map(option => (
-            <div 
-              key={option.value}
-              style={{
-                padding: '8px 12px',
-                cursor: 'pointer',
-                borderBottom: '1px solid #eee'
-              }}
-              onClick={() => setIsOpen(false)}
-            >
-              {option.label}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
+import UnderDevelopment from 'pages/UnderDev';
 
 const Header: React.FC<{ className?: string }> = ({ className }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -278,13 +129,11 @@ const Header: React.FC<{ className?: string }> = ({ className }) => {
                     color: item.isActive ? '#1976d2' : '#6c757d',
                     backgroundColor: 'transparent',
                     border: 'none',
-                    cursor: item.path === '#' ? 'not-allowed' : 'pointer',
-                    opacity: item.path === '#' ? 0.6 : 1,
+                    cursor: 'pointer',
                     textDecoration: item.isActive ? 'underline' : 'none'
                   }}
                   role="menuitem"
                   onClick={() => handleNavigation(item.path, item.label)}
-                  disabled={item.path === '#'}
                 >
                   {item.label}
                 </button>

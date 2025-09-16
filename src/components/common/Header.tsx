@@ -10,7 +10,7 @@ interface HeaderProps {
 const Header = ({ className }: HeaderProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
+  const location = useLocation() as ReturnType<typeof useLocation> & { state?: { from?: string } };
 
   const navigationItems = [
     { 
@@ -26,25 +26,27 @@ const Header = ({ className }: HeaderProps) => {
     { 
       label: 'Companies', 
       path: '/companies',
-      isActive: location.pathname === '/UnderDev'
+      isActive: location.pathname === '' && location.state?.from === 'Companies'
     },
     { 
       label: 'Benchmarks', 
       path: '/benchmarks',
-      isActive: location.pathname === '/UnderDev'
+      isActive: location.pathname === '/UnderDev' && location.state?.from === 'Benchmarks'
     },
     { 
       label: 'Reports', 
       path: '/reports',
-      isActive: location.pathname === '/UnderDev'
+      isActive: location.pathname === '/UnderDev' && location.state?.from === 'Reports'
     }
   ];
 
   const handleNavigation = (path: string, label: string) => {
-    if (path !== '#') {
+    if (path === '/UnderDev') {
+      navigate(path, { state: { from: label } });
+    } else if (path !== '#') {
       navigate(path);
-      setMenuOpen(false); 
     }
+    setMenuOpen(false);
   };
 
   const getCurrentPageTitle = () => {
@@ -54,7 +56,7 @@ const Header = ({ className }: HeaderProps) => {
 
   return (
     <header className={`w-full bg-header-background ${className || ''}`}>
-      <div className="w-full max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-3">
+      <div className="w-full px-3 sm:px-6 lg:px-3">
         <div className="flex justify-between items-center py-4">
       
           <div className="flex-shrink-0 cursor-pointer" onClick={() => navigate('/cockpit')}>

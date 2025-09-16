@@ -84,7 +84,7 @@ const CompanyRow = ({
     </div>
 
     {/* Total Score */}
-    <div className="flex justify-center items-center border-r border-border-secondary px-3 py-2 bg-background-card">
+    <div className="flex justify-center items-center w-[20%] border-r border-border-secondary px-3 py-2 bg-background-card">
       <div className="flex gap-1 justify-center items-center px-2 py-[10px]">
         <img 
           src="/images/img_frame_1000004133.svg" 
@@ -107,7 +107,7 @@ const CompaniesTable = ({ className }: CompaniesTableProps) => {
   const companies = [
     {
       companyName: 'Eternal Limited',
-      companyLogo: '/images/img_avatar_1.png',
+      companyLogo: '/images/eternal-ltd-logo.png',
       environmentScore: '95%',
       socialScore: '96%',
       governanceScore: '93%',
@@ -118,7 +118,7 @@ const CompaniesTable = ({ className }: CompaniesTableProps) => {
     },
     {
       companyName: 'Yum! Brands',
-      companyLogo: '/images/img_avatar_2.png',
+      companyLogo: '/images/yum-logo.png',
       environmentScore: '95%',
       socialScore: '96%',
       governanceScore: '93%',
@@ -129,7 +129,62 @@ const CompaniesTable = ({ className }: CompaniesTableProps) => {
     },
     {
       companyName: 'The Coca-Cola Company',
-      companyLogo: '/images/img_avatar_3.png',
+      companyLogo: '/images/cc-logo.png',
+      environmentScore: '95%',
+      socialScore: '96%',
+      governanceScore: '93%',
+      totalScore: '94.6%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e'
+    },
+    {
+      companyName: 'Nike, Inc.',
+      companyLogo: '/images/nike-logo.svg',
+      environmentScore: '95%',
+      socialScore: '96%',
+      governanceScore: '93%',
+      totalScore: '94.6%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e'
+    },
+    {
+      companyName: 'Airbnb',
+      companyLogo: '/images/airbnb-logo.svg',
+      environmentScore: '95%',
+      socialScore: '96%',
+      governanceScore: '93%',
+      totalScore: '94.6%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e'
+    },
+    {
+      companyName: 'The Boeing Company',
+      companyLogo: '/images/boeing-logo.svg',
+      environmentScore: '95%',
+      socialScore: '96%',
+      governanceScore: '93%',
+      totalScore: '94.6%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e'
+    },
+    {
+      companyName: 'Tata Sons Pvt. Ltd.',
+      companyLogo: '/images/tata-logo.svg',
+      environmentScore: '95%',
+      socialScore: '96%',
+      governanceScore: '93%',
+      totalScore: '94.6%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e'
+    },
+    {
+      companyName: 'Tesla, Inc.',
+      companyLogo: '/images/tesla-logo.svg',
       environmentScore: '95%',
       socialScore: '96%',
       governanceScore: '93%',
@@ -142,39 +197,45 @@ const CompaniesTable = ({ className }: CompaniesTableProps) => {
 
   return (
     <div className={`flex flex-col gap-[10px] justify-start items-start w-full ${className || ''}`}>
-      {/* Table Header */}
       <div className="w-full bg-background-light px-[34px] py-[14px] mt-1.5">
         <span className="text-md font-bold leading-md text-left text-primary-dark font-['Inter']">
           Companies in Your Portfolio
         </span>
       </div>
 
-      {/* Table */}
       <div className="flex flex-col justify-start items-center w-full">
-        {/* Table Header Row */}
         <div className="flex justify-start items-center w-full">
           <div className="flex justify-center items-center w-full">
+            {/* Company Header */}
             <div className="flex justify-start items-center w-full border-t border-l border-r border-border-primary px-[18px] py-3 bg-[#ececec7f]">
               <span className="text-xs font-semibold leading-sm text-left text-text-primary font-['Inter']">
                 Company
               </span>
             </div>
+            
+            {/* Environment Header */}
             <div className="flex justify-center items-center w-[16%] border-t border-r border-border-primary px-3 py-3 bg-[#ececec7f]">
               <span className="text-xs font-semibold leading-sm text-center text-text-primary font-['Inter']">
                 Environment
               </span>
             </div>
+            
+            {/* Social Header */}
             <div className="flex justify-center items-center w-[16%] border-t border-r border-border-primary px-3 py-3 bg-[#ececec7f]">
               <span className="text-xs font-semibold leading-sm text-center text-text-primary font-['Inter']">
                 Social
               </span>
             </div>
+            
+            {/* Governance Header */}
             <div className="flex justify-center items-center w-[16%] border-t border-r border-border-primary px-3 py-3 bg-[#ececec7f]">
               <span className="text-xs font-semibold leading-sm text-center text-text-primary font-['Inter']">
                 Governance
               </span>
             </div>
-            <div className="flex justify-center items-center border-t border-r border-border-primary px-3 py-3 bg-[#ececec7f]">
+            
+            {/* Total Header */}
+            <div className="flex justify-center items-center w-[20%] border-t border-r border-border-primary px-3 py-3 bg-[#ececec7f]">
               <span className="text-xs font-semibold leading-sm text-center text-text-primary font-['Inter']">
                 Total
               </span>
@@ -182,7 +243,6 @@ const CompaniesTable = ({ className }: CompaniesTableProps) => {
           </div>
         </div>
 
-        {/* Table Rows */}
         <div className="flex flex-col w-full max-h-[300px] overflow-y-auto">
           {companies.map((company, index) => (
             <CompanyRow
@@ -198,64 +258,6 @@ const CompaniesTable = ({ className }: CompaniesTableProps) => {
               governanceColor={company.governanceColor}
             />
           ))}
-          {/* Last row with special styling */}
-          <div className="flex justify-center items-center w-full border-b border-border-primary">
-            <div className="flex justify-start items-center w-full border-l border-r border-border-secondary px-3 py-2 bg-background-card">
-              <div className="flex justify-start items-center px-2 py-2">
-                <img 
-                  src="/images/img_avatar_3.png" 
-                  alt="Company logo" 
-                  className="w-6 h-6 rounded-2xl"
-                />
-                <span className="text-base font-normal leading-lg text-left text-text-primary font-['Inter'] ml-[10px]">
-                  The Coca-Cola Company
-                </span>
-              </div>
-            </div>
-            <div className="flex justify-center items-center w-[16%] border-r border-border-secondary px-3 py-2 bg-background-card">
-              <div className="flex justify-center items-center px-[10px] py-[10px]">
-                <div className="flex justify-center items-center gap-1">
-                  <div className="w-[10px] h-[10px] bg-accent-warning rounded-md"></div>
-                  <span className="text-base font-normal leading-lg text-left text-text-primary font-['Inter']">
-                    95%
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-center items-center w-[16%] border-r border-border-secondary px-3 py-2 bg-background-card">
-              <div className="flex justify-center items-center px-[10px] py-[10px]">
-                <div className="flex justify-center items-center gap-1">
-                  <div className="w-[10px] h-[10px] bg-accent-info rounded-md"></div>
-                  <span className="text-base font-normal leading-lg text-left text-text-primary font-['Inter']">
-                    96%
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-center items-center w-[16%] border-r border-border-secondary px-3 py-2 bg-background-card">
-              <div className="flex justify-center items-center px-[10px] py-[10px]">
-                <div className="flex justify-center items-center gap-1">
-                  <div className="w-[10px] h-[10px] bg-[#5ee55e] rounded-md"></div>
-                  <span className="text-base font-normal leading-lg text-left text-text-primary font-['Inter']">
-                    93%
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-center items-center border-r border-border-secondary px-3 py-2 bg-background-card">
-              <div className="flex gap-1 justify-center items-center px-[10px] py-[10px]">
-                <img 
-                  src="/images/img_frame_1000004133.svg" 
-                  alt="Total score bar" 
-                  className="w-[68px] h-2 rounded-base"
-                />
-                <span className="text-base font-normal leading-lg text-center text-text-primary font-['Inter']">
-                  94.6%
-                </span>
-              </div>
-              <div className="w-1 h-8 bg-[#5990ff33] rounded-sm shadow-[0px_4px_4px_#888888ff]"></div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

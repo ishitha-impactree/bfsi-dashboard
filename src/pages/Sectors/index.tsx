@@ -24,7 +24,7 @@ const SectorsPerformanceAnalysis = () => {
 
       <main className="w-full bg-background-main">
         <Header />
-        <div className="w-full max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-3">
+        <div className="w-full px-3 sm:px-6 lg:px-3">
           <div className="flex flex-col gap-3 justify-start items-center w-full">
             
             <section className="w-full">
@@ -43,45 +43,46 @@ const SectorsPerformanceAnalysis = () => {
 
             <section className="w-full">
               <div className="flex flex-col gap-2 justify-start items-center w-full px-3 py-3 bg-background-card">
-                <div className="flex justify-center items-center w-full">
-                  <div className="flex justify-start items-center w-full">
+                <div className="flex flex-col sm:flex-row justify-between items-center w-full mb-4">
+                  <div className="flex flex-col sm:flex-row justify-start items-start sm:items-center gap-4 sm:gap-6">
                     <span className="text-lg font-medium leading-lg text-left font-['Inter']">
                       <span className="text-text-secondary">Sector : </span>
                       <span className="text-text-primary">All</span>
                     </span>
-                    <span className="text-lg font-medium leading-lg text-left font-['Inter'] ml-[18px]">
+                    <span className="text-lg font-medium leading-lg text-left font-['Inter']">
                       <span className="text-text-secondary">Industry : </span>
                       <span className="text-text-primary">All</span>
                     </span>
                   </div>
-                  <span className="text-lg font-medium leading-lg text-right text-text-secondary font-['Inter']">
+                  <span className="text-lg font-medium leading-lg text-right text-text-secondary font-['Inter'] mt-2 sm:mt-0">
                     Compared to previous 12 months
                   </span>
                 </div>
+                
                 <div className="flex flex-col lg:flex-row gap-3 justify-start items-start w-full">
-                  <div className="flex flex-col gap-[10px] justify-start items-center w-full lg:w-[65%]">
-                    <div className="flex flex-col sm:flex-row gap-2 justify-start items-center w-full">
-                      <div className="w-full sm:w-[456px] bg-background-light rounded-xl">
+                  <div className="flex flex-col gap-3 justify-start items-center w-full lg:w-[65%]">
+                    <div className="flex flex-col sm:flex-row gap-3 justify-start items-center w-full">
+                      <div className="w-full sm:w-1/2 bg-background-light rounded-xl">
                         <CompanyPerformanceCard
                           title="Top Performing Company"
                           companyName="Eternal Limited"
-                          companyLogo="/images/img_avatar.png"
+                          companyLogo="/images/eternal-ltd-logo.png"
                           industry="Software & IT Services"
                           isTopPerformer={true}
                         />
                       </div>
-                      <div className="w-full sm:w-[456px] bg-background-light rounded-xl">
+                      <div className="w-full sm:w-1/2 bg-background-light rounded-xl">
                         <CompanyPerformanceCard
                           title="Lowest Performing Company"
                           companyName="Shell"
-                          companyLogo="/images/img_avatar_24x24.png"
+                          companyLogo="/images/shell-logo.png"
                           industry="Crude Oil Petroleum & Natural Gas"
                           isTopPerformer={false}
                         />
                       </div>
                     </div>
 
-                    <div className="flex flex-col lg:flex-row justify-start items-start w-full">
+                    <div className="flex flex-col lg:flex-row gap-3 justify-start items-start w-full">
                       <div className="flex flex-col gap-3 justify-start items-center w-full lg:w-[50%]">
                         <div className="w-full bg-[#ecf2ff7f] rounded-xl">
                           <MetricsCard
@@ -94,57 +95,84 @@ const SectorsPerformanceAnalysis = () => {
                           />
                         </div>
 
-                        <div className="flex flex-col gap-3 w-full">
-                          <div className="w-full bg-[#ecf2ff7f] rounded-xl">
-                            <MetricsCard
-                              title="Industry ESG Score"
-                              value="68%"
-                              changePercentage="40%"
-                              isPositive={true}
-                              hasLeftBorder={true}
-                            />
+                        <div className="flex flex-col sm:flex-row gap-3 w-full">
+                          <div className="flex flex-col gap-3 w-full sm:w-1/2">
+                            <div className="w-full bg-[#ecf2ff7f] rounded-xl">
+                              <MetricsCard
+                                title="Industry ESG Score"
+                                value="68%"
+                                changePercentage="40%"
+                                isPositive={true}
+                                hasLeftBorder={true}
+                              />
+                            </div>
+                            <div className="w-full bg-[#ecf2ff7f] rounded-xl">
+                              <MetricsCard
+                                title="PCHI"
+                                value="28%"
+                                changePercentage="40%"
+                                isPositive={true}
+                                hasLeftBorder={true}
+                              />
+                            </div>
                           </div>
-                          <div className="w-full bg-[#ecf2ff7f] rounded-xl">
-                            <MetricsCard
-                              title="PCHI"
-                              value="28%"
-                              changePercentage="40%"
-                              isPositive={true}
-                              hasLeftBorder={true}
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col justify-start items-center w-full lg:w-[50%] lg:ml-3">
-                        <div className="w-full bg-[#ecf2ff7f] rounded-xl px-2 py-2">
-                          <div className="flex flex-col gap-[10px] w-full">
-                            <ESGRatingCard
-                              percentage="72%"
-                              title="Environment\nRating"
-                              iconSrc="/images/img_group_1000003546.svg"
-                            />
-                            <ESGRatingCard
-                              percentage="45%"
-                              title="Social\nRating"
-                              iconSrc="/images/img_group_1000003546_light_blue_a200.svg"
-                            />
-                            <div className="flex gap-[14px] justify-start items-center w-full px-2">
+                          
+                          <div className="flex flex-col gap-4 w-full sm:w-1/2 bg-[#ecf2ff7f] rounded-xl p-4">
+                            <div className="flex gap-4 justify-start items-center w-full flex-1">
+                              <img 
+                                src="/images/img_group_1000003546.svg" 
+                                alt="Environment icon" 
+                                className="w-14 h-14"
+                              />
+                              <div className="flex flex-col justify-start items-start w-full">
+                                <span className="text-xl font-normal leading-xl text-left text-text-primary font-['Inter']">
+                                  72%
+                                </span>
+                                <span className="text-lg font-bold leading-lg text-left text-text-primary font-['DM Sans']">
+                                  Environment Rating
+                                </span>
+                              </div>
+                            </div>
+                            
+                            <div className="flex gap-4 justify-start items-center w-full flex-1">
+                              <img 
+                                src="/images/img_group_1000003546_light_blue_a200.svg" 
+                                alt="Social icon" 
+                                className="w-14 h-14"
+                              />
+                              <div className="flex flex-col justify-start items-start w-full">
+                                <span className="text-xl font-normal leading-xl text-left text-text-primary font-['Inter']">
+                                  45%
+                                </span>
+                                <span className="text-lg font-bold leading-lg text-left text-text-primary font-['DM Sans']">
+                                  Social Rating
+                                </span>
+                              </div>
+                            </div>
+                            
+                            <div className="flex gap-4 justify start items-center w-full flex-1">
                               <img 
                                 src="/images/img_group_1000003546_amber_a700.svg" 
                                 alt="Governance icon" 
-                                className="w-[56px] h-[56px] self-end"
+                                className="w-14 h-14"
                               />
                               <div className="flex flex-col justify-start items-start w-full">
                                 <span className="text-xl font-normal leading-xl text-left text-text-primary font-['Inter']">
                                   87%
                                 </span>
-                                <span className="text-lg font-bold leading-lg text-left text-text-primary font-['DM Sans'] whitespace-pre-line">
-                                  Governance{'\n'}Rating
+                                <span className="text-lg font-bold leading-lg text-left text-text-primary font-['DM Sans']">
+                                  Governance Rating
                                 </span>
                               </div>
                             </div>
                           </div>
+                        </div>
+                      </div>
+
+
+                      <div className="flex flex-col justify-start items-center w-full lg:w-[50%]">
+                        <div className="w-full bg-background-light rounded-xl p-3">
+                          <ESGChart />
                         </div>
                       </div>
                     </div>
@@ -154,16 +182,12 @@ const SectorsPerformanceAnalysis = () => {
                     </div>
                   </div>
 
-                  <div className="flex flex-col justify-start items-center w-full lg:w-[35%]">
-                    <div className="w-full bg-background-light rounded-xl p-3 mb-3">
-                      <ESGChart />
-                    </div>
-
-                    <div className="w-full mb-3">
+                  <div className="flex flex-col justify-start items-center w-full lg:w-[35%] gap-3">
+                    <div className="w-full bg-background-light rounded-xl p-3">
                       <ScopeMetricsSection />
                     </div>
 
-                    <div className="w-full bg-background-light rounded-xl mb-3">
+                    <div className="w-full bg-background-light rounded-xl">
                       <RiskBreakdownSection />
                     </div>
 

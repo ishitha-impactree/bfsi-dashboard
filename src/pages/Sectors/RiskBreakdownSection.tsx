@@ -41,16 +41,10 @@ const RiskBreakdownSection = ({ className }: RiskBreakdownSectionProps) => {
             </span>
             <div className="flex gap-1 justify-start items-center w-full">
               <RiskItem label="Resource Use" color="#05ff00" />
-              <div className="flex justify-start items-center w-full">
-                <span className="text-xs font-normal leading-base text-center text-text-dark font-['Inter'] px-2 py-2 rounded-sm" style={{ backgroundColor: '#acff01' }}>
-                  Climate{'\n'}Stewardship
-                </span>
-              </div>
+              <RiskItem label="Climate Stewardship" color="#acff01" />
               <RiskItem label="Resource Footprint" color="#ff8b00" />
               <RiskItem label="Aspiration Need" color="#fe7f00" />
-              <div className="flex justify-start items-center w-full">
-                <RiskItem label="Growth Need" color="#73ff01" />
-              </div>
+              <RiskItem label="Growth Need" color="#73ff01" />
             </div>
           </div>
 
@@ -60,21 +54,9 @@ const RiskBreakdownSection = ({ className }: RiskBreakdownSectionProps) => {
               Social
             </span>
             <div className="flex gap-1 justify-start items-center w-full">
-              <div className="flex justify-center items-center px-[10px] py-3 rounded-sm" style={{ backgroundColor: '#ffae00' }}>
-                <span className="text-xs font-normal leading-xs text-center text-text-dark font-['Inter']">
-                  Human Capacity
-                </span>
-              </div>
-              <div className="flex justify-start items-center w-full">
-                <span className="text-xs font-normal leading-base text-center text-text-dark font-['Inter'] px-2 py-2 rounded-sm" style={{ backgroundColor: '#ff8001' }}>
-                  Community{'\n'}Engagement
-                </span>
-              </div>
-              <div className="flex justify-start items-center w-full">
-                <span className="text-xs font-normal leading-base text-center text-text-dark font-['Inter'] px-[10px] py-2 rounded-sm" style={{ backgroundColor: '#ff9000' }}>
-                  Customer{'\n'}Satisfaction
-                </span>
-              </div>
+              <RiskItem label="Human Capacity" color="#ffae00" />
+              <RiskItem label="Community Engagement" color="#ff8001" />
+              <RiskItem label="Customer Satisfaction" color="#ff9000" />
               <RiskItem label="Quality Assurance" color="#77ff01" />
               <RiskItem label="Data Risk" color="#fe3200" />
             </div>
