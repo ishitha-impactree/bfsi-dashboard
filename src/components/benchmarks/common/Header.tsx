@@ -51,7 +51,7 @@ const Header = ({ className }: HeaderProps) => {
 
   const getCurrentPageTitle = () => {
     const currentItem = navigationItems.find(item => item.isActive);
-    return currentItem?.label || 'Dashboard';
+    return currentItem?.label || 'Benchmarks';
   };
 
   return (

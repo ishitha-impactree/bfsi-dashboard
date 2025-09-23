@@ -42,7 +42,6 @@ interface DropdownOption {
 }
 
 interface DropdownProps extends VariantProps<typeof dropdownClasses> {
-  // Optional parameters (no defaults as per specification)
   placeholder?: string;
   text_font_size?: string;
   text_font_family?: string;
@@ -58,7 +57,6 @@ interface DropdownProps extends VariantProps<typeof dropdownClasses> {
   padding?: string;
   position?: string;
   
-  // Standard React props
   options?: DropdownOption[];
   value?: string;
   onChange?: (value: string) => void;
@@ -69,7 +67,6 @@ interface DropdownProps extends VariantProps<typeof dropdownClasses> {
 }
 
 const Dropdown = ({
-  // Optional parameters (no defaults)
   placeholder,
   text_font_size,
   text_font_family,
@@ -102,7 +99,6 @@ const Dropdown = ({
   const [selectedValue, setSelectedValue] = useState(value || '');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Safe validation for optional parameters
   const hasValidPlaceholder = placeholder && typeof placeholder === 'string' && placeholder.trim() !== '';
   const hasValidFontSize = text_font_size && typeof text_font_size === 'string' && text_font_size.trim() !== '';
   const hasValidFontFamily = text_font_family && typeof text_font_family === 'string' && text_font_family.trim() !== '';
@@ -134,7 +130,6 @@ const Dropdown = ({
     hasValidPosition ? position : '',
   ].filter(Boolean).join(' ');
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {

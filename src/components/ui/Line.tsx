@@ -1,6 +1,7 @@
 import React from 'react';
 import { cva, VariantProps } from 'class-variance-authority';
 import { twMerge } from 'tailwind-merge';
+import { string } from 'prop-types';
 
 const lineClasses = cva(
   'block',
@@ -20,8 +21,7 @@ const lineClasses = cva(
 interface LineProps extends VariantProps<typeof lineClasses> {
   // Required parameters with defaults
   fill_background_color?: string;
-  
-  // Optional parameters
+  width?: number | string;
   layout_width?: string;
   componentType?: string;
   
@@ -32,9 +32,11 @@ interface LineProps extends VariantProps<typeof lineClasses> {
   className?: string;
 }
 
+
 const Line = ({
   fill_background_color = "bg-background-overlay",
   layout_width,
+  // width?: number | string;
   componentType = "Line",
   'w*h': dimensions,
   className,

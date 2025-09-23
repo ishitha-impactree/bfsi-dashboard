@@ -141,142 +141,155 @@ const PortfolioClimateRisk = () => {
       },
     ];
 
-    const areaOptions = {
-      chart: {
-        type: 'area',
-        height: 450,
-        toolbar: {
-          show: false
-        },
-        fontFamily: 'Inter, sans-serif',
-        zoom: {
-          enabled: false
-        }
-      },
-      colors: ['#EF4444'],
-      dataLabels: {
-        enabled: false
-      },
-      stroke: {
-        curve: 'smooth',
-        width: 2,
-        colors: ['#EF4444']
-      },
-      fill: {
-        type: 'gradient',
-        colors: ['#8065B3'],
-        gradient: {
-          shadeIntensity: 1,
-          opacityFrom: 0.7,
-          opacityTo: 0.3,
-          stops: [0, 90, 100]
-        }
-      },
-      xaxis: {
-        categories: ['2024', '2025', '2026', '2027', '2028', '2029'],
-        labels: {
-          style: {
-            fontSize: '10px',
-            fontWeight: 500,
-            colors: '#6B7280'
-          }
-        },
-        axisBorder: {
-          show: false
-        },
-        axisTicks: {
-          show: false
-        },
-        title: {
-          text: 'Year',
-          style: {
-            fontSize: '12px',
-            fontWeight: 600,
-            color: '#374151'
-          }
-        }
-      },
-      yaxis: {
-        min: 0,
-        max: 1000,
-        tickAmount: 5,
-        labels: {
-          formatter: function(val: any) {
-            return val + 'k';
-          },
-          style: {
-            fontSize: '10px',
-            fontWeight: 500,
-            colors: '#6B7280'
-          }
-        },
-        title: {
-          text: 't CO2e',
-          style: {
-            fontSize: '12px',
-            fontWeight: 600,
-            color: '#374151'
-          }
-        }
-      },
-      grid: {
-        borderColor: 'rgba(209, 213, 219, 0.5)',
-        strokeDashArray: 3,
-        padding: {
-          top: 0,
-          right: 0,
-          bottom: 0,
-          left: 10
-        }
-      },
-      tooltip: {
-        custom: function({ series, seriesIndex, dataPointIndex, w }: any) {
-          const value = series[seriesIndex][dataPointIndex];
-          const year = w.globals.labels[dataPointIndex];
-          return (
-            '<div class="apexcharts-tooltip" style="background-color: rgba(255, 255, 255, 0.95); ' +
-            'color: #1F2937; padding: 8px; border-radius: 6px; border: 1px solid #E5E7EB; font-size: 12px;">' +
-            '<div style="font-weight: 600; margin-bottom: 4px;">' + year + '</div>' +
-            '<div>Financed Emissions: ' + value + 'k t CO2e</div>' +
-            '</div>'
-          );
-        }
-      },
-      markers: {
-        size: 3,
-        colors: ['#EF4444'],
-        strokeColors: '#fff',
-        strokeWidth: 2,
-        hover: {
-          size: 5
-        }
-      },
-      annotations: {
-        xaxis: [
-          {
-            x: '2026',
-            strokeDashArray: 0,
-            borderColor: '#9CA3AF',
-            label: {
-              borderColor: '#9CA3AF',
-              style: {
-                color: '#fff',
-                background: '#9CA3AF',
-                fontSize: '10px'
-              },
-              text: '2026',
-              orientation: 'horizontal',
-              offsetY: 7
-            }
-          }
-        ]
+  const areaOptions = {
+  chart: {
+    type: 'area',
+    height: 450,
+    toolbar: {
+      show: false
+    },
+    fontFamily: 'Inter, sans-serif',
+    zoom: {
+      enabled: false
+    }
+  },
+  colors: ['#8065B3'],
+  dataLabels: {
+    enabled: false
+  },
+  stroke: {
+    curve: 'smooth',
+    width: 2,
+    colors: ['#8065B3']
+  },
+  fill: {
+    type: 'gradient',
+    colors: ['#8065B3'],
+    gradient: {
+      shadeIntensity: 1,
+      opacityFrom: 0.7,
+      opacityTo: 0.3,
+      stops: [0, 90, 100]
+    }
+  },
+  xaxis: {
+    categories: ['2024', '2025', '2026', '2027', '2028', '2029'],
+    labels: {
+      style: {
+        fontSize: '10px',
+        fontWeight: 500,
+        colors: '#6B7280'
       }
-    };
+    },
+    axisBorder: {
+      show: false
+    },
+    axisTicks: {
+      show: false
+    },
+    title: {
+      text: 'Year',
+      style: {
+        fontSize: '12px',
+        fontWeight: 600,
+        color: '#374151'
+      }
+    }
+  },
+  yaxis: {
+    min: 0,
+    max: 100,
+    tickAmount: 5,
+    labels: {
+      formatter: function(val: any) {
+        return val + 'k' + 't CO₂E';
+      },
+      style: {
+        fontSize: '10px',
+        fontWeight: 500,
+        colors: '#6B7280'
+      }
+    },
+    title: {
+      text: '',
+      style: {
+        fontSize: '12px',
+        fontWeight: 600,
+        color: '#374151'
+      }
+    }
+  },
+  grid: {
+    borderColor: 'rgba(209, 213, 219, 0.5)',
+    strokeDashArray: 3,
+    padding: {
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 10
+    }
+  },
+  tooltip: {
+    custom: function({ series, seriesIndex, dataPointIndex, w }: any) {
+      const value = series[seriesIndex][dataPointIndex];
+      const year = w.globals.labels[dataPointIndex];
+      return (
+        '<div class="apexcharts-tooltip" style="background-color: rgba(255, 255, 255, 0.95); ' +
+        'color: #1F2937; padding: 8px; border-radius: 6px; border: 1px solid #E5E7EB; font-size: 12px;">' +
+        '<div style="font-weight: 600; margin-bottom: 4px;">' + year + '</div>' +
+        '<div>Financed Emissions: ' + value + 'k t CO2e</div>' +
+        '</div>'
+      );
+    }
+  },
+  markers: {
+    size: 6,
+    colors: ['#8065B3'],
+    strokeColors: '#fff',
+    strokeWidth: 2,
+    hover: {
+      size: 8
+    }
+  },
+  annotations: {
+    xaxis: [
+      {
+        x: '2026',
+        strokeDashArray: 0,
+        borderColor: '#EF4444',
+        label: {
+          borderColor: '#EF4444',
+          style: {
+            color: '#fff',
+            background: '#EF4444',
+            fontSize: '10px'
+          },
+          text: '',
+          orientation: 'horizontal',
+          offsetY: 7
+        }
+      }
+    ],
+    points: [
+      {
+        x: '2026',
+        y: 52,
+        marker: {
+          size: 6,
+          fillColor: '#EF4444',
+          strokeColor: '#fff',
+          strokeWidth: 2,
+          radius: 5
+        }
+      }
+    ],
+  }
+};
 
     const areaSeries = [
       {
         name: 'Financed Emissions',
-        data: [1000, 800, 600, 400, 200, 0]
+        data: [60, 55, 52, 40, 28, 20]
       }
     ];
 
@@ -517,6 +530,18 @@ const PortfolioClimateRisk = () => {
     </div>
   );
 
+  const DiamondCounter = ({ color, value }: { color: string; value: number | string }) => (
+    <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(12,12)">
+        <rect x="-9" y="-9" width="18" height="18" fill="none" stroke="#9CA3AF" strokeWidth="2" transform="rotate(45)" rx="2" ry="2" />
+        <rect x="-5" y="-5" width="10" height="10" fill={color} transform="rotate(45)" rx="1" ry="1" />
+        <text x="0" y="4" textAnchor="middle" fontSize="10" fontWeight="700" fill="#FFFFFF">
+          {String(value)}
+        </text>
+      </g>
+    </svg>
+  );
+
  const actionHubContent = (
     <div className="space-y-3 sm:space-y-6 lg:space-y-3">
         <Button
@@ -537,16 +562,20 @@ const PortfolioClimateRisk = () => {
             className="w-full"
         />
         <div className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-3">
-            <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">Action Items</h3>
+           
 
             <List direction="row" className="gap-3 sm:gap-4 lg:gap-3 mb-4">
-              <div className="flex-1 flex justify-between items-center bg-[#ecf2ff7f] border-l-[3px] border-purple-500 rounded-none p-3 sm:p-4 lg:p-3">
+              <div className="flex-1 flex flex-col sm:flex-row justify-between items-center bg-[#ecf2ff7f] border-l-[3px] border-purple-500 rounded-none p-3 sm:p-4 lg:p-3">
                 <span className="text-sm sm:text-base font-semibold text-text-primary">Pending Items</span>
-                <span className="text-lg sm:text-xl font-bold text-text-primary">5</span>
+                <div className="flex items-center gap-2">
+                  <DiamondCounter color="#8065B3" value={5} />
+                </div>
               </div>
-              <div className="flex-1 flex justify-between items-center bg-[#ecf2ff7f] border-l-[3px] border-purple-500 rounded-none p-3 sm:p-4 lg:p-3">
+              <div className="flex-1 flex flex-col sm:flex-row justify-between items-center bg-[#ecf2ff7f] border-l-[3px] border-red-500 rounded-none p-3 sm:p-4 lg:p-3">
                 <span className="text-sm sm:text-base font-semibold text-text-primary">Critical Points</span>
-                <span className="text-lg sm:text-xl font-bold text-text-primary">3</span>
+                <div className="flex items-center gap-2">
+                  <DiamondCounter color="#EF4444" value={3} />
+                </div>
               </div>
             </List>
 
@@ -623,89 +652,83 @@ const PortfolioClimateRisk = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6 lg:gap-3 mb-6 sm:mb-8 lg:mb-6">
-
               <div className="space-y-3 sm:space-y-6 lg:space-y-3">
-
                 <List direction="row" className="gap-3 sm:gap-6 lg:gap-3">
-                <div className="flex-1 bg-[#ecf2ff7f] border-l-[3px] border-amber-400 rounded-none p-2 sm:p-4 lg:p-2">
-                <div className="flex justify-end items-center mb-2">
-                  <img src="/images/img_arrow_drop_up_red_500.svg" alt="Increase" className="w-3 h-3 mr-1" />
-                  <span className="text-xs sm:text-sm font-normal text-gray-600">17%</span>
-                </div>
+                  <div className="flex-1 bg-[#ecf2ff7f] border-l-[3px] border-amber-400 rounded-none p-2 sm:p-4 lg:p-2">
+                    <div className="flex justify-end items-center mb-2">
+                      <img src="/images/img_arrow_drop_up_red_500.svg" alt="Increase" className="w-3 h-3 mr-1" />
+                      <span className="text-xs sm:text-sm font-normal text-gray-600">17%</span>
+                    </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <div className="text-2xl sm:text-3xl lg:text-3xl font-semibold text-gray-800 mb-1">28%</div>
-                    <div className="text-xs sm:text-base font-medium text-gray-800">Portfolio Climate Hazard Index (PCHI)</div>
-                  </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <div className="text-2xl sm:text-3xl lg:text-3xl font-semibold text-gray-800 mb-1">28%</div>
+                        <div className="text-xs sm:text-base font-medium text-gray-800">Portfolio Climate Hazard Index (PCHI)</div>
+                      </div>
 
-                  <div className="flex-shrink-0 ml-4">
-                    <div className="relative w-20 h-12 sm:w-24 sm:h-14">
-                      <svg
-                        viewBox="0 0 100 50"
-                        className="w-full h-full"
-                        style={{ overflow: 'visible' }}
-                      >
-                        <path
-                          d="M 15 45 A 35 35 0 0 1 35 15"
-                          fill="none"
-                          stroke="#22c55e"
-                          strokeWidth="6"
-                          strokeLinecap="round"
-                        />
+                      <div className="flex-shrink-0 ml-4">
+                        <div className="relative w-20 h-12 sm:w-24 sm:h-14">
+                          <svg
+                            viewBox="0 0 100 50"
+                            className="w-full h-full"
+                            style={{ overflow: 'visible' }}
+                          >
+                            <path
+                              d="M 15 45 A 35 35 0 0 1 35 15"
+                              fill="none"
+                              stroke="#22c55e"
+                              strokeWidth="6"
+                              strokeLinecap="round"
+                            />
 
-                        <path
-                          d="M 35 15 A 35 35 0 0 1 65 15"
-                          fill="none"
-                          stroke="#eab308"
-                          strokeWidth="6"
-                          strokeLinecap="round"
-                        />
+                            <path
+                              d="M 35 15 A 35 35 0 0 1 65 15"
+                              fill="none"
+                              stroke="#eab308"
+                              strokeWidth="6"
+                              strokeLinecap="round"
+                            />
 
-                        <path
-                          d="M 65 15 A 35 35 0 0 1 85 45"
-                          fill="none"
-                          stroke="#ef4444"
-                          strokeWidth="6"
-                          strokeLinecap="round"
-                        />
+                            <path
+                              d="M 65 15 A 35 35 0 0 1 85 45"
+                              fill="none"
+                              stroke="#ef4444"
+                              strokeWidth="6"
+                              strokeLinecap="round"
+                            />
 
-                        <path
-                          d="M 15 45 A 35 35 0 0 1 85 45"
-                          fill="none"
-                          stroke="#e5e7eb"
-                          strokeWidth="2"
-                        />
+                            <path
+                              d="M 15 45 A 35 35 0 0 1 85 45"
+                              fill="none"
+                              stroke="#e5e7eb"
+                              strokeWidth="2"
+                            />
 
-                        <circle
-                          cx="50"
-                          cy="45"
-                          r="3"
-                          fill="#374151"
-                        />
+                            <circle
+                              cx="50"
+                              cy="45"
+                              r="3"
+                              fill="#374151"
+                            />
 
-                        <line
-                          x1="50"
-                          y1="45"
-                          x2="50"
-                          y2="20"
-                          stroke="#374151"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          transform={`rotate(${needleRotation} 50 45)`}
-                        />
-                      </svg>
+                            <line
+                              x1="50"
+                              y1="45"
+                              x2="50"
+                              y2="20"
+                              stroke="#374151"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              transform={`rotate(${needleRotation} 50 45)`}
+                            />
+                          </svg>
 
-                      <div className="absolute inset-0 flex justify-between items-end text-[8px] text-gray-500 px-1">
-                        <span>0</span>
-                        <span className="transform translate-x-1">50</span>
-                        <span>100</span>
+        
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-                    <div className="flex-1 bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2">
+                  <div className="flex-1 bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2">
                     <div className="flex justify-end items-center mb-2">
                       <img src="/images/img_arrow_drop_up.svg" alt="Increase" className="w-3 h-3 mr-1" />
                       <span className="text-xs sm:text-sm font-normal text-text-dark">19%</span>
@@ -739,7 +762,6 @@ const PortfolioClimateRisk = () => {
               </div>
 
               <div className="space-y-3 sm:space-y-6 lg:space-y-3">
-
                 <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
                   {portfolioScopes?.map((scope, index) => (
                     <div key={index} className="flex-1">
@@ -748,7 +770,7 @@ const PortfolioClimateRisk = () => {
                           <span className="text-xs sm:text-sm font-semibold text-text-primary">{scope?.title}</span>
                           <div className="flex items-center">
                             <img
-                              src={scope?.isPositive ? "/images/img_arrow_drop_up_red_500.svg" : "/images/img_arrow_drop_up.svg"}
+                              src={scope?.isPositive ? "/images/img_arrow_drop_up_red_500.svg" : "/images/img_arrow_drop_down_green_500.svg"}
                               alt={scope?.isPositive ? "Increase" : "Decrease"}
                               className="w-3 h-3 mr-1"
                             />
@@ -839,54 +861,55 @@ const PortfolioClimateRisk = () => {
                   </div>
                 </List>
 
-                <List direction="row" className="gap-3 sm:gap-6 lg:gap-3">
-                  <div className="flex-1 space-y-3 sm:space-y-6 lg:space-y-3">
-                    <div className="bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2">
-                      <div className="flex justify-end items-center mb-2">
-                        <img src="/images/img_arrow_drop_up.svg" alt="Increase" className="w-3 h-3 mr-1" />
-                        <span className="text-xs sm:text-sm font-normal text-text-dark">15%</span>
+                <div className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-3">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6 lg:gap-3">
+                    <div className="space-y-3 sm:space-y-6 lg:space-y-3">
+                      <div className="bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2">
+                        <div className="flex justify-end items-center mb-2">
+                          <img src="/images/img_arrow_drop_up.svg" alt="Increase" className="w-3 h-3 mr-1" />
+                          <span className="text-xs sm:text-sm font-normal text-text-dark">15%</span>
+                        </div>
+
+                        <div className="mb-4">
+                          <div className="text-lg sm:text-xl font-semibold text-text-primary mb-1">Portfolio ESG Rating</div>
+                          <div className="text-2xl sm:text-3xl lg:text-3xl font-semibold text-text-primary">68%</div>
+                        </div>
                       </div>
 
-                      <div className="mb-4">
-                        <div className="text-lg sm:text-xl font-semibold text-text-primary mb-1">Portfolio ESG Rating</div>
-                        <div className="text-2xl sm:text-3xl lg:text-3xl font-semibold text-text-primary">68%</div>
-                      </div>
-                    </div>
-
-                    <div className="bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2">
-                      <div className="space-y-2 sm:space-y-4 lg:space-y-2">
-                        {esgRatings?.map((rating, index) => (
-                          <div key={index} className="flex items-center gap-3 sm:gap-4 lg:gap-3 py-2 border-b border-border-light last:border-b-0">
-                            <img src={rating?.icon} alt={rating?.title} className="w-12 h-12 sm:w-14 sm:h-14" />
-                            <div className="flex-1">
-                              <div className="text-lg sm:text-xl font-normal text-text-primary">{rating?.percentage}</div>
-                              <div className="text-sm sm:text-lg font-bold text-text-primary">{rating?.title}</div>
+                      <div className="bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2">
+                        <div className="space-y-2 sm:space-y-4 lg:space-y-2">
+                          {esgRatings?.map((rating, index) => (
+                            <div key={index} className="flex items-center gap-3 sm:gap-4 lg:gap-3 py-2 border-b border-border-light last:border-b-0">
+                              <img src={rating?.icon} alt={rating?.title} className="w-12 h-12 sm:w-14 sm:h-14" />
+                              <div className="flex-1">
+                                <div className="text-lg sm:text-xl font-normal text-text-primary">{rating?.percentage}</div>
+                                <div className="text-sm sm:text-lg font-bold text-text-primary">{rating?.title}</div>
+                              </div>
                             </div>
-                          </div>
-                        ))}
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="flex-1 bg-background-light rounded-xl p-3 sm:p-6 lg:p-3">
-                    <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">Financed Emissions</h3>
-                    <div className="h-[450px]">
-                      {typeof window !== 'undefined' && (
-                        <ReactApexChart
-                          options={financedEmissionsOptions}
-                          series={financedEmissionsSeries}
-                          type="area"
-                          height="100%"
-                        />
-                      )}
+                    
+                    <div className="flex-1 bg-background-light rounded-xl p-3 sm:p-6 lg:p-3">
+                        <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">Financed Emissions</h3>
+                        <div className="h-[450px]">
+                            {typeof window !== 'undefined' && (
+                                <ReactApexChart
+                                    options={financedEmissionsOptions}
+                                    series={financedEmissionsSeries}
+                                    type="area"
+                                    height="100%"
+                                />
+                            )}
+                        </div>
                     </div>
                   </div>
-                </List>
+                </div>
               </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6 lg:gap-3">
-
               <div className="space-y-3 sm:space-y-6 lg:space-y-3">
                 <Button
                   text="Portfolio Risks & Opportunities"
@@ -907,7 +930,7 @@ const PortfolioClimateRisk = () => {
                 />
 
                 <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
-                  <div className="flex-1 bg-background-light rounded-xl p-3 sm:p-6 lg:p-3">
+                  <div className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3">
                     <h4 className="text-md font-bold text-primary-dark mb-4">Top Performing Company</h4>
 
                     <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-2 sm:p-4 lg:p-2 border border-background-overlay rounded-base">
@@ -918,8 +941,7 @@ const PortfolioClimateRisk = () => {
 
                       <Line
                         fill_background_color="bg-background-overlay"
-                        width={1}
-                        height={20}
+                        {...{ 'w*h': '1*20' }}
                         className="mx-2"
                       />
 
@@ -929,7 +951,7 @@ const PortfolioClimateRisk = () => {
                     </div>
                   </div>
 
-                  <div className="flex-1 bg-background-light rounded-xl p-3 sm:p-6 lg:p-3">
+                  <div className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3">
                     <h4 className="text-md font-bold text-primary-dark mb-4">Lowest Performing Company</h4>
 
                     <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-2 sm:p-4 lg:p-2 border border-background-overlay rounded-base">
@@ -940,8 +962,7 @@ const PortfolioClimateRisk = () => {
 
                       <Line
                         fill_background_color="bg-background-overlay"
-                        width={1}
-                        height={20}
+                        {...{ 'w*h': '1*20' }}
                         className="mx-2"
                       />
 

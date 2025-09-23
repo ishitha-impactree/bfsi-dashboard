@@ -1,116 +1,116 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 interface TimelineChartProps {
   className?: string;
 }
 
 const TimelineChart = ({ className }: TimelineChartProps) => {
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragOffset, setDragOffset] = useState(0);
+  const [selectionWidth, setSelectionWidth] = useState(0);
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const handleRef = useRef<HTMLDivElement>(null);
+
+  const totalMonths = 18;
+  const initialSelectionStart = 8;
+  const initialSelectionEnd = 11;
+
+  useEffect(() => {
+    if (timelineRef.current) {
+      const timelineWidth = timelineRef.current.offsetWidth;
+      const monthWidth = timelineWidth / totalMonths;
+      const startX = initialSelectionStart * monthWidth;
+      const endX = initialSelectionEnd * monthWidth;
+      setDragOffset(startX);
+      setSelectionWidth(endX - startX);
+    }
+  }, []);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !timelineRef.current || !handleRef.current) return;
+    const timelineRect = timelineRef.current.getBoundingClientRect();
+    const newDragOffset = e.clientX - timelineRect.left;
+
+    const maxDragOffset = timelineRect.width - selectionWidth;
+
+    const clampedOffset = Math.min(Math.max(0, newDragOffset), maxDragOffset);
+
+    setDragOffset(clampedOffset);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const barData = [
+    25, 30, 45, 60, 75, 80, 70, 65, 55, 60, 70, 85, 90, 80, 75, 60, 50, 45,
+  ];
+
   return (
-    <div className={`w-full ${className || ''}`}>
-      {/* Timeline Chart Container */}
-      <div className="flex flex-col gap-1 w-full">
-        {/* Chart Header Images */}
-        <div className="flex justify-center items-center gap-1.5 w-full">
-          <img 
-            src="/images/img_frame_1000004089.svg" 
-            alt="Chart header left" 
-            className="w-[105px] sm:w-[140px] md:w-[175px] lg:w-[210px] h-[16px] sm:h-[20px] md:h-[26px] lg:h-[32px]"
-          />
-          <img 
-            src="/images/img_frame_1000003099.svg" 
-            alt="Chart main timeline" 
-            className="flex-1 max-w-[365px] sm:max-w-[487px] md:max-w-[608px] lg:max-w-[730px] h-[13px] sm:h-[17px] md:h-[21px] lg:h-[26px] self-end"
-          />
-          <img 
-            src="/images/img_frame_1000004088.svg" 
-            alt="Chart header right" 
-            className="w-[73px] sm:w-[97px] md:w-[121px] lg:w-[146px] h-[16px] sm:h-[20px] md:h-[26px] lg:h-[32px]"
-          />
-        </div>
+    <div
+      className={`flex-1 w-full ${className || ''}`}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp} 
+    >
+      <div className="flex flex-col gap-1 w-full relative">
 
-        {/* Timeline Container */}
-        <div className="relative w-full">
-          {/* Blue Selection Indicator */}
-          <div className="flex justify-center w-full mb-[-3px] relative z-10">
-            <img 
-              src="/images/img_group_1000003717.svg" 
-              alt="Selection indicator" 
-              className="w-[43px] sm:w-[57px] md:w-[71px] lg:w-[86px] h-[6px] sm:h-[8px] md:h-[10px] lg:h-[12px]"
-            />
-          </div>
-
-          {/* Main Timeline Lines */}
-          <div className="flex flex-col w-full">
-            {/* Background Line */}
-            <div className="w-full h-[1px] sm:h-[1.5px] lg:h-[2px] bg-text-text-white"></div>
-            
-            {/* Active Selection Line */}
-            <div className="w-full h-[1px] sm:h-[1.5px] lg:h-[2px] bg-chart-primary -mt-[1px] sm:-mt-[1.5px] lg:-mt-[2px] mx-[109px] sm:mx-[145px] md:mx-[181px] lg:mx-[218px] mr-[78px] sm:mr-[104px] md:mr-[130px] lg:mr-[156px]"></div>
-          </div>
-
-          {/* Timeline Markers */}
-          <div className="flex justify-between items-start w-full -mt-[1px] px-[11px] sm:px-[15px] md:px-[18px] lg:px-[22px]">
-            {/* Left side markers */}
-            <div className="flex gap-[31px] sm:gap-[41px] md:gap-[51px] lg:gap-[62px]">
-              <img src="/images/img_line_270.svg" alt="Marker" className="w-[1px] sm:w-[1.5px] lg:w-[2px] h-[5px] sm:h-[7px] md:h-[8px] lg:h-[10px] self-center" />
-              <img src="/images/img_line_270.svg" alt="Marker" className="w-[1px] sm:w-[1.5px] lg:w-[2px] h-[2px] sm:h-[2.5px] md:h-[3px] lg:h-[4px]" />
-              <img src="/images/img_line_270.svg" alt="Marker" className="w-[1px] sm:w-[1.5px] lg:w-[2px] h-[2px] sm:h-[2.5px] md:h-[3px] lg:h-[4px]" />
-              <img src="/images/img_line_270.svg" alt="Marker" className="w-[1px] sm:w-[1.5px] lg:w-[2px] h-[2px] sm:h-[2.5px] md:h-[3px] lg:h-[4px]" />
-              <img src="/images/img_line_270.svg" alt="Marker" className="w-[1px] sm:w-[1.5px] lg:w-[2px] h-[2px] sm:h-[2.5px] md:h-[3px] lg:h-[4px]" />
-              <img src="/images/img_line_270.svg" alt="Marker" className="w-[1px] sm:w-[1.5px] lg:w-[2px] h-[2px] sm:h-[2.5px] md:h-[3px] lg:h-[4px]" />
-              <img src="/images/img_line_270.svg" alt="Marker" className="w-[1px] sm:w-[1.5px] lg:w-[2px] h-[2px] sm:h-[2.5px] md:h-[3px] lg:h-[4px]" />
-              <img src="/images/img_line_270.svg" alt="Marker" className="w-[1px] sm:w-[1.5px] lg:w-[2px] h-[2px] sm:h-[2.5px] md:h-[3px] lg:h-[4px]" />
-            </div>
-
-            {/* Center markers */}
-            <div className="flex gap-[31px] sm:gap-[41px] md:gap-[51px] lg:gap-[64px]">
-              <img src="/images/img_line_270.svg" alt="Marker" className="w-[1px] sm:w-[1.5px] lg:w-[2px] h-[2px] sm:h-[2.5px] md:h-[3px] lg:h-[4px]" />
-              <img src="/images/img_line_270.svg" alt="Marker" className="w-[1px] sm:w-[1.5px] lg:w-[2px] h-[2px] sm:h-[2.5px] md:h-[3px] lg:h-[4px]" />
-            </div>
-
-            {/* Right side markers */}
-            <div className="flex gap-[31px] sm:gap-[41px] md:gap-[51px] lg:gap-[62px]">
-              <img src="/images/img_line_270.svg" alt="Marker" className="w-[1px] sm:w-[1.5px] lg:w-[2px] h-[2px] sm:h-[2.5px] md:h-[3px] lg:h-[4px]" />
-              <img src="/images/img_line_270.svg" alt="Marker" className="w-[1px] sm:w-[1.5px] lg:w-[2px] h-[5px] sm:h-[7px] md:h-[8px] lg:h-[10px] self-center" />
-              <img src="/images/img_line_270.svg" alt="Marker" className="w-[1px] sm:w-[1.5px] lg:w-[2px] h-[2px] sm:h-[2.5px] md:h-[3px] lg:h-[4px]" />
-              <img src="/images/img_line_270.svg" alt="Marker" className="w-[1px] sm:w-[1.5px] lg:w-[2px] h-[2px] sm:h-[2.5px] md:h-[3px] lg:h-[4px]" />
-              <img src="/images/img_line_270.svg" alt="Marker" className="w-[1px] sm:w-[1.5px] lg:w-[2px] h-[2px] sm:h-[2.5px] md:h-[3px] lg:h-[4px]" />
-              <img src="/images/img_line_270.svg" alt="Marker" className="w-[1px] sm:w-[1.5px] lg:w-[2px] h-[2px] sm:h-[2.5px] md:h-[3px] lg:h-[4px]" />
-              <img src="/images/img_line_270.svg" alt="Marker" className="w-[1px] sm:w-[1.5px] lg:w-[2px] h-[2px] sm:h-[2.5px] md:h-[3px] lg:h-[4px]" />
-            </div>
-          </div>
-        </div>
-
-        {/* Month Labels */}
-        <div className="flex gap-[16px] sm:gap-[21px] md:gap-[26px] lg:gap-[32px] justify-start items-center w-full mt-[4px] sm:mt-[5px] lg:mt-[6px] px-[6px] sm:px-[8px] md:px-[10px] lg:px-[12px]">
-          {[
-            { month: 'Oct', year: '2024' },
-            { month: 'Nov', year: '2024' },
-            { month: 'Dec', year: '2024' },
-            { month: 'Jan', year: '2025' },
-            { month: 'Feb', year: '2025' },
-            { month: 'Mar', year: '2025' },
-            { month: 'Apr', year: '2025' },
-            { month: 'May', year: '2025' },
-            { month: 'Jun', year: '2025' },
-            { month: 'Jul', year: '2025' },
-            { month: 'Aug', year: '2025' },
-            { month: 'Sep', year: '2025' },
-            { month: 'Oct', year: '2025' },
-            { month: 'Nov', year: '2025' },
-            { month: 'Dec', year: '2025' },
-            { month: 'Jan', year: '2026' },
-            { month: 'Feb', year: '2026' }
-          ].map((item, index) => (
-            <div key={index} className="flex flex-col justify-start items-center px-[1px] sm:px-[1.5px] lg:px-[2px]">
-              <span className="text-lg font-normal leading-lg text-center text-text-primary font-['Inter']">
-                {item.month}
-              </span>
-              <span className="text-sm font-normal leading-sm text-center text-text-muted font-['Inter']">
-                {item.year}
-              </span>
-            </div>
+        <div className="flex justify-between items-end w-full h-[60px] p-2">
+          {barData.map((height, index) => (
+            <div
+              key={index}
+              className="flex-1 bg-blue-500 rounded-sm mx-[1px]"
+              style={{
+                height: `${height}%`,
+                opacity: dragOffset <= index * (timelineRef.current?.offsetWidth / totalMonths) && dragOffset + selectionWidth >= index * (timelineRef.current?.offsetWidth / totalMonths) ? 1 : 0.3,
+              }}
+            ></div>
           ))}
+        </div>
+
+        <div className="relative w-full h-[60px] flex items-center justify-center pt-8" ref={timelineRef}>
+          <div className="w-full h-2 relative">
+            <div className="w-full h-[1.5px] bg-gray-300 absolute top-1/2 -translate-y-1/2"></div>
+            <div
+              className="h-[3px] bg-blue-500 absolute top-1/2 -translate-y-1/2"
+              style={{
+                left: `${(dragOffset / timelineRef.current?.offsetWidth) * 100}%`,
+                width: `${(selectionWidth / timelineRef.current?.offsetWidth) * 100}%`,
+              }}
+            ></div>
+
+            <div
+              className="absolute top-1/2 transform -translate-y-1/2 h-3 bg-blue-500 rounded-full z-20 cursor-grab"
+              style={{
+                left: `${(dragOffset / timelineRef.current?.offsetWidth) * 100}%`,
+                width: `${(selectionWidth / timelineRef.current?.offsetWidth) * 100}%`,
+              }}
+              onMouseDown={handleMouseDown}
+              ref={handleRef}
+            ></div>
+          </div>
+        </div>
+
+        <div className="flex justify-between items-center w-full mt-2 px-[11px] sm:px-[15px] md:px-[18px] lg:px-[22px]">
+          {
+            [
+              { month: 'Jan', year: '2023' }, { month: 'Feb', year: '2023' }, { month: 'Mar', year: '2023' },
+              { month: 'Apr', year: '2023' }, { month: 'May', year: '2023' }, { month: 'Jun', year: '2023' },
+              { month: 'Jul', year: '2023' }, { month: 'Aug', year: '2023' }, { month: 'Sep', year: '2023' },
+              { month: 'Oct', year: '2023' }, { month: 'Nov', year: '2023' }, { month: 'Dec', year: '2023' },
+              { month: 'Jan', year: '2024' }, { month: 'Feb', year: '2024' }, { month: 'Mar', year: '2024' },
+              { month: 'Apr', year: '2024' }, { month: 'May', year: '2024' }, { month: 'Jun', year: '2024' }
+            ].map((item, index) => (
+              <div key={index} className="flex flex-col justify-start items-center text-center">
+                <span className="text-sm font-bold leading-lg text-left text-blue-900 font-['Inter']">{item.month}</span>
+                <span className="text-xs font-normal leading-lg text-left text-gray-400 font-['Inter']">{item.year}</span>
+              </div>
+            ))
+          }
         </div>
       </div>
     </div>

@@ -25,11 +25,11 @@ const CompanyRow = ({
 }: CompanyRowProps) => (
   <div className="flex justify-center items-center w-full border-b border-border-primary">
     {/* Company Name */}
-    <div className="flex justify-start items-center w-full border-l border-r border-border-secondary px-3 py-2 bg-background-card">
+    <div className="flex justify-start items-center w-[32%] border-l border-r border-border-secondary px-3 py-2 bg-background-card">
       <div className="flex justify-start items-center px-2 py-2">
-        <img 
-          src={companyLogo} 
-          alt={`${companyName} logo`} 
+        <img
+          src={companyLogo}
+          alt={`${companyName} logo`}
           className="w-6 h-6 rounded-2xl"
         />
         <span className="text-base font-normal leading-lg text-left text-text-primary font-['Inter'] ml-[10px]">
@@ -42,7 +42,7 @@ const CompanyRow = ({
     <div className="flex justify-center items-center w-[16%] border-r border-border-secondary px-3 py-2 bg-background-card">
       <div className="flex justify-center items-center px-[10px] py-[10px]">
         <div className="flex justify-center items-center gap-1">
-          <div 
+          <div
             className="w-[10px] h-[10px] rounded-md"
             style={{ backgroundColor: environmentColor }}
           ></div>
@@ -57,7 +57,7 @@ const CompanyRow = ({
     <div className="flex justify-center items-center w-[16%] border-r border-border-secondary px-3 py-2 bg-background-card">
       <div className="flex justify-center items-center px-[10px] py-[10px]">
         <div className="flex justify-center items-center gap-1">
-          <div 
+          <div
             className="w-[10px] h-[10px] rounded-md"
             style={{ backgroundColor: socialColor }}
           ></div>
@@ -72,7 +72,7 @@ const CompanyRow = ({
     <div className="flex justify-center items-center w-[16%] border-r border-border-secondary px-3 py-2 bg-background-card">
       <div className="flex justify-center items-center px-[10px] py-[10px]">
         <div className="flex justify-center items-center gap-1">
-          <div 
+          <div
             className="w-[10px] h-[10px] rounded-md"
             style={{ backgroundColor: governanceColor }}
           ></div>
@@ -86,9 +86,9 @@ const CompanyRow = ({
     {/* Total Score */}
     <div className="flex justify-center items-center w-[20%] border-r border-border-secondary px-3 py-2 bg-background-card">
       <div className="flex gap-1 justify-center items-center px-2 py-[10px]">
-        <img 
-          src="/images/img_frame_1000004133.svg" 
-          alt="Total score bar" 
+        <img
+          src="/images/img_frame_1000004133.svg"
+          alt="Total score bar"
           className="w-[68px] h-2 rounded-base"
         />
         <span className="text-base font-normal leading-lg text-center text-text-primary font-['Inter']">
@@ -204,38 +204,38 @@ const CompaniesTable = ({ className }: CompaniesTableProps) => {
       </div>
 
       <div className="flex flex-col justify-start items-center w-full">
-        <div className="flex justify-start items-center w-full">
+        <div className="flex justify-start items-center w-full border-t border-l border-r border-border-primary">
           <div className="flex justify-center items-center w-full">
             {/* Company Header */}
-            <div className="flex justify-start items-center w-full border-t border-l border-r border-border-primary px-[18px] py-3 bg-[#ececec7f]">
+            <div className="flex justify-start items-center w-[32%] px-[18px] py-3 bg-[#ececec7f]">
               <span className="text-xs font-semibold leading-sm text-left text-text-primary font-['Inter']">
                 Company
               </span>
             </div>
-            
+
             {/* Environment Header */}
-            <div className="flex justify-center items-center w-[16%] border-t border-r border-border-primary px-3 py-3 bg-[#ececec7f]">
+            <div className="flex justify-center items-center w-[16%] border-l border-r border-border-primary px-3 py-3 bg-[#ececec7f]">
               <span className="text-xs font-semibold leading-sm text-center text-text-primary font-['Inter']">
                 Environment
               </span>
             </div>
-            
+
             {/* Social Header */}
-            <div className="flex justify-center items-center w-[16%] border-t border-r border-border-primary px-3 py-3 bg-[#ececec7f]">
+            <div className="flex justify-center items-center w-[16%] border-r border-border-primary px-3 py-3 bg-[#ececec7f]">
               <span className="text-xs font-semibold leading-sm text-center text-text-primary font-['Inter']">
                 Social
               </span>
             </div>
-            
+
             {/* Governance Header */}
-            <div className="flex justify-center items-center w-[16%] border-t border-r border-border-primary px-3 py-3 bg-[#ececec7f]">
+            <div className="flex justify-center items-center w-[16%] border-r border-border-primary px-3 py-3 bg-[#ececec7f]">
               <span className="text-xs font-semibold leading-sm text-center text-text-primary font-['Inter']">
                 Governance
               </span>
             </div>
-            
+
             {/* Total Header */}
-            <div className="flex justify-center items-center w-[20%] border-t border-r border-border-primary px-3 py-3 bg-[#ececec7f]">
+            <div className="flex justify-center items-center w-[20%] border-r border-border-primary px-3 py-3 bg-[#ececec7f]">
               <span className="text-xs font-semibold leading-sm text-center text-text-primary font-['Inter']">
                 Total
               </span>

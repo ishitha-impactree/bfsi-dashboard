@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Primary Colors */
+    --primary-background: #7856ff;
+    --primary-foreground: #ffffff;
+    --primary-light: #eae5ff;
+    --primary-dark: #6b4ce6;
+
+    /* Secondary Colors */
+    --secondary-background: #ffffff;
+    --secondary-foreground: #232538;
+    --secondary-light: #f6f9ff;
+    --secondary-dark: #000000;
+
+    /* Accent Colors */
+    --accent-warning: #fba900;
+    --accent-warning-light: #fba90005;
+    --accent-error: #ff4c51;
+    --accent-error-alt: #ff5659;
+    --accent-error-light: #ffe5e5;
+
+    /* Background Colors */
+    --bg-main: #f6f9ff;
+    --bg-card: #ffffff;
+    --bg-overlay: #ecf2ff7f;
+    --bg-neutral: #f6f5f3;
+    --bg-dark: #000000;
+
+    /* Text Colors */
+    --text-primary: #232538;
+    --text-secondary: #7856ff;
+    --text-warning: #fba900;
+    --text-error: #ff4c51;
+    --text-error-alt: #ff5659;
+    --text-white: #ffffff;
+
+    /* Typography Variables */
+    --font-size-sm: 14px;
+    --font-size-base: 16px;
+    --font-size-xl: 26px;
+
+    /* Font Weight Variables */
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    /* Line Height Variables */
+    --line-height-sm: 17px;
+    --line-height-base: 18px;
+    --line-height-md: 20px;
+    --line-height-lg: 21px;
+    --line-height-xl: 34px;
+
+    /* Spacing Variables */
+    --spacing-xs: 4px;
+    --spacing-sm: 6px;
+    --spacing-md: 8px;
+    --spacing-lg: 12px;
+    --spacing-xl: 16px;
+    --spacing-2xl: 18px;
+    --spacing-3xl: 26px;
+    --spacing-4xl: 48px;
+    --spacing-5xl: 68px;
+    --spacing-6xl: 112px;
+
+    /* Padding Variables */
+    --padding-xs: 4px;
+    --padding-sm: 6px;
+    --padding-md: 8px;
+    --padding-lg: 12px;
+    --padding-xl: 14px;
+    --padding-2xl: 16px;
+    --padding-3xl: 18px;
+    --padding-4xl: 20px;
+
+    /* Gap Variables */
+    --gap-xs: 2px;
+    --gap-sm: 4px;
+    --gap-md: 6px;
+    --gap-lg: 12px;
+    --gap-xl: 16px;
+    --gap-2xl: 18px;
+    --gap-3xl: 22px;
+    --gap-4xl: 74px;
+
+    /* Border Radius Variables */
+    --radius-xs: 1px;
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-full: 50px;
+
+    /* Component-specific Colors */
+    --header-bg: #000000;
+    --header-text: #ffffff;
+    --header-accent: #fba900;
+
+    --button-primary-bg: #eae5ff;
+    --button-primary-text: #7856ff;
+    --button-error-bg: #ffe5e5;
+    --button-error-text: #ff5659;
+
+    /* Layout Variables */
+    --width-xs: 16px;
+    --width-sm: 34px;
+    --width-md: 100px;
+    --width-lg: 116px;
+    --width-xl: 690px;
+    --width-percent-sm: 18%;
+    --width-percent-md: 28%;
+    --width-percent-lg: 96%;
+  }
+}

@@ -62,29 +62,50 @@ const SectorsPerformanceAnalysis = () => {
                 <div className="flex flex-col lg:flex-row gap-3 justify-start items-start w-full">
                   <div className="flex flex-col gap-3 justify-start items-center w-full lg:w-[65%]">
                     <div className="flex flex-col sm:flex-row gap-3 justify-start items-center w-full">
-                      <div className="w-full sm:w-1/2 bg-background-light rounded-xl">
-                        <CompanyPerformanceCard
-                          title="Top Performing Company"
-                          companyName="Eternal Limited"
-                          companyLogo="/images/eternal-ltd-logo.png"
-                          industry="Software & IT Services"
-                          isTopPerformer={true}
-                        />
+                      {/* Top Performing Company Card */}
+                      <div className="w-full sm:w-1/2 bg-background-light rounded-xl p-3">
+                        <div className="flex flex-col gap-2">
+                          <span className="text-xl font-bold text-primary-dark">Top Performing Company</span>
+                          <div className="flex items-center p-5 bg-white rounded-lg border border-gray-200">
+                            <div className="flex items-center gap-5 justify-start flex-grow">
+                              <img src="/images/eternal-ltd-logo.png" alt="Eternal Limited Logo" className="h-8 w-8" />
+                              <span className="text-sm font-bold text-text-primary">Eternal Limited</span>
+                            </div>
+                            <div className="border-l border-gray-300 h-6"></div>
+                            <span className="text-lg font-bold text-text-secondary pl-5">Software & IT Services</span>
+                            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-background-light ml-auto">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-gray-500">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                </svg>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="w-full sm:w-1/2 bg-background-light rounded-xl">
-                        <CompanyPerformanceCard
-                          title="Lowest Performing Company"
-                          companyName="Shell"
-                          companyLogo="/images/shell-logo.png"
-                          industry="Crude Oil Petroleum & Natural Gas"
-                          isTopPerformer={false}
-                        />
+                      
+                      {/* Lowest Performing Company Card */}
+                      <div className="w-full sm:w-1/2 bg-background-light rounded-xl p-3">
+                        <div className="flex flex-col gap-2">
+                          <span className="text-xl font-bold text-primary-dark">Lowest Performing Company</span>
+                          <div className="flex items-center p-5 bg-white rounded-lg border border-gray-200">
+                            <div className="flex items-center gap-5 justify-start flex-grow">
+                              <img src="/images/shell-logo.png" alt="Shell Logo" className="h-8 w-8" />
+                              <span className="text-sm font-bold text-text-primary">Shell</span>
+                            </div>
+                            <div className="border-l border-gray-300 h-6"></div>
+                            <span className="text-lg font-bold text-text-secondary pl-5">Crude Oil Petroleum & Natural Gas</span>
+                            <div className="flex items-center justify-center h-10 w-10 rounded-full bg-background-light ml-auto">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 text-gray-500">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                                </svg>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
 
                     <div className="flex flex-col lg:flex-row gap-3 justify-start items-start w-full">
                       <div className="flex flex-col gap-3 justify-start items-center w-full lg:w-[50%]">
-                        <div className="w-full bg-[#ecf2ff7f] rounded-xl">
+                        <div className="w-full bg-background-light rounded-xl p-3">
                           <MetricsCard
                             title="Exposure"
                             value="₹ 64,55,699"
@@ -97,7 +118,7 @@ const SectorsPerformanceAnalysis = () => {
 
                         <div className="flex flex-col sm:flex-row gap-3 w-full">
                           <div className="flex flex-col gap-3 w-full sm:w-1/2">
-                            <div className="w-full bg-[#ecf2ff7f] rounded-xl">
+                            <div className="w-full bg-background-light rounded-xl p-3">
                               <MetricsCard
                                 title="Industry ESG Score"
                                 value="68%"
@@ -106,7 +127,7 @@ const SectorsPerformanceAnalysis = () => {
                                 hasLeftBorder={true}
                               />
                             </div>
-                            <div className="w-full bg-[#ecf2ff7f] rounded-xl">
+                            <div className="w-full bg-background-light rounded-xl p-3">
                               <MetricsCard
                                 title="PCHI"
                                 value="28%"
@@ -117,7 +138,7 @@ const SectorsPerformanceAnalysis = () => {
                             </div>
                           </div>
                           
-                          <div className="flex flex-col gap-4 w-full sm:w-1/2 bg-[#ecf2ff7f] rounded-xl p-4">
+                          <div className="flex flex-col gap-4 w-full sm:w-1/2 bg-background-light rounded-xl p-3">
                             <div className="flex gap-4 justify-start items-center w-full flex-1">
                               <img 
                                 src="/images/img_group_1000003546.svg" 
@@ -150,7 +171,7 @@ const SectorsPerformanceAnalysis = () => {
                               </div>
                             </div>
                             
-                            <div className="flex gap-4 justify start items-center w-full flex-1">
+                            <div className="flex gap-4 justify-start items-center w-full flex-1">
                               <img 
                                 src="/images/img_group_1000003546_amber_a700.svg" 
                                 alt="Governance icon" 
@@ -177,7 +198,7 @@ const SectorsPerformanceAnalysis = () => {
                       </div>
                     </div>
 
-                    <div className="w-full bg-background-light rounded-xl">
+                    <div className="w-full bg-background-light rounded-xl p-3">
                       <CompaniesTable />
                     </div>
                   </div>
@@ -187,11 +208,11 @@ const SectorsPerformanceAnalysis = () => {
                       <ScopeMetricsSection />
                     </div>
 
-                    <div className="w-full bg-background-light rounded-xl">
+                    <div className="w-full bg-background-light rounded-xl p-3">
                       <RiskBreakdownSection />
                     </div>
 
-                    <div className="w-full bg-background-light rounded-xl">
+                    <div className="w-full bg-background-light rounded-xl p-3">
                       <ThambiInsights />
                     </div>
                   </div>

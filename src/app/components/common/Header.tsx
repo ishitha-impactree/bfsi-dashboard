@@ -130,7 +130,7 @@ const Header: React.FC<{ className?: string }> = ({ className }) => {
                     backgroundColor: 'transparent',
                     border: 'none',
                     cursor: 'pointer',
-                    textDecoration: item.isActive ? 'underline' : 'none'
+                    textDecoration: 'none'
                   }}
                   role="menuitem"
                   onClick={() => handleNavigation(item.path, item.label)}
@@ -228,19 +228,18 @@ const Header: React.FC<{ className?: string }> = ({ className }) => {
   );
 };
 
-// Main App Component with Routing
 const App = () => {
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       <Header />
       <main style={{ flex: 1 }}>
         <Routes>
-          <Route path="/cockpit" element={<div style={{ padding: '2rem' }}><h2>Cockpit Page</h2><p>This is the Cockpit page content.</p></div>} />
-          <Route path="/sectors" element={<div style={{ padding: '2rem' }}><h2>Sectors Page</h2><p>This is the Sectors page content.</p></div>} />
+          <Route path="/cockpit" element={<div style={{ padding: '2rem' }}><h2>Cockpit Page</h2></div>} />
+          <Route path="/sectors" element={<div style={{ padding: '2rem' }}><h2>Sectors Page</h2></div>} />
           <Route path="/companies" element={<UnderDevelopment />} />
-          <Route path="/benchmarks" element={<UnderDevelopment />} />
+           <Route path="/benchmarks" element={<div style={{ padding: '2rem' }}><h2>Benchmarks Page</h2></div>} />
           <Route path="/reports" element={<UnderDevelopment />} />
-          <Route path="/" element={<div style={{ padding: '2rem' }}><h2>Cockpit Page</h2><p>This is the Cockpit page content.</p></div>} />
+          <Route path="/" element={<div style={{ padding: '2rem' }}><h2>Cockpit Page</h2></div>} />
         </Routes>
       </main>
     </div>

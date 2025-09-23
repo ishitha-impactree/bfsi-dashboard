@@ -27,7 +27,7 @@ const editTextClasses = cva(
 interface EditTextProps extends 
   React.InputHTMLAttributes<HTMLInputElement>,
   VariantProps<typeof editTextClasses> {
-  // Required parameters with defaults
+
   placeholder?: string;
   text_font_size?: string;
   text_font_family?: string;

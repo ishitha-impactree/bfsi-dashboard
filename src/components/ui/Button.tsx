@@ -92,7 +92,7 @@ const Button = ({
   type = "button",
   ...props
 }: ButtonProps) => {
-  // Safe validation for optional parameters
+
   const hasValidBorderTop = border_border_top && typeof border_border_top === 'string' && border_border_top.trim() !== '';
   const hasValidBackground = fill_background && typeof fill_background === 'string' && fill_background.trim() !== '';
   const hasValidWidth = layout_width && typeof layout_width === 'string' && layout_width.trim() !== '';
@@ -100,7 +100,6 @@ const Button = ({
   const hasValidPosition = position && typeof position === 'string' && position.trim() !== '';
   const hasValidGap = layout_gap && typeof layout_gap === 'string' && layout_gap.trim() !== '';
 
-  // Build optional Tailwind classes
   const optionalClasses = [
     hasValidBorderTop ? border_border_top : '',
     hasValidBackground ? fill_background : '',
@@ -110,7 +109,6 @@ const Button = ({
     hasValidGap ? `gap-[${layout_gap}]` : '',
   ].filter(Boolean).join(' ');
 
-  // Build required Tailwind classes
   const requiredClasses = [
     text_font_size,
     text_font_weight,
@@ -124,7 +122,6 @@ const Button = ({
     border_border_bottom,
   ].filter(Boolean).join(' ');
 
-  // Safe click handler
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (disabled) return;
     if (typeof onClick === 'function') {
