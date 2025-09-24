@@ -57,15 +57,20 @@
     "@tailwindcss/typography": "^0.5.16",
     "apexcharts": "^5.3.5",
     "class-variance-authority": "^0.7.1",
+    "formik": "^2.4.6",
+    "next-auth": "^4.24.11",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-apexcharts": "^1.7.0",
+    "react-bootstrap": "^2.10.10",
     "react-dom": "^18.2.0",
     "react-helmet": "^6.1.0",
+    "react-hot-toast": "^2.6.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "6.0.2",
     "recharts": "^2.15.2",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "^3.3.1",
+    "yup": "^1.7.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.45",

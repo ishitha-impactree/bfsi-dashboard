@@ -141,150 +141,110 @@ const PortfolioClimateRisk = () => {
       },
     ];
 
-  const areaOptions = {
-  chart: {
-    type: 'area',
-    height: 450,
-    toolbar: {
-      show: false
-    },
-    fontFamily: 'Inter, sans-serif',
-    zoom: {
-      enabled: false
-    }
-  },
-  colors: ['#8065B3'],
-  dataLabels: {
-    enabled: false
-  },
-  stroke: {
-    curve: 'smooth',
-    width: 2,
-    colors: ['#8065B3']
-  },
-  fill: {
-    type: 'gradient',
-    colors: ['#8065B3'],
-    gradient: {
-      shadeIntensity: 1,
-      opacityFrom: 0.7,
-      opacityTo: 0.3,
-      stops: [0, 90, 100]
-    }
-  },
-  xaxis: {
-    categories: ['2024', '2025', '2026', '2027', '2028', '2029'],
-    labels: {
-      style: {
-        fontSize: '10px',
-        fontWeight: 500,
-        colors: '#6B7280'
-      }
-    },
-    axisBorder: {
-      show: false
-    },
-    axisTicks: {
-      show: false
-    },
-    title: {
-      text: 'Year',
-      style: {
-        fontSize: '12px',
-        fontWeight: 600,
-        color: '#374151'
-      }
-    }
-  },
-  yaxis: {
-    min: 0,
-    max: 100,
-    tickAmount: 5,
-    labels: {
-      formatter: function(val: any) {
-        return val + 'k' + 't CO₂E';
+    const areaOptions = {
+      chart: {
+        type: 'area',
+        height: 450,
+        toolbar: {
+          show: false
+        },
+        fontFamily: 'Inter, sans-serif',
+        zoom: {
+          enabled: false
+        }
       },
-      style: {
-        fontSize: '10px',
-        fontWeight: 500,
-        colors: '#6B7280'
-      }
-    },
-    title: {
-      text: '',
-      style: {
-        fontSize: '12px',
-        fontWeight: 600,
-        color: '#374151'
-      }
-    }
-  },
-  grid: {
-    borderColor: 'rgba(209, 213, 219, 0.5)',
-    strokeDashArray: 3,
-    padding: {
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 10
-    }
-  },
-  tooltip: {
-    custom: function({ series, seriesIndex, dataPointIndex, w }: any) {
-      const value = series[seriesIndex][dataPointIndex];
-      const year = w.globals.labels[dataPointIndex];
-      return (
-        '<div class="apexcharts-tooltip" style="background-color: rgba(255, 255, 255, 0.95); ' +
-        'color: #1F2937; padding: 8px; border-radius: 6px; border: 1px solid #E5E7EB; font-size: 12px;">' +
-        '<div style="font-weight: 600; margin-bottom: 4px;">' + year + '</div>' +
-        '<div>Financed Emissions: ' + value + 'k t CO2e</div>' +
-        '</div>'
-      );
-    }
-  },
-  markers: {
-    size: 6,
-    colors: ['#8065B3'],
-    strokeColors: '#fff',
-    strokeWidth: 2,
-    hover: {
-      size: 8
-    }
-  },
-  annotations: {
-    xaxis: [
-      {
-        x: '2026',
-        strokeDashArray: 0,
-        borderColor: '#EF4444',
-        label: {
-          borderColor: '#EF4444',
+      colors: ['#8065B3'],
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        curve: 'smooth',
+        width: 2,
+        colors: ['#8065B3']
+      },
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shadeIntensity: 1,
+          opacityFrom: 0.7,
+          opacityTo: 0.3,
+          stops: [0, 90, 100]
+        }
+      },
+      xaxis: {
+        categories: ['2024', '2025', '2026', '2027', '2028', '2029'],
+        labels: {
           style: {
-            color: '#fff',
-            background: '#EF4444',
-            fontSize: '10px'
+            fontSize: '10px',
+            fontWeight: 500,
+            colors: '#6B7280'
+          }
+        },
+        axisBorder: {
+          show: false
+        },
+        axisTicks: {
+          show: false
+        },
+        title: {
+          text: 'Year',
+          style: {
+            fontSize: '12px',
+            fontWeight: 600,
+            color: '#374151'
+          }
+        }
+      },
+      yaxis: {
+        min: 0,
+        max: 100,
+        tickAmount: 5,
+        labels: {
+          formatter: function(val: any) {
+            return val + 'k' + 't CO₂e';
           },
-          text: '',
-          orientation: 'horizontal',
-          offsetY: 7
+          style: {
+            fontSize: '10px',
+            fontWeight: 500,
+            colors: '#6B7280'
+          }
+        },
+        title: {
+          text: 'Financed Emissions',
+          style: {
+            fontSize: '12px',
+            fontWeight: 600,
+            color: '#374151'
+          }
         }
-      }
-    ],
-    points: [
-      {
-        x: '2026',
-        y: 52,
-        marker: {
-          size: 6,
-          fillColor: '#EF4444',
-          strokeColor: '#fff',
-          strokeWidth: 2,
-          radius: 5
+      },
+      grid: {
+        borderColor: 'rgba(209, 213, 219, 0.5)',
+        strokeDashArray: 3,
+        padding: {
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 10
         }
+      },
+      tooltip: {
+        custom: function({ series, seriesIndex, dataPointIndex, w }: any) {
+          const value = series[seriesIndex][dataPointIndex];
+          const year = w.globals.labels[dataPointIndex];
+          return (
+            '<div class="apexcharts-tooltip" style="background-color: rgba(255, 255, 255, 0.95); ' +
+            'color: #1F2937; padding: 8px; border-radius: 6px; border: 1px solid #E5E7EB; font-size: 12px;">' +
+            '<div style="font-weight: 600; margin-bottom: 4px;">' + year + '</div>' +
+            '<div>Financed Emissions: ' + value + 'k t CO₂e</div>' +
+            '</div>'
+          );
+        }
+      },
+      markers: {
+        size: 0 // Remove points/markers from the chart
       }
-    ],
-  }
-};
+    };
 
     const areaSeries = [
       {

@@ -1,13 +1,18 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import dynamic from 'next/dynamic';
 import Header from '../../components/benchmarks/common/Header';
 import Button from '../../components/ui/Button';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface ChartDataPoint {
+  x: number; // timestamp
+  y: number; // value
+}
+
+interface SeriesData {
   name: string;
-  industryBenchmark: number;
-  portfolioPerformance: number;
+  data: ChartDataPoint[];
 }
 
 interface NewsItem {
@@ -26,33 +31,200 @@ interface TimeFilter {
 
 export default function BenchmarksPage() {
   const [selectedTimeFilter, setSelectedTimeFilter] = useState<string>('1 Year');
-  const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
+  const [seriesData, setSeriesData] = useState<SeriesData[]>([]);
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [highLowValues, setHighLowValues] = useState<{ high: number; low: number }>({ high: 0, low: 0 });
 
   const timeFilters: TimeFilter[] = [
     { label: '3 Months', value: '3 Months', active: false },
     { label: '6 Months', value: '6 Months', active: false },
     { label: '1 Year', value: '1 Year', active: true },
     { label: 'All Time', value: 'All Time', active: false }
-  ]
+  ];
+
+  const generateStockData = (timeRange: string): SeriesData[] => {
+    let dataPoints: number;
+    let baseDate: Date;
+    const now = new Date('2026-03-31T00:00:00Z');
+
+    switch (timeRange) {
+      case '3 Months':
+        dataPoints = 90;
+        baseDate = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+        break;
+      case '6 Months':
+        dataPoints = 180;
+        baseDate = new Date(now.getTime() - 180 * 24 * 60 * 60 * 1000);
+        break;
+      case '1 Year':
+        dataPoints = 365;
+        baseDate = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+        break;
+      case 'All Time':
+        dataPoints = 730;
+        baseDate = new Date(now.getTime() - 730 * 24 * 60 * 60 * 1000);
+        break;
+      default:
+        dataPoints = 365;
+        baseDate = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+    }
+
+    const industryData: ChartDataPoint[] = [];
+    const portfolioData: ChartDataPoint[] = [];
+
+    let industryValue = 130;
+    let portfolioValue = 125;
+
+    const industryTrend = 0.08;
+    const portfolioTrend = 0.12;
+
+    let portfolioHigh = portfolioValue;
+    let portfolioLow = portfolioValue;
+
+    for (let i = 0; i < dataPoints; i++) {
+      const date = new Date(baseDate.getTime() + i * 24 * 60 * 60 * 1000);
+      
+      if (date.getDay() === 0 || date.getDay() === 6) continue;
+
+      const volatility = 1.5;
+      
+      const industryChange = (Math.random() - 0.5) * volatility + industryTrend;
+      industryValue += industryChange;
+      industryValue = Math.max(100, Math.min(200, industryValue));
+
+      const portfolioChange = (Math.random() - 0.45) * (volatility + 0.5) + portfolioTrend;
+      portfolioValue += portfolioChange;
+      portfolioValue = Math.max(100, Math.min(200, portfolioValue));
+
+      // Update high/low values
+      if (portfolioValue > portfolioHigh) portfolioHigh = portfolioValue;
+      if (portfolioValue < portfolioLow) portfolioLow = portfolioValue;
+
+      industryData.push({
+        x: date.getTime(),
+        y: parseFloat(industryValue.toFixed(2))
+      });
+
+      portfolioData.push({
+        x: date.getTime(),
+        y: parseFloat(portfolioValue.toFixed(2))
+      });
+    }
+
+    // Set high/low values for the current time range
+    setHighLowValues({
+      high: parseFloat(portfolioHigh.toFixed(2)),
+      low: parseFloat(portfolioLow.toFixed(2))
+    });
+
+    return [
+      {
+        name: 'Industry Benchmark',
+        data: industryData
+      },
+      {
+        name: 'Portfolio Performance',
+        data: portfolioData
+      }
+    ];
+  };
+
+  const chartOptions = {
+    chart: {
+      type: 'line' as const,
+      height: 400,
+      zoom: {
+        enabled: false,
+      },
+      toolbar: {
+        show: false
+      }
+    },
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      curve: 'straight' as const,
+      width: [2, 2]
+    },
+    colors: ['#008FFB', '#00E396'],
+    title: {
+      text: 'RB-CRIS Index Performance',
+      align: 'left' as const
+    },
+    grid: {
+      row: {
+        colors: ['#f3f3f3', 'transparent'],
+        opacity: 0.5
+      },
+      borderColor: '#f1f1f1'
+    },
+    markers: {
+      size: 0,
+      hover: {
+        size: 5
+      }
+    },
+    xaxis: {
+      type: 'datetime' as const,
+      labels: {
+        datetimeUTC: false,
+        datetimeFormatter: {
+          year: 'yyyy',
+          month: 'MMM \'yy',
+          day: 'dd MMM',
+          hour: 'hh:mm tt'
+        },
+        style: {
+          fontFamily: 'DM Sans, Inter, sans-serif',
+        }
+      }
+    },
+    yaxis: {
+      title: {
+        text: 'Index Value'
+      },
+      labels: {
+        formatter: (value: number) => value.toFixed(1),
+        style: {
+          fontFamily: 'DM Sans, Inter, sans-serif',
+        }
+      },
+      opposite: true
+    },
+    tooltip: {
+      x: {
+        format: 'dd MMM yyyy'
+      },
+      y: {
+        formatter: (value: number) => value.toFixed(2)
+      }
+    },
+    legend: {
+      position: 'top' as const,
+      horizontalAlign: 'right' as const,
+      floating: true,
+      offsetY: -25,
+      offsetX: -5,
+      markers: {
+        shape: 'square' as const,
+        radius: 0
+      }
+    }
+  };
 
   useEffect(() => {
-    loadDashboardData()
-  }, [selectedTimeFilter])
+    loadDashboardData();
+  }, [selectedTimeFilter]);
 
   const loadDashboardData = async (): Promise<void> => {
     try {
-      setLoading(true)
+      setLoading(true);
       
       setTimeout(() => {
-        const months = ['Oct 2025', 'Nov 2025', 'Dec 2024', 'Jan 2025', 'Feb 2025', 'Mar 2025', 'Apr 2025', 'May 2025', 'Jun 2025', 'Jul 2025', 'Aug 2025', 'Sep 2025']
-        const sampleChartData: ChartDataPoint[] = months.map((month, index) => ({
-          name: month,
-          industryBenchmark: 132.5 + Math.random() * 2 - 1,
-          portfolioPerformance: 132.7 + Math.random() * 1.5 - 0.75
-        }))
-
+        const chartData = generateStockData(selectedTimeFilter);
+        
         const sampleNewsItems: NewsItem[] = [
           {
             id: '1',
@@ -96,36 +268,34 @@ export default function BenchmarksPage() {
             source: 'Reuters',
             category: 'general'
           }
-        ]
+        ];
 
-        setChartData(sampleChartData)
-        setNewsItems(sampleNewsItems)
-        setLoading(false)
-      }, 1000)
+        setSeriesData(chartData);
+        setNewsItems(sampleNewsItems);
+        setLoading(false);
+      }, 800);
     } catch (error) {
-      console.error('Failed to load dashboard data:', error)
-      setLoading(false)
+      console.error('Failed to load dashboard data:', error);
+      setLoading(false);
     }
-  }
+  };
 
   const handleTimeFilterChange = (filterValue: string): void => {
-    setSelectedTimeFilter(filterValue)
-  }
+    setSelectedTimeFilter(filterValue);
+  };
 
-  const portfolioNews = newsItems.filter(item => item.category === 'portfolio')
-  const generalNews = newsItems.filter(item => item.category === 'general')
+  const portfolioNews = newsItems.filter(item => item.category === 'portfolio');
+  const generalNews = newsItems.filter(item => item.category === 'general');
 
   return (
     <div className="w-full bg-background-neutral">
       <Header />
       
       <main className="w-full">
-        {/* Index Overview Section */}
         <section className="w-full bg-secondary-background">
-          <div className="w-full max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-[12px] py-3">
+          <div className="w-full px-3 sm:px-6 lg:px-[12px] py-3">
             <div className="w-full bg-background-overlay rounded-sm p-4 sm:p-6 lg:p-[16px]">
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
-                {/* Index Logo */}
                 <div className="flex-shrink-0">
                   <img 
                     src="/images/rbi-logo.png" 
@@ -133,31 +303,23 @@ export default function BenchmarksPage() {
                     className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] rounded-full"
                   />
                 </div>
-
-                {/* Index Details */}
                 <div className="flex-1 w-full">
                   <div className="flex flex-col gap-2 sm:gap-[6px]">
-                    {/* Index Title */}
                     <div className="flex items-center gap-2">
                       <h1 className="text-xl sm:text-2xl lg:text-[26px] font-semibold leading-tight sm:leading-xl text-text-primary font-dm">
                         RB-CRIS Index
                       </h1>
                     </div>
-
-                    {/* Index Value and Change */}
                     <div className="flex flex-col sm:flex-row sm:items-end gap-2 sm:gap-4">
                       <span className="text-xl sm:text-2xl lg:text-[26px] font-normal leading-tight sm:leading-xl text-text-primary font-dm">
-                        132.95
+                        {seriesData[0]?.data[seriesData[0]?.data.length - 1]?.y.toFixed(2) || '132.95'}
                       </span>
-                      
                       <div className="flex items-center gap-1 sm:gap-2 pb-0 sm:pb-2">
-                        <img 
-                          src="/images/img_vector.svg" 
-                          alt="Down arrow" 
-                          className="w-[8px] h-[4px] sm:w-[10px] sm:h-[5px]"
-                        />
                         <span className="text-sm sm:text-base font-semibold leading-sm sm:leading-lg text-accent-error font-dm">
-                          45.45 -0.18%
+                          -45.45
+                        </span>
+                        <span className="text-sm sm:text-base font-semibold leading-sm sm:leading-lg text-accent-error font-dm">
+                          -0.18%
                         </span>
                       </div>
                     </div>
@@ -167,12 +329,9 @@ export default function BenchmarksPage() {
             </div>
           </div>
         </section>
-
-        {/* Chart and News Section */}
         <section className="w-full bg-accent-warning-light">
-          <div className="w-full max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-[12px] py-3">
+          <div className="w-full px-3 sm:px-6 lg:px-[12px] py-3">
             <div className="flex flex-col gap-3">
-              {/* Time Filter Buttons */}
               <div className="flex flex-wrap gap-2 sm:gap-3 mb-4">
                 {timeFilters.map((filter) => (
                   <button
@@ -181,71 +340,47 @@ export default function BenchmarksPage() {
                     className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium rounded transition-colors duration-200 ${
                       selectedTimeFilter === filter.value
                         ? 'bg-primary-background text-primary-foreground'
-                        : 'bg-secondary-background text-text-primary hover:bg-primary-light'
+                        : 'bg-secondary-background text-text-primary hover:bg-primary-light hover:text-primary-foreground'
                     }`}
                   >
                     {filter.label}
                   </button>
                 ))}
               </div>
-
-              {/* Chart Section */}
-              <div className="w-full bg-secondary-background rounded-sm p-4 sm:p-6 mb-3">
-                {loading ? (
-                  <div className="w-full h-[300px] sm:h-[400px] lg:h-[432px] bg-secondary-light animate-pulse rounded-sm flex items-center justify-center">
-                    <span className="text-text-primary">Loading chart...</span>
+              <div className="flex gap-3">
+                <div className="w-full bg-white rounded-sm p-4 sm:p-6 mb-3 shadow-sm relative">
+                  {loading ? (
+                    <div className="w-full h-[400px] bg-secondary-light animate-pulse rounded-sm flex items-center justify-center">
+                      <span className="text-text-primary">Loading chart data...</span>
+                    </div>
+                  ) : (
+                    <div className="w-full h-[400px]">
+                      <Chart
+                        options={chartOptions}
+                        series={seriesData}
+                        type="line"
+                        height="100%"
+                        width="100%"
+                      />
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-col justify-between bg-secondary-light rounded-sm p-4 min-w-[120px]">
+                  <div className="text-center">
+                    <div className="text-sm font-medium text-text-secondary mb-1">HIGH</div>
+                    <div className="text-lg font-semibold text-text-primary">
+                      {highLowValues.high.toFixed(2)}
+                    </div>
                   </div>
-                ) : (
-                  <div className="w-full h-[300px] sm:h-[400px] lg:h-[432px]">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <LineChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                        <XAxis 
-                          dataKey="name" 
-                          tick={{ fontSize: 12, fill: '#666' }}
-                          axisLine={{ stroke: '#e0e0e0' }}
-                        />
-                        <YAxis 
-                          domain={['dataMin - 0.5', 'dataMax + 0.5']}
-                          tick={{ fontSize: 12, fill: '#666' }}
-                          axisLine={{ stroke: '#e0e0e0' }}
-                        />
-                        <Tooltip 
-                          contentStyle={{ 
-                            backgroundColor: '#ffffff', 
-                            border: '1px solid #e0e0e0',
-                            borderRadius: '8px',
-                            fontSize: '14px'
-                          }}
-                        />
-                        <Legend 
-                          wrapperStyle={{ paddingTop: '20px' }}
-                        />
-                        <Line 
-                          type="monotone" 
-                          dataKey="industryBenchmark" 
-                          stroke="#00bfff" 
-                          strokeWidth={2}
-                          name="Industry Benchmark"
-                          dot={{ fill: '#00bfff', strokeWidth: 2, r: 4 }}
-                        />
-                        <Line 
-                          type="monotone" 
-                          dataKey="portfolioPerformance" 
-                          stroke="#fba900" 
-                          strokeWidth={2}
-                          name="Portfolio Performance"
-                          dot={{ fill: '#fba900', strokeWidth: 2, r: 4 }}
-                        />
-                      </LineChart>
-                    </ResponsiveContainer>
+                  <div className="text-center">
+                    <div className="text-sm font-medium text-text-secondary mb-1">LOW</div>
+                    <div className="text-lg font-semibold text-text-primary">
+                      {highLowValues.low.toFixed(2)}
+                    </div>
                   </div>
-                )}
+                </div>
               </div>
-
-              {/* News Section */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                {/* Portfolio Specific News */}
                 <div className="bg-secondary-light rounded-sm p-2 sm:p-3">
                   <Button
                     text="Portfolio Specific News"
@@ -265,7 +400,6 @@ export default function BenchmarksPage() {
                     size="medium"
                     onClick={() => {}}
                   />
-                  
                   <div className="bg-secondary-light rounded-sm p-3 space-y-6">
                     {loading ? (
                       <div className="space-y-4">
@@ -297,8 +431,6 @@ export default function BenchmarksPage() {
                     )}
                   </div>
                 </div>
-
-                {/* General News */}
                 <div className="bg-secondary-light rounded-sm p-2 sm:p-3">
                   <Button
                     text="General News"
@@ -318,7 +450,6 @@ export default function BenchmarksPage() {
                     size="medium"
                     onClick={() => {}}
                   />
-                  
                   <div className="bg-secondary-light rounded-sm p-3 space-y-6">
                     {loading ? (
                       <div className="space-y-4">
@@ -356,5 +487,5 @@ export default function BenchmarksPage() {
         </section>
       </main>
     </div>
-  )
+  );
 }

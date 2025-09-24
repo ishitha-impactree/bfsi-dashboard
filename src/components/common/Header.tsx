@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import Dropdown from '../ui/Dropdown';
-import UnderDevelopment from 'pages/UnderDev';
+import { useNavigate, useLocation, Routes, Route } from 'react-router-dom';
+import UnderDevelopment from '../../pages/UnderDev';
 
-interface HeaderProps {
-  className?: string;
-}
-
-const Header = ({ className }: HeaderProps) => {
+const Header: React.FC<{ className?: string }> = ({ className }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation() as ReturnType<typeof useLocation> & { state?: { from?: string } };
+  const location = useLocation();
 
   const navigationItems = [
+    { 
+      label: 'Login', 
+      path: '/sign_in',
+      isActive: location.pathname === '/sign_in'
+    },
     { 
       label: 'Cockpit', 
       path: '/cockpit',
@@ -26,27 +26,25 @@ const Header = ({ className }: HeaderProps) => {
     { 
       label: 'Companies', 
       path: '/companies',
-      isActive: location.pathname === '' && location.state?.from === 'Companies'
+      isActive: location.pathname === '/companies'
     },
     { 
       label: 'Benchmarks', 
       path: '/benchmarks',
-      isActive: location.pathname === '/bencharks'
+      isActive: location.pathname === '/benchmarks'
     },
     { 
       label: 'Reports', 
       path: '/reports',
-      isActive: location.pathname === '/reports' 
+      isActive: location.pathname === '/reports'
     }
   ];
 
   const handleNavigation = (path: string, label: string) => {
-    if (path === '/UnderDev') {
-      navigate(path, { state: { from: label } });
-    } else if (path !== '#') {
+    if (path !== '#') {
       navigate(path);
+      setMenuOpen(false); 
     }
-    setMenuOpen(false);
   };
 
   const getCurrentPageTitle = () => {
@@ -55,104 +53,203 @@ const Header = ({ className }: HeaderProps) => {
   };
 
   return (
-    <header className={`w-full bg-header-background ${className || ''}`}>
-      <div className="w-full px-3 sm:px-6 lg:px-3">
-        <div className="flex justify-between items-center py-4">
-      
-          <div className="flex-shrink-0 cursor-pointer" onClick={() => navigate('/cockpit')}>
-            <img 
-              src="/images/img_header_logo.png" 
-              alt="Logo" 
-              className="w-[116px] h-[28px] hover:opacity-80 transition-opacity"
-            />
+    <header style={{ 
+      width: '100%', 
+      backgroundColor: '#f8f9fa',
+      borderBottom: '1px solid #e9ecef',
+      ...(className ? JSON.parse(className) : {})
+    }}>
+      <div style={{ 
+        width: '100%',
+        maxWidth: '1440px',
+        margin: '0 auto',
+        padding: '0 1rem'
+      }}>
+        <div style={{ 
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '1rem 0'
+        }}>
+          <div style={{ 
+            flexShrink: 0,
+            cursor: 'pointer'
+          }} onClick={() => navigate('/cockpit')}>
+            <div style={{
+              width: '116px',
+              height: '28px',
+              backgroundColor: '#ddd',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontWeight: 'bold',
+              color: '#555'
+            }}>
+              LOGO
+            </div>
           </div>
 
           <button 
-            className="block lg:hidden p-2 text-header-text hover:text-header-accent transition-colors"
+            style={{
+              display: 'block',
+              padding: '0.5rem',
+              color: '#6c757d',
+              backgroundColor: 'transparent',
+              border: 'none',
+              cursor: 'pointer'
+            }}
+            className="mobile-only"
             aria-label="Open menu"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
 
-          <nav className={`${menuOpen ? 'block' : 'hidden'} lg:block absolute lg:relative top-full lg:top-auto left-0 lg:left-auto w-full lg:w-auto bg-header-background lg:bg-transparent border-t lg:border-t-0 border-gray-700 lg:border-none z-50 transition-all duration-300 ease-in-out`}>
-            <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-[74px] p-4 lg:p-0">
+          <nav style={{ 
+            display: menuOpen ? 'block' : 'none',
+            position: 'absolute',
+            top: '100%',
+            left: 0,
+            width: '100%',
+            backgroundColor: '#f8f9fa',
+            borderTop: '1px solid #e9ecef',
+            zIndex: 50,
+          }} className="desktop-nav">
+            <div style={{ 
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1rem',
+              padding: '1rem'
+            }}>
               {navigationItems.map((item, index) => (
-                <div key={index} className="relative">
-                  <button 
-                    className={`text-lg font-bold leading-lg text-left transition-all duration-200 ease-in-out transform hover:scale-105 ${
-                      item.isActive 
-                        ? 'text-header-accent' : 'text-header-text hover:text-header-accent'
-                    } ${
-                      item.path === '#' ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'
-                    }`}
-                    role="menuitem"
-                    onClick={() => handleNavigation(item.path, item.label)}
-                    disabled={item.path === '#'}
-                  >
-                    {item.label}
-                  </button>
-                  {item.isActive && (
-                    <div className="absolute -bottom-2 left-0 w-full h-0.5 bg-header-accent"></div>
-                  )}
-                </div>
+                <button 
+                  key={index}
+                  style={{
+                    fontSize: '18px',
+                    fontWeight: 'bold',
+                    textAlign: 'left',
+                    transition: 'all 0.2s ease-in-out',
+                    color: item.isActive ? '#1976d2' : '#6c757d',
+                    backgroundColor: 'transparent',
+                    border: 'none',
+                    cursor: 'pointer',
+                    textDecoration: 'none'
+                  }}
+                  role="menuitem"
+                  onClick={() => handleNavigation(item.path, item.label)}
+                >
+                  {item.label}
+                </button>
               ))}
             </div>
           </nav>
 
-          <div className="hidden lg:flex items-center gap-[18px]">
-            <div className="flex flex-col gap-1 items-end">
-              <span className="text-md font-bold leading-md text-left text-header-text">
+          <div style={{ 
+            display: 'none',
+            alignItems: 'center',
+            gap: '1rem'
+          }} className="desktop-only">
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+              <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#495057' }}>
                 Welcome Roxanne
               </span>
-              <span className="text-md font-normal leading-md text-right text-header-text">
+              <span style={{ fontSize: '14px', color: '#6c757d' }}>
                 15 Sep, Mon
               </span>
             </div>
 
-            <div className="flex-shrink-0">
-              <img 
-                src="/images/img_shape.png" 
-                alt="Profile" 
-                className="w-[34px] h-[34px] rounded-4xl border border-gray-300 hover:opacity-80 transition-opacity cursor-pointer"
-              />
+            <div style={{ flexShrink: 0 }}>
+              <div style={{
+                width: '34px',
+                height: '34px',
+                borderRadius: '50%',
+                backgroundColor: '#ddd',
+                border: '1px solid #ccc',
+                cursor: 'pointer'
+              }} />
             </div>
           </div>
         </div>
 
-        <div className={`${menuOpen ? 'block' : 'hidden'} lg:hidden border-t border-gray-700 pt-4 pb-2`}>
-          <div className="flex items-center justify-between">
-            <div className="flex flex-col gap-1">
-              <span className="text-md font-bold leading-md text-header-text">
+        <div style={{ 
+          display: menuOpen ? 'block' : 'none',
+          borderTop: '1px solid #e9ecef',
+          padding: '1rem 0'
+        }} className="mobile-only">
+          <div style={{ 
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+              <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#495057' }}>
                 Welcome Roxanne
               </span>
-              <span className="text-md font-normal leading-md text-header-text">
+              <span style={{ fontSize: '14px', color: '#6c757d' }}>
                 15 Sep, Mon
               </span>
             </div>
-            <img 
-              src="/images/img_shape.png" 
-              alt="Profile" 
-              className="w-[34px] h-[34px] rounded-4xl border border-gray-300"
-            />
+            <div style={{
+              width: '34px',
+              height: '34px',
+              borderRadius: '50%',
+              backgroundColor: '#ddd',
+              border: '1px solid #ccc'
+            }} />
           </div>
           
-          <div className="mt-3 pt-3 border-t border-gray-700">
-            <div className="flex items-center text-sm text-header-text">
-              <span className="hover:text-header-accent transition-colors cursor-pointer" 
-                    onClick={() => navigate('/portfolio-climate-risk')}>
-                Home
-              </span>
-              <span className="mx-2">/</span>
-              <span className="text-header-accent font-medium">{getCurrentPageTitle()}</span>
-            </div>
-          </div>
         </div>
       </div>
+      
+      <style>
+        {`
+          @media (min-width: 1024px) {
+            .desktop-only {
+              display: flex !important;
+            }
+            .mobile-only {
+              display: none !important;
+            }
+            .desktop-nav {
+              display: block !important;
+              position: relative !important;
+              top: auto !important;
+              left: auto !important;
+              width: auto !important;
+              background-color: transparent !important;
+              border: none !important;
+            }
+            .desktop-nav div {
+              flex-direction: row !important;
+              gap: 4rem !important;
+              padding: 0 !important;
+            }
+          }
+        `}
+      </style>
     </header>
   );
 };
 
-export default Header;
+const App = () => {
+  return (
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <Header />
+      <main style={{ flex: 1 }}>
+        <Routes>
+          <Route path="/cockpit" element={<div style={{ padding: '2rem' }}></div>} />
+          <Route path="/sectors" element={<div style={{ padding: '2rem' }}></div>} />
+          <Route path="/companies" element={<UnderDevelopment />} />
+           <Route path="/benchmarks" element={<div style={{ padding: '2rem' }}></div>} />
+          <Route path="/reports" element={<UnderDevelopment />} />
+          <Route path="/" element={<div style={{ padding: '2rem' }}><h2>Cockpit Page</h2></div>} />
+          <Route path="/sign_in" element={<div style={{ padding: '2rem' }}></div>} />
+        </Routes>
+      </main>
+    </div>
+  );
+};
+
+export default App;
