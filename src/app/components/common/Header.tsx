@@ -234,12 +234,12 @@ const App = () => {
       <Header />
       <main style={{ flex: 1 }}>
         <Routes>
-          <Route path="/cockpit" element={<div style={{ padding: '2rem' }}><h2>Cockpit Page</h2></div>} />
-          <Route path="/sectors" element={<div style={{ padding: '2rem' }}><h2>Sectors Page</h2></div>} />
+          <Route path="/cockpit" element={<div style={{ padding: '2rem' }}></div>} />
+          <Route path="/sectors" element={<div style={{ padding: '2rem' }}></div>} />
           <Route path="/companies" element={<UnderDevelopment />} />
            <Route path="/benchmarks" element={<div style={{ padding: '2rem' }}><h2>Benchmarks Page</h2></div>} />
           <Route path="/reports" element={<UnderDevelopment />} />
-          <Route path="/" element={<div style={{ padding: '2rem' }}><h2>Cockpit Page</h2></div>} />
+          <Route path="/" element={<div style={{ padding: '2rem' }}></div>} />
         </Routes>
       </main>
     </div>
