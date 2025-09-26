@@ -9,9 +9,10 @@ import List from '../../components/ui/List';
 import EmissionsKPICard from './EmissionsKPICard';
 import EmissionsSummaryTable from './EmissionsSummaryTable';
 import EditText from '../../components/ui/EditText';
-import Select from '../../components/ui/Select';
+// import Select from '../../components/ui/Select';
 import ComplianceStatusCard from './ComplianceStatusCard';
 import ReductionTargetsCard from './ReductionTargetsCard';
+import EmissionsTrajectory from './EmissionsTrajectory';
 import dynamic from 'next/dynamic';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
@@ -90,7 +91,6 @@ const PortfolioClimateRisk = () => {
 
   const handleRefresh = async () => {
     setIsRefreshing(true);
-    // Simulate API call
     setTimeout(() => {
       setLastRefresh(new Date());
       setIsRefreshing(false);
@@ -106,7 +106,6 @@ const PortfolioClimateRisk = () => {
   };
 
   useEffect(() => {
-    // Auto-refresh every 15 minutes
     const interval = setInterval(
       () => {
         handleRefresh();
@@ -670,7 +669,6 @@ const PortfolioClimateRisk = () => {
     </div>
 );
 
-
   const OldReductionTargetsCard = () => (
     <div className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-3 space-y-4">
       <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">Reduction Targets</h3>
@@ -711,7 +709,6 @@ const PortfolioClimateRisk = () => {
     </div>
   );
 
-
   return (
     <>
       <Helmet>
@@ -733,36 +730,27 @@ const PortfolioClimateRisk = () => {
                       Portfolio-wide carbon footprint monitoring and compliance tracking
                     </p>
                   </div>
-                  {/* --- Modified Section: Added Select component --- */}
-                  <div className="flex items-center gap-4">
-                    <div className="w-[180px]">
-                      <Select
-                        options={portfolioOptions}
-                        value={selectedPortfolio}
-                        onChange={(e) => setSelectedPortfolio(e.target.value)}
-                        placeholder="Select Portfolio"
-                      />
-                    </div>
-                    <div className="flex bg-gray-200 rounded-xl overflow-hidden w-[380px] h-[25px] p-1">
-                      {timeButtons.map((button, index) => (
-                        <button
-                          key={button.label}
-                          className={`flex-1 flex items-center justify-center text-sm font-semibold font-Inter text-center transition-all duration-200 ${
-                            button.active
-                              ? 'bg-primary-background text-text-white rounded-lg'
-                              : 'bg-transparent text-text-secondary hover:bg-purple-200'
-                          }`}
-                          onClick={() => handleTimeButtonClick(button.label)}
-                        >
-                          {button.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  {/* --- End of Modified Section --- */}
                 </div>
               </div>
           
+            <div className="flex justify-end mb-6 sm:mb-8 lg:mb-6">
+              <div className="flex bg-gray-200 rounded-xl overflow-hidden w-[380px] h-[25px] p-1">
+                {timeButtons.map((button, index) => (
+                  <button
+                    key={button.label}
+                    className={`flex-1 flex items-center justify-center text-sm font-semibold font-Inter text-center transition-all duration-200 ${
+                      button.active
+                        ? 'bg-primary-background text-text-white rounded-lg'
+                        : 'bg-transparent text-text-secondary hover:bg-purple-200'
+                    }`}
+                    onClick={() => handleTimeButtonClick(button.label)}
+                  >
+                    {button.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
               <div className="max-w-7xl mx-auto px-6 py-8">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 {kpiData?.map((kpi: any, index: any) => (
@@ -886,6 +874,7 @@ const PortfolioClimateRisk = () => {
                     <span>High Exposure / High Risk</span>
                   </div>
                 </div>
+                <EmissionsTrajectory />
                 <ReductionTargetsCard />
               </div>
 
@@ -1058,7 +1047,6 @@ const PortfolioClimateRisk = () => {
                   className="w-full"
                 />
 
-                {/* Top and Bottom performing companies */}
                 <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
                   <div className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3">
                     <h4 className="text-md font-bold text-primary-dark mb-4">Top Performing Company</h4>
@@ -1097,7 +1085,6 @@ const PortfolioClimateRisk = () => {
                   </div>
                 </List>
 
-                {/* Top and Bottom industries */}
                 <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
                   <div className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3">
                     <h4 className="text-md font-bold text-primary-dark mb-4">Top 5 Industries</h4>
