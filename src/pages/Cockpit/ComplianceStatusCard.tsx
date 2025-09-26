@@ -20,7 +20,7 @@ const ComplianceStatusCard = () => {
       status: 'compliant',
       deadline: '2025-03-31',
       progress: 100,
-      description: 'Environmental objectives alignment'
+      description: 'Environmental objectives alignment',
     },
     {
       id: 2,
@@ -28,7 +28,7 @@ const ComplianceStatusCard = () => {
       status: 'in-progress',
       deadline: '2025-04-15',
       progress: 75,
-      description: 'Climate-related financial disclosures'
+      description: 'Climate-related financial disclosures',
     },
     {
       id: 3,
@@ -36,7 +36,7 @@ const ComplianceStatusCard = () => {
       status: 'pending',
       deadline: '2025-06-30',
       progress: 45,
-      description: 'Sustainable finance disclosure'
+      description: 'Sustainable finance disclosure',
     },
     {
       id: 4,
@@ -44,47 +44,67 @@ const ComplianceStatusCard = () => {
       status: 'at-risk',
       deadline: '2025-02-28',
       progress: 30,
-      description: 'Carbon disclosure project submission'
-    }
+      description: 'Carbon disclosure project submission',
+    },
   ];
 
   const getStatusColor = (status: ComplianceStatus): string => {
     switch (status) {
-      case 'compliant': return 'text-success';
-      case 'in-progress': return 'text-primary';
-      case 'pending': return 'text-warning';
-      case 'at-risk': return 'text-error';
-      default: return 'text-muted-foreground';
+      case 'compliant':
+        return 'text-success';
+      case 'in-progress':
+        return 'text-primary';
+      case 'pending':
+        return 'text-warning';
+      case 'at-risk':
+        return 'text-error';
+      default:
+        return 'text-muted-foreground';
     }
   };
 
   const getStatusIcon = (status: ComplianceStatus): string => {
     switch (status) {
-      case 'compliant': return 'CheckCircle';
-      case 'in-progress': return 'Clock';
-      case 'pending': return 'AlertCircle';
-      case 'at-risk': return 'XCircle';
-      default: return 'Circle';
+      case 'compliant':
+        return 'CheckCircle';
+      case 'in-progress':
+        return 'Clock';
+      case 'pending':
+        return 'AlertCircle';
+      case 'at-risk':
+        return 'XCircle';
+      default:
+        return 'Circle';
     }
   };
 
   const getStatusBg = (status: ComplianceStatus): string => {
     switch (status) {
-      case 'compliant': return 'bg-success/10';
-      case 'in-progress': return 'bg-primary/10';
-      case 'pending': return 'bg-warning/10';
-      case 'at-risk': return 'bg-error/10';
-      default: return 'bg-muted';
+      case 'compliant':
+        return 'bg-success/10';
+      case 'in-progress':
+        return 'bg-primary/10';
+      case 'pending':
+        return 'bg-warning/10';
+      case 'at-risk':
+        return 'bg-error/10';
+      default:
+        return 'bg-muted';
     }
   };
 
   const getStatusLabel = (status: ComplianceStatus): string => {
     switch (status) {
-      case 'compliant': return 'Compliant';
-      case 'in-progress': return 'In Progress';
-      case 'pending': return 'Pending';
-      case 'at-risk': return 'At Risk';
-      default: return 'Unknown';
+      case 'compliant':
+        return 'Compliant';
+      case 'in-progress':
+        return 'In Progress';
+      case 'pending':
+        return 'Pending';
+      case 'at-risk':
+        return 'At Risk';
+      default:
+        return 'Unknown';
     }
   };
 
@@ -93,7 +113,7 @@ const ComplianceStatusCard = () => {
     const now = new Date();
     const diffTime = date.getTime() - now.getTime();
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
+
     if (diffDays < 0) return 'Overdue';
     if (diffDays === 0) return 'Due today';
     if (diffDays === 1) return 'Due tomorrow';
@@ -114,16 +134,30 @@ const ComplianceStatusCard = () => {
           <p className="text-sm text-muted-foreground">Regulatory requirements tracking</p>
         </div>
         <div className="flex items-center space-x-2">
-          <div className={`w-8 h-8 rounded-full ${
-            overallCompliance >= 80 ? 'bg-success/10' :
-            overallCompliance >= 60 ? 'bg-warning/10' : 'bg-error/10'
-          } flex items-center justify-center`}>
+          <div
+            className={`w-8 h-8 rounded-full ${
+              overallCompliance >= 80
+                ? 'bg-success/10'
+                : overallCompliance >= 60
+                  ? 'bg-warning/10'
+                  : 'bg-error/10'
+            } flex items-center justify-center`}
+          >
             <Icon
-              name={overallCompliance >= 80 ? 'Shield' : overallCompliance >= 60 ? 'AlertTriangle' : 'ShieldX'}
+              name={
+                overallCompliance >= 80
+                  ? 'Shield'
+                  : overallCompliance >= 60
+                    ? 'AlertTriangle'
+                    : 'ShieldX'
+              }
               size={16}
               className={
-                overallCompliance >= 80 ? 'text-success' :
-                overallCompliance >= 60 ? 'text-warning' : 'text-error'
+                overallCompliance >= 80
+                  ? 'text-success'
+                  : overallCompliance >= 60
+                    ? 'text-warning'
+                    : 'text-error'
               }
             />
           </div>
@@ -138,7 +172,9 @@ const ComplianceStatusCard = () => {
           <div key={item.id} className="space-y-3">
             <div className="flex items-start justify-between">
               <div className="flex items-start space-x-3 flex-1">
-                <div className={`w-6 h-6 rounded-full ${getStatusBg(item.status)} flex items-center justify-center mt-0.5`}>
+                <div
+                  className={`w-6 h-6 rounded-full ${getStatusBg(item.status)} flex items-center justify-center mt-0.5`}
+                >
                   <Icon
                     name={getStatusIcon(item.status)}
                     size={12}
@@ -147,31 +183,41 @@ const ComplianceStatusCard = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                    <h4 className="text-sm font-medium text-foreground truncate">{item.regulation}</h4>
-                    <span className={`text-xs px-2 py-1 rounded-full ${getStatusBg(item.status)} ${getStatusColor(item.status)}`}>
+                    <h4 className="text-md font-medium text-foreground truncate">
+                      {item.regulation}
+                    </h4>
+                    <span
+                      className={`text-sm px-2 py-1 rounded-full ${getStatusBg(item.status)} ${getStatusColor(item.status)}`}
+                    >
                       {getStatusLabel(item.status)}
                     </span>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-1">{item.description}</p>
+                  <p className="text-sm text-muted-foreground mt-1">{item.description}</p>
                   <div className="flex items-center justify-between mt-2">
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-sm text-muted-foreground">
                       {formatDeadline(item.deadline)}
                     </span>
-                    <span className="text-xs font-medium text-foreground">
-                      {item.progress}%
-                    </span>
+                    <span className="text-xs font-medium text-foreground">{item.progress}%</span>
                   </div>
+                  <progress id="file" value="32" max="100" style={{ width: '100%', height: '5px' }}>
+                    {' '}
+                    32%{' '}
+                  </progress>
                 </div>
               </div>
             </div>
-            
+
             <div className="ml-9">
               <div className="w-full bg-muted rounded-full h-1.5">
                 <div
                   className={`h-1.5 rounded-full transition-all duration-300 ${
-                    item.status === 'compliant' ? 'bg-success' :
-                    item.status === 'in-progress' ? 'bg-primary' :
-                    item.status === 'pending' ? 'bg-warning' : 'bg-error'
+                    item.status === 'compliant'
+                      ? 'bg-success'
+                      : item.status === 'in-progress'
+                        ? 'bg-primary'
+                        : item.status === 'pending'
+                          ? 'bg-warning'
+                          : 'bg-error'
                   }`}
                   style={{ width: `${item.progress}%` }}
                 />
