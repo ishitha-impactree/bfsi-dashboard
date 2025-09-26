@@ -8,6 +8,8 @@ import Line from '../../components/ui/Line';
 import List from '../../components/ui/List';
 import EditText from '../../components/ui/EditText';
 import dynamic from 'next/dynamic';
+import Select from '../../components/ui/Select';
+import EmissionsKPICard from './EmissionsKPICard';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -25,24 +27,111 @@ const PortfolioClimateRisk = () => {
   const [financedEmissionsOptions, setFinancedEmissionsOptions] = useState<any>({});
   const [financedEmissionsSeries, setFinancedEmissionsSeries] = useState<any[]>([]);
 
+  const [selectedPortfolio, setSelectedPortfolio] = useState('global');
+  const [selectedDateRange, setSelectedDateRange] = useState('yearly');
+  const [lastRefresh, setLastRefresh] = useState(new Date());
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const portfolioOptions = [
+    { value: 'global', label: 'Global Portfolio' },
+    { value: 'north-america', label: 'North America' },
+    { value: 'europe', label: 'Europe' },
+    { value: 'asia-pacific', label: 'Asia Pacific' },
+    { value: 'emerging-markets', label: 'Emerging Markets' },
+  ];
+
+  const dateRangeOptions = [
+    { value: 'monthly', label: 'Monthly View' },
+    { value: 'quarterly', label: 'Quarterly View' },
+    { value: 'yearly', label: 'Yearly View' },
+  ];
+
+  const kpiData = [
+    {
+      title: 'Total Financed Emissions',
+      value: '2,850',
+      unit: 'tCO₂e',
+      change: -12.5,
+      changeType: 'positive',
+      icon: 'Zap',
+      trend: [65, 70, 68, 62, 58, 55, 52],
+    },
+    {
+      title: 'Emissions Intensity',
+      value: '145.2',
+      unit: 'tCO₂e/M$',
+      change: -8.3,
+      changeType: 'positive',
+      icon: 'TrendingDown',
+      trend: [45, 48, 46, 42, 38, 35, 32],
+    },
+    {
+      title: 'Reduction Progress',
+      value: '26.8',
+      unit: '%',
+      change: 4.2,
+      changeType: 'positive',
+      icon: 'Target',
+      trend: [25, 28, 30, 32, 35, 38, 42],
+    },
+    {
+      title: 'Compliance Score',
+      value: '87',
+      unit: '/100',
+      change: 2.1,
+      changeType: 'positive',
+      icon: 'Shield',
+      trend: [75, 78, 80, 82, 84, 86, 87],
+    },
+  ];
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    // Simulate API call
+    setTimeout(() => {
+      setLastRefresh(new Date());
+      setIsRefreshing(false);
+    }, 2000);
+  };
+
+  const formatTime = (date: any) => {
+    return date?.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    });
+  };
+
+  useEffect(() => {
+    // Auto-refresh every 15 minutes
+    const interval = setInterval(
+      () => {
+        handleRefresh();
+      },
+      15 * 60 * 1000
+    );
+
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     const scatterOptions = {
       chart: {
         type: 'scatter',
         zoom: {
           enabled: true,
-          type: 'xy'
+          type: 'xy',
         },
         toolbar: {
-          show: false
+          show: false,
         },
-        fontFamily: 'Inter, sans-serif'
+        fontFamily: 'Inter, sans-serif',
       },
       colors: ['#8065B3'],
       xaxis: {
         tickAmount: 6,
         labels: {
-          formatter: function(val: any) {
+          formatter: function (val: any) {
             if (val >= 1000000) {
               return (val / 1000000).toFixed(1) + 'M';
             } else {
@@ -52,68 +141,74 @@ const PortfolioClimateRisk = () => {
           style: {
             fontSize: '10px',
             fontWeight: 500,
-            colors: '#6B7280'
-          }
+            colors: '#6B7280',
+          },
         },
         title: {
           text: 'Exposure ( in Million ₹ )',
           style: {
             fontSize: '12px',
             fontWeight: 600,
-            color: '#374151'
-          }
+            color: '#374151',
+          },
         },
         min: 200000,
-        max: 2400000
+        max: 2400000,
       },
       yaxis: {
         tickAmount: 5,
         min: 0,
         max: 100,
         labels: {
-          formatter: function(val: any) {
+          formatter: function (val: any) {
             return val + '%';
           },
           style: {
             fontSize: '10px',
             fontWeight: 500,
-            colors: '#6B7280'
-          }
+            colors: '#6B7280',
+          },
         },
         title: {
           text: 'Portfolio Climate Hazard Index (PCHI)',
           style: {
             fontSize: '12px',
             fontWeight: 600,
-            color: '#374151'
-          }
-        }
+            color: '#374151',
+          },
+        },
       },
       grid: {
         borderColor: 'rgba(209, 213, 219, 0.5)',
-        strokeDashArray: 5
+        strokeDashArray: 5,
       },
       legend: {
-        show: false
+        show: false,
       },
       markers: {
         size: 8,
         strokeWidth: 0,
         fillOpacity: 1,
-        shape: 'circle'
+        shape: 'circle',
       },
       tooltip: {
-        custom: function({ seriesIndex, dataPointIndex, w }: any) {
+        custom: function ({ seriesIndex, dataPointIndex, w }: any) {
           const point = w.config.series[seriesIndex].data[dataPointIndex];
           return (
             '<div class="apexcharts-tooltip" style="background-color: rgba(255, 255, 255, 0.95); ' +
             'color: #1F2937; padding: 10px; border-radius: 8px; border: 1px solid #E5E7EB;">' +
-            '<div style="font-weight: 600; font-size: 12px; margin-bottom: 5px;">' + point.company + '</div>' +
-            '<div style="font-size: 11px; color: #4B5563;">' + point.y + '% PCHI, ₹' + point.x.toLocaleString() + ' exposure</div>' +
+            '<div style="font-weight: 600; font-size: 12px; margin-bottom: 5px;">' +
+            point.company +
+            '</div>' +
+            '<div style="font-size: 11px; color: #4B5563;">' +
+            point.y +
+            '% PCHI, ₹' +
+            point.x.toLocaleString() +
+            ' exposure</div>' +
             '</div>'
           );
-        }
-      }
+        },
+      },
     };
 
     const scatterSeries = [
@@ -137,7 +232,7 @@ const PortfolioClimateRisk = () => {
           { x: 2050000, y: 82, company: 'Company O' },
           { x: 2200000, y: 64, company: 'Company P' },
           { x: 2300000, y: 76, company: 'Company Q' },
-        ]
+        ],
       },
     ];
 
@@ -146,21 +241,21 @@ const PortfolioClimateRisk = () => {
         type: 'area',
         height: 450,
         toolbar: {
-          show: false
+          show: false,
         },
         fontFamily: 'Inter, sans-serif',
         zoom: {
-          enabled: false
-        }
+          enabled: false,
+        },
       },
       colors: ['#8065B3'],
       dataLabels: {
-        enabled: false
+        enabled: false,
       },
       stroke: {
         curve: 'smooth',
         width: 2,
-        colors: ['#8065B3']
+        colors: ['#8065B3'],
       },
       fill: {
         type: 'gradient',
@@ -168,8 +263,8 @@ const PortfolioClimateRisk = () => {
           shadeIntensity: 1,
           opacityFrom: 0.7,
           opacityTo: 0.3,
-          stops: [0, 90, 100]
-        }
+          stops: [0, 90, 100],
+        },
       },
       xaxis: {
         categories: ['2024', '2025', '2026', '2027', '2028', '2029'],
@@ -177,46 +272,46 @@ const PortfolioClimateRisk = () => {
           style: {
             fontSize: '10px',
             fontWeight: 500,
-            colors: '#6B7280'
-          }
+            colors: '#6B7280',
+          },
         },
         axisBorder: {
-          show: false
+          show: false,
         },
         axisTicks: {
-          show: false
+          show: false,
         },
         title: {
           text: 'Year',
           style: {
             fontSize: '12px',
             fontWeight: 600,
-            color: '#374151'
-          }
-        }
+            color: '#374151',
+          },
+        },
       },
       yaxis: {
         min: 0,
         max: 100,
         tickAmount: 5,
         labels: {
-          formatter: function(val: any) {
+          formatter: function (val: any) {
             return val + 'k' + 't CO₂e';
           },
           style: {
             fontSize: '10px',
             fontWeight: 500,
-            colors: '#6B7280'
-          }
+            colors: '#6B7280',
+          },
         },
         title: {
           text: 'Financed Emissions',
           style: {
             fontSize: '12px',
             fontWeight: 600,
-            color: '#374151'
-          }
-        }
+            color: '#374151',
+          },
+        },
       },
       grid: {
         borderColor: 'rgba(209, 213, 219, 0.5)',
@@ -225,32 +320,36 @@ const PortfolioClimateRisk = () => {
           top: 0,
           right: 0,
           bottom: 0,
-          left: 10
-        }
+          left: 10,
+        },
       },
       tooltip: {
-        custom: function({ series, seriesIndex, dataPointIndex, w }: any) {
+        custom: function ({ series, seriesIndex, dataPointIndex, w }: any) {
           const value = series[seriesIndex][dataPointIndex];
           const year = w.globals.labels[dataPointIndex];
           return (
             '<div class="apexcharts-tooltip" style="background-color: rgba(255, 255, 255, 0.95); ' +
             'color: #1F2937; padding: 8px; border-radius: 6px; border: 1px solid #E5E7EB; font-size: 12px;">' +
-            '<div style="font-weight: 600; margin-bottom: 4px;">' + year + '</div>' +
-            '<div>Financed Emissions: ' + value + 'k t CO₂e</div>' +
+            '<div style="font-weight: 600; margin-bottom: 4px;">' +
+            year +
+            '</div>' +
+            '<div>Financed Emissions: ' +
+            value +
+            'k t CO₂e</div>' +
             '</div>'
           );
-        }
+        },
       },
       markers: {
-        size: 0 // Remove points/markers from the chart
-      }
+        size: 0, // Remove points/markers from the chart
+      },
     };
 
     const areaSeries = [
       {
         name: 'Financed Emissions',
-        data: [60, 55, 52, 40, 28, 20]
-      }
+        data: [60, 55, 52, 40, 28, 20],
+      },
     ];
 
     setScatterChartOptions(scatterOptions);
@@ -261,10 +360,12 @@ const PortfolioClimateRisk = () => {
 
   const handleTimeButtonClick = (label: string) => {
     setSelectedPeriod(label);
-    setTimeButtons(timeButtons.map(button => ({
-      ...button,
-      active: button.label === label
-    })));
+    setTimeButtons(
+      timeButtons.map((button) => ({
+        ...button,
+        active: button.label === label,
+      }))
+    );
   };
 
   const portfolioScopes = [
@@ -316,185 +417,228 @@ const PortfolioClimateRisk = () => {
   const needleRotation = (pchiValue / 100) * 180 - 90;
 
   const top5Industries = [
-    "Software & IT Services",
-    "Drugs and Pharmaceuticals",
-    "Commercial Real Estate",
-    "Logistics and Auxiliary transport activities",
-    "Automobiles (Including Ancillaries)",
+    'Software & IT Services',
+    'Drugs and Pharmaceuticals',
+    'Commercial Real Estate',
+    'Logistics and Auxiliary transport activities',
+    'Automobiles (Including Ancillaries)',
   ];
 
   const bottom5Industries = [
-    "Crude Oil Petroleum and Natural Gas",
-    "Construction",
-    "Wholesale Trade",
-    "Iron and steel",
-    "Engineering",
+    'Crude Oil Petroleum and Natural Gas',
+    'Construction',
+    'Wholesale Trade',
+    'Iron and steel',
+    'Engineering',
   ];
 
   const topCompany = {
-    avatar: "/images/eternal-ltd-logo.png",
-    name: "Eternal Limited",
-    sector: "Software and IT Services",
+    avatar: '/images/eternal-ltd-logo.png',
+    name: 'Eternal Limited',
+    sector: 'Software and IT Services',
   };
 
   const bottomCompany = {
-    avatar: "/images/shell-logo.png",
-    name: "Shell",
-    sector: "Crude Oil Petroleum and Natural Gas",
+    avatar: '/images/shell-logo.png',
+    name: 'Shell',
+    sector: 'Crude Oil Petroleum and Natural Gas',
   };
-  
+
   const rightSideContent = (
     <div className="space-y-3 sm:space-y-6 lg:space-y-3">
-        <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
-            {portfolioScopes?.map((scope, index) => (
-                <div key={index} className="flex-1">
-                    <div className="bg-background-light border-b border-background-overlay rounded-t-xl p-4 sm:p-6 lg:p-4">
-                        <div className="flex justify-between items-center">
-                            <span className="text-sm sm:text-base font-semibold text-text-primary">{scope?.title}</span>
-                            <div className="flex items-center">
-                                <img
-                                    src={scope?.isPositive ? "/images/img_arrow_drop_up_red_500.svg" : "/images/img_arrow_drop_down_green_500.svg"}
-                                    alt={scope?.isPositive ? "Increase" : "Decrease"}
-                                    className="w-3 h-3 mr-1"
-                                />
-                                <span className="text-xs font-normal text-text-dark">{scope?.change}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="bg-background-card border-l border-r border-b border-background-overlay rounded-b-xl p-4 sm:p-6 lg:p-4">
-                        <div className="text-2xl sm:text-3xl font-semibold text-text-primary text-center">
-                            <span>{scope?.value} </span>
-                            <span className="text-xs sm:text-base">{scope?.unit}</span>
-                        </div>
-                    </div>
+      <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
+        {portfolioScopes?.map((scope, index) => (
+          <div key={index} className="flex-1">
+            <div className="bg-background-light border-b border-background-overlay rounded-t-xl p-4 sm:p-6 lg:p-4">
+              <div className="flex justify-between items-center">
+                <span className="text-sm sm:text-base font-semibold text-text-primary">
+                  {scope?.title}
+                </span>
+                <div className="flex items-center">
+                  <img
+                    src={
+                      scope?.isPositive
+                        ? '/images/img_arrow_drop_up_red_500.svg'
+                        : '/images/img_arrow_drop_down_green_500.svg'
+                    }
+                    alt={scope?.isPositive ? 'Increase' : 'Decrease'}
+                    className="w-3 h-3 mr-1"
+                  />
+                  <span className="text-xs font-normal text-text-dark">{scope?.change}</span>
                 </div>
-            ))}
-        </List>
+              </div>
+            </div>
 
-        <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
-            <div className="flex-1">
-                <div className="bg-background-light border-b border-background-overlay rounded-t-xl p-4 sm:p-6 lg:p-4">
-                    <div className="flex justify-between items-center">
-                        <span className="text-sm sm:text-base font-semibold text-text-primary">
-                            Portfolio LTIFR
-                        </span>
-                        <div className="flex items-center">
-                            <img
-                                src="/images/img_arrow_drop_down_green_500.svg"
-                                alt="Decrease"
-                                className="w-3 h-3 mr-1"
-                            />
-                            <span className="text-xs font-normal text-text-dark">20%</span>
-                        </div>
-                    </div>
-                </div>
+            <div className="bg-background-card border-l border-r border-b border-background-overlay rounded-b-xl p-4 sm:p-6 lg:p-4">
+              <div className="text-2xl sm:text-3xl font-semibold text-text-primary text-center">
+                <span>{scope?.value} </span>
+                <span className="text-xs sm:text-base">{scope?.unit}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </List>
 
-                <Button
-                    text="2.4"
-                    text_font_size="text-3xl"
-                    text_font_family="DM Sans"
-                    text_font_weight="font-semibold"
-                    text_line_height="leading-3xl"
-                    text_text_align="center"
-                    text_color="text-text-primary"
-                    fill_background_color="bg-background-card"
-                    border_border_radius="rounded-none rounded-b-xl"
-                    border_border_right="border-r border-background-overlay"
-                    border_border_left="border-l border-background-overlay"
-                    border_border_bottom="border-b border-background-overlay"
-                    padding="py-6 px-10"
-                    className="w-full"
+      <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
+        <div className="flex-1">
+          <div className="bg-background-light border-b border-background-overlay rounded-t-xl p-4 sm:p-6 lg:p-4">
+            <div className="flex justify-between items-center">
+              <span className="text-sm sm:text-base font-semibold text-text-primary">
+                Portfolio LTIFR
+              </span>
+              <div className="flex items-center">
+                <img
+                  src="/images/img_arrow_drop_down_green_500.svg"
+                  alt="Decrease"
+                  className="w-3 h-3 mr-1"
                 />
+                <span className="text-xs font-normal text-text-dark">20%</span>
+              </div>
             </div>
+          </div>
 
-            <div className="flex-1">
-                <div className="bg-background-light border-b border-background-overlay rounded-t-xl p-4 sm:p-6 lg:p-4">
-                    <div className="flex justify-between items-center">
-                        <span className="text-sm sm:text-base font-semibold text-text-primary">
-                            Active Legal Cases in your Portfolio
-                        </span>
-                        <div className="flex items-center">
-                            <img
-                                src="/images/img_arrow_drop_down_green_500.svg"
-                                alt="Decrease"
-                                className="w-3 h-3 mr-1"
-                            />
-                            <span className="text-xs font-normal text-text-dark">2.5%</span>
-                        </div>
-                    </div>
-                </div>
+          <Button
+            text="2.4"
+            text_font_size="text-3xl"
+            text_font_family="DM Sans"
+            text_font_weight="font-semibold"
+            text_line_height="leading-3xl"
+            text_text_align="center"
+            text_color="text-text-primary"
+            fill_background_color="bg-background-card"
+            border_border_radius="rounded-none rounded-b-xl"
+            border_border_right="border-r border-background-overlay"
+            border_border_left="border-l border-background-overlay"
+            border_border_bottom="border-b border-background-overlay"
+            padding="py-6 px-10"
+            className="w-full"
+          />
+        </div>
 
-                <Button
-                    text="57"
-                    text_font_size="text-3xl"
-                    text_font_family="DM Sans"
-                    text_font_weight="font-semibold"
-                    text_line_height="leading-3xl"
-                    text_text_align="center"
-                    text_color="text-text-primary"
-                    fill_background_color="bg-background-card"
-                    border_border_radius="rounded-none rounded-b-xl"
-                    border_border_right="border-r border-background-overlay"
-                    border_border_left="border-l border-background-overlay"
-                    border_border_bottom="border-b border-background-overlay"
-                    padding="py-6 px-10"
-                    className="w-full"
+        <div className="flex-1">
+          <div className="bg-background-light border-b border-background-overlay rounded-t-xl p-4 sm:p-6 lg:p-4">
+            <div className="flex justify-between items-center">
+              <span className="text-sm sm:text-base font-semibold text-text-primary">
+                Active Legal Cases in your Portfolio
+              </span>
+              <div className="flex items-center">
+                <img
+                  src="/images/img_arrow_drop_down_green_500.svg"
+                  alt="Decrease"
+                  className="w-3 h-3 mr-1"
                 />
+                <span className="text-xs font-normal text-text-dark">2.5%</span>
+              </div>
             </div>
-        </List>
+          </div>
 
-        <List direction="row" className="gap-3 sm:gap-6 lg:gap-3">
-            <div className="flex-1 space-y-3 sm:space-y-6 lg:space-y-3">
-                <div className="bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2">
-                    <div className="flex justify-end items-center mb-2">
-                        <img src="/images/img_arrow_drop_up.svg" alt="Increase" className="w-3 h-3 mr-1" />
-                        <span className="text-xs sm:text-sm font-normal text-text-dark">15%</span>
-                    </div>
+          <Button
+            text="57"
+            text_font_size="text-3xl"
+            text_font_family="DM Sans"
+            text_font_weight="font-semibold"
+            text_line_height="leading-3xl"
+            text_text_align="center"
+            text_color="text-text-primary"
+            fill_background_color="bg-background-card"
+            border_border_radius="rounded-none rounded-b-xl"
+            border_border_right="border-r border-background-overlay"
+            border_border_left="border-l border-background-overlay"
+            border_border_bottom="border-b border-background-overlay"
+            padding="py-6 px-10"
+            className="w-full"
+          />
+        </div>
+      </List>
 
-                    <div className="mb-4">
-                        <div className="text-lg sm:text-xl font-semibold text-text-primary mb-1">Portfolio ESG Rating</div>
-                        <div className="text-2xl sm:text-3xl lg:text-3xl font-semibold text-text-primary">68%</div>
-                    </div>
-                </div>
-
-                <div className="bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2">
-                    <div className="space-y-2 sm:space-y-4 lg:space-y-2">
-                        {esgRatings?.map((rating, index) => (
-                            <div key={index} className="flex items-center gap-3 sm:gap-4 lg:gap-3 py-2 border-b border-border-light last:border-b-0">
-                                <img src={rating?.icon} alt={rating?.title} className="w-12 h-12 sm:w-14 sm:h-14" />
-                                <div className="flex-1">
-                                    <div className="text-lg sm:text-xl font-normal text-text-primary">{rating?.percentage}</div>
-                                    <div className="text-sm sm:text-lg font-bold text-text-primary">{rating?.title}</div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+      <List direction="row" className="gap-3 sm:gap-6 lg:gap-3">
+        <div className="flex-1 space-y-3 sm:space-y-6 lg:space-y-3">
+          <div className="bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2">
+            <div className="flex justify-end items-center mb-2">
+              <img src="/images/img_arrow_drop_up.svg" alt="Increase" className="w-3 h-3 mr-1" />
+              <span className="text-xs sm:text-sm font-normal text-text-dark">15%</span>
             </div>
 
-            <div className="flex-1 bg-background-light rounded-xl p-3 sm:p-6 lg:p-3">
-                <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">Financed Emissions</h3>
-                <div className="h-[450px]">
-                    {typeof window !== 'undefined' && (
-                        <ReactApexChart
-                            options={financedEmissionsOptions}
-                            series={financedEmissionsSeries}
-                            type="area"
-                            height="100%"
-                        />
-                    )}
-                </div>
+            <div className="mb-4">
+              <div className="text-lg sm:text-xl font-semibold text-text-primary mb-1">
+                Portfolio ESG Rating
+              </div>
+              <div className="text-2xl sm:text-3xl lg:text-3xl font-semibold text-text-primary">
+                68%
+              </div>
             </div>
-        </List>
+          </div>
+
+          <div className="bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2">
+            <div className="space-y-2 sm:space-y-4 lg:space-y-2">
+              {esgRatings?.map((rating, index) => (
+                <div
+                  key={index}
+                  className="flex items-center gap-3 sm:gap-4 lg:gap-3 py-2 border-b border-border-light last:border-b-0"
+                >
+                  <img
+                    src={rating?.icon}
+                    alt={rating?.title}
+                    className="w-12 h-12 sm:w-14 sm:h-14"
+                  />
+                  <div className="flex-1">
+                    <div className="text-lg sm:text-xl font-normal text-text-primary">
+                      {rating?.percentage}
+                    </div>
+                    <div className="text-sm sm:text-lg font-bold text-text-primary">
+                      {rating?.title}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex-1 bg-background-light rounded-xl p-3 sm:p-6 lg:p-3">
+          <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">
+            Financed Emissions
+          </h3>
+          <div className="h-[450px]">
+            {typeof window !== 'undefined' && (
+              <ReactApexChart
+                options={financedEmissionsOptions}
+                series={financedEmissionsSeries}
+                type="area"
+                height="100%"
+              />
+            )}
+          </div>
+        </div>
+      </List>
     </div>
   );
 
   const DiamondCounter = ({ color, value }: { color: string; value: number | string }) => (
     <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <g transform="translate(12,12)">
-        <rect x="-9" y="-9" width="18" height="18" fill="none" stroke="#9CA3AF" strokeWidth="2" transform="rotate(45)" rx="2" ry="2" />
-        <rect x="-5" y="-5" width="10" height="10" fill={color} transform="rotate(45)" rx="1" ry="1" />
+        <rect
+          x="-9"
+          y="-9"
+          width="18"
+          height="18"
+          fill="none"
+          stroke="#9CA3AF"
+          strokeWidth="2"
+          transform="rotate(45)"
+          rx="2"
+          ry="2"
+        />
+        <rect
+          x="-5"
+          y="-5"
+          width="10"
+          height="10"
+          fill={color}
+          transform="rotate(45)"
+          rx="1"
+          ry="1"
+        />
         <text x="0" y="4" textAnchor="middle" fontSize="10" fontWeight="700" fill="#FFFFFF">
           {String(value)}
         </text>
@@ -502,97 +646,208 @@ const PortfolioClimateRisk = () => {
     </svg>
   );
 
- const actionHubContent = (
+  const actionHubContent = (
     <div className="space-y-3 sm:space-y-6 lg:space-y-3">
-        <Button
-            text="Action Hub"
-            text_font_size="text-md"
-            text_font_family="Inter"
-            text_font_weight="font-bold"
-            text_line_height="leading-md"
-            text_text_align="center"
-            text_color="text-primary-dark"
-            fill_background_color="bg-background-light"
-            border_border_radius="rounded-none"
-            border_border_right=""
-            border_border_left=""
-            border_border_bottom=""
-            border_border_top="border-t-[1px] border-border-accept"
-            padding="py-3 px-8"
-            className="w-full"
-        />
-        <div className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-3">
-           
+      <Button
+        text="Action Hub"
+        text_font_size="text-md"
+        text_font_family="Inter"
+        text_font_weight="font-bold"
+        text_line_height="leading-md"
+        text_text_align="center"
+        text_color="text-primary-dark"
+        fill_background_color="bg-background-light"
+        border_border_radius="rounded-none"
+        border_border_right=""
+        border_border_left=""
+        border_border_bottom=""
+        border_border_top="border-t-[1px] border-border-accept"
+        padding="py-3 px-8"
+        className="w-full"
+      />
+      <div className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-3">
+        <List direction="row" className="gap-3 sm:gap-4 lg:gap-3 mb-4">
+          <div className="flex-1 flex flex-col sm:flex-row justify-between items-center bg-[#ecf2ff7f] border-l-[3px] border-purple-500 rounded-none p-3 sm:p-4 lg:p-3">
+            <span className="text-sm sm:text-base font-semibold text-text-primary">
+              Pending Items
+            </span>
+            <div className="flex items-center gap-2">
+              <DiamondCounter color="#8065B3" value={5} />
+            </div>
+          </div>
+          <div className="flex-1 flex flex-col sm:flex-row justify-between items-center bg-[#ecf2ff7f] border-l-[3px] border-red-500 rounded-none p-3 sm:p-4 lg:p-3">
+            <span className="text-sm sm:text-base font-semibold text-text-primary">
+              Critical Points
+            </span>
+            <div className="flex items-center gap-2">
+              <DiamondCounter color="#EF4444" value={3} />
+            </div>
+          </div>
+        </List>
 
-            <List direction="row" className="gap-3 sm:gap-4 lg:gap-3 mb-4">
-              <div className="flex-1 flex flex-col sm:flex-row justify-between items-center bg-[#ecf2ff7f] border-l-[3px] border-purple-500 rounded-none p-3 sm:p-4 lg:p-3">
-                <span className="text-sm sm:text-base font-semibold text-text-primary">Pending Items</span>
-                <div className="flex items-center gap-2">
-                  <DiamondCounter color="#8065B3" value={5} />
-                </div>
-              </div>
-              <div className="flex-1 flex flex-col sm:flex-row justify-between items-center bg-[#ecf2ff7f] border-l-[3px] border-red-500 rounded-none p-3 sm:p-4 lg:p-3">
-                <span className="text-sm sm:text-base font-semibold text-text-primary">Critical Points</span>
-                <div className="flex items-center gap-2">
-                  <DiamondCounter color="#EF4444" value={3} />
-                </div>
-              </div>
-            </List>
+        <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">
+          Task List
+        </h3>
 
-            <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">Task List</h3>
-            
-            <div className="space-y-3 sm:space-y-6 lg:space-y-3">
-              <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-3 sm:p-6 lg:p-3 border border-background-overlay rounded-base">
-                <img src="/images/purple-diamond.svg" alt="Review Pending" className="w-6 h-6" />
-                <div className="flex-1">
-                  <div className="text-sm sm:text-base font-semibold text-text-primary">Review Pending</div>
-                  <div className="text-xs sm:text-sm font-normal text-text-primary">Q3 Emissions Report for Pama Sports.</div>
-                </div>
+        <div className="space-y-3 sm:space-y-6 lg:space-y-3">
+          <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-3 sm:p-6 lg:p-3 border border-background-overlay rounded-base">
+            <img src="/images/purple-diamond.svg" alt="Review Pending" className="w-6 h-6" />
+            <div className="flex-1">
+              <div className="text-sm sm:text-base font-semibold text-text-primary">
+                Review Pending
               </div>
-
-              <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-3 sm:p-6 lg:p-3 border border-background-overlay rounded-base">
-                <img src="/images/purple-diamond.svg" alt="Task Due" className="w-6 h-6" />
-                <div className="flex-1">
-                  <div className="text-sm sm:text-base font-semibold text-text-primary">Task Due</div>
-                  <div className="text-xs sm:text-sm font-normal text-text-primary">Quarterly Risk Review for the "Chemicals" Sector.</div>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-3 sm:p-6 lg:p-3 border border-background-overlay rounded-base">
-                <img src="/images/purple-diamond.svg" alt="Data Gap" className="w-6 h-6" />
-                <div className="flex-1">
-                  <div className="text-sm sm:text-base font-semibold text-text-primary">Data Gap</div>
-                  <div className="text-xs sm:text-sm font-normal text-text-primary">Missing Scope 3 emissions data for Abibas.</div>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-3 sm:p-6 lg:p-3 border border-background-overlay rounded-base">
-                <img src="/images/red-diamond.svg" alt="Risk Score Alert" className="w-6 h-6" />
-                <div className="flex-1">
-                  <div className="text-sm sm:text-base font-semibold text-text-primary">RISK SCORE ALERT</div>
-                  <div className="text-xs sm:text-sm font-normal text-text-primary">Haldisita's risk score increased 15% to High Risk.</div>
-                </div>
+              <div className="text-xs sm:text-sm font-normal text-text-primary">
+                Q3 Emissions Report for Pama Sports.
               </div>
             </div>
-        </div>
-    </div>
-);
+          </div>
 
+          <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-3 sm:p-6 lg:p-3 border border-background-overlay rounded-base">
+            <img src="/images/purple-diamond.svg" alt="Task Due" className="w-6 h-6" />
+            <div className="flex-1">
+              <div className="text-sm sm:text-base font-semibold text-text-primary">Task Due</div>
+              <div className="text-xs sm:text-sm font-normal text-text-primary">
+                Quarterly Risk Review for the "Chemicals" Sector.
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-3 sm:p-6 lg:p-3 border border-background-overlay rounded-base">
+            <img src="/images/purple-diamond.svg" alt="Data Gap" className="w-6 h-6" />
+            <div className="flex-1">
+              <div className="text-sm sm:text-base font-semibold text-text-primary">Data Gap</div>
+              <div className="text-xs sm:text-sm font-normal text-text-primary">
+                Missing Scope 3 emissions data for Abibas.
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-3 sm:p-6 lg:p-3 border border-background-overlay rounded-base">
+            <img src="/images/red-diamond.svg" alt="Risk Score Alert" className="w-6 h-6" />
+            <div className="flex-1">
+              <div className="text-sm sm:text-base font-semibold text-text-primary">
+                RISK SCORE ALERT
+              </div>
+              <div className="text-xs sm:text-sm font-normal text-text-primary">
+                Haldisita's risk score increased 15% to High Risk.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <>
       <Helmet>
         <title>Cockpit | ESG Analytics Platform</title>
-        <meta name="description" content="Comprehensive climate risk assessment dashboard for investment portfolios. Monitor ESG ratings, emissions data, and climate hazard metrics for informed investment decisions." />
-        <meta property="og:title" content="Portfolio Climate Risk Dashboard | ESG Analytics Platform" />
-        <meta property="og:description" content="Comprehensive climate risk assessment dashboard for investment portfolios. Monitor ESG ratings, emissions data, and climate hazard metrics for informed investment decisions." />
+        <meta
+          name="description"
+          content="Comprehensive climate risk assessment dashboard for investment portfolios. Monitor ESG ratings, emissions data, and climate hazard metrics for informed investment decisions."
+        />
+        <meta
+          property="og:title"
+          content="Portfolio Climate Risk Dashboard | ESG Analytics Platform"
+        />
+        <meta
+          property="og:description"
+          content="Comprehensive climate risk assessment dashboard for investment portfolios. Monitor ESG ratings, emissions data, and climate hazard metrics for informed investment decisions."
+        />
       </Helmet>
       <main className="w-full bg-background-main">
         <Header />
+        {/* Global Controls Header */}
 
         <div className="w-full px-3 sm:px-6 lg:px-3">
           <div className="bg-background-card rounded-none p-3 sm:p-6 lg:p-3 mb-3 overflow-y-auto">
+            <div className="bg-card border-b border-border shadow-elevation-1">
+              {/* <div className="max-w-7xl mx-auto px-6 py-4"> */}
+              <div className="w-100 mx-auto px-6 py-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h1 className="text-2xl font-semibold text-foreground">Emissions Overview</h1>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Portfolio-wide carbon footprint monitoring and compliance tracking
+                    </p>
+                  </div>
 
+                  {/* <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-3">
+                  <div className="w-48">
+                    <Select
+                      options={portfolioOptions}
+                      value={selectedPortfolio}
+                      onChange={setSelectedPortfolio}
+                      placeholder="Select portfolio"
+                    />
+                  </div>
+                  
+                  <div className="w-40">
+                    <Select
+                      options={dateRangeOptions}
+                      value={selectedDateRange}
+                      onChange={setSelectedDateRange}
+                      placeholder="Date range"
+                    />
+                  </div>
+                </div>
+                
+                <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleRefresh}
+                    disabled={isRefreshing}
+                    iconName={isRefreshing ? "Loader2" : "RefreshCw"}
+                    iconSize={14}
+                    className={isRefreshing ? "animate-spin" : ""}
+                  >
+                    <span className="ml-1">
+                      {isRefreshing ? 'Updating...' : `Updated ${formatTime(lastRefresh)}`}
+                    </span>
+                  </Button>
+                </div>
+              </div> */}
+                  <div className="flex justify-end mb-6 sm:mb-8 lg:mb-6">
+                    <div className="flex bg-gray-200 rounded-xl overflow-hidden w-[380px] h-[25px] p-1">
+                      {timeButtons.map((button, index) => (
+                        <button
+                          key={button.label}
+                          className={`flex-1 flex items-center justify-center text-sm font-semibold font-Inter text-center transition-all duration-200 ${
+                            button.active
+                              ? 'bg-primary-background text-text-white rounded-lg'
+                              : 'bg-transparent text-text-secondary hover:bg-purple-200'
+                          }`}
+                          onClick={() => handleTimeButtonClick(button.label)}
+                        >
+                          {button.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="max-w-7xl mx-auto px-6 py-8">
+              {/* KPI Cards Row */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                {kpiData?.map((kpi: any, index: any) => (
+                  <EmissionsKPICard
+                    key={index}
+                    title={kpi?.title}
+                    value={kpi?.value}
+                    unit={kpi?.unit}
+                    change={kpi?.change}
+                    changeType={kpi?.changeType}
+                    icon={kpi?.icon}
+                    trend={kpi?.trend}
+                  />
+                ))}
+              </div>
+            </div>
+            {/* 
             <div className="flex justify-end mb-6 sm:mb-8 lg:mb-6">
               <div className="flex bg-gray-200 rounded-xl overflow-hidden w-[380px] h-[25px] p-1">
                 {timeButtons.map((button, index) => (
@@ -609,21 +864,29 @@ const PortfolioClimateRisk = () => {
                   </button>
                 ))}
               </div>
-            </div>
+            </div> */}
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6 lg:gap-3 mb-6 sm:mb-8 lg:mb-6">
               <div className="space-y-3 sm:space-y-6 lg:space-y-3">
                 <List direction="row" className="gap-3 sm:gap-6 lg:gap-3">
                   <div className="flex-1 bg-[#ecf2ff7f] border-l-[3px] border-amber-400 rounded-none p-2 sm:p-4 lg:p-2">
                     <div className="flex justify-end items-center mb-2">
-                      <img src="/images/img_arrow_drop_up_red_500.svg" alt="Increase" className="w-3 h-3 mr-1" />
+                      <img
+                        src="/images/img_arrow_drop_up_red_500.svg"
+                        alt="Increase"
+                        className="w-3 h-3 mr-1"
+                      />
                       <span className="text-xs sm:text-sm font-normal text-gray-600">17%</span>
                     </div>
 
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
-                        <div className="text-2xl sm:text-3xl lg:text-3xl font-semibold text-gray-800 mb-1">28%</div>
-                        <div className="text-xs sm:text-base font-medium text-gray-800">Portfolio Climate Hazard Index (PCHI)</div>
+                        <div className="text-2xl sm:text-3xl lg:text-3xl font-semibold text-gray-800 mb-1">
+                          28%
+                        </div>
+                        <div className="text-xs sm:text-base font-medium text-gray-800">
+                          Portfolio Climate Hazard Index (PCHI)
+                        </div>
                       </div>
 
                       <div className="flex-shrink-0 ml-4">
@@ -664,12 +927,7 @@ const PortfolioClimateRisk = () => {
                               strokeWidth="2"
                             />
 
-                            <circle
-                              cx="50"
-                              cy="45"
-                              r="3"
-                              fill="#374151"
-                            />
+                            <circle cx="50" cy="45" r="3" fill="#374151" />
 
                             <line
                               x1="50"
@@ -682,15 +940,17 @@ const PortfolioClimateRisk = () => {
                               transform={`rotate(${needleRotation} 50 45)`}
                             />
                           </svg>
-
-        
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="flex-1 bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2">
                     <div className="flex justify-end items-center mb-2">
-                      <img src="/images/img_arrow_drop_up.svg" alt="Increase" className="w-3 h-3 mr-1" />
+                      <img
+                        src="/images/img_arrow_drop_up.svg"
+                        alt="Increase"
+                        className="w-3 h-3 mr-1"
+                      />
                       <span className="text-xs sm:text-sm font-normal text-text-dark">19%</span>
                     </div>
 
@@ -698,12 +958,16 @@ const PortfolioClimateRisk = () => {
                       <span>₹ 64,55,699 </span>
                       <span className="text-lg sm:text-xl">Million</span>
                     </div>
-                    <div className="text-xs sm:text-base font-medium text-text-primary">Total Portfolio Exposure</div>
+                    <div className="text-xs sm:text-base font-medium text-text-primary">
+                      Total Portfolio Exposure
+                    </div>
                   </div>
                 </List>
 
                 <div className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-3">
-                  <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">Climate Risk Exposure Matrix</h3>
+                  <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">
+                    Climate Risk Exposure Matrix
+                  </h3>
                   <div className="h-[450px]">
                     {typeof window !== 'undefined' && (
                       <ReactApexChart
@@ -727,14 +991,22 @@ const PortfolioClimateRisk = () => {
                     <div key={index} className="flex-1">
                       <div className="bg-background-light border-b border-background-overlay rounded-t-xl p-2 sm:p-4 lg:p-2">
                         <div className="flex justify-between items-center">
-                          <span className="text-xs sm:text-sm font-semibold text-text-primary">{scope?.title}</span>
+                          <span className="text-xs sm:text-sm font-semibold text-text-primary">
+                            {scope?.title}
+                          </span>
                           <div className="flex items-center">
                             <img
-                              src={scope?.isPositive ? "/images/img_arrow_drop_up_red_500.svg" : "/images/img_arrow_drop_down_green_500.svg"}
-                              alt={scope?.isPositive ? "Increase" : "Decrease"}
+                              src={
+                                scope?.isPositive
+                                  ? '/images/img_arrow_drop_up_red_500.svg'
+                                  : '/images/img_arrow_drop_down_green_500.svg'
+                              }
+                              alt={scope?.isPositive ? 'Increase' : 'Decrease'}
                               className="w-3 h-3 mr-1"
                             />
-                            <span className="text-xs font-normal text-text-dark">{scope?.change}</span>
+                            <span className="text-xs font-normal text-text-dark">
+                              {scope?.change}
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -826,43 +1098,64 @@ const PortfolioClimateRisk = () => {
                     <div className="space-y-3 sm:space-y-6 lg:space-y-3">
                       <div className="bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2">
                         <div className="flex justify-end items-center mb-2">
-                          <img src="/images/img_arrow_drop_up.svg" alt="Increase" className="w-3 h-3 mr-1" />
+                          <img
+                            src="/images/img_arrow_drop_up.svg"
+                            alt="Increase"
+                            className="w-3 h-3 mr-1"
+                          />
                           <span className="text-xs sm:text-sm font-normal text-text-dark">15%</span>
                         </div>
 
                         <div className="mb-4">
-                          <div className="text-lg sm:text-xl font-semibold text-text-primary mb-1">Portfolio ESG Rating</div>
-                          <div className="text-2xl sm:text-3xl lg:text-3xl font-semibold text-text-primary">68%</div>
+                          <div className="text-lg sm:text-xl font-semibold text-text-primary mb-1">
+                            Portfolio ESG Rating
+                          </div>
+                          <div className="text-2xl sm:text-3xl lg:text-3xl font-semibold text-text-primary">
+                            68%
+                          </div>
                         </div>
                       </div>
 
                       <div className="bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2">
                         <div className="space-y-2 sm:space-y-4 lg:space-y-2">
                           {esgRatings?.map((rating, index) => (
-                            <div key={index} className="flex items-center gap-3 sm:gap-4 lg:gap-3 py-2 border-b border-border-light last:border-b-0">
-                              <img src={rating?.icon} alt={rating?.title} className="w-12 h-12 sm:w-14 sm:h-14" />
+                            <div
+                              key={index}
+                              className="flex items-center gap-3 sm:gap-4 lg:gap-3 py-2 border-b border-border-light last:border-b-0"
+                            >
+                              <img
+                                src={rating?.icon}
+                                alt={rating?.title}
+                                className="w-12 h-12 sm:w-14 sm:h-14"
+                              />
                               <div className="flex-1">
-                                <div className="text-lg sm:text-xl font-normal text-text-primary">{rating?.percentage}</div>
-                                <div className="text-sm sm:text-lg font-bold text-text-primary">{rating?.title}</div>
+                                <div className="text-lg sm:text-xl font-normal text-text-primary">
+                                  {rating?.percentage}
+                                </div>
+                                <div className="text-sm sm:text-lg font-bold text-text-primary">
+                                  {rating?.title}
+                                </div>
                               </div>
                             </div>
                           ))}
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="flex-1 bg-background-light rounded-xl p-3 sm:p-6 lg:p-3">
-                        <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">Financed Emissions</h3>
-                        <div className="h-[450px]">
-                            {typeof window !== 'undefined' && (
-                                <ReactApexChart
-                                    options={financedEmissionsOptions}
-                                    series={financedEmissionsSeries}
-                                    type="area"
-                                    height="100%"
-                                />
-                            )}
-                        </div>
+                      <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">
+                        Financed Emissions
+                      </h3>
+                      <div className="h-[450px]">
+                        {typeof window !== 'undefined' && (
+                          <ReactApexChart
+                            options={financedEmissionsOptions}
+                            series={financedEmissionsSeries}
+                            type="area"
+                            height="100%"
+                          />
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -891,12 +1184,20 @@ const PortfolioClimateRisk = () => {
 
                 <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
                   <div className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3">
-                    <h4 className="text-md font-bold text-primary-dark mb-4">Top Performing Company</h4>
+                    <h4 className="text-md font-bold text-primary-dark mb-4">
+                      Top Performing Company
+                    </h4>
 
                     <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-2 sm:p-4 lg:p-2 border border-background-overlay rounded-base">
                       <div className="flex items-center gap-2 sm:gap-3 lg:gap-2">
-                        <img src={topCompany?.avatar} alt={topCompany?.name} className="w-6 h-6 rounded-2xl" />
-                        <span className="text-sm font-normal text-text-primary">{topCompany?.name}</span>
+                        <img
+                          src={topCompany?.avatar}
+                          alt={topCompany?.name}
+                          className="w-6 h-6 rounded-2xl"
+                        />
+                        <span className="text-sm font-normal text-text-primary">
+                          {topCompany?.name}
+                        </span>
                       </div>
 
                       <Line
@@ -906,18 +1207,28 @@ const PortfolioClimateRisk = () => {
                       />
 
                       <div className="flex-1">
-                        <span className="text-base font-normal text-text-primary text-center block">{topCompany?.sector}</span>
+                        <span className="text-base font-normal text-text-primary text-center block">
+                          {topCompany?.sector}
+                        </span>
                       </div>
                     </div>
                   </div>
 
                   <div className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3">
-                    <h4 className="text-md font-bold text-primary-dark mb-4">Lowest Performing Company</h4>
+                    <h4 className="text-md font-bold text-primary-dark mb-4">
+                      Lowest Performing Company
+                    </h4>
 
                     <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-2 sm:p-4 lg:p-2 border border-background-overlay rounded-base">
                       <div className="flex items-center gap-2 sm:gap-3 lg:gap-2">
-                        <img src={bottomCompany?.avatar} alt={bottomCompany?.name} className="w-6 h-6 rounded-2xl" />
-                        <span className="text-sm font-normal text-text-primary">{bottomCompany?.name}</span>
+                        <img
+                          src={bottomCompany?.avatar}
+                          alt={bottomCompany?.name}
+                          className="w-6 h-6 rounded-2xl"
+                        />
+                        <span className="text-sm font-normal text-text-primary">
+                          {bottomCompany?.name}
+                        </span>
                       </div>
 
                       <Line
@@ -927,7 +1238,9 @@ const PortfolioClimateRisk = () => {
                       />
 
                       <div className="flex-1">
-                        <span className="text-base font-normal text-text-primary text-center block">{bottomCompany?.sector}</span>
+                        <span className="text-base font-normal text-text-primary text-center block">
+                          {bottomCompany?.sector}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -938,7 +1251,10 @@ const PortfolioClimateRisk = () => {
                     <h4 className="text-md font-bold text-primary-dark mb-4">Top 5 Industries</h4>
                     <div className="mt-4 space-y-2">
                       {top5Industries.map((industry, index) => (
-                        <div key={index} className="flex justify-between items-center py-2 border-b last:border-b-0 border-background-overlay">
+                        <div
+                          key={index}
+                          className="flex justify-between items-center py-2 border-b last:border-b-0 border-background-overlay"
+                        >
                           <span className="text-sm font-normal text-text-primary">{industry}</span>
                         </div>
                       ))}
@@ -946,10 +1262,15 @@ const PortfolioClimateRisk = () => {
                   </div>
 
                   <div className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3">
-                    <h4 className="text-md font-bold text-primary-dark mb-4">Bottom 5 Industries</h4>
+                    <h4 className="text-md font-bold text-primary-dark mb-4">
+                      Bottom 5 Industries
+                    </h4>
                     <div className="mt-4 space-y-2">
                       {bottom5Industries.map((industry, index) => (
-                        <div key={index} className="flex justify-between items-center py-2 border-b last:border-b-0 border-background-overlay">
+                        <div
+                          key={index}
+                          className="flex justify-between items-center py-2 border-b last:border-b-0 border-background-overlay"
+                        >
                           <span className="text-sm font-normal text-text-primary">{industry}</span>
                         </div>
                       ))}
@@ -958,9 +1279,7 @@ const PortfolioClimateRisk = () => {
                 </List>
               </div>
 
-              <div className="space-y-3 sm:space-y-6 lg:space-y-3">
-                {actionHubContent}
-              </div>
+              <div className="space-y-3 sm:space-y-6 lg:space-y-3">{actionHubContent}</div>
             </div>
           </div>
         </div>
