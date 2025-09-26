@@ -33,7 +33,7 @@ export interface SelectProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   onOpenChange?: (open: boolean) => void;
 }
 
-const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
+const CustomSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
   (
     {
       className,
@@ -61,31 +61,28 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
 
-    // Generate unique ID if not provided
     const selectId = id || `select-${Math.random().toString(36).substr(2, 9)}`;
 
-    // Filter options based on search
     const filteredOptions =
       searchable && searchTerm
-        ? options?.filter(
+        ? options.filter(
             (option) =>
-              option?.label?.toLowerCase()?.includes(searchTerm.toLowerCase()) ||
-              option?.value?.toString()?.toLowerCase()?.includes(searchTerm.toLowerCase())
+              option.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              option.value.toString().toLowerCase().includes(searchTerm.toLowerCase())
           )
         : options;
 
-    // Get selected option(s) for display
     const getSelectedDisplay = (): string => {
       if (!value || (Array.isArray(value) && value.length === 0)) return placeholder;
 
       if (multiple && Array.isArray(value)) {
-        const selectedOptions = options?.filter((opt) => value.includes(opt?.value));
-        if (selectedOptions?.length === 0) return placeholder;
-        if (selectedOptions?.length === 1) return selectedOptions[0]?.label;
+        const selectedOptions = options.filter((opt) => value.includes(opt.value));
+        if (selectedOptions.length === 0) return placeholder;
+        if (selectedOptions.length === 1) return selectedOptions[0].label;
         return `${selectedOptions.length} items selected`;
       }
 
-      const selectedOption = options?.find((opt) => opt?.value === value);
+      const selectedOption = options.find((opt) => opt.value === value);
       return selectedOption ? selectedOption.label : placeholder;
     };
 
@@ -133,6 +130,8 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
     const hasValue = multiple
       ? Array.isArray(value) && value.length > 0
       : value !== undefined && value !== '';
+
+    const selectValue = multiple ? (Array.isArray(value) ? value : []) : value || '';
 
     return (
       <div className={cn('relative', className)}>
@@ -200,27 +199,23 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
             </div>
           </button>
 
-          {/* Hidden native select for form submission */}
           <select
             name={name}
-            value={
-              multiple ? (value as (string | number)[]) || [] : (value as string | number) || ''
-            }
-            onChange={() => {}} // Controlled by custom logic
+            value={selectValue as any}
+            onChange={() => {}}
             className="sr-only"
             tabIndex={-1}
             multiple={multiple}
             required={required}
           >
             <option value="">Select...</option>
-            {options?.map((option) => (
-              <option key={option.value} value={option.value}>
+            {options.map((option) => (
+              <option key={option.value} value={option.value} disabled={option.disabled}>
                 {option.label}
               </option>
             ))}
           </select>
 
-          {/* Dropdown */}
           {isOpen && (
             <div className="absolute z-50 w-full mt-1 bg-white text-black border border-border rounded-md shadow-md">
               {searchable && (
@@ -238,12 +233,12 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
               )}
 
               <div className="py-1 max-h-60 overflow-auto">
-                {filteredOptions?.length === 0 ? (
+                {filteredOptions.length === 0 ? (
                   <div className="px-3 py-2 text-sm text-muted-foreground">
                     {searchTerm ? 'No options found' : 'No options available'}
                   </div>
                 ) : (
-                  filteredOptions?.map((option) => (
+                  filteredOptions.map((option) => (
                     <div
                       key={option.value}
                       className={cn(
@@ -276,6 +271,6 @@ const Select = React.forwardRef<HTMLButtonElement, SelectProps>(
   }
 );
 
-Select.displayName = 'Select';
+CustomSelect.displayName = 'Select';
 
-export default Select;
+export default CustomSelect;
