@@ -58,6 +58,7 @@
     "apexcharts": "^5.3.5",
     "class-variance-authority": "^0.7.1",
     "formik": "^2.4.6",
+    "lucide-react": "^0.544.0",
     "next-auth": "^4.24.11",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",

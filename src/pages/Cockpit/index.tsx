@@ -6,7 +6,12 @@ import CircleProgressBar from '../../components/ui/CircleProgressBar';
 import Chart from '../../components/ui/Chart';
 import Line from '../../components/ui/Line';
 import List from '../../components/ui/List';
+import EmissionsKPICard from './EmissionsKPICard';
+import EmissionsSummaryTable from './EmissionsSummaryTable';
 import EditText from '../../components/ui/EditText';
+import Select from '../../components/ui/Select';
+import ComplianceStatusCard from './ComplianceStatusCard';
+import ReductionTargetsCard from './ReductionTargetsCard';
 import dynamic from 'next/dynamic';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
@@ -24,6 +29,93 @@ const PortfolioClimateRisk = () => {
   const [scatterChartSeries, setScatterChartSeries] = useState<any[]>([]);
   const [financedEmissionsOptions, setFinancedEmissionsOptions] = useState<any>({});
   const [financedEmissionsSeries, setFinancedEmissionsSeries] = useState<any[]>([]);
+
+  const [selectedPortfolio, setSelectedPortfolio] = useState('global');
+  const [selectedDateRange, setSelectedDateRange] = useState('yearly');
+  const [lastRefresh, setLastRefresh] = useState(new Date());
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+   const portfolioOptions = [
+    { value: 'global', label: 'Global Portfolio' },
+    { value: 'north-america', label: 'North America' },
+    { value: 'europe', label: 'Europe' },
+    { value: 'asia-pacific', label: 'Asia Pacific' },
+    { value: 'emerging-markets', label: 'Emerging Markets' },
+  ];
+
+   const dateRangeOptions = [
+    { value: 'monthly', label: 'Monthly View' },
+    { value: 'quarterly', label: 'Quarterly View' },
+    { value: 'yearly', label: 'Yearly View' },
+  ];
+
+   const kpiData = [
+    {
+      title: 'Total Financed Emissions',
+      value: '2,850',
+      unit: 'tCO₂e',
+      change: -12.5,
+      changeType: 'positive',
+      icon: 'Zap',
+      trend: [65, 70, 68, 62, 58, 55, 52],
+    },
+    {
+      title: 'Emissions Intensity',
+      value: '145.2',
+      unit: 'tCO₂e/M$',
+      change: -8.3,
+      changeType: 'positive',
+      icon: 'TrendingDown',
+      trend: [45, 48, 46, 42, 38, 35, 32],
+    },
+    {
+      title: 'Reduction Progress',
+      value: '26.8',
+      unit: '%',
+      change: 4.2,
+      changeType: 'positive',
+      icon: 'Target',
+      trend: [25, 28, 30, 32, 35, 38, 42],
+    },
+    {
+      title: 'Compliance Score',
+      value: '87',
+      unit: '/100',
+      change: 2.1,
+      changeType: 'positive',
+      icon: 'Shield',
+      trend: [75, 78, 80, 82, 84, 86, 87],
+    },
+  ];
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    // Simulate API call
+    setTimeout(() => {
+      setLastRefresh(new Date());
+      setIsRefreshing(false);
+    }, 2000);
+  };
+
+  const formatTime = (date: any) => {
+    return date?.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    });
+  };
+
+  useEffect(() => {
+    // Auto-refresh every 15 minutes
+    const interval = setInterval(
+      () => {
+        handleRefresh();
+      },
+      15 * 60 * 1000
+    );
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const scatterOptions = {
@@ -579,6 +671,47 @@ const PortfolioClimateRisk = () => {
 );
 
 
+  const OldReductionTargetsCard = () => (
+    <div className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-3 space-y-4">
+      <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">Reduction Targets</h3>
+      <div className="space-y-2">
+        <div className="flex items-center justify-between p-2 border-b border-border-light last:border-b-0">
+          <div className="text-sm sm:text-base font-normal text-text-primary">Target 1</div>
+          <div className="text-sm sm:text-base font-semibold text-green-500">On Track</div>
+        </div>
+        <div className="flex items-center justify-between p-2 border-b border-border-light last:border-b-0">
+          <div className="text-sm sm:text-base font-normal text-text-primary">Target 2</div>
+          <div className="text-sm sm:text-base font-semibold text-yellow-500">At Risk</div>
+        </div>
+        <div className="flex items-center justify-between p-2 border-b border-border-light last:border-b-0">
+          <div className="text-sm sm:text-base font-normal text-text-primary">Target 3</div>
+          <div className="text-sm sm:text-base font-semibold text-green-500">On Track</div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const OldComplianceStatusCard = () => (
+    <div className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-3 space-y-4">
+      <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">Compliance Status</h3>
+      <div className="space-y-2">
+        <div className="flex items-center justify-between p-2 border-b border-border-light last:border-b-0">
+          <div className="text-sm sm:text-base font-normal text-text-primary">Regulation A</div>
+          <div className="text-sm sm:text-base font-semibold text-green-500">In Compliance</div>
+        </div>
+        <div className="flex items-center justify-between p-2 border-b border-border-light last:border-b-0">
+          <div className="text-sm sm:text-base font-normal text-text-primary">Regulation B</div>
+          <div className="text-sm sm:text-base font-semibold text-red-500">Non-Compliant</div>
+        </div>
+        <div className="flex items-center justify-between p-2 border-b border-border-light last:border-b-0">
+          <div className="text-sm sm:text-base font-normal text-text-primary">Regulation C</div>
+          <div className="text-sm sm:text-base font-semibold text-green-500">In Compliance</div>
+        </div>
+      </div>
+    </div>
+  );
+
+
   return (
     <>
       <Helmet>
@@ -588,25 +721,61 @@ const PortfolioClimateRisk = () => {
         <meta property="og:description" content="Comprehensive climate risk assessment dashboard for investment portfolios. Monitor ESG ratings, emissions data, and climate hazard metrics for informed investment decisions." />
       </Helmet>
       <main className="w-full bg-background-main">
-        <Header />
-
+        <Header /> 
         <div className="w-full px-3 sm:px-6 lg:px-3">
           <div className="bg-background-card rounded-none p-3 sm:p-6 lg:p-3 mb-3 overflow-y-auto">
-
-            <div className="flex justify-end mb-6 sm:mb-8 lg:mb-6">
-              <div className="flex bg-gray-200 rounded-xl overflow-hidden w-[380px] h-[25px] p-1">
-                {timeButtons.map((button, index) => (
-                  <button
-                    key={button.label}
-                    className={`flex-1 flex items-center justify-center text-sm font-semibold font-Inter text-center transition-all duration-200 ${
-                      button.active
-                        ? 'bg-primary-background text-text-white rounded-lg'
-                        : 'bg-transparent text-text-secondary hover:bg-purple-200'
-                    }`}
-                    onClick={() => handleTimeButtonClick(button.label)}
-                  >
-                    {button.label}
-                  </button>
+            <div className="bg-card border-b border-border shadow-elevation-1">
+              <div className="w-100 mx-auto px-6 py-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h1 className="text-2xl font-semibold text-foreground">Emissions Overview</h1>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Portfolio-wide carbon footprint monitoring and compliance tracking
+                    </p>
+                  </div>
+                  {/* --- Modified Section: Added Select component --- */}
+                  <div className="flex items-center gap-4">
+                    <div className="w-[180px]">
+                      <Select
+                        options={portfolioOptions}
+                        value={selectedPortfolio}
+                        onChange={(e) => setSelectedPortfolio(e.target.value)}
+                        placeholder="Select Portfolio"
+                      />
+                    </div>
+                    <div className="flex bg-gray-200 rounded-xl overflow-hidden w-[380px] h-[25px] p-1">
+                      {timeButtons.map((button, index) => (
+                        <button
+                          key={button.label}
+                          className={`flex-1 flex items-center justify-center text-sm font-semibold font-Inter text-center transition-all duration-200 ${
+                            button.active
+                              ? 'bg-primary-background text-text-white rounded-lg'
+                              : 'bg-transparent text-text-secondary hover:bg-purple-200'
+                          }`}
+                          onClick={() => handleTimeButtonClick(button.label)}
+                        >
+                          {button.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  {/* --- End of Modified Section --- */}
+                </div>
+              </div>
+          
+              <div className="max-w-7xl mx-auto px-6 py-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                {kpiData?.map((kpi: any, index: any) => (
+                  <EmissionsKPICard
+                    key={index}
+                    title={kpi?.title}
+                    value={kpi?.value}
+                    unit={kpi?.unit}
+                    change={kpi?.change}
+                    changeType={kpi?.changeType}
+                    icon={kpi?.icon}
+                    trend={kpi?.trend}
+                  />
                 ))}
               </div>
             </div>
@@ -682,8 +851,6 @@ const PortfolioClimateRisk = () => {
                               transform={`rotate(${needleRotation} 50 45)`}
                             />
                           </svg>
-
-        
                         </div>
                       </div>
                     </div>
@@ -719,6 +886,7 @@ const PortfolioClimateRisk = () => {
                     <span>High Exposure / High Risk</span>
                   </div>
                 </div>
+                <ReductionTargetsCard />
               </div>
 
               <div className="space-y-3 sm:space-y-6 lg:space-y-3">
@@ -863,14 +1031,15 @@ const PortfolioClimateRisk = () => {
                                 />
                             )}
                         </div>
+                        <ComplianceStatusCard />
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6 lg:gap-3">
               <div className="space-y-3 sm:space-y-6 lg:space-y-3">
+                {/* Portfolio Risks & Opportunities section remains the same */}
                 <Button
                   text="Portfolio Risks & Opportunities"
                   text_font_size="text-md"
@@ -889,22 +1058,20 @@ const PortfolioClimateRisk = () => {
                   className="w-full"
                 />
 
+                {/* Top and Bottom performing companies */}
                 <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
                   <div className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3">
                     <h4 className="text-md font-bold text-primary-dark mb-4">Top Performing Company</h4>
-
                     <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-2 sm:p-4 lg:p-2 border border-background-overlay rounded-base">
                       <div className="flex items-center gap-2 sm:gap-3 lg:gap-2">
                         <img src={topCompany?.avatar} alt={topCompany?.name} className="w-6 h-6 rounded-2xl" />
                         <span className="text-sm font-normal text-text-primary">{topCompany?.name}</span>
                       </div>
-
                       <Line
                         fill_background_color="bg-background-overlay"
                         {...{ 'w*h': '1*20' }}
                         className="mx-2"
                       />
-
                       <div className="flex-1">
                         <span className="text-base font-normal text-text-primary text-center block">{topCompany?.sector}</span>
                       </div>
@@ -913,19 +1080,16 @@ const PortfolioClimateRisk = () => {
 
                   <div className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3">
                     <h4 className="text-md font-bold text-primary-dark mb-4">Lowest Performing Company</h4>
-
                     <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-2 sm:p-4 lg:p-2 border border-background-overlay rounded-base">
                       <div className="flex items-center gap-2 sm:gap-3 lg:gap-2">
                         <img src={bottomCompany?.avatar} alt={bottomCompany?.name} className="w-6 h-6 rounded-2xl" />
                         <span className="text-sm font-normal text-text-primary">{bottomCompany?.name}</span>
                       </div>
-
                       <Line
                         fill_background_color="bg-background-overlay"
                         {...{ 'w*h': '1*20' }}
                         className="mx-2"
                       />
-
                       <div className="flex-1">
                         <span className="text-base font-normal text-text-primary text-center block">{bottomCompany?.sector}</span>
                       </div>
@@ -933,6 +1097,7 @@ const PortfolioClimateRisk = () => {
                   </div>
                 </List>
 
+                {/* Top and Bottom industries */}
                 <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
                   <div className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3">
                     <h4 className="text-md font-bold text-primary-dark mb-4">Top 5 Industries</h4>
@@ -962,11 +1127,16 @@ const PortfolioClimateRisk = () => {
                 {actionHubContent}
               </div>
             </div>
+
+            <div className="mt-3 sm:mt-6 lg:mt-3">
+              <EmissionsSummaryTable />
+            </div>
           </div>
+        </div>
         </div>
       </main>
     </>
   );
-};
+}
 
 export default PortfolioClimateRisk;
