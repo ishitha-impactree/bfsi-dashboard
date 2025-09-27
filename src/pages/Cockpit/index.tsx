@@ -90,6 +90,29 @@ const PortfolioClimateRisk = () => {
     },
   ];
 
+  const taskList: any = [
+    {
+      id: 1,
+      taskName: 'Review Pending',
+      taskDescription: 'Q3 Emissions Report for Pama Sports.',
+    },
+    {
+      id: 2,
+      taskName: 'Task Due',
+      taskDescription: 'Quarterly Risk Review for the "Chemicals" Sector.',
+    },
+    {
+      id: 3,
+      taskName: 'Data Gap',
+      taskDescription: 'Missing Scope 3 emissions data for Abibas.',
+    },
+    {
+      id: 4,
+      taskName: 'Risk Score Alert',
+      taskDescription: "Haldisita's risk score increased 15% to High Risk.",
+    },
+  ];
+
   const handleRefresh = async () => {
     setIsRefreshing(true);
     setTimeout(() => {
@@ -642,21 +665,21 @@ const PortfolioClimateRisk = () => {
           rx="1"
           ry="1"
         />
-        <text x="0" y="4" textAnchor="middle" fontSize="10" fontWeight="700" fill="#FFFFFF">
+        {/* <text x="0" y="4" textAnchor="middle" fontSize="10" fontWeight="700" fill="#FFFFFF">
           {String(value)}
-        </text>
+        </text> */}
       </g>
     </svg>
   );
 
   const actionHubContent = (
-    <div className="space-y-3 sm:space-y-6 lg:space-y-3">
+    <div className="space-y-3 sm:space-y-6 lg:space-y-3" style={{ background: '#f1f6ff' }}>
       <Button
         text="Action Hub"
         text_font_size="text-md"
         text_font_family="Inter"
         text_font_weight="font-bold"
-        text_line_height="leading-md"
+        text_line_height="leading-lg"
         text_text_align="center"
         text_color="text-primary-dark"
         fill_background_color="bg-background-light"
@@ -664,46 +687,77 @@ const PortfolioClimateRisk = () => {
         border_border_right=""
         border_border_left=""
         border_border_bottom=""
-        border_border_top="border-t-[1px] border-border-accept"
+        border_border_top="border-t-[1px] border-border-accent"
         padding="py-3 px-8"
         className="w-full"
+        style={{ background: 'white' }}
       />
-      <div className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-3">
+      <div className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-0">
         <List direction="row" className="gap-3 sm:gap-4 lg:gap-3 mb-4">
-          <div className="flex-1 flex flex-col sm:flex-row justify-between items-center bg-[#ecf2ff7f] border-l-[3px] border-purple-500 rounded-none p-3 sm:p-4 lg:p-3">
-            <span className="text-sm sm:text-base font-semibold text-text-primary">
-              Pending Items
-            </span>
+          <div
+            className="flex-1 flex flex-col sm:flex-row justify-between items-center bg-[#ecf2ff7f] border-l-[3px] border-purple-500 rounded-none p-3 sm:p-4 lg:p-3 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+            style={{ background: 'white' }}
+          >
+            <div>
+              <p className="text-sm sm:text-base font-semibold text-text-primary">Pending Items</p>
+              <p
+                className="text-2xl sm:text-base font-semibold text-text-primary"
+                style={{ fontSize: '24px' }}
+              >
+                5
+              </p>
+            </div>
             <div className="flex items-center gap-2">
-              <DiamondCounter color="#8065B3" value={5} />
+              <DiamondCounter color="#8065B3" value="0" />
             </div>
           </div>
-          <div className="flex-1 flex flex-col sm:flex-row justify-between items-center bg-[#ecf2ff7f] border-l-[3px] border-red-500 rounded-none p-3 sm:p-4 lg:p-3">
-            <span className="text-sm sm:text-base font-semibold text-text-primary">
-              Critical Points
-            </span>
+          <div
+            className="flex-1 flex flex-col sm:flex-row justify-between items-center bg-[#ecf2ff7f] border-l-[3px] border-purple-500 rounded-none p-3 sm:p-4 lg:p-3 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+            style={{ background: 'white' }}
+          >
+            <div>
+              <p className="text-sm sm:text-base font-semibold text-text-primary">
+                Critical Points
+              </p>
+              <p
+                className="text-2xl sm:text-base font-semibold text-text-primary"
+                style={{ fontSize: '24px' }}
+              >
+                3
+              </p>
+            </div>
             <div className="flex items-center gap-2">
               <DiamondCounter color="#EF4444" value={3} />
             </div>
           </div>
         </List>
 
-        <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">
+        <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-2">
           Task List
         </h3>
 
-        <div className="space-y-3 sm:space-y-6 lg:space-y-3">
-          <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-3 sm:p-6 lg:p-3 border border-background-overlay rounded-base">
-            <img src="/images/purple-diamond.svg" alt="Review Pending" className="w-6 h-6" />
-            <div className="flex-1">
-              <div className="text-sm sm:text-base font-semibold text-text-primary">
-                Review Pending
+        <div
+          className="space-y-3 sm:space-y-6 lg:space-y-0 bg-card rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+          style={{ height: 240, background: 'white' }}
+        >
+          {taskList?.map((task: any) => {
+            return (
+              <div
+                key={task?.id}
+                className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-3 sm:p-6 lg:p-3 border border-background-overlay rounded-base"
+              >
+                <img src="/images/purple-diamond.svg" alt="Review Pending" className="w-6 h-6" />
+                <div className="flex-1">
+                  <div className="text-md sm:text-base font-semibold text-text-primary">
+                    {task?.taskName}
+                  </div>
+                  <div className="text-sm sm:text-sm font-normal text-text-primary">
+                    {task?.taskDescription}
+                  </div>
+                </div>
               </div>
-              <div className="text-xs sm:text-sm font-normal text-text-primary">
-                Q3 Emissions Report for Pama Sports.
-              </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -770,42 +824,47 @@ const PortfolioClimateRisk = () => {
           content="Comprehensive climate risk assessment dashboard for investment portfolios. Monitor ESG ratings, emissions data, and climate hazard metrics for informed investment decisions."
         />
       </Helmet>
-      <main className="w-full bg-background-main">
+      <main className="w-full" style={{ background: '#f8fafc' }}>
         <Header />
-        <div className="w-full px-3 sm:px-6 lg:px-3">
-          <div className="bg-background-card rounded-none p-3 sm:p-6 lg:p-3 mb-3 overflow-y-auto">
-            <div className="bg-card border-b border-border shadow-elevation-1">
-              <div className="w-100 mx-auto px-6 py-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h1 className="text-2xl font-semibold text-foreground">Emissions Overview</h1>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      Portfolio-wide carbon footprint monitoring and compliance tracking
-                    </p>
-                  </div>
-                  <div className="flex justify-end mb-6 sm:mb-8 lg:mb-6">
-                    <div className="flex bg-gray-200 rounded-xl overflow-hidden w-[380px] h-[25px] p-1">
-                      {timeButtons.map((button, index) => (
-                        <button
-                          key={button.label}
-                          className={`flex-1 flex items-center justify-center text-sm font-semibold font-Inter text-center transition-all duration-200 ${
-                            button.active
-                              ? 'bg-primary-background text-text-white rounded-lg'
-                              : 'bg-transparent text-text-secondary hover:bg-purple-200'
-                          }`}
-                          onClick={() => handleTimeButtonClick(button.label)}
-                        >
-                          {button.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+        <div
+          className="bg-card border-b border-border shadow-elevation-1 px-8"
+          style={{ background: 'white', marginTop: '70px' }}
+        >
+          <div className="w-100 mx-auto px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl font-semibold text-foreground">Emissions Overview</h1>
+                <p className="text-md text-muted-foreground mt-1">
+                  Portfolio-wide carbon footprint monitoring and compliance tracking
+                </p>
+              </div>
+              <div className="flex justify-end mb-0 sm:mb-8 lg:mb-0">
+                <div className="flex bg-gray-200 rounded-xl overflow-hidden w-[380px] h-[25px] p-1">
+                  {timeButtons.map((button, index) => (
+                    <button
+                      key={button.label}
+                      className={`flex-1 flex items-center justify-center text-sm font-semibold font-Inter text-center transition-all duration-200 ${
+                        button.active
+                          ? 'bg-primary-background text-text-white rounded-lg'
+                          : 'bg-transparent text-text-secondary hover:bg-purple-200'
+                      }`}
+                      onClick={() => handleTimeButtonClick(button.label)}
+                    >
+                      {button.label}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
-
-            <div className="max-w-7xl mx-auto px-6 py-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-0">
+          </div>
+        </div>
+        <div className="w-full px-8" style={{ background: '#f8fafc' }}>
+          {/* <div className="bg-background-card rounded-none p-3 sm:p-6 lg:p-3 mb-3 overflow-y-auto"> */}
+          <div className="rounded-none p-3 sm:p-6 lg:p-3 mb-3 overflow-y-auto">
+            <div className="max-w-7xl mx-auto py-8">
+              {/* <div className="w-100 py-4"> */}
+              {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-0"> */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-0">
                 {kpiData?.map((kpi: any, index: any) => (
                   <EmissionsKPICard
                     key={index}
@@ -824,7 +883,11 @@ const PortfolioClimateRisk = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6 lg:gap-3 mb-6 sm:mb-8 lg:mb-6">
               <div className="space-y-3 sm:space-y-6 lg:space-y-3">
                 <List direction="row" className="gap-3 sm:gap-6 lg:gap-3">
-                  <div className="flex-1 bg-[#ecf2ff7f] border-l-[3px] border-amber-400 rounded-none p-2 sm:p-4 lg:p-2">
+                  <div
+                    // className="flex-1 bg-[#ecf2ff7f] border-l-[3px] border-amber-400 rounded-none p-2 sm:p-4 lg:p-2"
+                    className="flex-1 bg-[#ecf2ff7f] border-l-[3px] border-purple-500 rounded-none p-2 sm:p-4 lg:p-2 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                    style={{ background: 'white' }}
+                  >
                     <div className="flex justify-end items-center mb-2">
                       <img
                         src="/images/img_arrow_drop_up_red_500.svg"
@@ -899,7 +962,11 @@ const PortfolioClimateRisk = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex-1 bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2">
+                  <div
+                    // className="flex-1 bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2"
+                    className="flex-1 bg-[#ecf2ff7f] border-l-[3px] border-purple-500 rounded-none p-2 sm:p-4 lg:p-2 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                    style={{ background: 'white' }}
+                  >
                     <div className="flex justify-end items-center mb-2">
                       <img
                         src="/images/img_arrow_drop_up.svg"
@@ -918,7 +985,11 @@ const PortfolioClimateRisk = () => {
                     </div>
                   </div>
                 </List>
-                <div className="bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2">
+                <div
+                  // className="bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2"
+                  className="flex-1 bg-[#ecf2ff7f] border-l-[3px] border-purple-500 rounded-none p-2 sm:p-4 lg:p-2 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                  style={{ background: 'white' }}
+                >
                   <div className="flex justify-end items-center mb-2">
                     <img
                       src="/images/img_arrow_drop_up.svg"
@@ -938,7 +1009,11 @@ const PortfolioClimateRisk = () => {
                   </div>
                 </div>
 
-                <div className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-5">
+                <div
+                  // className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-5"
+                  className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-5 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                  style={{ background: 'white' }}
+                >
                   <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">
                     Climate Risk Exposure Matrix
                   </h3>
@@ -965,7 +1040,7 @@ const PortfolioClimateRisk = () => {
                 <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
                   {portfolioScopes?.map((scope, index) => (
                     <div key={index} className="flex-1">
-                      <div className="bg-background-light border-b border-background-overlay rounded-t-xl p-2 sm:p-4 lg:p-2">
+                      <div className="bg-background-light border border-border rounded-t-xl p-2 sm:p-4 lg:p-2">
                         <div className="flex justify-between items-center">
                           <span className="text-xs sm:text-md font-semibold text-text-primary">
                             {scope?.title}
@@ -980,7 +1055,7 @@ const PortfolioClimateRisk = () => {
                               alt={scope?.isPositive ? 'Increase' : 'Decrease'}
                               className="w-3 h-3 mr-1"
                             />
-                            <span className="text-xs font-normal text-text-dark">
+                            <span className="text-sm font-normal text-text-dark">
                               {scope?.change}
                             </span>
                           </div>
@@ -999,7 +1074,10 @@ const PortfolioClimateRisk = () => {
 
                 <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
                   <div className="flex-1">
-                    <div className="bg-background-light border-b border-background-overlay rounded-t-xl p-2 sm:p-4 lg:p-2">
+                    <div
+                      // className="bg-background-light border-b border-background-overlay rounded-t-xl p-2 sm:p-4 lg:p-2"
+                      className="bg-background-light border border-border rounded-t-xl p-2 sm:p-4 lg:p-2"
+                    >
                       <div className="flex justify-between items-center">
                         <span className="text-xs sm:text-md font-semibold text-text-primary">
                           Portfolio LTIFR
@@ -1010,7 +1088,7 @@ const PortfolioClimateRisk = () => {
                             alt="Decrease"
                             className="w-3 h-3 mr-1"
                           />
-                          <span className="text-xs font-normal text-text-dark">20%</span>
+                          <span className="text-sm font-normal text-text-dark">20%</span>
                         </div>
                       </div>
                     </div>
@@ -1039,7 +1117,10 @@ const PortfolioClimateRisk = () => {
                   </div>
 
                   <div className="flex-1">
-                    <div className="bg-background-light border-b border-background-overlay rounded-t-xl p-2 sm:p-4 lg:p-2">
+                    <div
+                      // className="bg-background-light border-b border-background-overlay rounded-t-xl p-2 sm:p-4 lg:p-2"
+                      className="bg-background-light border border-border rounded-t-xl p-2 sm:p-4 lg:p-2"
+                    >
                       <div className="flex justify-between items-center">
                         <span className="text-xs sm:text-md font-semibold text-text-primary">
                           Active Legal Cases in your Portfolio
@@ -1050,7 +1131,7 @@ const PortfolioClimateRisk = () => {
                             alt="Decrease"
                             className="w-3 h-3 mr-1"
                           />
-                          <span className="text-xs font-normal text-text-dark">2.5%</span>
+                          <span className="text-sm font-normal text-text-dark">2.5%</span>
                         </div>
                       </div>
                     </div>
@@ -1078,7 +1159,7 @@ const PortfolioClimateRisk = () => {
                   </div>
                 </List>
 
-                <div className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-3">
+                <div className="bg-background-light border border-border rounded-xl p-3 sm:p-6 lg:p-3">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6 lg:gap-3">
                     <div className="space-y-3 sm:space-y-6 lg:space-y-3">
                       {/* <div className="bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2">
@@ -1101,7 +1182,10 @@ const PortfolioClimateRisk = () => {
                         </div>
                       </div> */}
 
-                      <div className="bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-5">
+                      <div
+                        className="border-l-[3px] border-purple-500 rounded-none p-2 sm:p-4 lg:p-5"
+                        style={{ background: 'white' }}
+                      >
                         <div className="space-y-2 sm:space-y-4 lg:space-y-4">
                           {esgRatings?.map((rating, index) => (
                             <div
@@ -1127,7 +1211,10 @@ const PortfolioClimateRisk = () => {
                       </div>
                     </div>
 
-                    <div className="flex-1 bg-background-light rounded-xl p-3 sm:p-6 lg:p-5">
+                    <div
+                      className="flex-1 bg-background-light rounded-xl p-3 sm:p-6 lg:p-5"
+                      style={{ background: 'white' }}
+                    >
                       <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">
                         Financed Emissions
                       </h3>
@@ -1156,14 +1243,17 @@ const PortfolioClimateRisk = () => {
               </div>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-6 lg:gap-3">
-              <div className="space-y-3 sm:space-y-6 lg:space-y-3">
+              <div
+                className="space-y-3 sm:space-y-6 lg:space-y-3"
+                style={{ background: '#f1f6ff' }}
+              >
                 {/* Portfolio Risks & Opportunities section remains the same */}
                 <Button
                   text="Portfolio Risks & Opportunities"
                   text_font_size="text-md"
                   text_font_family="Inter"
                   text_font_weight="font-bold"
-                  text_line_height="leading-md"
+                  text_line_height="leading-lg"
                   text_text_align="center"
                   text_color="text-primary-dark"
                   fill_background_color="bg-background-light"
@@ -1174,10 +1264,14 @@ const PortfolioClimateRisk = () => {
                   border_border_top="border-t-[1px] border-border-accent"
                   padding="py-3 px-8"
                   className="w-full"
+                  style={{ background: 'white' }}
                 />
 
                 <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
-                  <div className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3">
+                  <div
+                    className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                    style={{ background: 'white' }}
+                  >
                     <h4 className="text-md font-bold text-primary-dark mb-4">
                       Top Performing Company
                     </h4>
@@ -1205,7 +1299,10 @@ const PortfolioClimateRisk = () => {
                     </div>
                   </div>
 
-                  <div className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3">
+                  <div
+                    className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                    style={{ background: 'white' }}
+                  >
                     <h4 className="text-md font-bold text-primary-dark mb-4">
                       Lowest Performing Company
                     </h4>
@@ -1235,7 +1332,10 @@ const PortfolioClimateRisk = () => {
                 </List>
 
                 <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
-                  <div className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3">
+                  <div
+                    className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                    style={{ background: 'white' }}
+                  >
                     <h4 className="text-md font-bold text-primary-dark mb-4">Top 5 Industries</h4>
                     <div className="mt-4 space-y-2">
                       {top5Industries.map((industry, index) => (
@@ -1249,7 +1349,10 @@ const PortfolioClimateRisk = () => {
                     </div>
                   </div>
 
-                  <div className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3">
+                  <div
+                    className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                    style={{ background: 'white' }}
+                  >
                     <h4 className="text-md font-bold text-primary-dark mb-4">
                       Bottom 5 Industries
                     </h4>

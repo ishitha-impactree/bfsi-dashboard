@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, TooltipProps } from 'recharts';
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  ReferenceLine,
+  TooltipProps,
+} from 'recharts';
 import Icon from '../../components/ui/AppIcon';
 import Button from '../../components/ui/Button';
-import {
-  ValueType,
-  NameType,
-} from 'recharts/types/component/DefaultTooltipContent';
+import { ValueType, NameType } from 'recharts/types/component/DefaultTooltipContent';
 
 interface EmissionsData {
   year: string;
@@ -22,6 +29,7 @@ interface TimeframeOption {
 const EmissionsTrajectory = () => {
   const [selectedTimeframe, setSelectedTimeframe] = useState<string>('yearly');
   const [showBenchmark, setShowBenchmark] = useState<boolean>(false);
+  const [showExport, setShowExport] = useState<boolean>(false);
 
   const emissionsData: EmissionsData[] = [
     { year: '2024', emissions: 2850, benchmark: 3200, target: 2800 },
@@ -29,13 +37,13 @@ const EmissionsTrajectory = () => {
     { year: '2026', emissions: 2400, benchmark: 2800, target: 2200 },
     { year: '2027', emissions: 2150, benchmark: 2600, target: 1900 },
     { year: '2028', emissions: 1900, benchmark: 2400, target: 1600 },
-    { year: '2029', emissions: 1650, benchmark: 2200, target: 1300 }
+    { year: '2029', emissions: 1650, benchmark: 2200, target: 1300 },
   ];
 
   const timeframeOptions: TimeframeOption[] = [
     { value: 'monthly', label: 'Monthly' },
     { value: 'quarterly', label: 'Quarterly' },
-    { value: 'yearly', label: 'Yearly' }
+    { value: 'yearly', label: 'Yearly' },
   ];
 
   const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
@@ -66,7 +74,11 @@ const EmissionsTrajectory = () => {
   };
 
   return (
-    <div className="bg-card border border-border rounded-lg p-6 shadow-elevation-1">
+    <div
+      // className="bg-card border border-border rounded-lg p-6 shadow-elevation-1"
+      className="bg-background-light border border-border rounded-xl p-3 sm:p-6 lg:p-5 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+      style={{ background: 'white' }}
+    >
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-lg font-semibold text-foreground">Emissions Trajectory</h2>
@@ -81,7 +93,7 @@ const EmissionsTrajectory = () => {
                 onClick={() => setSelectedTimeframe(option.value)}
                 className={`px-3 py-1 text-sm rounded-md transition-colors duration-150 ${
                   selectedTimeframe === option.value
-                    ? 'bg-primary text-primary-foreground'
+                    ? 'bg-violet-500 text-primary-foreground'
                     : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                 }`}
               >
@@ -92,33 +104,38 @@ const EmissionsTrajectory = () => {
 
           <div className="flex items-center space-x-2">
             <Button
-              variant="outline"
-              size="sm"
+              size="small"
+              text_font_size="text-sm"
+              text_line_height="leading-md"
               onClick={() => setShowBenchmark(!showBenchmark)}
-              className={showBenchmark ? 'bg-muted' : ''}
+              className={showBenchmark ? 'bg-violet-500 text-primary-foreground' : 'bg-muted'}
+              style={{ border: 'none' }}
             >
-              <Icon name="BarChart3" size={14} />
+              <Icon name="BarChart3" size={12} />
               <span className="ml-1">Benchmark</span>
             </Button>
 
             <Button
-              variant="outline"
-              size="sm"
-              onClick={handleExport}
-              iconName="Download"
-              iconSize={14}
+              // variant="outline"
+              size="small"
+              // onClick={handleExport}
+              onClick={() => setShowExport(!showExport)}
+              className={showExport ? 'bg-violet-500 text-primary-foreground' : 'bg-muted'}
+              text_font_size="text-sm"
+              text_line_height="leading-md"
+              style={{ border: 'none' }}
+              // iconName="Download"
+              // iconSize={14}
             >
-              Export
+              <Icon name="Download" size={12} />
+              <span className="ml-1">Export</span>
             </Button>
           </div>
         </div>
       </div>
       <div className="h-80 w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart
-            data={emissionsData}
-            margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
-          >
+          <AreaChart data={emissionsData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
             <defs>
               <linearGradient id="emissionsGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#8B5CF6" stopOpacity={0.8} />
@@ -173,7 +190,7 @@ const EmissionsTrajectory = () => {
               stroke="#10B981"
               strokeDasharray="8 8"
               strokeWidth={2}
-              label={{ value: "2030 Target", position: "topRight" }}
+              label={{ value: '2030 Target', position: 'topRight' }}
             />
           </AreaChart>
         </ResponsiveContainer>
@@ -197,11 +214,12 @@ const EmissionsTrajectory = () => {
         </div>
 
         <div className="text-sm text-muted-foreground">
-          Last updated: {new Date().toLocaleString('en-US', {
+          Last updated:{' '}
+          {new Date().toLocaleString('en-US', {
             month: 'short',
             day: 'numeric',
             hour: '2-digit',
-            minute: '2-digit'
+            minute: '2-digit',
           })}
         </div>
       </div>

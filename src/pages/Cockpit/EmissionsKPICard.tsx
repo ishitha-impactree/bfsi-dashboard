@@ -15,7 +15,10 @@ const EmissionsKPICard = ({ title, value, unit, change, changeType, icon, trend 
   };
 
   return (
-    <div className="bg-card border border-border rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200">
+    <div
+      className="bg-card border border-border rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+      style={{ background: 'white' }}
+    >
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center space-x-3">
           <div
@@ -25,8 +28,8 @@ const EmissionsKPICard = ({ title, value, unit, change, changeType, icon, trend 
             <Icon name={icon} size={20} color="white" />
           </div>
           <h3
-            className="text-md font-medium text-muted-foreground fw-500"
-            style={{ color: '#64748b' }}
+            className="text-lg font-bold fw-500"
+            // style={{ color: '#64748b' }}
           >
             {title}
           </h3>

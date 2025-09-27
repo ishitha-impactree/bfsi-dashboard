@@ -51,13 +51,13 @@ const ComplianceStatusCard = () => {
   const getStatusColor = (status: ComplianceStatus): string => {
     switch (status) {
       case 'compliant':
-        return 'text-success';
+        return '#22be8a';
       case 'in-progress':
-        return 'text-primary';
+        return '#8B5CF6';
       case 'pending':
-        return 'text-warning';
+        return '#f7ad32';
       case 'at-risk':
-        return 'text-error';
+        return '#f26262';
       default:
         return 'text-muted-foreground';
     }
@@ -127,7 +127,10 @@ const ComplianceStatusCard = () => {
   );
 
   return (
-    <div className="bg-card border border-border rounded-lg p-6 shadow-elevation-1">
+    <div
+      className="bg-card border border-border rounded-lg p-6 shadow-elevation-1"
+      style={{ background: 'white' }}
+    >
       <div className="flex items-center justify-between mb-6">
         <div>
           <h3 className="text-lg font-semibold text-foreground">Compliance Status</h3>
@@ -151,7 +154,7 @@ const ComplianceStatusCard = () => {
                     ? 'AlertTriangle'
                     : 'ShieldX'
               }
-              size={16}
+              size={18}
               className={
                 overallCompliance >= 80
                   ? 'text-success'
@@ -159,15 +162,16 @@ const ComplianceStatusCard = () => {
                     ? 'text-warning'
                     : 'text-error'
               }
+              color="#f7ad32"
             />
           </div>
           <div className="text-right">
             <div className="text-sm font-medium text-foreground">{overallCompliance}%</div>
-            <div className="text-xs text-muted-foreground">Overall</div>
+            <div className="text-sm text-muted-foreground">Overall</div>
           </div>
         </div>
       </div>
-      <div className="space-y-4">
+      <div className="space-y-4 p-2" style={{ height: 300, overflowY: 'scroll' }}>
         {complianceItems.map((item) => (
           <div key={item.id} className="space-y-3">
             <div className="flex items-start justify-between">
@@ -177,8 +181,10 @@ const ComplianceStatusCard = () => {
                 >
                   <Icon
                     name={getStatusIcon(item.status)}
-                    size={12}
+                    size={15}
                     className={getStatusColor(item.status)}
+                    // color="#8B5CF6"
+                    color={getStatusColor(item.status)}
                   />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -193,16 +199,42 @@ const ComplianceStatusCard = () => {
                     </span>
                   </div>
                   <p className="text-sm text-muted-foreground mt-1">{item.description}</p>
-                  <div className="flex items-center justify-between mt-2">
+                  <div className="flex items-center justify-between mt-0">
                     <span className="text-sm text-muted-foreground">
                       {formatDeadline(item.deadline)}
                     </span>
-                    <span className="text-xs font-medium text-foreground">{item.progress}%</span>
+                    <span className="text-sm font-medium text-foreground">{item.progress}%</span>
                   </div>
-                  <progress id="file" value="32" max="100" style={{ width: '100%', height: '5px' }}>
-                    {' '}
-                    32%{' '}
-                  </progress>
+                  {/* <progress
+                    id="file"
+                    value="32"
+                    max="100"
+                    // style={{ width: '100%', height: '5px' }}
+                    style={{
+                      width: '100%',
+                      height: '5px',
+                      borderRadius: '9999px', // fully rounded
+                      overflow: 'hidden',
+                      appearance: 'none',
+                    }}
+                  /> */}
+
+                  <div className="mt-2">
+                    <div className="w-full bg-gray-200 rounded-full h-1.5">
+                      <div
+                        className={`h-1.5 rounded-full transition-all duration-300 ${
+                          item?.status === 'compliant'
+                            ? 'bg-green-500'
+                            : item?.status === 'in-progress'
+                              ? 'bg-blue-500'
+                              : item?.status === 'pending'
+                                ? 'bg-yellow-500'
+                                : 'bg-red-500'
+                        }`}
+                        style={{ width: `${item?.progress}%` }}
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
