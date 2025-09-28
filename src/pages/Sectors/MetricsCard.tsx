@@ -17,16 +17,22 @@ const MetricsCard = ({
   changePercentage,
   isPositive,
   hasLeftBorder = false,
-  className
+  className,
 }: MetricsCardProps) => {
   return (
-    <div className={`flex flex-col justify-center items-start w-full ${hasLeftBorder ? 'border-l-[3px] border-l-accent-warning' : ''} ${className || ''}`}>
+    <div
+      // className={`flex flex-col justify-center items-start w-full ${hasLeftBorder ? 'border-l-[3px] border-l-accent-warning' : ''} ${className || ''} `}
+      className="flex-1 bg-[#ecf2ff7f] border-l-[3px] border-purple-500 rounded-none p-2 sm:p-4 lg:p-2 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+      style={{ background: 'white' }}
+    >
       {/* Change Indicator */}
       <div className="flex justify-end items-center w-full px-2 py-[10px]">
         <div className="flex justify-end items-center gap-[3px]">
-          <img 
-            src={isPositive ? "/images/img_arrow_drop_up.svg" : "/images/img_arrow_drop_up_red_500.svg"} 
-            alt={isPositive ? "Increase" : "Decrease"} 
+          <img
+            src={
+              isPositive ? '/images/img_arrow_drop_up.svg' : '/images/img_arrow_drop_up_red_500.svg'
+            }
+            alt={isPositive ? 'Increase' : 'Decrease'}
             className="w-3 h-3"
           />
           <span className="text-xs font-normal leading-sm text-left text-text-dark font-['Inter']">
@@ -41,7 +47,8 @@ const MetricsCard = ({
           {value}
           {unit && (
             <span className="text-lg font-semibold leading-3xl text-left text-text-primary font-['DM Sans']">
-              {' '}{unit}
+              {' '}
+              {unit}
             </span>
           )}
         </div>

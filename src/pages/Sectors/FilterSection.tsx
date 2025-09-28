@@ -15,13 +15,14 @@ interface DropdownProps {
 
 const CustomDropdown = ({ placeholder, options, value, onChange, className }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const selectedOption = options.find(option => option.value === value);
+  const selectedOption = options.find((option) => option.value === value);
 
   return (
     <div className={`relative ${className}`}>
       <button
         className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 font-inter"
         onClick={() => setIsOpen(!isOpen)}
+        style={{ width: 150 }}
       >
         <span className={value ? 'text-gray-800' : 'text-gray-400'}>
           {selectedOption ? selectedOption.label : placeholder}
@@ -64,7 +65,8 @@ const FilterSection = ({ className }: FilterSectionProps) => {
   const [industry, setIndustry] = useState('');
 
   return (
-    <div className={`flex flex-col gap-3 p-4 bg-[#1e293b] rounded-lg ${className || ''}`}>
+    // <div className={`flex flex-row gap-3 p-4 bg-[#1e293b] rounded-lg ${className || ''}`}>
+    <div className={`flex flex-row gap-2 p-2 rounded-lg ${className || ''}`}>
       <CustomDropdown
         placeholder="Sector"
         value={sector}
@@ -80,10 +82,10 @@ const FilterSection = ({ className }: FilterSectionProps) => {
           { value: 'utilities', label: 'Utilities' },
           { value: 'real_estate', label: 'Real Estate' },
           { value: 'materials', label: 'Materials' },
-          { value: 'communication', label: 'Communication Services' }
+          { value: 'communication', label: 'Communication Services' },
         ]}
       />
-      
+
       <CustomDropdown
         placeholder="Industry"
         value={industry}
@@ -103,10 +105,10 @@ const FilterSection = ({ className }: FilterSectionProps) => {
           { value: 'automotive', label: 'Automotive' },
           { value: 'agriculture', label: 'Agriculture' },
           { value: 'transportation', label: 'Transportation & Logistics' },
-          { value: 'media', label: 'Media & Entertainment' }
+          { value: 'media', label: 'Media & Entertainment' },
         ]}
       />
-      
+
       <Button
         text="Filter"
         text_font_size="text-sm"

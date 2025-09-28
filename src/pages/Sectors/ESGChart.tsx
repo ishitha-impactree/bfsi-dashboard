@@ -1,5 +1,15 @@
 import React from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, ReferenceLine } from 'recharts';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+  ReferenceLine,
+} from 'recharts';
 
 interface ESGChartProps {
   className?: string;
@@ -41,9 +51,7 @@ const CustomDot = (props: any) => {
   if (value === null) {
     return null; // Don't render a dot for null values
   }
-  return (
-    <circle cx={cx} cy={cy} r={4} stroke="black" strokeWidth={1} fill={stroke} />
-  );
+  return <circle cx={cx} cy={cy} r={4} stroke="black" strokeWidth={1} fill={stroke} />;
 };
 
 const ESGChart = ({ className }: ESGChartProps) => {
@@ -54,12 +62,11 @@ const ESGChart = ({ className }: ESGChartProps) => {
         <h2 className="text-lg font-bold text-primary-dark">ESG Rating</h2>
       </div>
 
-      <div className="w-full flex-grow" style={{ height: '400px' }}> {/* Increased height */}
+      <div className="w-full flex-grow" style={{ height: '400px' }}>
+        {' '}
+        {/* Increased height */}
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart
-            data={data}
-            margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-          >
+          <LineChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
             <CartesianGrid stroke="#f3f4f6" strokeDasharray="3 3" vertical={false} />
             <XAxis
               dataKey="name"
@@ -83,16 +90,16 @@ const ESGChart = ({ className }: ESGChartProps) => {
               iconType="square"
               iconSize={10}
               wrapperStyle={{ top: -20, right: 0, paddingBottom: '10px' }}
-              formatter={(value) => <span className="text-xs text-text-primary">{value}</span>}
+              formatter={(value) => <span className="text-sm text-text-primary">{value}</span>}
             />
             <Line
               type="monotone"
               dataKey="Environment"
               name="Environment"
               stroke="#fba900"
-              strokeWidth={3} // Increased stroke width
+              strokeWidth={2} // Increased stroke width
               dot={<CustomDot />}
-              activeDot={{ r: 10, stroke: '#fba900', strokeWidth: 2 }} // Larger active dot
+              activeDot={{ r: 6, stroke: '#fba900', strokeWidth: 2 }} // Larger active dot
               connectNulls={false}
             />
             <Line
@@ -100,9 +107,9 @@ const ESGChart = ({ className }: ESGChartProps) => {
               dataKey="Social"
               name="Social"
               stroke="#38c4f7"
-              strokeWidth={3} // Increased stroke width
+              strokeWidth={2} // Increased stroke width
               dot={<CustomDot />}
-              activeDot={{ r: 10, stroke: '#38c4f7', strokeWidth: 2 }} // Larger active dot
+              activeDot={{ r: 6, stroke: '#38c4f7', strokeWidth: 2 }} // Larger active dot
               connectNulls={false}
             />
             <Line
@@ -110,9 +117,9 @@ const ESGChart = ({ className }: ESGChartProps) => {
               dataKey="Governance"
               name="Governance"
               stroke="#05ff00"
-              strokeWidth={3} // Increased stroke width
+              strokeWidth={2} // Increased stroke width
               dot={<CustomDot />}
-              activeDot={{ r: 10, stroke: '#05ff00', strokeWidth: 2 }} // Larger active dot
+              activeDot={{ r: 6, stroke: '#05ff00', strokeWidth: 2 }} // Larger active dot
               connectNulls={false}
             />
             <ReferenceLine y={50} stroke="#e5e7eb" strokeDasharray="3 3" />

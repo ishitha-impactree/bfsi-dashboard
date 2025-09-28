@@ -34,13 +34,16 @@ export default function BenchmarksPage() {
   const [seriesData, setSeriesData] = useState<SeriesData[]>([]);
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [highLowValues, setHighLowValues] = useState<{ high: number; low: number }>({ high: 0, low: 0 });
+  const [highLowValues, setHighLowValues] = useState<{ high: number; low: number }>({
+    high: 0,
+    low: 0,
+  });
 
   const timeFilters: TimeFilter[] = [
     { label: '3 Months', value: '3 Months', active: false },
     { label: '6 Months', value: '6 Months', active: false },
     { label: '1 Year', value: '1 Year', active: true },
-    { label: 'All Time', value: 'All Time', active: false }
+    { label: 'All Time', value: 'All Time', active: false },
   ];
 
   const generateStockData = (timeRange: string): SeriesData[] => {
@@ -84,11 +87,11 @@ export default function BenchmarksPage() {
 
     for (let i = 0; i < dataPoints; i++) {
       const date = new Date(baseDate.getTime() + i * 24 * 60 * 60 * 1000);
-      
+
       if (date.getDay() === 0 || date.getDay() === 6) continue;
 
       const volatility = 1.5;
-      
+
       const industryChange = (Math.random() - 0.5) * volatility + industryTrend;
       industryValue += industryChange;
       industryValue = Math.max(100, Math.min(200, industryValue));
@@ -103,30 +106,30 @@ export default function BenchmarksPage() {
 
       industryData.push({
         x: date.getTime(),
-        y: parseFloat(industryValue.toFixed(2))
+        y: parseFloat(industryValue.toFixed(2)),
       });
 
       portfolioData.push({
         x: date.getTime(),
-        y: parseFloat(portfolioValue.toFixed(2))
+        y: parseFloat(portfolioValue.toFixed(2)),
       });
     }
 
     // Set high/low values for the current time range
     setHighLowValues({
       high: parseFloat(portfolioHigh.toFixed(2)),
-      low: parseFloat(portfolioLow.toFixed(2))
+      low: parseFloat(portfolioLow.toFixed(2)),
     });
 
     return [
       {
         name: 'Industry Benchmark',
-        data: industryData
+        data: industryData,
       },
       {
         name: 'Portfolio Performance',
-        data: portfolioData
-      }
+        data: portfolioData,
+      },
     ];
   };
 
@@ -138,33 +141,33 @@ export default function BenchmarksPage() {
         enabled: false,
       },
       toolbar: {
-        show: false
-      }
+        show: false,
+      },
     },
     dataLabels: {
-      enabled: false
+      enabled: false,
     },
     stroke: {
       curve: 'straight' as const,
-      width: [2, 2]
+      width: [2, 2],
     },
     colors: ['#008FFB', '#00E396'],
     title: {
       text: 'RB-CRIS Index Performance',
-      align: 'left' as const
+      align: 'left' as const,
     },
     grid: {
       row: {
         colors: ['#f3f3f3', 'transparent'],
-        opacity: 0.5
+        opacity: 0.5,
       },
-      borderColor: '#f1f1f1'
+      borderColor: '#f1f1f1',
     },
     markers: {
       size: 0,
       hover: {
-        size: 5
-      }
+        size: 5,
+      },
     },
     xaxis: {
       type: 'datetime' as const,
@@ -172,34 +175,34 @@ export default function BenchmarksPage() {
         datetimeUTC: false,
         datetimeFormatter: {
           year: 'yyyy',
-          month: 'MMM \'yy',
+          month: "MMM 'yy",
           day: 'dd MMM',
-          hour: 'hh:mm tt'
+          hour: 'hh:mm tt',
         },
         style: {
           fontFamily: 'DM Sans, Inter, sans-serif',
-        }
-      }
+        },
+      },
     },
     yaxis: {
       title: {
-        text: 'Index Value'
+        text: 'Index Value',
       },
       labels: {
         formatter: (value: number) => value.toFixed(1),
         style: {
           fontFamily: 'DM Sans, Inter, sans-serif',
-        }
+        },
       },
-      opposite: true
+      opposite: true,
     },
     tooltip: {
       x: {
-        format: 'dd MMM yyyy'
+        format: 'dd MMM yyyy',
       },
       y: {
-        formatter: (value: number) => value.toFixed(2)
-      }
+        formatter: (value: number) => value.toFixed(2),
+      },
     },
     legend: {
       position: 'top' as const,
@@ -209,9 +212,9 @@ export default function BenchmarksPage() {
       offsetX: -5,
       markers: {
         shape: 'square' as const,
-        radius: 0
-      }
-    }
+        radius: 0,
+      },
+    },
   };
 
   useEffect(() => {
@@ -221,53 +224,55 @@ export default function BenchmarksPage() {
   const loadDashboardData = async (): Promise<void> => {
     try {
       setLoading(true);
-      
+
       setTimeout(() => {
         const chartData = generateStockData(selectedTimeFilter);
-        
+
         const sampleNewsItems: NewsItem[] = [
           {
             id: '1',
             title: 'Indian auto sales see robust growth in August; utility vehicles in high demand',
             timeAgo: '1 hour ago',
             source: 'Reuters',
-            category: 'portfolio'
+            category: 'portfolio',
           },
           {
             id: '2',
-            title: 'Govt likely to announce new phase of FAME subsidies to boost EV adoption, sources say',
+            title:
+              'Govt likely to announce new phase of FAME subsidies to boost EV adoption, sources say',
             timeAgo: '5 hours ago',
             source: 'Reuters',
-            category: 'portfolio'
+            category: 'portfolio',
           },
           {
             id: '3',
             title: 'Tata Motors unveils new EV platform, shares gain 3% in intraday trade',
             timeAgo: '9 hours ago',
             source: 'Reuters',
-            category: 'portfolio'
+            category: 'portfolio',
           },
           {
             id: '4',
             title: 'SEBI tightens climate disclosure norms for top 500 listed firms',
             timeAgo: '2 hours ago',
             source: 'Reuters',
-            category: 'general'
+            category: 'general',
           },
           {
             id: '5',
-            title: 'Extreme weather events pose significant risk to infrastructure and insurance sectors, new report warns',
+            title:
+              'Extreme weather events pose significant risk to infrastructure and insurance sectors, new report warns',
             timeAgo: '5 hours ago',
             source: 'Reuters',
-            category: 'general'
+            category: 'general',
           },
           {
             id: '6',
             title: 'ESG funds see record inflows in India amid growing climate risk awareness',
             timeAgo: 'Yesterday',
             source: 'Reuters',
-            category: 'general'
-          }
+            category: 'general',
+          },
         ];
 
         setSeriesData(chartData);
@@ -284,22 +289,22 @@ export default function BenchmarksPage() {
     setSelectedTimeFilter(filterValue);
   };
 
-  const portfolioNews = newsItems.filter(item => item.category === 'portfolio');
-  const generalNews = newsItems.filter(item => item.category === 'general');
+  const portfolioNews = newsItems.filter((item) => item.category === 'portfolio');
+  const generalNews = newsItems.filter((item) => item.category === 'general');
 
   return (
     <div className="w-full bg-background-neutral">
       <Header />
-      
+
       <main className="w-full">
         <section className="w-full bg-secondary-background">
           <div className="w-full px-3 sm:px-6 lg:px-[12px] py-3">
             <div className="w-full bg-background-overlay rounded-sm p-4 sm:p-6 lg:p-[16px]">
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
                 <div className="flex-shrink-0">
-                  <img 
-                    src="/images/rbi-logo.png" 
-                    alt="RB-CRIS Index" 
+                  <img
+                    src="/images/rbi-logo.png"
+                    alt="RB-CRIS Index"
                     className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] rounded-full"
                   />
                 </div>
@@ -312,7 +317,8 @@ export default function BenchmarksPage() {
                     </div>
                     <div className="flex flex-col sm:flex-row sm:items-end gap-2 sm:gap-4">
                       <span className="text-xl sm:text-2xl lg:text-[26px] font-normal leading-tight sm:leading-xl text-text-primary font-dm">
-                        {seriesData[0]?.data[seriesData[0]?.data.length - 1]?.y.toFixed(2) || '132.95'}
+                        {seriesData[0]?.data[seriesData[0]?.data.length - 1]?.y.toFixed(2) ||
+                          '132.95'}
                       </span>
                       <div className="flex items-center gap-1 sm:gap-2 pb-0 sm:pb-2">
                         <span className="text-sm sm:text-base font-semibold leading-sm sm:leading-lg text-accent-error font-dm">
@@ -413,9 +419,9 @@ export default function BenchmarksPage() {
                     ) : (
                       portfolioNews.map((item) => (
                         <div key={item.id} className="flex gap-3">
-                          <img 
-                            src="/images/purple-diamond.svg" 
-                            alt="News indicator" 
+                          <img
+                            src="/images/purple-diamond.svg"
+                            alt="News indicator"
                             className="w-4 h-4 mt-1 flex-shrink-0"
                           />
                           <div className="flex-1">
@@ -463,9 +469,9 @@ export default function BenchmarksPage() {
                     ) : (
                       generalNews.map((item) => (
                         <div key={item.id} className="flex gap-3">
-                          <img 
-                            src="/images/red-diamond.svg" 
-                            alt="News indicator" 
+                          <img
+                            src="/images/red-diamond.svg"
+                            alt="News indicator"
                             className="w-4 h-4 mt-1 flex-shrink-0"
                           />
                           <div className="flex-1">
