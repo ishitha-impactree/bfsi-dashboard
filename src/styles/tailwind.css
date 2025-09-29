@@ -17,10 +17,10 @@
     --secondary-dark: #000000;
 
     /* Accent Colors */
-    --accent-success: #05ff00;
+    --accent-success: #22be8a;
     --accent-warning: #fba900;
-    --accent-danger: #fe3200;
-    --accent-info: #38c4f7;
+    --accent-danger: #f26262;
+    --accent-info: #6366f1;
 
     /* Text Colors */
     --text-primary: #232538;
@@ -42,10 +42,12 @@
     --border-secondary: #b7c2d87f;
     --border-light: #e6e6e6;
     --border-accent: #f24405;
+    --border-sub-primary:#7856ff;
+    
 
     /* Typography Variables */
     --font-size-xs: 8px;
-    --font-size-sm: 10px;
+    --font-size-sm: 12px;
     --font-size-base: 13px;
     --font-size-md: 14px;
     --font-size-lg: 16px;

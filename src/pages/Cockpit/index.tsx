@@ -236,19 +236,20 @@ const PortfolioClimateRisk = () => {
         shape: 'circle',
       },
       tooltip: {
+        enabled: true,
         custom: function ({ seriesIndex, dataPointIndex, w }: any) {
           const point = w.config.series[seriesIndex].data[dataPointIndex];
           return (
-            '<div class="apexcharts-tooltip" style="background-color: rgba(255, 255, 255, 0.95); ' +
-            'color: #1F2937; padding: 10px; border-radius: 8px; border: 1px solid #E5E7EB;">' +
-            '<div style="font-weight: 600; font-size: 12px; margin-bottom: 5px;">' +
+            '<div style="background:#fff; color:#1F2937; padding:10px; border-radius:8px; border:1px solid #E5E7EB;">' +
+            '<div style="font-weight:600; font-size:12px; margin-bottom:5px;">' +
             point.company +
             '</div>' +
-            '<div style="font-size: 11px; color: #4B5563;">' +
+            '<div style="font-size:11px; color:#4B5563;">' +
             point.y +
             '% PCHI, ₹' +
             point.x.toLocaleString() +
-            ' exposure</div>' +
+            ' exposure' +
+            '</div>' +
             '</div>'
           );
         },
@@ -895,7 +896,7 @@ const PortfolioClimateRisk = () => {
                   {timeButtons.map((button, index) => (
                     <button
                       key={button.label}
-                      className={`flex-1 flex items-center justify-center text-sm font-semibold font-Inter text-center transition-all duration-200 ${
+                      className={`flex-1 flex items-center justify-center text-md font-semibold font-Inter text-center transition-all duration-200 ${
                         button.active
                           ? 'bg-primary-background text-text-white rounded-lg'
                           : 'bg-transparent text-text-secondary hover:bg-purple-200'
@@ -913,7 +914,7 @@ const PortfolioClimateRisk = () => {
         <div className="w-full px-8" style={{ background: '#f8fafc' }}>
           {/* <div className="bg-background-card rounded-none p-3 sm:p-6 lg:p-3 mb-3 overflow-y-auto"> */}
           <div className="rounded-none p-3 sm:p-6 lg:p-3 mb-3 overflow-y-auto">
-            <div className="max-w-7xl mx-auto py-8">
+            <div className="w-full py-3">
               {/* <div className="w-100 py-4"> */}
               {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-0"> */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-0">

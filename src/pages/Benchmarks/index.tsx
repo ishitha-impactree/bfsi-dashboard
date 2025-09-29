@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import Header from '../../components/benchmarks/common/Header';
+import Header from '../../components/common/Header';
 import Button from '../../components/ui/Button';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -293,13 +293,47 @@ export default function BenchmarksPage() {
   const generalNews = newsItems.filter((item) => item.category === 'general');
 
   return (
-    <div className="w-full bg-background-neutral">
+    <div className="w-full" style={{ background: '#f8fafc' }}>
       <Header />
-
-      <main className="w-full">
-        <section className="w-full bg-secondary-background">
+      <div
+        className="bg-card border-b border-border shadow-elevation-1 px-8"
+        style={{ background: 'white', marginTop: '70px' }}
+      >
+        <div className="w-100 mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-2xl font-semibold text-foreground">Benchmarks Overview</h1>
+              <p className="text-md text-muted-foreground mt-1">
+                Portfolio-wide carbon footprint monitoring and compliance tracking
+              </p>
+            </div>
+            {/* <div className="flex justify-end mb-0 sm:mb-8 lg:mb-0">
+                <div className="flex bg-gray-200 rounded-xl overflow-hidden w-[380px] h-[25px] p-1">
+                  {timeButtons.map((button, index) => (
+                    <button
+                      key={button.label}
+                      className={`flex-1 flex items-center justify-center text-sm font-semibold font-Inter text-center transition-all duration-200 ${
+                        button.active
+                          ? 'bg-primary-background text-text-white rounded-lg'
+                          : 'bg-transparent text-text-secondary hover:bg-purple-200'
+                      }`}
+                      onClick={() => handleTimeButtonClick(button.label)}
+                    >
+                      {button.label}
+                    </button>
+                  ))}
+                </div>
+              </div> */}
+          </div>
+        </div>
+      </div>
+      <main className="w-full px-8 mb-2">
+        <section className="w-full">
           <div className="w-full px-3 sm:px-6 lg:px-[12px] py-3">
-            <div className="w-full bg-background-overlay rounded-sm p-4 sm:p-6 lg:p-[16px]">
+            <div
+              className="w-full p-4 sm:p-6 lg:p-[16px] bg-card border border-border rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+              style={{ background: 'white' }}
+            >
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
                 <div className="flex-shrink-0">
                   <img
@@ -335,7 +369,7 @@ export default function BenchmarksPage() {
             </div>
           </div>
         </section>
-        <section className="w-full bg-accent-warning-light">
+        <section className="w-full">
           <div className="w-full px-3 sm:px-6 lg:px-[12px] py-3">
             <div className="flex flex-col gap-3">
               <div className="flex flex-wrap gap-2 sm:gap-3 mb-4">
@@ -346,7 +380,7 @@ export default function BenchmarksPage() {
                     className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm font-medium rounded transition-colors duration-200 ${
                       selectedTimeFilter === filter.value
                         ? 'bg-primary-background text-primary-foreground'
-                        : 'bg-secondary-background text-text-primary hover:bg-primary-light hover:text-primary-foreground'
+                        : 'bg-secondary-background text-text-primary hover:bg-primary-background hover:text-primary-foreground'
                     }`}
                   >
                     {filter.label}
@@ -354,7 +388,10 @@ export default function BenchmarksPage() {
                 ))}
               </div>
               <div className="flex gap-3">
-                <div className="w-full bg-white rounded-sm p-4 sm:p-6 mb-3 shadow-sm relative">
+                <div
+                  className="w-full p-4 sm:p-6 relative bg-card border border-border rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                  style={{ background: 'white' }}
+                >
                   {loading ? (
                     <div className="w-full h-[400px] bg-secondary-light animate-pulse rounded-sm flex items-center justify-center">
                       <span className="text-text-primary">Loading chart data...</span>
@@ -371,7 +408,10 @@ export default function BenchmarksPage() {
                     </div>
                   )}
                 </div>
-                <div className="flex flex-col justify-between bg-secondary-light rounded-sm p-4 min-w-[120px]">
+                <div
+                  className="flex flex-col justify-between rounded-sm p-4 min-w-[120px] bg-card border border-border rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                  style={{ background: 'white' }}
+                >
                   <div className="text-center">
                     <div className="text-sm font-medium text-text-secondary mb-1">HIGH</div>
                     <div className="text-lg font-semibold text-text-primary">
@@ -387,8 +427,11 @@ export default function BenchmarksPage() {
                 </div>
               </div>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                <div className="bg-secondary-light rounded-sm p-2 sm:p-3">
-                  <Button
+                <div
+                  className="p-2 sm:p-3 bg-card border border-border rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                  style={{ background: 'white' }}
+                >
+                  {/* <Button
                     text="Portfolio Specific News"
                     text_font_size="text-sm"
                     text_font_family="Inter"
@@ -405,8 +448,14 @@ export default function BenchmarksPage() {
                     variant="primary"
                     size="medium"
                     onClick={() => {}}
-                  />
-                  <div className="bg-secondary-light rounded-sm p-3 space-y-6">
+                  /> */}
+                  <span
+                    className="text-md px-3 py-2 border border-border rounded-lg"
+                    style={{ background: '#EAE5FF', color: '#7857FF' }}
+                  >
+                    Portfolio Specific News
+                  </span>
+                  <div className="bg-secondary-light rounded-sm p-3 space-y-6 mt-3">
                     {loading ? (
                       <div className="space-y-4">
                         {[...Array(3)].map((_, i) => (
@@ -437,8 +486,11 @@ export default function BenchmarksPage() {
                     )}
                   </div>
                 </div>
-                <div className="bg-secondary-light rounded-sm p-2 sm:p-3">
-                  <Button
+                <div
+                  className="p-2 sm:p-3 bg-card border border-border rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                  style={{ background: 'white' }}
+                >
+                  {/* <Button
                     text="General News"
                     text_font_size="text-sm"
                     text_font_family="Inter"
@@ -455,8 +507,14 @@ export default function BenchmarksPage() {
                     variant="error"
                     size="medium"
                     onClick={() => {}}
-                  />
-                  <div className="bg-secondary-light rounded-sm p-3 space-y-6">
+                  /> */}
+                  <span
+                    className="text-md px-3 py-2 border border-border rounded-lg"
+                    style={{ background: '#FFE5E5', color: '#FF575A' }}
+                  >
+                    General News
+                  </span>
+                  <div className="bg-secondary-light rounded-sm p-3 space-y-6 mt-3">
                     {loading ? (
                       <div className="space-y-4">
                         {[...Array(3)].map((_, i) => (
