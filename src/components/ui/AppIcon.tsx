@@ -18,7 +18,16 @@ function Icon({
   strokeWidth = 2,
   ...props
 }: IconProps) {
-  const IconComponent = name ? (LucideIcons as any)[name] : undefined;
+  // Convert kebab-case to PascalCase for icon names
+  const formatIconName = (iconName: string) => {
+    return iconName
+      .split('-')
+      .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+      .join('');
+  };
+
+  const formattedName = name ? formatIconName(name) : '';
+  const IconComponent = formattedName ? (LucideIcons as any)[formattedName] : undefined;
 
   if (!IconComponent) {
     return (
@@ -42,4 +51,5 @@ function Icon({
     />
   );
 }
+
 export default Icon;

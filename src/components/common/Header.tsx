@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Dropdown from '../ui/Dropdown';
-import UnderDevelopment from 'pages/UnderDev';
 import Icon from '../ui/AppIcon';
 
 interface HeaderProps {
@@ -41,7 +40,7 @@ const Header = ({ className }: HeaderProps) => {
     {
       label: 'Reports',
       path: '/reports',
-      isActive: location.pathname === '/reports',
+     isActive: location.pathname === '/' || location.pathname === '/reports',
       icon: 'FileText',
     },
   ];

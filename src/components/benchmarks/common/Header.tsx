@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Dropdown from '../ui/Dropdown';
-import UnderDevelopment from 'pages/UnderDev';
 
 interface HeaderProps {
   className?: string;
@@ -31,23 +30,15 @@ const Header = ({ className }: HeaderProps) => {
     { 
       label: 'Benchmarks', 
       path: '/benchmarks',
-      isActive: location.pathname === '/bencharks'
+      isActive: location.pathname === '/benchmarks'
     },
-    { 
+   { 
       label: 'Reports', 
       path: '/reports',
-      isActive: location.pathname === '/reports' 
-    }
+      isActive: location.pathname === '/reports'
+    },
   ];
 
-  const handleNavigation = (path: string, label: string) => {
-    if (path === '/UnderDev') {
-      navigate(path, { state: { from: label } });
-    } else if (path !== '#') {
-      navigate(path);
-    }
-    setMenuOpen(false);
-  };
 
   const getCurrentPageTitle = () => {
     const currentItem = navigationItems.find(item => item.isActive);
@@ -88,9 +79,7 @@ const Header = ({ className }: HeaderProps) => {
                     } ${
                       item.path === '#' ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'
                     }`}
-                    role="menuitem"
-                    onClick={() => handleNavigation(item.path, item.label)}
-                    disabled={item.path === '#'}
+                    
                   >
                     {item.label}
                   </button>
