@@ -1,25 +1,37 @@
-import React, { InputHTMLAttributes } from 'react';
+import React from 'react';
 import { cn } from '../../utils/cn';
 
-export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   description?: string;
   error?: string;
+  required?: boolean;
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type = 'text', label, description, error, required = false, id, ...props }, ref) => {
-    const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
+  (
+    { className, type = 'text', label, description, error, required = false, id, ...props },
+    ref
+  ) => {
+    // Generate unique ID if not provided
+    const inputId = id || `input-${Math.random()?.toString(36)?.substr(2, 9)}`;
 
+    // Base input classes
     const baseInputClasses =
-      'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';
+      'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-md ring-offset-background ' +
+      'file:border-0 file:bg-transparent file:text-sm file:font-medium ' +
+      'placeholder:text-muted-foreground focus-visible:outline-none ' +
+      'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ' +
+      'disabled:cursor-not-allowed disabled:opacity-50';
 
+    // Checkbox-specific styles
     if (type === 'checkbox') {
       return (
         <input
           type="checkbox"
           className={cn(
-            'h-4 w-4 rounded border border-input bg-background text-primary focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+            'h-4 w-4 rounded border border-input bg-background text-primary focus:ring-2 ' +
+              'focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
             className
           )}
           ref={ref}
@@ -29,12 +41,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       );
     }
 
+    // Radio button-specific styles
     if (type === 'radio') {
       return (
         <input
           type="radio"
           className={cn(
-            'h-4 w-4 rounded-full border border-input bg-background text-primary focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+            'h-4 w-4 rounded-full border border-input bg-background text-primary focus:ring-2 ' +
+              'focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
             className
           )}
           ref={ref}
@@ -44,13 +58,14 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       );
     }
 
+    // For regular inputs with wrapper structure
     return (
       <div className="space-y-2">
         {label && (
           <label
             htmlFor={inputId}
             className={cn(
-              'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
+              'text-md font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
               error ? 'text-destructive' : 'text-foreground'
             )}
           >
@@ -72,16 +87,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         />
 
         {description && !error && (
-          <p className="text-sm text-muted-foreground">
+          <p className="text-md text-muted-foreground" style={{ color: '#64748B' }}>
             {description}
           </p>
         )}
 
-        {error && (
-          <p className="text-sm text-destructive">
-            {error}
-          </p>
-        )}
+        {error && <p className="text-sm text-destructive">{error}</p>}
       </div>
     );
   }
