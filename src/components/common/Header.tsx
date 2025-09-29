@@ -34,8 +34,14 @@ const Header = ({ className }: HeaderProps) => {
     {
       label: 'Benchmarks',
       path: '/benchmarks',
-      isActive: location.pathname === '/bencharks',
+      isActive: location.pathname === '/benchmarks',
       icon: 'ChartPie',
+    },
+    {
+      label: 'Risks',
+      path: '/risks',
+      isActive: location.pathname === '/risks',
+      icon: 'AlertTriangle',
     },
     {
       label: 'Reports',
