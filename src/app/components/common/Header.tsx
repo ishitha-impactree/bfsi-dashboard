@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Routes, Route } from 'react-router-dom';
-import UnderDevelopment from 'pages/UnderDev';
+
 
 const Header: React.FC<{ className?: string }> = ({ className }) => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -236,9 +236,9 @@ const App = () => {
         <Routes>
           <Route path="/cockpit" element={<div style={{ padding: '2rem' }}></div>} />
           <Route path="/sectors" element={<div style={{ padding: '2rem' }}></div>} />
-          <Route path="/companies" element={<UnderDevelopment />} />
-           <Route path="/benchmarks" element={<div style={{ padding: '2rem' }}><h2>Benchmarks Page</h2></div>} />
-          <Route path="/reports" element={<UnderDevelopment />} />
+          <Route path="/companies" ></Route>
+          <Route path="/benchmarks" element={<div style={{ padding: '2rem' }}></div>} />
+          <Route path="/reports"></Route>
           <Route path="/" element={<div style={{ padding: '2rem' }}></div>} />
         </Routes>
       </main>
