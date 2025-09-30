@@ -1,0 +1,134 @@
+import React from 'react';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+  ReferenceLine,
+} from 'recharts';
+
+interface ESGChartProps {
+  className?: string;
+}
+
+const data = [
+  { name: 'Jan', Environment: 55, Social: 50 },
+  { name: 'Feb', Environment: 45, Social: 55 },
+  { name: 'Mar', Environment: 44, Social: 50 },
+  { name: 'Apr', Environment: 38, Social: 56 },
+  { name: 'May', Environment: 52, Social: 61 },
+  { name: 'Jun', Environment: 45, Social: 56 },
+  { name: 'Jul', Environment: 64, Social: 46 },
+  { name: 'Aug', Environment: 42, Social: 36 },
+  { name: 'Sep', Environment: 56, Social: 41 },
+  { name: 'Oct', Environment: null, Social: null },
+  { name: 'Nov', Environment: null, Social: null },
+  { name: 'Dec', Environment: null, Social: null },
+];
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-background-card p-3 border border-border-primary rounded-lg shadow-lg">
+        <p className="text-text-primary text-sm font-semibold">{`Month: ${label}`}</p>
+        {payload.map((p: any) => (
+          <p key={p.dataKey} className="text-sm" style={{ color: p.stroke }}>
+            {`${p.name}: ${p.value !== null ? `${p.value}%` : 'N/A'}`}
+          </p>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
+
+const CustomDot = (props: any) => {
+  const { cx, cy, stroke, value } = props;
+  if (value === null) {
+    return null; // Don't render a dot for null values
+  }
+  return <circle cx={cx} cy={cy} r={4} stroke="black" strokeWidth={1} fill={stroke} />;
+};
+
+const CumulativeRatingsChart = ({ className }: ESGChartProps) => {
+  return (
+    <div className={`w-full flex flex-col ${className || ''}`}>
+      {/* Title "ESG Rating" */}
+      <div className="flex justify-between items-center mb-4 px-3 sm:px-6">
+        <h2 className="text-lg font-bold text-primary-dark">Company’s Cumulative ESG Rating</h2>
+      </div>
+
+      <div className="w-full flex-grow" style={{ height: '400px' }}>
+        {' '}
+        {/* Increased height */}
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
+            <CartesianGrid stroke="#f3f4f6" strokeDasharray="3 3" vertical={false} />
+            <XAxis
+              dataKey="name"
+              tickLine={false}
+              axisLine={{ stroke: '#e5e7eb' }}
+              tick={{ fontSize: 12, fill: '#6b7280' }}
+            />
+            <YAxis
+              domain={[0, 100]}
+              tickCount={11}
+              tickLine={false}
+              axisLine={false}
+              tick={{ fontSize: 12, fill: '#6b7280' }}
+              tickFormatter={(value) => `${value}%`}
+            />
+            <Tooltip content={<CustomTooltip />} />
+            {/* <Legend
+              verticalAlign="top"
+              align="right"
+              height={36}
+              iconType="square"
+              iconSize={10}
+              wrapperStyle={{ top: -20, right: 0, paddingBottom: '10px' }}
+              formatter={(value) => <span className="text-sm text-text-primary">{value}</span>}
+            /> */}
+            <Line
+              type="monotone"
+              dataKey="Environment"
+              name="Environment"
+              stroke="#fba900"
+              strokeWidth={2} // Increased stroke width
+              dot={<CustomDot />}
+              activeDot={{ r: 6, stroke: '#fba900', strokeWidth: 2 }} // Larger active dot
+              connectNulls={false}
+            />
+            <Line
+              type="monotone"
+              dataKey="Social"
+              name="Social"
+              stroke="#38c4f7"
+              strokeWidth={2} // Increased stroke width
+              dot={<CustomDot />}
+              activeDot={{ r: 6, stroke: '#38c4f7', strokeWidth: 2 }} // Larger active dot
+              connectNulls={false}
+            />
+            {/* <Line
+              type="monotone"
+              dataKey="Governance"
+              name="Governance"
+              stroke="#05ff00"
+              strokeWidth={2} // Increased stroke width
+              dot={<CustomDot />}
+              activeDot={{ r: 6, stroke: '#05ff00', strokeWidth: 2 }} // Larger active dot
+              connectNulls={false}
+            /> */}
+            <ReferenceLine y={50} stroke="#e5e7eb" strokeDasharray="3 3" />
+            <ReferenceLine x="Sep" stroke="#d1d5db" strokeDasharray="3 3" strokeWidth={2} />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+};
+
+export default CumulativeRatingsChart;
