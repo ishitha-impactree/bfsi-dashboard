@@ -7,6 +7,9 @@ import BenchmarksPage from './pages/Benchmarks';
 import ReportsPage from './pages/Reports';
 import Risks from './pages/Risks';
 import PortfolioPage from './pages/Portfolio';
+import CompaniesStatistics from './pages/Companies'; 
+import SignInForm from './pages/SignInForm/SignInForm'; 
+// import SignUpForm from 'pages/SignUpForm/SignUpForm';
 
 const AppRoutes = () => {
   return (
@@ -19,6 +22,9 @@ const AppRoutes = () => {
         <Route path="/reports" element={<ReportsPage />}/>
         <Route path="/risks" element={<Risks />} />
         <Route path="/portfolio" element={<PortfolioPage />}/>
+        <Route path="/companies" element={<CompaniesStatistics />}/>
+        <Route path="/sign-in" element={<SignInForm />}/> 
+        {/* <Route path="/sign-up" element={<SignUpForm />}/> */}
         <Route path="*" element={<h1>Page not found</h1>} />
       </Routes>
     </Router>
