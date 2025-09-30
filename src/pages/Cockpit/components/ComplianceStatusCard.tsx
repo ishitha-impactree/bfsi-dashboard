@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from '../../components/ui/AppIcon';
+import Icon from '../../../components/ui/AppIcon';
 
 type ComplianceStatus = 'compliant' | 'in-progress' | 'pending' | 'at-risk';
 

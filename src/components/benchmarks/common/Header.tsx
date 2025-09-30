@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Dropdown from '../ui/Dropdown';
+// import Dropdown from './ui/Dropdown';
 
 interface HeaderProps {
   className?: string;
@@ -30,13 +30,13 @@ const Header = ({ className }: HeaderProps) => {
     { 
       label: 'Benchmarks', 
       path: '/benchmarks',
-      isActive: location.pathname === '/benchmarks'
+      isActive: location.pathname === '/bencharks'
     },
-   { 
+    { 
       label: 'Reports', 
       path: '/reports',
-      isActive: location.pathname === '/reports'
-    },
+      isActive: location.pathname === '/reports' 
+    }
   ];
 
 
@@ -68,7 +68,7 @@ const Header = ({ className }: HeaderProps) => {
             </svg>
           </button>
 
-          <nav className={`${menuOpen ? 'block' : 'hidden'} lg:block absolute lg:relative top-full lg:top-auto left-0 lg:left-auto w-full lg:w-auto bg-header-background lg:bg-transparent border-t lg:border-t-0 border-gray-700 lg:border-none z-50 transition-all duration-300 ease-in-out`}>
+          {/* <nav className={`${menuOpen ? 'block' : 'hidden'} lg:block absolute lg:relative top-full lg:top-auto left-0 lg:left-auto w-full lg:w-auto bg-header-background lg:bg-transparent border-t lg:border-t-0 border-gray-700 lg:border-none z-50 transition-all duration-300 ease-in-out`}>
             <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-[74px] p-4 lg:p-0">
               {navigationItems.map((item, index) => (
                 <div key={index} className="relative">
@@ -79,7 +79,9 @@ const Header = ({ className }: HeaderProps) => {
                     } ${
                       item.path === '#' ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'
                     }`}
-                    
+                    role="menuitem"
+                    onClick={() => handleNavigation(item.path, item.label)}
+                    disabled={item.path === '#'}
                   >
                     {item.label}
                   </button>
@@ -89,15 +91,15 @@ const Header = ({ className }: HeaderProps) => {
                 </div>
               ))}
             </div>
-          </nav>
+          </nav> */}
 
           <div className="hidden lg:flex items-center gap-[18px]">
             <div className="flex flex-col gap-1 items-end">
               <span className="text-md font-bold leading-md text-left text-header-text">
-                Welcome Roxanne
+                Welcome User!
               </span>
               <span className="text-md font-normal leading-md text-right text-header-text">
-                15 Sep, Mon
+                01 Oct, Wed
               </span>
             </div>
 
@@ -115,10 +117,10 @@ const Header = ({ className }: HeaderProps) => {
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-1">
               <span className="text-md font-bold leading-md text-header-text">
-                Welcome Roxanne
+                Welcome User!
               </span>
               <span className="text-md font-normal leading-md text-header-text">
-                15 Sep, Mon
+                01 Oct, Wed
               </span>
             </div>
             <img 

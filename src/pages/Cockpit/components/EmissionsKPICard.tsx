@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from '../../components/ui/AppIcon';
+import Icon from '../../../components/ui/AppIcon';
 
 const EmissionsKPICard = ({ title, value, unit, change, changeType, icon, trend }: any) => {
   const getChangeColor = () => {

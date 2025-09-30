@@ -11,8 +11,8 @@ import {
   TooltipProps,
 } from 'recharts';
 import { ValueType, NameType } from 'recharts/types/component/DefaultTooltipContent';
-import Icon from '../../components/ui/AppIcon';
-import ButtonWithIcon from '../../components/ui/ButtonWithIcon';
+import Icon from '../../../components/ui/AppIcon';
+import ButtonWithIcon from '../../../components/ui/ButtonWithIcon';
 
 interface ScenarioData {
   year: number;

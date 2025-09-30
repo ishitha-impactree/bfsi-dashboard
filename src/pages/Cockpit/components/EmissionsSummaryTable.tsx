@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Icon from '../../components/ui/AppIcon';
-import Button from '../../components/ui/Button';
+import Icon from '../../../components/ui/AppIcon';
+import Button from '../../../components/ui/Button';
 
 interface SectorData {
   id: number;

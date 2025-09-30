@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/common/Header';
 import Icon from '../../components/ui/AppIcon';
-import GlobalControls from './GlobalControls';
+import GlobalControls from './components/GlobalControls';
 // import GlobalControls from './GlobalControls';
-import RiskMetricsGauges from './RiskMetricsGauges';
-import RiskHeatMap from './RiskHeatMap';
-import RiskRankingTable from './RiskRankingTable';
-import ScenarioComparison from './ScenarioComparison';
-import StressTesting from './StressTesting';
+import RiskMetricsGauges from './components/RiskMetricsGauges';
+import RiskHeatMap from './components/RiskHeatMap';
+import RiskRankingTable from './components/RiskRankingTable';
+import ScenarioComparison from './components/ScenarioComparison';
+import StressTesting from './components/StressTesting';
 // import Icon from '../../components/AppIcon';
 
 // ---------- Types ----------

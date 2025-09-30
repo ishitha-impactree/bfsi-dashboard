@@ -1,16 +1,16 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import Header from '../../components/common/Header';
-import TimelineChart from './TimelineChart';
-import FilterSection from './FilterSection';
-import CompanyPerformanceCard from './CompanyPerformanceCard';
-import MetricsCard from './MetricsCard';
-import ESGRatingCard from './ESGRatingCard';
-import ESGChart from './ESGChart';
-import ScopeMetricsSection from './ScopeMetricsSection';
-import RiskBreakdownSection from './RiskBreakdownSection';
-import CompaniesTable from './CompaniesTable';
-import ThambiInsights from './ThambiInsights';
+import TimelineChart from './components/TimelineChart';
+import FilterSection from './components/FilterSection';
+import CompanyPerformanceCard from './components/CompanyPerformanceCard';
+import MetricsCard from './components/MetricsCard';
+import ESGRatingCard from './components/ESGRatingCard';
+import ESGChart from './components/ESGChart';
+import ScopeMetricsSection from './components/ScopeMetricsSection';
+import RiskBreakdownSection from './components/RiskBreakdownSection';
+import CompaniesTable from './components/CompaniesTable';
+import ThambiInsights from './components/ThambiInsights';
 import PerformingCompanyCard from '../../components/ui/PerformingCompanyCard';
 
 const SectorsPerformanceAnalysis = () => {

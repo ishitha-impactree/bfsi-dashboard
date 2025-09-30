@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Icon from '../../components/ui/AppIcon';
+import Icon from '../../../components/ui/AppIcon';
 
 interface SelectedCell {
   sector: string;

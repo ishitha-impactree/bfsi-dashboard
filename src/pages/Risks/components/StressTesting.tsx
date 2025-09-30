@@ -11,9 +11,9 @@ import {
   Scatter,
   Cell,
 } from 'recharts';
-import Icon from '../../components/ui/AppIcon';
-import ButtonWithIcon from '../../components/ui/ButtonWithIcon';
-import Input from '../../components/ui/Input';
+import Icon from '../../../components/ui/AppIcon';
+import ButtonWithIcon from '../../../components/ui/ButtonWithIcon';
+import Input from '../../../components/ui/Input';
 
 // ------------------- Types -------------------
 interface Parameters {

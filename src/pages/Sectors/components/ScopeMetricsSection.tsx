@@ -1,4 +1,4 @@
-import List from '../../components/ui/List';
+import List from '../../../components/ui/List';
 import React from 'react';
 
 interface ScopeMetricProps {

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import Icon from '../../components/ui/AppIcon';
-import Select from '../../components/ui/Select';
+import Icon from '../../../components/ui/AppIcon';
+import Select from '../../../components/ui/Select';
 // import Button from '../../../components/ui/Button';
-import ButtonWithIcon from '../../components/ui/ButtonWithIcon';
+import ButtonWithIcon from '../../../components/ui/ButtonWithIcon';
 
 // ---------- Types ----------
 interface FilterState {
