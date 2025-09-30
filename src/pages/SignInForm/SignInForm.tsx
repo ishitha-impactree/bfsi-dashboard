@@ -249,7 +249,6 @@ const LeftPanel = () => (
             backgroundColor: '#FFB300', 
             position: 'relative',
             overflow: 'hidden',
-            '@media (max-width: 768px)': { display: 'none' } 
         }}
     >
         <div
@@ -277,45 +276,88 @@ const LeftPanel = () => (
 
         <div
             style={{
-                width: '80%', 
-                maxWidth: '450px',
+                width: '100%',
+                maxWidth: '600px',
                 height: 'auto',
-                opacity: 0.6, 
-                marginTop: '60px',
                 display: 'flex',
+                flexDirection: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
-                flexGrow: 1, 
-                padding: '20px',
+                flexGrow: 1,
+                padding: '40px 20px',
             }}
         >
-            <img
-                src="/images/login-image2.jpg" 
-                alt="Globe Asset"
+            <div
                 style={{
                     width: '100%',
-                    height: 'auto', 
-                    objectFit: 'contain',
-                    borderRadius: '8px', 
+                    maxWidth: '500px',
+                    height: '380px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginBottom: '40px',
                 }}
-                onError={(e) => { 
-                    e.currentTarget.style.display = 'none'; 
-                    const fallback = document.createElement('div');
-                    Object.assign(fallback.style, {
-                        width: '400px',
-                        height: '300px',
-                        backgroundColor: 'rgba(255, 255, 255, 0.4)',
-                        border: '2px solid rgba(255, 255, 255, 0.8)',
-                        borderRadius: '8px',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        color: 'white'
-                    });
-                    fallback.innerText = 'Globe Placeholder';
-                    e.currentTarget.parentElement?.appendChild(fallback);
+            >
+                <img
+                    src="/images/login-image2.jpg" 
+                    alt="Globe Asset"
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        borderRadius: '12px',
+                        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
+                    }}
+                    onError={(e) => { 
+                        e.currentTarget.style.display = 'none'; 
+                        const fallback = document.createElement('div');
+                        Object.assign(fallback.style, {
+                            width: '100%',
+                            height: '100%',
+                            backgroundColor: 'rgba(255, 255, 255, 0.4)',
+                            border: '2px solid rgba(255, 255, 255, 0.8)',
+                            borderRadius: '12px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            color: 'white',
+                            fontSize: '1.2rem',
+                            fontWeight: '500'
+                        });
+                        fallback.innerText = 'Welcome to Rubicr';
+                        e.currentTarget.parentElement?.appendChild(fallback);
+                    }}
+                />
+            </div>
+            
+            <div
+                style={{
+                    textAlign: 'center',
+                    color: 'white',
+                    maxWidth: '500px',
                 }}
-            />
+            >
+                <h2
+                    style={{
+                        fontSize: '2.2rem',
+                        fontWeight: 'bold',
+                        marginBottom: '16px',
+                        textShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                    }}
+                >
+                    Welcome Back
+                </h2>
+                <p
+                    style={{
+                        fontSize: '1.2rem',
+                        opacity: 0.9,
+                        lineHeight: '1.5',
+                        margin: 0,
+                    }}
+                >
+                    Sign in to continue your journey with Rubicr and access your personalized dashboard.
+                </p>
+            </div>
         </div>
     </div>
 );
