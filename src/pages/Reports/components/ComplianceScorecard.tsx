@@ -24,7 +24,7 @@ const ComplianceScorecard: React.FC = () => {
       status: 'on-track',
       daysUntilDeadline: 45,
       requirements: 11,
-      completed: 9
+      completed: 9,
     },
     {
       id: 'prr',
@@ -34,7 +34,7 @@ const ComplianceScorecard: React.FC = () => {
       status: 'completed',
       daysUntilDeadline: 12,
       requirements: 8,
-      completed: 8
+      completed: 8,
     },
     {
       id: 'cvr',
@@ -44,20 +44,20 @@ const ComplianceScorecard: React.FC = () => {
       status: 'at-risk',
       daysUntilDeadline: 8,
       requirements: 15,
-      completed: 10
+      completed: 10,
     },
   ];
 
   const getStatusColor = (status: FrameworkStatus): string => {
     switch (status) {
       case 'completed':
-        return 'bg-success text-success-foreground';
+        return 'bg-accent-success text-primary-foreground';
       case 'on-track':
-        return 'bg-primary text-primary-foreground';
+        return 'bg-accent-info text-primary-foreground';
       case 'at-risk':
-        return 'bg-warning text-warning-foreground';
+        return 'bg-accent-warning text-primary-foreground';
       case 'overdue':
-        return 'bg-error text-error-foreground';
+        return 'bg-accent-danger text-error-foreground';
       default:
         return 'bg-muted text-muted-foreground';
     }
@@ -86,15 +86,20 @@ const ComplianceScorecard: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full">
       {complianceFrameworks.map((framework) => (
-        <div key={framework.id} className="bg-card border border-border rounded-lg p-6 shadow-elevation-1 w-full">
+        <div
+          key={framework.id}
+          className="bg-primary-foreground border border-border rounded-lg p-4 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+        >
           <div className="flex items-start justify-between mb-4">
             <div>
               <h3 className="text-lg font-semibold text-card-foreground">{framework.name}</h3>
-              <p className="text-sm text-muted-foreground">{framework.fullName}</p>
+              <p className="text-sm text-text-muted">{framework.fullName}</p>
             </div>
-            <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(framework.status)}`}>
+            <span
+              className={`inline-flex items-center px-2 py-1 rounded-full text-sm font-medium ${getStatusColor(framework.status)}`}
+            >
               <Icon name={getStatusIcon(framework.status)} size={12} className="mr-1" />
               {framework.status.replace('-', ' ')}
             </span>
@@ -103,14 +108,19 @@ const ComplianceScorecard: React.FC = () => {
           <div className="mb-4">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-medium text-card-foreground">Progress</span>
-              <span className="text-sm font-bold text-card-foreground">{framework.completion}%</span>
+              <span className="text-sm font-bold text-card-foreground">
+                {framework.completion}%
+              </span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2" style={{ backgroundColor: 'var(--muted, #f3f4f6)' }}>
-              <div 
+            <div
+              className="w-full bg-gray-200 rounded-full h-2"
+              style={{ backgroundColor: 'var(--muted, #f3f4f6)' }}
+            >
+              <div
                 className="h-2 rounded-full transition-all duration-300"
-                style={{ 
+                style={{
                   width: `${framework.completion}%`,
-                  backgroundColor: getProgressBarColor(framework.completion)
+                  backgroundColor: getProgressBarColor(framework.completion),
                 }}
               />
             </div>
@@ -126,10 +136,15 @@ const ComplianceScorecard: React.FC = () => {
 
             <div className="flex items-center justify-between">
               <span className="text-sm text-muted-foreground">Days until deadline</span>
-              <span className={`text-sm font-medium ${
-                framework.daysUntilDeadline <= 10 ? 'text-error' : 
-                framework.daysUntilDeadline <= 30 ? 'text-warning' : 'text-success'
-              }`}>
+              <span
+                className={`text-sm font-medium ${
+                  framework.daysUntilDeadline <= 10
+                    ? 'text-accent-danger'
+                    : framework.daysUntilDeadline <= 30
+                      ? 'text-accent-warning'
+                      : 'text-accent-success'
+                }`}
+              >
                 {framework.daysUntilDeadline} days
               </span>
             </div>
@@ -137,8 +152,11 @@ const ComplianceScorecard: React.FC = () => {
             <div className="pt-2 border-t border-border">
               <div className="flex items-center space-x-2">
                 <Icon name="Calendar" size={14} className="text-muted-foreground" />
-                <span className="text-xs text-muted-foreground">
-                  Next milestone: {new Date(Date.now() + framework.daysUntilDeadline * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                <span className="text-sm text-muted-foreground">
+                  Next milestone:{' '}
+                  {new Date(
+                    Date.now() + framework.daysUntilDeadline * 24 * 60 * 60 * 1000
+                  ).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                 </span>
               </div>
             </div>

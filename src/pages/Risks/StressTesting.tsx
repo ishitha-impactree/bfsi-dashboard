@@ -14,6 +14,7 @@ import {
 import Icon from '../../components/ui/AppIcon';
 import ButtonWithIcon from '../../components/ui/ButtonWithIcon';
 import Input from '../../components/ui/Input';
+import RiskMitigationCard from './RiskMitigationCard';
 
 // ------------------- Types -------------------
 interface Parameters {
@@ -163,6 +164,7 @@ const StressTesting: React.FC = () => {
       status: 'text-accent-danger',
     },
   ];
+
   return (
     <div className="space-y-3">
       {/* Parameter Controls */}
@@ -308,7 +310,7 @@ const StressTesting: React.FC = () => {
               <h3 className="text-lg font-semibold text-foreground">Impact Distribution</h3>
               <p className="text-sm text-muted-foreground">Frequency of outcomes</p>
             </div>
-            <Icon name="BarChart3" size={20} className="text-primary" />
+            <Icon name="BarChart3" size={20} className="text-accent-info" />
           </div>
 
           <div className="h-64">
@@ -318,18 +320,19 @@ const StressTesting: React.FC = () => {
                 <XAxis
                   dataKey="range"
                   stroke="#64748B"
-                  fontSize={12}
+                  fontSize={10}
                   angle={-45}
                   textAnchor="end"
                   height={60}
                 />
                 <YAxis
                   stroke="#64748B"
-                  fontSize={12}
+                  fontSize={10}
                   label={{
                     value: 'Frequency',
                     angle: -90,
                     position: 'insideLeft',
+                    fontSize: 10,
                   }}
                 />
                 <Tooltip />
@@ -345,55 +348,44 @@ const StressTesting: React.FC = () => {
       </div>
 
       {/* Risk Mitigation Recommendations */}
-      <div className="bg-card border border-border rounded-lg p-6 shadow-elevation-1">
+      <div
+        className="bg-card border border-border rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+        style={{ background: 'white' }}
+      >
         <div className="flex items-center space-x-2 mb-4">
-          <Icon name="Shield" size={20} className="text-success" />
+          <Icon name="Shield" size={20} className="text-accent-success" />
           <h3 className="text-lg font-semibold text-foreground">Risk Mitigation Recommendations</h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-3">
-            <div className="flex items-start space-x-3 p-3 bg-success/10 rounded-lg border border-success/20">
-              <Icon name="CheckCircle" size={16} className="text-success mt-0.5" />
-              <div>
-                <h4 className="text-sm font-medium text-foreground">Diversification</h4>
-                <p className="text-xs text-muted-foreground">
-                  Reduce concentration in high-risk energy sector holdings
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start space-x-3 p-3 bg-warning/10 rounded-lg border border-warning/20">
-              <Icon name="AlertTriangle" size={16} className="text-warning mt-0.5" />
-              <div>
-                <h4 className="text-sm font-medium text-foreground">Hedging Strategy</h4>
-                <p className="text-xs text-muted-foreground">
-                  Consider carbon credit positions to offset transition risks
-                </p>
-              </div>
-            </div>
+            <RiskMitigationCard
+              title="Diversification"
+              description="Reduce concentration in high-risk energy sector holdings"
+              icon="CheckCircle"
+              status="text-accent-success"
+            />
+            <RiskMitigationCard
+              title="Hedging Strategy"
+              description="Consider carbon credit positions to offset transition risks"
+              icon="AlertTriangle"
+              status="text-accent-warning"
+            />
           </div>
 
           <div className="space-y-3">
-            <div className="flex items-start space-x-3 p-3 bg-accent/10 rounded-lg border border-accent/20">
-              <Icon name="TrendingUp" size={16} className="text-accent mt-0.5" />
-              <div>
-                <h4 className="text-sm font-medium text-foreground">Green Allocation</h4>
-                <p className="text-xs text-muted-foreground">
-                  Increase allocation to renewable energy and clean technology
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-start space-x-3 p-3 bg-primary/10 rounded-lg border border-primary/20">
-              <Icon name="Eye" size={16} className="text-primary mt-0.5" />
-              <div>
-                <h4 className="text-sm font-medium text-foreground">Enhanced Monitoring</h4>
-                <p className="text-xs text-muted-foreground">
-                  Implement real-time ESG risk monitoring and alerts
-                </p>
-              </div>
-            </div>
+            <RiskMitigationCard
+              title="Green Allocation"
+              description="Increase allocation to renewable energy and clean technology"
+              icon="TrendingUp"
+              status="text-accent-info"
+            />
+            <RiskMitigationCard
+              title="Enhanced Monitoring"
+              description="Implement real-time ESG risk monitoring and alerts"
+              icon="Eye"
+              status="text-accent-info"
+            />
           </div>
         </div>
       </div>
