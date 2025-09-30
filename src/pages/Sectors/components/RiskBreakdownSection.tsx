@@ -8,10 +8,15 @@ interface RiskItemProps {
 
 const RiskItem = ({ label, color, textColor = 'text-text-dark' }: RiskItemProps) => (
   <div
-    className={`flex justify-center items-center px-3 py-3 rounded-sm ${textColor}`}
+    className={`flex justify-center items-center px-3 py-2 rounded-sm ${textColor}`}
     style={{ backgroundColor: color }}
   >
-    <span className="text-sm font-normal leading-xs text-center font-['Inter']">{label}</span>
+    <span
+      className="text-sm font-normal leading-xs text-center font-['Inter']"
+      style={{ fontSize: 10 }}
+    >
+      {label}
+    </span>
   </div>
 );
 
@@ -40,7 +45,7 @@ const RiskBreakdownSection = ({ className }: RiskBreakdownSectionProps) => {
             <span className="text-md font-normal leading-md text-right text-text-dark font-['DM Sans']">
               Environmental
             </span>
-            <div className="flex gap-1 justify-start items-center w-full mt-1">
+            <div className="flex gap-1 justify-start items-center w-full mt-2">
               <RiskItem label="Resource Use" color="#05ff00" />
               <RiskItem label="Climate Stewardship" color="#acff01" />
               <RiskItem label="Resource Footprint" color="#ff8b00" />
@@ -54,7 +59,7 @@ const RiskBreakdownSection = ({ className }: RiskBreakdownSectionProps) => {
             <span className="text-md font-normal leading-md text-right text-text-dark font-['DM Sans']">
               Social
             </span>
-            <div className="flex gap-1 justify-start items-center w-full mt-1">
+            <div className="flex gap-1 justify-start items-center w-full mt-2">
               <RiskItem label="Human Capacity" color="#ffae00" />
               <RiskItem label="Community Engagement" color="#ff8001" />
               <RiskItem label="Customer Satisfaction" color="#ff9000" />
@@ -68,7 +73,7 @@ const RiskBreakdownSection = ({ className }: RiskBreakdownSectionProps) => {
             <span className="text-md font-normal leading-md text-right text-text-dark font-['DM Sans']">
               Governance
             </span>
-            <div className="flex gap-1 justify-start items-center w-full mt-1">
+            <div className="flex gap-1 justify-start items-center w-full mt-2">
               <RiskItem label="Legal Compliance" color="#d4ff00" />
               <RiskItem label="Board Performance" color="#86ff00" />
               <RiskItem label="Executioner Risk" color="#fed600" />
