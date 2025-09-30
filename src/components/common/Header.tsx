@@ -61,7 +61,7 @@ const Header = ({ className }: HeaderProps) => {
     {
       label: 'Reports',
       path: '/reports',
-      isActive: location.pathname === '/reports',
+     isActive: location.pathname === '/' || location.pathname === '/reports',
       icon: 'FileText',
     },
   ];

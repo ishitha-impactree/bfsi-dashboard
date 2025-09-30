@@ -5,6 +5,7 @@ import CockpitPage from './pages/Cockpit';
 import SectorsPage from './pages/Sectors';
 import BenchmarksPage from './pages/Benchmarks';
 import ReportsPage from './pages/Reports';
+import ComplianceReportingPage from './pages/Reports';
 import Risks from './pages/Risks';
 import PortfolioPage from './pages/Portfolio';
 
@@ -17,6 +18,7 @@ const AppRoutes = () => {
         <Route path="/sectors" element={<SectorsPage />} />
         <Route path="/benchmarks" element={<BenchmarksPage />} />
         <Route path="/reports" element={<ReportsPage />}/>
+        <Route path="/reports" element={<ComplianceReportingPage />}/>
         <Route path="/risks" element={<Risks />} />
         <Route path="/portfolio" element={<PortfolioPage />}/>
         <Route path="*" element={<h1>Page not found</h1>} />

@@ -54,12 +54,6 @@ function Icon({
     if (mappedName) {
       return mappedName;
     }
-    
-    return iconName
-      .split('-')
-      .map(part => part.charAt(0).toUpperCase() + part.slice(1))
-      .join('');
-  };
 
   const formattedName = name ? formatIconName(name) : '';
   const IconComponent = formattedName ? (LucideIcons as any)[formattedName] : undefined;
