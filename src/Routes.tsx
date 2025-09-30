@@ -15,7 +15,7 @@ const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<CockpitPage />} />
+        <Route path="/" element={<SignInForm />} />
         <Route path="/cockpit" element={<CockpitPage />} />
         <Route path="/sectors" element={<SectorsPage />} />
         <Route path="/benchmarks" element={<BenchmarksPage />} />

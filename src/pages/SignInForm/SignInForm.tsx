@@ -1,5 +1,6 @@
 import { Form, Formik, FormikHelpers, useField } from 'formik';
 import { useState, ReactNode, CSSProperties } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { object, string, boolean } from 'yup';
 
 const ArrowForwardIcon = () => (
@@ -245,37 +246,6 @@ interface SignInValues {
   rememberMe: boolean;
 }
 
-export const handleSignInSubmit = async (
-  values: SignInValues,
-  formikHelpers: FormikHelpers<SignInValues>,
-  setToast: Function,
-  slug?: string
-) => {
-  const { setSubmitting, validateForm, setFieldError } = formikHelpers;
-  setSubmitting(true);
-
-  try {
-    const res = await yourAuthFunction({
-      email: values.email,
-      password: values.password,
-      ...(slug && { slug }),
-    });
-
-    if (res?.success) {
-      showToast('Signed In!', 'success', setToast);
-      window.location.href = '/cockpit';
-    } else {
-      setFieldError('email', 'Invalid Email or Password');
-      showToast('Login failed: Invalid Email or Password', 'error', setToast);
-    }
-  } catch (error) {
-    setFieldError('email', 'Accept Invitation / Invalid Email or Password');
-    showToast('Login failed: Check invitation or credentials', 'error', setToast);
-  }
-
-  setSubmitting(false);
-};
-
 const LeftPanel = () => (
   <div
     style={{
@@ -403,6 +373,7 @@ const LeftPanel = () => (
 );
 
 export default function App({ slug }: { slug?: string }) {
+  const navigate = useNavigate();
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | null }>({
     message: '',
     type: null,
@@ -414,6 +385,38 @@ export default function App({ slug }: { slug?: string }) {
     password: '',
     rememberMe: false,
   });
+
+  const handleSignInSubmit = async (
+    values: SignInValues,
+    formikHelpers: FormikHelpers<SignInValues>,
+    setToast: Function,
+    slug?: string
+  ) => {
+    const { setSubmitting, validateForm, setFieldError } = formikHelpers;
+    setSubmitting(true);
+
+    try {
+      const res = await yourAuthFunction({
+        email: values.email,
+        password: values.password,
+        ...(slug && { slug }),
+      });
+
+      if (res?.success) {
+        showToast('Signed In!', 'success', setToast);
+        // window.location.href = '/cockpit';
+        navigate('/cockpit');
+      } else {
+        setFieldError('email', 'Invalid Email or Password');
+        showToast('Login failed: Invalid Email or Password', 'error', setToast);
+      }
+    } catch (error) {
+      setFieldError('email', 'Accept Invitation / Invalid Email or Password');
+      showToast('Login failed: Check invitation or credentials', 'error', setToast);
+    }
+
+    setSubmitting(false);
+  };
 
   const validationSchema = object({
     email: string(),
