@@ -1,16 +1,203 @@
 import { Form, Formik, FormikHelpers } from 'formik';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { Stack, Container, Row, Col, FormCheck } from 'react-bootstrap';
-import { toast } from 'react-hot-toast';
-import { MdArrowForward } from 'react-icons/md';
+import { useState, ReactNode, CSSProperties } from 'react';
 import { object, string, boolean } from 'yup';
 
-// Assuming these paths are correct for your project structure
-import Button from '../../components/ui/Button';
-import { FormikField } from '../../components/FormikField/FormikField';
+const ArrowForwardIcon = () => (
+    <svg 
+        xmlns="http://www.w3.org/2000/svg" 
+        width="24" 
+        height="24" 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        stroke="currentColor" 
+        strokeWidth="2" 
+        strokeLinecap="round" 
+        strokeLinejoin="round"
+        style={{ color: 'white', marginLeft: '12px' }}
+    >
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+    </svg>
+);
 
-// --- TYPE DEFINITIONS & MOCK AUTH LOGIC ---
+const EyeIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+);
+
+const EyeOffIcon = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61C4.48 7.97 2.72 10 2 12c.72 2 2.48 4.03 4.61 5.39"/><path d="m2 2 20 20"/></svg>
+);
+
+interface CustomButtonProps {
+    text: string;
+    isDisabled: boolean;
+    isLoading: boolean;
+    type: 'button' | 'submit' | 'reset';
+    isSolid: boolean;
+    className: string;
+    style: CSSProperties;
+    sufixIconChildren?: ReactNode;
+    onClick?: () => void;
+}
+const Button: React.FC<CustomButtonProps> = ({ 
+    text, 
+    isDisabled, 
+    isLoading, 
+    type, 
+    style, 
+    sufixIconChildren,
+    onClick 
+}) => {
+    return (
+        <button
+            type={type}
+            disabled={isDisabled || isLoading}
+            style={{
+                ...style,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: isDisabled || isLoading ? 'not-allowed' : 'pointer',
+                transition: 'background-color 0.2s, opacity 0.2s',
+                opacity: isDisabled || isLoading ? 0.7 : 1,
+            }}
+            onClick={onClick}
+        >
+            {isLoading ? 'Loading...' : text}
+            {!isLoading && sufixIconChildren}
+        </button>
+    );
+};
+interface FormikFieldProps {
+    name: string;
+    errors: { [key: string]: any };
+    label: string;
+    type: string;
+    isPassword?: boolean;
+    passwordIcon?: boolean;
+    setPasswordIcon?: (value: boolean) => void;
+    value: string;
+    className: string;
+    style: CSSProperties;
+    placeholder?: string; 
+}
+
+const FormikField: React.FC<FormikFieldProps> = ({
+    name,
+    errors,
+    type,
+    isPassword = false,
+    passwordIcon,
+    setPasswordIcon,
+    value,
+    style,
+    placeholder, 
+}) => {
+    const isError = errors[name];
+
+    return (
+        <div style={{ position: 'relative' }}>
+            <input
+                id={name}
+                name={name}
+                type={type}
+                value={value}
+                placeholder={placeholder} 
+                onChange={() => {  }}
+                className="form-control"
+                style={{
+                    ...style,
+                    border: `1px solid ${isError ? '#dc3545' : '#ccc'}`,
+                    width: '100%',
+                    boxSizing: 'border-box',
+                }}
+            />
+            {isPassword && setPasswordIcon && (
+                <div
+                    onClick={() => setPasswordIcon(!passwordIcon)}
+                    style={{
+                        position: 'absolute',
+                        right: '10px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        cursor: 'pointer',
+                        color: '#6c757d',
+                    }}
+                >
+                    {passwordIcon ? <EyeOffIcon /> : <EyeIcon />}
+                </div>
+            )}
+            {isError && (
+                <div style={{ color: '#dc3545', fontSize: '0.8rem', marginTop: '4px' }}>
+                    {isError}
+                </div>
+            )}
+        </div>
+    );
+};
+
+const CustomToast = ({ message, type }: { message: string; type: 'success' | 'error' | null }) => {
+    if (!message || !type) return null;
+    const bgColor = type === 'success' ? '#4CAF50' : '#F44336';
+    const textColor = 'white';
+
+    return (
+        <div 
+            style={{
+                position: 'fixed',
+                top: '20px',
+                right: '20px',
+                padding: '12px 20px',
+                backgroundColor: bgColor,
+                color: textColor,
+                borderRadius: '8px',
+                zIndex: 1000,
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+                transition: 'opacity 0.3s ease-in-out',
+                opacity: 1,
+                fontSize: '1rem',
+                fontWeight: '600'
+            }}
+        >
+            {message}
+        </div>
+    );
+};
+
+const Stack: React.FC<{ direction?: 'horizontal', className: string, children: ReactNode }> = ({ children }) => (
+    <div 
+        style={{ 
+            display: 'block', 
+            alignItems: 'center' 
+        }}
+    >
+        {children}
+    </div>
+);
+
+const FormCheck: React.FC<{ type: 'checkbox', id: string, label: string, name: string, checked: boolean, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void, style: CSSProperties }> = ({ id, label, checked, onChange, style }) => (
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+        <input 
+            type="checkbox" 
+            id={id} 
+            checked={checked} 
+            onChange={onChange} 
+            style={{ marginRight: '8px' }}
+        />
+        <label htmlFor={id} style={style}>{label}</label>
+    </div>
+);
+
+const yourAuthFunction = async (credentials: { email: string; password: string; slug?: string }) => {
+  await new Promise(resolve => setTimeout(resolve, 500));
+  return { success: true };
+};
+
+const showToast = (message: string, type: 'success' | 'error', setToast: Function) => {
+    setToast({ message, type });
+    setTimeout(() => {
+        setToast({ message: '', type: null });
+    }, 3000);
+};
 
 interface SignInValues {
   email: string;
@@ -18,24 +205,13 @@ interface SignInValues {
   rememberMe: boolean;
 }
 
-// Placeholder for the actual authentication function
-const yourAuthFunction = async (credentials: { email: string; password: string; slug?: string }) => {
-  // Mock success response. Replace with your actual API call.
-  // Delay added to simulate network latency for the loading state
-  await new Promise(resolve => setTimeout(resolve, 500));
-  return { success: true };
-};
-
-// Submission handler logic
 export const handleSignInSubmit = async (
   values: SignInValues,
   formikHelpers: FormikHelpers<SignInValues>,
-  navigate: any,
+  setToast: Function,
   slug?: string,
 ) => {
   const { setSubmitting, validateForm, setFieldError } = formikHelpers;
-
-  validateForm(values);
   setSubmitting(true);
 
   try {
@@ -46,266 +222,293 @@ export const handleSignInSubmit = async (
     });
 
     if (res?.success) {
-      toast.success('Signed In');
-      navigate('/cockpit'); // Redirect to /cockpit
+      showToast('Signed In!', 'success', setToast); 
+      window.location.href = '/cockpit'; 
     } else {
       setFieldError('email', 'Invalid Email or Password');
+      showToast('Login failed: Invalid Email or Password', 'error', setToast);
     }
   } catch (error) {
     setFieldError('email', 'Accept Invitation / Invalid Email or Password');
+    showToast('Login failed: Check invitation or credentials', 'error', setToast);
   }
 
   setSubmitting(false);
 };
 
-// --- LEFT PANEL COMPONENT (Image/Illustration Container) ---
-
 const LeftPanel = () => (
-  <Col
-    md={6} 
-    className="d-flex align-items-center justify-content-center vh-100 p-0"
-    style={{
-      backgroundColor: '#FFB300',
-      position: 'relative',
-      overflow: 'hidden',
-    }}
-  >
-    {/* Rubier Logo (Positioned top-left) */}
     <div
-      style={{
-        position: 'absolute',
-        top: '40px',
-        left: '40px',
-        color: 'white',
-        fontSize: '1.5rem',
-        fontWeight: 'bold',
-        display: 'flex',
-        alignItems: 'center',
-        zIndex: 10,
-      }}
+        style={{
+            flex: '1 1 50%', 
+            minHeight: '100vh',
+            display: 'flex',
+            flexDirection: 'column', 
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px 0',
+            backgroundColor: '#FFB300', 
+            position: 'relative',
+            overflow: 'hidden',
+            '@media (max-width: 768px)': { display: 'none' } 
+        }}
     >
-        {/* Simulating the geometric logo icon */}
-        <span style={{
-          display: 'inline-block',
-          width: '24px',
-          height: '24px',
-          backgroundColor: 'white',
-          clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 50%)',
-          marginRight: '8px'
-        }}></span>
-        Rubicr
-    </div>
+        <div
+            style={{
+                position: 'absolute',
+                top: '40px',
+                left: '60px', 
+                zIndex: 10,
+            }}
+        >
+            <img 
+                src="/images/rubicr-logo-signin.png"
+                alt="Rubicr Logo"
+                style={{
+                    height: '40px', 
+                    objectFit: 'contain',
+                    filter: 'drop-shadow(0 0 5px rgba(0,0,0,0.1))',
+                }}
+                onError={(e) => { 
+                    e.currentTarget.style.display = 'none'; 
+                    console.log("Logo failed to load.");
+                }}
+            />
+        </div>
 
-    {/* Globe Illustration (Simulated with CSS) */}
-    <div
-      style={{
-        width: '70%',
-        paddingTop: '70%',
-        position: 'relative',
-        borderRadius: '50%',
-        backgroundColor: 'rgba(255, 255, 255, 0.15)',
-        boxShadow: '0 0 50px rgba(0, 0, 0, 0.1) inset',
-        transform: 'scale(1.1)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: 'rgba(255, 255, 255, 0.9)',
-        fontSize: '1.5rem',
-        fontWeight: '600'
-      }}
-      className='my-auto'
-    >
-      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-          Welcome Back
-      </div>
+        <div
+            style={{
+                width: '80%', 
+                maxWidth: '450px',
+                height: 'auto',
+                opacity: 0.6, 
+                marginTop: '60px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                flexGrow: 1, 
+                padding: '20px',
+            }}
+        >
+            <img
+                src="/images/login-image2.jpg" 
+                alt="Globe Asset"
+                style={{
+                    width: '100%',
+                    height: 'auto', 
+                    objectFit: 'contain',
+                    borderRadius: '8px', 
+                }}
+                onError={(e) => { 
+                    e.currentTarget.style.display = 'none'; 
+                    const fallback = document.createElement('div');
+                    Object.assign(fallback.style, {
+                        width: '400px',
+                        height: '300px',
+                        backgroundColor: 'rgba(255, 255, 255, 0.4)',
+                        border: '2px solid rgba(255, 255, 255, 0.8)',
+                        borderRadius: '8px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        color: 'white'
+                    });
+                    fallback.innerText = 'Globe Placeholder';
+                    e.currentTarget.parentElement?.appendChild(fallback);
+                }}
+            />
+        </div>
     </div>
-  </Col>
 );
 
-
-// --- MAIN SIGN-IN FORM PAGE COMPONENT ---
-
-export default function SignInFormPage({ slug }: { slug?: string }) {
-  const navigate = useNavigate();
+export default function App({ slug }: { slug?: string }) {
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | null }>({ message: '', type: null });
   const [hideEyeIcon, setHideEyeIcon] = useState(false);
+  
+  const [values, setValues] = useState<SignInValues>({
+    email: '', 
+    password: '', 
+    rememberMe: false
+  });
 
-  // Validation Schema
   const validationSchema = object({
-    email: string()
-      .email('Invalid email address')
-      .matches(
-        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        'Invalid email format',
-      )
-      .required('Email address is required'),
-    password: string().required('Password is required'),
+    email: string(), 
+    password: string(), 
     rememberMe: boolean(),
   });
 
   const onSubmit = async (
-    values: SignInValues,
+    formikValues: SignInValues,
     formikHelpers: FormikHelpers<SignInValues>,
   ) => {
-    await handleSignInSubmit(values, formikHelpers, navigate, slug);
-  };
-
-  // Initial values
-  const initialValues: SignInValues = {
-    email: '',
-    password: '',
-    rememberMe: false
+    // Pass setToast function to the submit handler
+    await handleSignInSubmit(formikValues, formikHelpers, setToast, slug);
   };
 
 
   return (
-    <Container fluid className="vh-100 p-0">
-      <Row className="h-100 g-0 m-0">
+    <div 
+        style={{ 
+            minHeight: '100vh', 
+            padding: 0, 
+            display: 'flex', 
+            flexDirection: 'row',
+        }}
+    >
+      <LeftPanel />
 
-        {/* 1. Left Side: Image/Illustration Panel (Logo/Illustration) */}
-        <LeftPanel />
+      {}
+      <CustomToast message={toast.message} type={toast.type} />
 
-        {/* 2. Right Side: Form Panel (The Form) */}
-        <Col
-          md={6}
-          className="d-flex align-items-center justify-content-center py-5 p-0"
-          style={{ backgroundColor: '#f8fafc' }}
-        >
-            <div className="w-100 p-4" style={{ maxWidth: '500px' }}>
-              <Formik
-                initialValues={initialValues}
-                validationSchema={validationSchema}
-                onSubmit={onSubmit}
-                validateOnChange={false}
-                validateOnBlur={false}
-              >
-                {({ errors, handleSubmit, isSubmitting, values, setFieldValue }) => (
-                  <Form onSubmit={handleSubmit}>
-
-                    {/* Header: Login and subtitle */}
-                    <div className="text-left mb-5">
-                      <h2 className="fw-bold" style={{ fontSize: '2rem' }}>Login</h2>
-                      <span
-                        className="page-subtitle"
-                        style={{ color: '#FFB300', fontWeight: 500 }}
-                      >
-                        Access your account securely
-                      </span>
-                    </div>
-
-                    {/* Email Field */}
-                    <div className="mb-4">
-                      <label 
-                        htmlFor="email" 
-                        className="form-label fw-medium"
-                        style={{ color: '#333', fontSize: '0.9rem' }}
-                      >
-                        Email Address
-                      </label>
-                      <FormikField
-                        name="email"
-                        errors={errors}
-                        label="" // Empty label since we're using custom label above
-                        type="email"
-                        placeholder="rouanve@leadbank.com"
-                        value={values.email}
-                        className="w-100"
-                      />
-                    </div>
-
-                    {/* Password Field */}
-                    <div className="mb-3">
-                      <label 
-                        htmlFor="password" 
-                        className="form-label fw-medium"
-                        style={{ color: '#333', fontSize: '0.9rem' }}
-                      >
-                        Password
-                      </label>
-                      <FormikField
-                        name="password"
-                        errors={errors}
-                        label="" // Empty label since we're using custom label above
-                        type={hideEyeIcon ? 'text' : 'password'}
-                        isPassword
-                        placeholder="••••••"
-                        passwordIcon={hideEyeIcon}
-                        setPasswordIcon={setHideEyeIcon}
-                        value={values.password}
-                        className="w-100"
-                      />
-                    </div>
-
-                    {/* Remember Me and Forgot Password (On the same row, justified) */}
-                    <Stack
-                      direction="horizontal"
-                      className="justify-content-between mb-5 mt-4 align-items-center"
+      {}
+      <div
+        style={{
+            flex: '1 1 50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '2rem 0', 
+            backgroundColor: '#f7f7f7', 
+            minHeight: '100vh', 
+        }}
+      >
+          <div style={{ width: '90%', padding: '16px', maxWidth: '400px' }}>
+            <Formik
+              initialValues={values}
+              validationSchema={validationSchema}
+              onSubmit={onSubmit}
+              validateOnChange={false}
+              validateOnBlur={false}
+            >
+              {({ errors, handleSubmit, isSubmitting, setFieldValue, values }) => (
+                <form 
+                    onSubmit={handleSubmit}
+                    style={{ 
+                        display: 'flex', 
+                        flexDirection: 'column', 
+                        gap: '1rem' 
+                    }}
+                >
+                  <div style={{ textAlign: 'left', marginBottom: '40px' }}>
+                    <h2 style={{ fontSize: '2rem', fontWeight: 'bold', color: '#333', margin: '0 0 8px 0' }}>Login</h2>
+                    <span
+                      style={{ color: '#FFB300', fontWeight: 500, fontSize: '1.1rem' }} 
                     >
-                      {/* Remember Me Checkbox (LEFT aligned) */}
-                       <FormCheck
-                        type="checkbox"
-                        id="remember-me-checkbox"
-                        label="Remember me"
-                        name="rememberMe"
-                        checked={values.rememberMe}
-                        onChange={(e) => setFieldValue('rememberMe', e.target.checked)}
-                        style={{ fontSize: '0.9rem', color: '#333' }}
-                      />
+                      Access your account securely
+                    </span>
+                  </div>
 
-                      {/* Forgot Password Link (RIGHT aligned) */}
-                      <a
-                        href="/forgot_password"
-                        className="text-decoration-none fw-400"
-                        style={{ fontSize: '0.9rem', color: '#333' }}
-                      >
-                        Forgot Password
-                      </a>
-                    </Stack>
+                  <div style={{ marginBottom: '1rem' }}>
+                    <label 
+                      htmlFor="email" 
+                      style={{ color: '#333', fontSize: '0.9rem', fontWeight: '500', display: 'block', marginBottom: '8px' }}
+                    >
+                      Email Address
+                    </label>
+                    <FormikField
+                      name="email"
+                      errors={errors}
+                      label="" 
+                      type="email"
+                      value={values.email}
+                      placeholder="e.g., john.doe@example.com" 
+                      className="w-100"
+                      style={{ borderRadius: '6px', padding: '10px 15px' }} 
+                    />
+                  </div>
 
-                    {/* Login Button */}
-                    <Stack>
-                      <Button
-                        text={isSubmitting ? 'Logging in...' : 'Login to account'}
-                        isDisabled={isSubmitting}
-                        isLoading={isSubmitting}
-                        type="submit"
-                        isSolid
-                        className="w-100 fw-bold border-0"
-                        style={{
-                          backgroundColor: '#2b3674', // Dark blue button color
-                          color: 'white',
-                          padding: '12px 15px',
-                          fontSize: '1rem',
-                          borderRadius: '8px'
-                        }}
-                        sufixIconChildren={
-                          <MdArrowForward
-                            size={24}
-                            color="white"
-                            className="ms-3"
-                          />
-                        }
-                      />
-                    </Stack>
+                  <div style={{ marginBottom: '1.5rem' }}>
+                    <label 
+                      htmlFor="password" 
+                      style={{ color: '#333', fontSize: '0.9rem', fontWeight: '500', display: 'block', marginBottom: '8px' }}
+                    >
+                      Password
+                    </label>
+                    <FormikField
+                      name="password"
+                      errors={errors}
+                      label="" 
+                      type={hideEyeIcon ? 'text' : 'password'}
+                      isPassword
+                      passwordIcon={hideEyeIcon}
+                      setPasswordIcon={setHideEyeIcon}
+                      value={values.password}
+                      placeholder="••••••••" 
+                      className="w-100"
+                      style={{ borderRadius: '6px', padding: '10px 15px' }}
+                    />
+                  </div>
 
-                    {/* Create an Account Link (Centered below button) */}
-                    <div className="text-center mt-4">
-                      <a
-                        href="/sign-up"
-                        className="text-decoration-none fw-500"
-                        style={{
-                          color: '#2b3674', // Dark blue link color
-                          fontSize: '1rem'
-                        }}
-                      >
-                        Create an Account
-                      </a>
-                    </div>
-                  </Form>
-                )}
-              </Formik>
-            </div>
-        </Col>
-      </Row>
-    </Container>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      marginBottom: '2.5rem',
+                      marginTop: '1rem'
+                    }}
+                  >
+                     <FormCheck
+                      type="checkbox"
+                      id="remember-me-checkbox"
+                      label="Remember me"
+                      name="rememberMe"
+                      checked={values.rememberMe}
+                      onChange={(e) => setFieldValue('rememberMe', e.target.checked)}
+                      style={{ fontSize: '0.9rem', color: '#555' }} 
+                    />
+
+                    <a
+                      href="#/forgot_password"
+                      style={{ 
+                          textDecoration: 'none', 
+                          fontWeight: '400',
+                          fontSize: '0.9rem', 
+                          color: '#555' 
+                      }} 
+                    >
+                      Forgot Password
+                    </a>
+                  </div>
+
+                  <Stack>
+                    <Button
+                      text={isSubmitting ? 'Logging in...' : 'Login to account'}
+                      isDisabled={isSubmitting}
+                      isLoading={isSubmitting}
+                      type="submit"
+                      isSolid
+                      className="w-100 fw-bold border-0"
+                      style={{
+                        backgroundColor: '#2b3674', 
+                        color: 'white',
+                        padding: '12px 15px',
+                        fontSize: '1rem',
+                        borderRadius: '8px',
+                        border: 'none',
+                        width: '100%',
+                      }}
+                      sufixIconChildren={<ArrowForwardIcon />}
+                    />
+                  </Stack>
+
+                  <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+                    <a
+                      href="#/sign-up"
+                      style={{
+                        textDecoration: 'none', 
+                        fontWeight: '500',
+                        color: '#2b3674', 
+                        fontSize: '1rem'
+                      }}
+                    >
+                      Create an Account
+                    </a>
+                  </div>
+                </form>
+              )}
+            </Formik>
+          </div>
+      </div>
+    </div>
   );
 }
