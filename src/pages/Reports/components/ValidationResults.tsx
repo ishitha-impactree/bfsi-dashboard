@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Icon from '../../../components/ui/AppIcon';
-import Button from '../../../components/ui/Button';
+import ButtonWithIcon from '../../../components/ui/ButtonWithIcon';
 
 // Define the interfaces for the data structures
 interface Issue {
@@ -154,22 +154,38 @@ const ValidationResults: React.FC = () => {
 
   const validationTypes = [
     { id: 'all', name: 'All Validations', count: validationResults?.length },
-    { id: 'data-quality', name: 'Data Quality', count: validationResults?.filter((v) => v?.validationType === 'data-quality')?.length },
-    { id: 'compliance-check', name: 'Compliance Check', count: validationResults?.filter((v) => v?.validationType === 'compliance-check')?.length },
-    { id: 'target-validation', name: 'Target Validation', count: validationResults?.filter((v) => v?.validationType === 'target-validation')?.length },
-    { id: 'scoring-preview', name: 'Scoring Preview', count: validationResults?.filter((v) => v?.validationType === 'scoring-preview')?.length },
+    {
+      id: 'data-quality',
+      name: 'Data Quality',
+      count: validationResults?.filter((v) => v?.validationType === 'data-quality')?.length,
+    },
+    {
+      id: 'compliance-check',
+      name: 'Compliance Check',
+      count: validationResults?.filter((v) => v?.validationType === 'compliance-check')?.length,
+    },
+    {
+      id: 'target-validation',
+      name: 'Target Validation',
+      count: validationResults?.filter((v) => v?.validationType === 'target-validation')?.length,
+    },
+    {
+      id: 'scoring-preview',
+      name: 'Scoring Preview',
+      count: validationResults?.filter((v) => v?.validationType === 'scoring-preview')?.length,
+    },
   ];
 
   const getStatusColor = (status: string): string => {
     switch (status) {
       case 'passed':
-        return 'bg-success text-success-foreground';
+        return 'bg-accent-success text-primary-foreground';
       case 'failed':
-        return 'bg-error text-error-foreground';
+        return 'bg-accent-danger text-primary-foreground';
       case 'in-progress':
-        return 'bg-primary text-primary-foreground';
+        return 'bg-accent-info text-primary-foreground';
       case 'warning':
-        return 'bg-warning text-warning-foreground';
+        return 'bg-accent-warning text-primary-foreground';
       default:
         return 'bg-muted text-muted-foreground';
     }
@@ -178,11 +194,11 @@ const ValidationResults: React.FC = () => {
   const getIssueColor = (type: string): string => {
     switch (type) {
       case 'error':
-        return 'bg-error/10 text-error border-error/20';
+        return 'bg-error/10 text-accent-danger border-error/20';
       case 'warning':
-        return 'bg-warning/10 text-warning border-warning/20';
+        return 'bg-warning/10 text-accent-warning border-warning/20';
       case 'info':
-        return 'bg-primary/10 text-primary border-primary/20';
+        return 'bg-primary/10 text-accent-info border-primary/20';
       default:
         return 'bg-muted/10 text-muted-foreground border-muted/20';
     }
@@ -205,10 +221,10 @@ const ValidationResults: React.FC = () => {
     if (score === null) {
       return 'text-muted-foreground';
     }
-    if (score >= 90) return 'text-success';
-    if (score >= 70) return 'text-primary';
-    if (score >= 50) return 'text-warning';
-    return 'text-error';
+    if (score >= 90) return 'text-accent-success';
+    if (score >= 70) return 'text-accent-info';
+    if (score >= 50) return 'text-accent-warning';
+    return 'text-accent-danger';
   };
 
   const formatDate = (dateString: string): string => {
@@ -220,24 +236,27 @@ const ValidationResults: React.FC = () => {
     });
   };
 
-  const filteredResults = selectedValidation === 'all' 
-    ? validationResults 
-    : validationResults?.filter((result) => result?.validationType === selectedValidation);
+  const filteredResults =
+    selectedValidation === 'all'
+      ? validationResults
+      : validationResults?.filter((result) => result?.validationType === selectedValidation);
 
   return (
-    <div className="bg-card border border-border rounded-lg p-6">
+    <div className="bg-primary-foreground border border-border rounded-lg p-4 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200">
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-xl font-semibold text-card-foreground">Validation Results</h2>
-          <p className="text-sm text-muted-foreground">Automated quality checks and compliance validation</p>
+          <p className="text-sm text-text-muted">
+            Automated quality checks and compliance validation
+          </p>
         </div>
         <div className="flex items-center space-x-2">
-          <Button variant="outline" size="sm" iconName="RefreshCw">
+          <ButtonWithIcon variant="outline" size="sm" iconName="RefreshCw">
             Run All
-          </Button>
-          <Button variant="outline" size="sm" iconName="Settings">
+          </ButtonWithIcon>
+          <ButtonWithIcon variant="outline" size="sm" iconName="Settings">
             Configure
-          </Button>
+          </ButtonWithIcon>
         </div>
       </div>
       <div className="flex flex-col lg:flex-row gap-6">
@@ -250,12 +269,12 @@ const ValidationResults: React.FC = () => {
                 onClick={() => setSelectedValidation(type?.id)}
                 className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-sm transition-colors ${
                   selectedValidation === type?.id
-                    ? 'bg-primary text-primary-foreground'
+                    ? 'bg-accent-info text-primary-foreground'
                     : 'text-muted-foreground hover:text-foreground hover:bg-muted'
                 }`}
               >
                 <span>{type?.name}</span>
-                <span className="text-xs">{type?.count}</span>
+                <span className="text-sm">{type?.count}</span>
               </button>
             ))}
           </div>
@@ -263,31 +282,36 @@ const ValidationResults: React.FC = () => {
 
         {/* Main content */}
         <div className="flex-1">
-          <div className="space-y-4">
+          <div className="space-y-3">
             {filteredResults?.map((result) => (
-              <div key={result?.id} className="border border-border rounded-lg p-6">
+              <div
+                key={result?.id}
+                className="bg-primary-foreground border border-border rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+              >
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <div className="flex items-center space-x-3 mb-2">
                       <h3 className="font-medium text-card-foreground">{result?.reportName}</h3>
-                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-muted text-muted-foreground">
+                      <span className="inline-flex items-center px-2 py-1 rounded-full text-sm font-medium bg-muted text-text-muted">
                         {result?.framework}
                       </span>
-                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(result?.status)}`}>
+                      <span
+                        className={`inline-flex items-center px-2 py-1 rounded-full text-sm font-medium ${getStatusColor(result?.status)}`}
+                      >
                         {result?.status}
                       </span>
                     </div>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-text-muted">
                       Last run: {formatDate(result?.lastRun)}
                     </p>
                   </div>
-                  
+
                   {result?.status !== 'in-progress' && result?.score !== null && (
                     <div className="text-right">
                       <div className={`text-2xl font-bold ${getScoreColor(result?.score)}`}>
                         {result?.score}
                       </div>
-                      <div className="text-sm text-muted-foreground">Quality Score</div>
+                      <div className="text-sm text-text-muted">Quality Score</div>
                     </div>
                   )}
                 </div>
@@ -300,15 +324,20 @@ const ValidationResults: React.FC = () => {
                         <div className={`text-lg font-semibold ${getScoreColor(value)}`}>
                           {value}%
                         </div>
-                        <div className="text-xs text-muted-foreground capitalize">
-                          {metric}
-                        </div>
-                        <div className="w-full bg-muted rounded-full h-1 mt-1">
-                          <div 
+                        <div className="text-sm text-muted-foreground capitalize">{metric}</div>
+                        <div
+                          className="w-full bg-muted rounded-full h-1 mt-1"
+                          style={{ backgroundColor: 'var(--muted, #f3f4f6)' }}
+                        >
+                          <div
                             className={`h-1 rounded-full transition-all duration-300 ${
-                              value >= 90 ? 'bg-success' :
-                              value >= 70 ? 'bg-primary' :
-                              value >= 50 ? 'bg-warning' : 'bg-error'
+                              value >= 90
+                                ? 'bg-accent-success'
+                                : value >= 70
+                                  ? 'bg-accent-info'
+                                  : value >= 50
+                                    ? 'bg-accent-warning'
+                                    : 'bg-accent-danger'
                             }`}
                             style={{ width: `${value}%` }}
                           />
@@ -326,18 +355,21 @@ const ValidationResults: React.FC = () => {
                     </h4>
                     <div className="space-y-3">
                       {result?.issues?.map((issue) => (
-                        <div key={issue?.id} className={`border rounded-lg p-4 ${getIssueColor(issue?.type)}`}>
+                        <div
+                          key={issue?.id}
+                          className={`${getIssueColor(issue?.type)} bg-primary-foreground border border-border rounded-lg p-4 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200`}
+                        >
                           <div className="flex items-start space-x-3">
                             <Icon name={getIssueIcon(issue?.type)} size={16} className="mt-0.5" />
                             <div className="flex-1">
                               <div className="flex items-center space-x-2 mb-1">
                                 <span className="font-medium">{issue?.category}</span>
-                                <span className="text-xs px-2 py-0.5 bg-background/50 rounded">
+                                <span className="text-sm px-2 py-0.5 bg-background/50 rounded">
                                   {issue?.field}
                                 </span>
                               </div>
                               <p className="text-sm mb-2">{issue?.message}</p>
-                              <p className="text-xs opacity-80">
+                              <p className="text-sm opacity-80">
                                 <strong>Recommendation:</strong> {issue?.recommendation}
                               </p>
                             </div>

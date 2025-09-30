@@ -142,10 +142,7 @@ const ScopeMetricsSection = ({ className }: ScopeMetricsSectionProps) => {
       <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
         {portfolioScopes?.map((scope, index) => (
           <div key={index} className="flex-1">
-            <div
-              className="border border-border rounded-t-xl p-2 sm:p-4 lg:p-2"
-              style={{ background: 'white' }}
-            >
+            <div className="bg-background-light border border-border rounded-t-xl p-2 sm:p-4 lg:p-2">
               <div className="flex justify-between items-center">
                 <span className="text-xs sm:text-md font-semibold text-text-primary">
                   {scope?.title}

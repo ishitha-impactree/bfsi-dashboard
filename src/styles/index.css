@@ -1,4 +1,4 @@
-@import './tailwind.css';
+/* @import './tailwind.css';
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 
 body {
@@ -10,4 +10,19 @@ body {
 
 *, *::before, *::after {
   box-sizing: inherit;
+} */
+
+@import './tailwind.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+  font-family: 'Inter';
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+

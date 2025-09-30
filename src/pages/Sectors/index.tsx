@@ -139,7 +139,7 @@ const SectorsPerformanceAnalysis = () => {
                     {/* <div className="w-full bg-background-light rounded-xl p-3"> */}
                     <MetricsCard
                       title="Exposure"
-                      value="₹ 64,55,699"
+                      value="$ 55,699"
                       unit="Million"
                       changePercentage="19%"
                       isPositive={true}
