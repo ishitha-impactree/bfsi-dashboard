@@ -27,7 +27,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           type="checkbox"
           className={cn(
-            'h-4 w-4 rounded border border-input bg-background text-primary focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+            'h-4 w-4 rounded border border-input bg-background text-primary focus:ring-2 ' +
+              'focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
             className
           )}
           ref={ref}
@@ -42,7 +43,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         <input
           type="radio"
           className={cn(
-            'h-4 w-4 rounded-full border border-input bg-background text-primary focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+            'h-4 w-4 rounded-full border border-input bg-background text-primary focus:ring-2 ' +
+              'focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
             className
           )}
           ref={ref}
@@ -85,11 +87,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           </p>
         )}
 
-        {error && (
-          <p className="text-sm text-destructive">
-            {error}
-          </p>
-        )}
+        {error && <p className="text-sm text-destructive">{error}</p>}
       </div>
     );
   }

@@ -42,7 +42,7 @@ const ThambiInsights = ({ className }: ThambiInsightsProps) => {
       className={`flex flex-col justify-start items-center w-full bg-card rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200 ${className || ''}`}
       style={{ background: 'white' }}
     >
-      <div className="flex justify-start items-center w-full bg-background-light py-[14px] px-[6px]">
+      <div className="flex justify-start items-center w-full bg-background-light py-[12px] px-[6px]">
         <img src="/images/img_2027.png" alt="Thambi Insights logo" className="w-5 h-5" />
         <span className="text-md font-bold leading-lg text-left text-primary-dark font-['Inter'] ml-[5px]">
           Thambi Insights

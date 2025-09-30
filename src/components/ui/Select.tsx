@@ -152,7 +152,7 @@ const CustomSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
             id={selectId}
             type="button"
             className={cn(
-              'flex h-10 w-full items-center justify-between rounded-md border border-input bg-white text-black px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+              'flex h-10 w-full items-center justify-between rounded-md border border-input bg-white text-black px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50',
               error && 'border-destructive focus:ring-destructive',
               !hasValue && 'text-muted-foreground'
             )}
@@ -189,7 +189,7 @@ const CustomSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
               )}
 
               {clearable && hasValue && !loading && (
-                <Button variant="ghost" size="icon" className="h-4 w-4" onClick={handleClear}>
+                <Button variant="outline" size="small" className="h-4 w-4" onClick={handleClear}>
                   <X className="h-3 w-3" />
                 </Button>
               )}
@@ -242,7 +242,7 @@ const CustomSelect = React.forwardRef<HTMLButtonElement, SelectProps>(
                       key={option.value}
                       className={cn(
                         'relative flex cursor-pointer select-none items-center rounded-sm px-3 py-2 text-sm outline-none hover:bg-accent hover:text-accent-foreground',
-                        isSelected(option.value) && 'bg-primary text-primary-foreground',
+                        isSelected(option.value) && 'bg-primary text-accent-info',
                         option.disabled && 'pointer-events-none opacity-50'
                       )}
                       onClick={() => !option.disabled && handleOptionSelect(option)}

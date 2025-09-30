@@ -35,7 +35,7 @@ const MetricsCard = ({
             alt={isPositive ? 'Increase' : 'Decrease'}
             className="w-3 h-3"
           />
-          <span className="text-xs font-normal leading-sm text-left text-text-dark font-['Inter']">
+          <span className="text-sm font-normal leading-sm text-left text-text-dark font-['Inter']">
             {changePercentage}
           </span>
         </div>

@@ -7,6 +7,7 @@ import ESGChart from './components/ESGChart';
 import ScopeMetricsSection from './components/ScopeMetricsSection';
 import RiskBreakdownSection from './components/RiskBreakdownSection';
 import ThambiInsights from './components/ThambiInsights';
+import MetricsCard from './components/MetricsCard';
 
 const SectorsPerformanceAnalysis = () => {
   const topCompany = {
@@ -170,15 +171,29 @@ const SectorsPerformanceAnalysis = () => {
                   <PerformingCompanyCard companyInfo={bottomCompany} />
                 </div>
 
-                <div className="flex flex-col lg:flex-row gap-4 justify-start items-start w-full">
-                  <div className="flex flex-col gap-4 justify-start w-full lg:w-[50%]">
-                   
-                    <div className="w-full bg-white border-l-[3px] border-[#fba900] p-4 rounded-lg shadow-elevation-1">
-                      <div className="flex flex-row justify-end items-center w-full mb-2">
-                        <img
-                          src="/images/img_arrow_drop_up.svg"
-                          alt="Up arrow"
-                          className="w-3 h-3"
+                <div className="flex flex-col lg:flex-row gap-3 justify-start items-start w-full">
+                  {/* <div className="flex flex-col gap-3 justify-start items-center w-full lg:w-[50%]"> */}
+                  <div className="flex flex-col gap-3 justify-start w-full lg:w-[50%]">
+                    {/* <div className="w-full bg-background-light rounded-xl p-3"> */}
+                    <MetricsCard
+                      title="Exposure"
+                      value="$ 55,699"
+                      unit="Million"
+                      changePercentage="19%"
+                      isPositive={true}
+                      hasLeftBorder={true}
+                    />
+                    {/* </div> */}
+
+                    <div className="flex flex-col sm:flex-row gap-3 w-full">
+                      <div className="flex flex-col gap-3 w-full sm:w-1/2">
+                        {/* <div className="w-full bg-background-light rounded-xl p-3"> */}
+                        <MetricsCard
+                          title="Industry ESG Score"
+                          value="68%"
+                          changePercentage="40%"
+                          isPositive={true}
+                          hasLeftBorder={true}
                         />
                         <span className="text-sm font-normal text-black ml-1">
                           19%

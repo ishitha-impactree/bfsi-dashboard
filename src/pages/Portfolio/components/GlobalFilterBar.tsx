@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Select from '../../../components/ui/Select';
 import Button from '../../../components/ui/Button';
 import Icon from '../../../components/ui/AppIcon';
+import ButtonWithIcon from '../../../components/ui/ButtonWithIcon';
 
 interface SelectOption {
   value: string;
@@ -30,7 +31,7 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
     { value: 'emerging-markets', label: 'Emerging Markets Fund' },
     { value: 'sustainable-growth', label: 'Sustainable Growth Fund' },
     { value: 'tech-innovation', label: 'Tech Innovation Fund' },
-    { value: 'infrastructure', label: 'Infrastructure Fund' }
+    { value: 'infrastructure', label: 'Infrastructure Fund' },
   ];
 
   const categoryOptions: SelectOption[] = [
@@ -40,7 +41,7 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
     { value: 'healthcare', label: 'Healthcare' },
     { value: 'financials', label: 'Financials' },
     { value: 'industrials', label: 'Industrials' },
-    { value: 'materials', label: 'Materials' }
+    { value: 'materials', label: 'Materials' },
   ];
 
   const regionOptions: SelectOption[] = [
@@ -49,7 +50,7 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
     { value: 'europe', label: 'Europe' },
     { value: 'asia-pacific', label: 'Asia Pacific' },
     { value: 'emerging-markets', label: 'Emerging Markets' },
-    { value: 'developed-markets', label: 'Developed Markets' }
+    { value: 'developed-markets', label: 'Developed Markets' },
   ];
 
   const dateRangeOptions: SelectOption[] = [
@@ -57,7 +58,7 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
     { value: '1y', label: 'Last 12 Months' },
     { value: '3y', label: 'Last 3 Years' },
     { value: '5y', label: 'Last 5 Years' },
-    { value: 'custom', label: 'Custom Range' }
+    { value: 'custom', label: 'Custom Range' },
   ];
 
   const handleFilterChange = (filterType: string, value: string) => {
@@ -82,7 +83,7 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
       portfolio: filterType === 'portfolio' ? value : selectedPortfolio,
       category: filterType === 'category' ? value : selectedCategory,
       region: filterType === 'region' ? value : selectedRegion,
-      dateRange: filterType === 'dateRange' ? value : dateRange
+      dateRange: filterType === 'dateRange' ? value : dateRange,
     };
 
     onFiltersChange(newFilters);
@@ -97,7 +98,7 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
       portfolio: 'global-equity',
       category: 'all',
       region: 'all',
-      dateRange: 'ytd'
+      dateRange: 'ytd',
     });
   };
 
@@ -107,14 +108,14 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
       portfolio: selectedPortfolio,
       category: selectedCategory,
       region: selectedRegion,
-      dateRange: dateRange
+      dateRange: dateRange,
     });
   };
 
   return (
-    <div className="bg-card border border-border rounded-lg p-6 mb-6 shadow-elevation-1">
+    <div className="bg-primary-foreground border border-border rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 flex-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 flex-1">
           <Select
             label="Portfolio/Fund"
             options={portfolioOptions}
@@ -122,7 +123,7 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
             onChange={(value: string) => handleFilterChange('portfolio', value)}
             className="w-full"
           />
-          
+
           <Select
             label="Investment Category"
             options={categoryOptions}
@@ -130,7 +131,7 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
             onChange={(value: string) => handleFilterChange('category', value)}
             className="w-full"
           />
-          
+
           <Select
             label="Geographic Region"
             options={regionOptions}
@@ -138,7 +139,7 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
             onChange={(value: string) => handleFilterChange('region', value)}
             className="w-full"
           />
-          
+
           <Select
             label="Date Range"
             options={dateRangeOptions}
@@ -149,7 +150,7 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
         </div>
 
         <div className="flex items-center gap-2 lg:ml-4">
-          <Button
+          <ButtonWithIcon
             variant="outline"
             size="sm"
             onClick={handleReset}
@@ -158,10 +159,10 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
             iconSize={16}
           >
             Reset Filters
-          </Button>
-          
-          <Button
-            variant="default"
+          </ButtonWithIcon>
+
+          <ButtonWithIcon
+            variant="destructive"
             size="sm"
             onClick={handleExport}
             iconName="Download"
@@ -169,48 +170,46 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
             iconSize={16}
           >
             Export Data
-          </Button>
+          </ButtonWithIcon>
         </div>
       </div>
       <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-2">
-            <Icon name="Database" size={16} />
-            <span>Last updated: {new Date().toLocaleString('en-US', { 
-              month: 'short', 
-              day: 'numeric', 
-              hour: '2-digit', 
-              minute: '2-digit' 
-            })}</span>
+            <Icon name="Database" size={16} className="text-accent-info" />
+            <span>
+              Last updated:{' '}
+              {new Date().toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+              })}
+            </span>
           </div>
           <div className="flex items-center gap-2">
-            <Icon name="CheckCircle" size={16} className="text-success" />
+            <Icon name="CheckCircle" size={16} className="text-accent-success" />
             <span>Data quality: 98.5%</span>
           </div>
           <div className="flex items-center gap-2">
-            <Icon name="BarChart3" size={16} className="text-primary" />
+            <Icon name="BarChart3" size={16} className="text-accent-warning" />
             <span>1,247 records loaded</span>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            iconName="Filter" 
+          <ButtonWithIcon
+            variant="outline"
+            size="sm"
+            iconName="Filter"
             iconSize={16}
             iconPosition="left"
           >
             Advanced Filters
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            iconName="Settings" 
-            iconSize={16}
-          >
+          </ButtonWithIcon>
+          <ButtonWithIcon variant="ghost" size="sm" iconName="Settings" iconSize={16}>
             <span className="sr-only">Settings</span>
-          </Button>
+          </ButtonWithIcon>
         </div>
       </div>
     </div>

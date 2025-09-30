@@ -61,7 +61,7 @@ const Header = ({ className }: HeaderProps) => {
     {
       label: 'Reports',
       path: '/reports',
-      isActive: location.pathname === '/reports',
+      isActive: location.pathname === '/' || location.pathname === '/reports',
       icon: 'FileText',
     },
   ];
@@ -76,9 +76,7 @@ const Header = ({ className }: HeaderProps) => {
   };
 
   const getCurrentPageTitle = () => {
-    const flatItems = navigationItems.flatMap((item) =>
-      item.children ? item.children : [item]
-    );
+    const flatItems = navigationItems.flatMap((item) => (item.children ? item.children : [item]));
     const currentItem = flatItems.find((item) => item.isActive);
     return currentItem?.label || 'Dashboard';
   };
@@ -90,11 +88,7 @@ const Header = ({ className }: HeaderProps) => {
     >
       <div className="w-full px-3 sm:px-6 lg:px-3">
         <div className="flex justify-between items-center py-4">
-       
-          <div
-            className="flex-shrink-0 cursor-pointer"
-            onClick={() => navigate('/cockpit')}
-          >
+          <div className="flex-shrink-0 cursor-pointer" onClick={() => navigate('/cockpit')}>
             <img
               src="/images/RubiCrLogo 2.png"
               alt="Logo"
@@ -107,12 +101,7 @@ const Header = ({ className }: HeaderProps) => {
             aria-label="Open menu"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -183,12 +172,8 @@ const Header = ({ className }: HeaderProps) => {
         >
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-1">
-              <span className="text-md font-bold leading-md text-header-text">
-                Welcome User!
-              </span>
-              <span className="text-md font-normal leading-md text-header-text">
-                1 Oct, Wed
-              </span>
+              <span className="text-md font-bold leading-md text-header-text">Welcome User!</span>
+              <span className="text-md font-normal leading-md text-header-text">1 Oct, Wed</span>
             </div>
             <img
               src="/images/img_shape.png"
@@ -206,9 +191,7 @@ const Header = ({ className }: HeaderProps) => {
                 Home
               </span>
               <span className="mx-2">/</span>
-              <span className="text-header-accent font-medium">
-                {getCurrentPageTitle()}
-              </span>
+              <span className="text-header-accent font-medium">{getCurrentPageTitle()}</span>
             </div>
           </div>
         </div>

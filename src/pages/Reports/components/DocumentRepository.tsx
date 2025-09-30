@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Icon from '../../../components/ui/AppIcon';
-import Button from '../../../components/ui/Button';
+import ButtonWithIcon from '../../../components/ui/ButtonWithIcon';
 
 // Define the interface for a single document
 interface Document {
@@ -110,15 +110,15 @@ const DocumentRepository: React.FC = () => {
   const getStatusColor = (status: 'approved' | 'review' | 'draft' | 'pending'): string => {
     switch (status) {
       case 'approved':
-        return 'bg-success text-success-foreground';
+        return 'bg-accent-success text-primary-foreground';
       case 'review':
-        return 'bg-warning text-warning-foreground';
+        return 'bg-accent-warning text-primary-foreground';
       case 'draft':
-        return 'bg-secondary text-secondary-foreground';
+        return 'bg-text-muted text-primary-foreground';
       case 'pending':
-        return 'bg-muted text-muted-foreground';
+        return 'bg-accent-info text-primary-foreground';
       default:
-        return 'bg-muted text-muted-foreground';
+        return 'bg-accent-info text-primary-foreground';
     }
   };
 
@@ -152,20 +152,34 @@ const DocumentRepository: React.FC = () => {
       ? documents
       : documents.filter((doc) => doc.framework === selectedFolder);
 
+  const quickActionButtons = [
+    {
+      name: 'Bulk Download',
+      icon: 'Download',
+    },
+    {
+      name: 'Archive Old',
+      icon: 'Archive',
+    },
+    {
+      name: 'Share Folder',
+      icon: 'Share',
+    },
+  ];
   return (
-    <div className="bg-card border border-border rounded-lg p-6">
+    <div className="bg-primary-foreground border border-border rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-xl font-semibold text-card-foreground">Document Repository</h2>
-          <p className="text-sm text-muted-foreground">Manage compliance documents and approvals</p>
+          <h2 className="text-xl font-bold text-card-foreground">Document Repository</h2>
+          <p className="text-sm text-text-muted">Manage compliance documents and approvals</p>
         </div>
         <div className="flex items-center space-x-2">
-          <Button variant="outline" size="sm" iconName="Upload">
+          <ButtonWithIcon variant="outline" size="sm" iconName="Upload">
             Upload
-          </Button>
-          <Button variant="default" size="sm" iconName="Plus">
+          </ButtonWithIcon>
+          <ButtonWithIcon variant="destructive" size="sm" iconName="Plus">
             New Document
-          </Button>
+          </ButtonWithIcon>
         </div>
       </div>
       <div className="flex flex-col lg:flex-row gap-6">
@@ -178,15 +192,15 @@ const DocumentRepository: React.FC = () => {
                 onClick={() => setSelectedFolder(folder.id)}
                 className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-sm transition-colors ${
                   selectedFolder === folder.id
-                    ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                    ? 'bg-accent-info text-primary-foreground'
+                    : 'text-text-muted hover:text-primary-foreground hover:bg-accent-info'
                 }`}
               >
                 <div className="flex items-center space-x-2">
                   <Icon name="Folder" size={16} />
                   <span>{folder.name}</span>
                 </div>
-                <span className="text-xs">{folder.count}</span>
+                <span className="text-sm">{folder.count}</span>
               </button>
             ))}
           </div>
@@ -194,18 +208,14 @@ const DocumentRepository: React.FC = () => {
           <div className="mt-6 pt-6 border-t border-border">
             <h3 className="text-sm font-medium text-card-foreground mb-3">Quick Actions</h3>
             <div className="space-y-2">
-              <button className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors">
-                <Icon name="Download" size={14} />
-                <span>Bulk Download</span>
-              </button>
-              <button className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors">
-                <Icon name="Archive" size={14} />
-                <span>Archive Old</span>
-              </button>
-              <button className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-md transition-colors">
-                <Icon name="Share" size={14} />
-                <span>Share Folder</span>
-              </button>
+              {quickActionButtons?.map((actionBtn: any) => {
+                return (
+                  <button className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-text-muted hover:text-primary-foreground hover:bg-accent-info rounded-md transition-colors">
+                    <Icon name={actionBtn.icon} size={14} />
+                    <span>{actionBtn.name}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -214,26 +224,24 @@ const DocumentRepository: React.FC = () => {
         <div className="flex-1">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-2">
-              <span className="text-sm text-muted-foreground">
-                {filteredDocuments.length} documents
-              </span>
+              <span className="text-md text-text-muted">{filteredDocuments.length} documents</span>
             </div>
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => setViewMode('list')}
                 className={`p-2 rounded-md transition-colors ${
-                  viewMode === 'list' ? 'bg-muted' : 'hover:bg-muted'
+                  viewMode === 'list' ? 'bg-accent-info' : 'hover:bg-accent-info'
                 }`}
               >
-                <Icon name="List" size={16} className="text-muted-foreground" />
+                <Icon name="List" size={16} className="" />
               </button>
               <button
                 onClick={() => setViewMode('grid')}
                 className={`p-2 rounded-md transition-colors ${
-                  viewMode === 'grid' ? 'bg-muted' : 'hover:bg-muted'
+                  viewMode === 'grid' ? 'bg-accent-info' : 'hover:bg-accent-info'
                 }`}
               >
-                <Icon name="Grid3X3" size={16} className="text-muted-foreground" />
+                <Icon name="Grid3X3" size={16} className="" />
               </button>
             </div>
           </div>
@@ -245,14 +253,18 @@ const DocumentRepository: React.FC = () => {
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-start space-x-3">
-                    <div className="p-2 bg-muted rounded-md">
-                      <Icon name={getFileIcon(doc.type)} size={20} className="text-muted-foreground" />
+                    <div className="p-2 bg-text-muted rounded-md">
+                      <Icon
+                        name={getFileIcon(doc.type)}
+                        size={20}
+                        className="text-primary-foreground"
+                      />
                     </div>
                     <div className="flex-1">
                       <h3 className="font-medium text-card-foreground hover:text-primary cursor-pointer">
                         {doc.name}
                       </h3>
-                      <div className="flex items-center space-x-4 mt-1 text-sm text-muted-foreground">
+                      <div className="flex items-center space-x-4 mt-1 text-sm text-text-muted">
                         <span>v{doc.version}</span>
                         <span>{doc.size}</span>
                         <span>by {doc.author}</span>
@@ -260,14 +272,14 @@ const DocumentRepository: React.FC = () => {
                       </div>
                       <div className="flex items-center space-x-2 mt-2">
                         <span
-                          className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(
+                          className={`inline-flex items-center px-2 py-1 rounded-full text-sm font-medium ${getStatusColor(
                             doc.status
                           )}`}
                         >
                           {doc.status}
                         </span>
                         {doc.approver && (
-                          <span className="text-xs text-muted-foreground">
+                          <span className="text-sm text-text-muted">
                             Approved by {doc.approver}
                           </span>
                         )}
@@ -275,14 +287,14 @@ const DocumentRepository: React.FC = () => {
                     </div>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <div className="text-right text-sm text-muted-foreground">
+                    <div className="text-right text-sm text-text-muted">
                       <div>{doc.downloadCount} downloads</div>
                     </div>
                     <button className="p-2 hover:bg-muted rounded-md transition-colors">
-                      <Icon name="Download" size={16} className="text-muted-foreground" />
+                      <Icon name="Download" size={16} className="text-text-muted" />
                     </button>
                     <button className="p-2 hover:bg-muted rounded-md transition-colors">
-                      <Icon name="MoreVertical" size={16} className="text-muted-foreground" />
+                      <Icon name="MoreVertical" size={16} className="text-text-muted" />
                     </button>
                   </div>
                 </div>

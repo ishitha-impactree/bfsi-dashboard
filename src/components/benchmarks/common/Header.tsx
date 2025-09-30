@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 // import Dropdown from './ui/Dropdown';
+import Dropdown from '../ui/Dropdown';
 
 interface HeaderProps {
   className?: string;
@@ -30,13 +31,13 @@ const Header = ({ className }: HeaderProps) => {
     { 
       label: 'Benchmarks', 
       path: '/benchmarks',
-      isActive: location.pathname === '/bencharks'
+      isActive: location.pathname === '/benchmarks'
     },
-    { 
+   { 
       label: 'Reports', 
       path: '/reports',
-      isActive: location.pathname === '/reports' 
-    }
+      isActive: location.pathname === '/reports'
+    },
   ];
 
 
@@ -79,9 +80,7 @@ const Header = ({ className }: HeaderProps) => {
                     } ${
                       item.path === '#' ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'
                     }`}
-                    role="menuitem"
-                    onClick={() => handleNavigation(item.path, item.label)}
-                    disabled={item.path === '#'}
+                    
                   >
                     {item.label}
                   </button>

@@ -64,39 +64,30 @@ const Dropdown: React.FC<DropdownProps> = ({ label, icon, items, onNavigate }) =
         {icon && <Icon name={icon} size={16} className="me-1" />}
         {label}
         <svg
-          className={`w-4 h-4 ml-1 transition-transform ${
-            open ? 'rotate-180' : 'rotate-0'
-          }`}
+          className={`w-4 h-4 ml-1 transition-transform ${open ? 'rotate-180' : 'rotate-0'}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
 
       {open && (
-        <div 
-          className="absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+        <div
+          className="absolute left-0 mt-6 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
           onMouseEnter={handleDropdownMouseEnter}
           onMouseLeave={handleDropdownMouseLeave}
         >
           {items.map((item, idx) => (
             <button
               key={idx}
-              className={`w-full flex items-center gap-2 px-4 py-2 text-sm text-left transition-colors ${
-                item.isActive
-                  ? 'bg-gray-100 text-primary'
-                  : 'text-gray-700 hover:bg-gray-50'
+              className={`w-full flex items-center gap-2 px-4 py-2 text-md text-left transition-colors ${
+                item.isActive ? 'bg-gray-100 text-primary' : 'text-gray-700 hover:bg-gray-50'
               }`}
               onClick={() => onNavigate(item.path, item.label)}
             >
-              {item.icon && <Icon name={item.icon} size={14} />}
+              {item.icon && <Icon name={item.icon} size={16} />}
               {item.label}
             </button>
           ))}

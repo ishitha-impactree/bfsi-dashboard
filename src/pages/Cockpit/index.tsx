@@ -97,8 +97,8 @@ const PortfolioClimateRisk = () => {
 
   const portfolioExposure = {
     percentage: '19%',
-    prefixUnit: '₹',
-    value: '64,55,699',
+    prefixUnit: '$',
+    value: '55,699',
     suffixUnit: 'Million',
     title: 'Total Portfolio Exposure',
   };

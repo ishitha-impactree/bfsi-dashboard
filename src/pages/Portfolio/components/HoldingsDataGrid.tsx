@@ -3,6 +3,7 @@ import Icon from '../../../components/ui/AppIcon';
 import Button from '../../../components/ui/Button';
 import Input from '../../../components/ui/Input';
 import Select from '../../../components/ui/Select';
+import ButtonWithIcon from '../../../components/ui/ButtonWithIcon';
 
 interface Holding {
   id: number;
@@ -56,7 +57,7 @@ const HoldingsDataGrid: React.FC = () => {
       reduction: -5.2,
       marketValue: 125000000,
       shares: 850000,
-      lastUpdated: '2024-09-20'
+      lastUpdated: '2024-09-20',
     },
     {
       id: 2,
@@ -73,7 +74,7 @@ const HoldingsDataGrid: React.FC = () => {
       reduction: -7.1,
       marketValue: 112000000,
       shares: 320000,
-      lastUpdated: '2024-09-20'
+      lastUpdated: '2024-09-20',
     },
     {
       id: 3,
@@ -90,7 +91,7 @@ const HoldingsDataGrid: React.FC = () => {
       reduction: -2.1,
       marketValue: 62000000,
       shares: 580000,
-      lastUpdated: '2024-09-19'
+      lastUpdated: '2024-09-19',
     },
     {
       id: 4,
@@ -107,7 +108,7 @@ const HoldingsDataGrid: React.FC = () => {
       reduction: -12.3,
       marketValue: 85000000,
       shares: 420000,
-      lastUpdated: '2024-09-20'
+      lastUpdated: '2024-09-20',
     },
     {
       id: 5,
@@ -124,7 +125,7 @@ const HoldingsDataGrid: React.FC = () => {
       reduction: -3.8,
       marketValue: 74000000,
       shares: 460000,
-      lastUpdated: '2024-09-20'
+      lastUpdated: '2024-09-20',
     },
     {
       id: 6,
@@ -141,7 +142,7 @@ const HoldingsDataGrid: React.FC = () => {
       reduction: -4.5,
       marketValue: 91000000,
       shares: 620000,
-      lastUpdated: '2024-09-19'
+      lastUpdated: '2024-09-19',
     },
     {
       id: 7,
@@ -158,7 +159,7 @@ const HoldingsDataGrid: React.FC = () => {
       reduction: -1.8,
       marketValue: 53000000,
       shares: 340000,
-      lastUpdated: '2024-09-19'
+      lastUpdated: '2024-09-19',
     },
     {
       id: 8,
@@ -175,8 +176,8 @@ const HoldingsDataGrid: React.FC = () => {
       reduction: -6.2,
       marketValue: 65000000,
       shares: 1200000,
-      lastUpdated: '2024-09-20'
-    }
+      lastUpdated: '2024-09-20',
+    },
   ];
 
   const sectorOptions = [
@@ -186,13 +187,14 @@ const HoldingsDataGrid: React.FC = () => {
     { value: 'Healthcare', label: 'Healthcare' },
     { value: 'Financials', label: 'Financials' },
     { value: 'Industrials', label: 'Industrials' },
-    { value: 'Materials', label: 'Materials' }
+    { value: 'Materials', label: 'Materials' },
   ];
 
   const filteredData = useMemo(() => {
-    return holdingsData.filter(item => {
-      const matchesSearch = item.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                           item.ticker.toLowerCase().includes(searchTerm.toLowerCase());
+    return holdingsData.filter((item) => {
+      const matchesSearch =
+        item.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.ticker.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesSector = sectorFilter === 'all' || item.sector === sectorFilter;
       return matchesSearch && matchesSector;
     });
@@ -201,19 +203,17 @@ const HoldingsDataGrid: React.FC = () => {
   const sortedData = useMemo(() => {
     if (!sortConfig.key) return filteredData;
 
-    return [...filteredData].sort((a, b) => {
+    return [...filteredData].sort((a: any, b: any) => {
       const aValue = a[sortConfig.key];
       const bValue = b[sortConfig.key];
 
       if (typeof aValue === 'string') {
-        return sortConfig.direction === 'asc' 
+        return sortConfig.direction === 'asc'
           ? aValue.localeCompare(bValue)
           : bValue.localeCompare(aValue);
       }
 
-      return sortConfig.direction === 'asc' 
-        ? aValue - bValue 
-        : bValue - aValue;
+      return sortConfig.direction === 'asc' ? aValue - bValue : bValue - aValue;
     });
   }, [filteredData, sortConfig]);
 
@@ -225,25 +225,21 @@ const HoldingsDataGrid: React.FC = () => {
   const totalPages: number = Math.ceil(sortedData.length / itemsPerPage);
 
   const handleSort = (key: string) => {
-    setSortConfig(prevConfig => ({
+    setSortConfig((prevConfig) => ({
       key,
-      direction: prevConfig.key === key && prevConfig.direction === 'asc' ? 'desc' : 'asc'
+      direction: prevConfig.key === key && prevConfig.direction === 'asc' ? 'desc' : 'asc',
     }));
   };
 
   const handleSelectRow = (id: number) => {
-    setSelectedRows(prev => 
-      prev.includes(id) 
-        ? prev.filter(rowId => rowId !== id)
-        : [...prev, id]
+    setSelectedRows((prev) =>
+      prev.includes(id) ? prev.filter((rowId) => rowId !== id) : [...prev, id]
     );
   };
 
   const handleSelectAll = () => {
     setSelectedRows(
-      selectedRows.length === paginatedData.length 
-        ? [] 
-        : paginatedData.map(item => item.id)
+      selectedRows.length === paginatedData.length ? [] : paginatedData.map((item) => item.id)
     );
   };
 
@@ -253,11 +249,11 @@ const HoldingsDataGrid: React.FC = () => {
   };
 
   const getESGRating = (score: number): ESGRating => {
-    if (score >= 80) return { rating: 'A', color: 'bg-success text-success-foreground' };
-    if (score >= 70) return { rating: 'B', color: 'bg-warning text-warning-foreground' };
-    if (score >= 60) return { rating: 'C', color: 'bg-warning text-warning-foreground' };
-    if (score >= 50) return { rating: 'D', color: 'bg-error text-error-foreground' };
-    return { rating: 'E', color: 'bg-error text-error-foreground' };
+    if (score >= 80) return { rating: 'A', color: 'bg-accent-success text-primary-foreground' };
+    if (score >= 70) return { rating: 'B', color: 'bg-accent-warning text-primary-foreground' };
+    if (score >= 60) return { rating: 'C', color: 'bg-accent-warning text-primary-foreground' };
+    if (score >= 50) return { rating: 'D', color: 'bg-accent-danger text-primary-foreground' };
+    return { rating: 'E', color: 'bg-accent-danger text-primary-foreground' };
   };
 
   const formatCurrency = (value: number): string => {
@@ -265,24 +261,24 @@ const HoldingsDataGrid: React.FC = () => {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0
+      maximumFractionDigits: 0,
     }).format(value);
   };
 
   const formatNumber = (value: number, decimals: number = 1): string => {
     return new Intl.NumberFormat('en-US', {
       minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals
+      maximumFractionDigits: decimals,
     }).format(value);
   };
 
   return (
-    <div className="bg-card border border-border rounded-lg shadow-elevation-1">
+    <div className="bg-primary-foreground border border-border rounded-lg px-8 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200">
       <div className="p-6 border-b border-border">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
             <h3 className="text-lg font-semibold text-foreground">Holdings Emissions Data</h3>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-text-muted">
               Detailed emissions breakdown by holding ({sortedData.length} companies)
             </p>
           </div>
@@ -296,7 +292,7 @@ const HoldingsDataGrid: React.FC = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            
+
             <div className="w-full sm:w-48">
               <Select
                 options={sectorOptions}
@@ -306,7 +302,7 @@ const HoldingsDataGrid: React.FC = () => {
               />
             </div>
 
-            <Button
+            <ButtonWithIcon
               variant="outline"
               size="default"
               iconName="Download"
@@ -315,7 +311,7 @@ const HoldingsDataGrid: React.FC = () => {
               disabled={selectedRows.length === 0}
             >
               Export ({selectedRows.length})
-            </Button>
+            </ButtonWithIcon>
           </div>
         </div>
       </div>
@@ -331,7 +327,7 @@ const HoldingsDataGrid: React.FC = () => {
                   className="rounded border-border"
                 />
               </th>
-              
+
               <th className="p-4 text-left min-w-[200px]">
                 <button
                   onClick={() => handleSort('company')}
@@ -341,7 +337,7 @@ const HoldingsDataGrid: React.FC = () => {
                   <Icon name={getSortIcon('company')} size={14} />
                 </button>
               </th>
-              
+
               <th className="p-4 text-left">
                 <button
                   onClick={() => handleSort('sector')}
@@ -351,7 +347,7 @@ const HoldingsDataGrid: React.FC = () => {
                   <Icon name={getSortIcon('sector')} size={14} />
                 </button>
               </th>
-              
+
               <th className="p-4 text-right">
                 <button
                   onClick={() => handleSort('weight')}
@@ -361,7 +357,7 @@ const HoldingsDataGrid: React.FC = () => {
                   <Icon name={getSortIcon('weight')} size={14} />
                 </button>
               </th>
-              
+
               <th className="p-4 text-right">
                 <button
                   onClick={() => handleSort('emissions')}
@@ -371,9 +367,9 @@ const HoldingsDataGrid: React.FC = () => {
                   <Icon name={getSortIcon('emissions')} size={14} />
                 </button>
               </th>
-              
+
               <th className="p-4 text-center">ESG</th>
-              
+
               <th className="p-4 text-right">
                 <button
                   onClick={() => handleSort('reduction')}
@@ -383,7 +379,7 @@ const HoldingsDataGrid: React.FC = () => {
                   <Icon name={getSortIcon('reduction')} size={14} />
                 </button>
               </th>
-              
+
               <th className="p-4 text-right">
                 <button
                   onClick={() => handleSort('marketValue')}
@@ -393,20 +389,20 @@ const HoldingsDataGrid: React.FC = () => {
                   <Icon name={getSortIcon('marketValue')} size={14} />
                 </button>
               </th>
-              
+
               <th className="p-4 text-center">Actions</th>
             </tr>
           </thead>
-          
+
           <tbody>
             {paginatedData.map((holding) => {
               const esgRating = getESGRating(holding.esgScore);
               const isSelected = selectedRows.includes(holding.id);
               const isPositiveChange = holding.reduction > 0;
-              
+
               return (
-                <tr 
-                  key={holding.id} 
+                <tr
+                  key={holding.id}
                   className={`border-b border-border hover:bg-muted/30 transition-colors duration-150 ${
                     isSelected ? 'bg-muted/50' : ''
                   }`}
@@ -422,34 +418,39 @@ const HoldingsDataGrid: React.FC = () => {
                   <td className="p-4">
                     <div>
                       <div className="font-medium text-foreground">{holding.company}</div>
-                      <div className="text-sm text-muted-foreground">{holding.ticker}</div>
+                      <div className="text-sm text-text-muted">{holding.ticker}</div>
                     </div>
                   </td>
                   <td className="p-4">
                     <span className="text-sm text-foreground">{holding.sector}</span>
                   </td>
                   <td className="p-4 text-right">
-                    <span className="font-medium text-foreground">{formatNumber(holding.weight)}%</span>
+                    <span className="font-medium text-foreground">
+                      {formatNumber(holding.weight)}%
+                    </span>
                   </td>
                   <td className="p-4 text-right">
                     <div>
-                      <div className="font-medium text-foreground">{formatNumber(holding.emissions)}</div>
-                      <div className="text-xs text-muted-foreground">tCO2e/$M</div>
+                      <div className="font-medium text-foreground">
+                        {formatNumber(holding.emissions)}
+                      </div>
+                      <div className="text-sm text-text-muted">tCO2e/$M</div>
                     </div>
                   </td>
                   <td className="p-4 text-center">
-                    <span className={`inline-flex items-center justify-center w-8 h-6 text-xs font-medium rounded ${esgRating.color}`}>
+                    <span
+                      className={`inline-flex items-center justify-center w-8 h-6 text-sm font-medium rounded ${esgRating.color}`}
+                    >
                       {esgRating.rating}
                     </span>
                   </td>
                   <td className="p-4 text-right">
-                    <div className={`flex items-center justify-end gap-1 ${
-                      isPositiveChange ? 'text-error' : 'text-success'
-                    }`}>
-                      <Icon 
-                        name={isPositiveChange ? 'TrendingUp' : 'TrendingDown'} 
-                        size={14} 
-                      />
+                    <div
+                      className={`flex items-center justify-end gap-1 ${
+                        isPositiveChange ? 'text-accent-danger' : 'text-accent-success'
+                      }`}
+                    >
+                      <Icon name={isPositiveChange ? 'TrendingUp' : 'TrendingDown'} size={14} />
                       <span className="font-medium">{Math.abs(holding.reduction).toFixed(1)}%</span>
                     </div>
                   </td>
@@ -459,9 +460,14 @@ const HoldingsDataGrid: React.FC = () => {
                     </span>
                   </td>
                   <td className="p-4 text-center">
-                    <Button variant="ghost" size="sm" iconName="ExternalLink" iconSize={14}>
+                    <ButtonWithIcon
+                      variant="outline"
+                      size="sm"
+                      iconName="ExternalLink"
+                      iconSize={14}
+                    >
                       View
-                    </Button>
+                    </ButtonWithIcon>
                   </td>
                 </tr>
               );
@@ -471,48 +477,50 @@ const HoldingsDataGrid: React.FC = () => {
       </div>
       <div className="p-4 border-t border-border">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="text-sm text-muted-foreground">
-            Showing {((currentPage - 1) * itemsPerPage) + 1} to {Math.min(currentPage * itemsPerPage, sortedData.length)} of {sortedData.length} holdings
+          <div className="text-sm text-text-muted">
+            Showing {(currentPage - 1) * itemsPerPage + 1} to{' '}
+            {Math.min(currentPage * itemsPerPage, sortedData.length)} of {sortedData.length}{' '}
+            holdings
           </div>
-          
+
           <div className="flex items-center gap-2">
-            <Button
+            <ButtonWithIcon
               variant="outline"
               size="sm"
-              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
               iconName="ChevronLeft"
               iconSize={16}
             >
               Previous
-            </Button>
-            
+            </ButtonWithIcon>
+
             <div className="flex items-center gap-1">
               {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                 const pageNum = i + 1;
                 return (
-                  <Button
+                  <ButtonWithIcon
                     key={pageNum}
-                    variant={currentPage === pageNum ? "default" : "ghost"}
+                    variant={currentPage === pageNum ? 'destructive' : 'outline'}
                     size="sm"
                     onClick={() => setCurrentPage(pageNum)}
                   >
                     {pageNum}
-                  </Button>
+                  </ButtonWithIcon>
                 );
               })}
             </div>
-            
-            <Button
+
+            <ButtonWithIcon
               variant="outline"
               size="sm"
-              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
               iconName="ChevronRight"
               iconSize={16}
             >
               Next
-            </Button>
+            </ButtonWithIcon>
           </div>
         </div>
       </div>
