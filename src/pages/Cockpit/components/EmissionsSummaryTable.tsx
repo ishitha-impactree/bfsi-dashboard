@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Icon from '../../../components/ui/AppIcon';
 import Button from '../../../components/ui/Button';
+import ButtonWithIcon from '../../../components/ui/ButtonWithIcon';
 
 interface SectorData {
   id: number;
@@ -141,27 +142,27 @@ const EmissionsSummaryTable: React.FC = () => {
           </div>
 
           <div className="flex items-center space-x-2">
-            <Button
+            <ButtonWithIcon
               variant="outline"
-              size="small"
-              text_font_size="text-sm"
-              text_line_height="leading-md"
-              style={{ border: 'none' }}
+              size="sm"
+              // text_font_size="text-sm"
+              // text_line_height="leading-md"
+              // style={{ border: 'none' }}
             >
               <Icon name="Download" size={12} />
               <span className="ml-1">Export</span>
-            </Button>
+            </ButtonWithIcon>
 
-            <Button
+            <ButtonWithIcon
               variant="outline"
-              size="small"
-              text_font_size="text-sm"
-              text_line_height="leading-md"
-              style={{ border: 'none' }}
+              size="sm"
+              // text_font_size="text-sm"
+              // text_line_height="leading-md"
+              // style={{ border: 'none' }}
             >
               <Icon name="Filter" size={12} />
               <span className="ml-1">Filter</span>
-            </Button>
+            </ButtonWithIcon>
           </div>
         </div>
       </div>
@@ -328,17 +329,17 @@ const EmissionsSummaryTable: React.FC = () => {
 
                 <td className="p-3">
                   <div className="flex items-center justify-center">
-                    <Button
+                    <ButtonWithIcon
                       variant="outline"
-                      size="small"
-                      text_font_size="text-md"
-                      text_line_height="leading-md"
-                      style={{ border: 'none', fontWeight: 'normal' }}
+                      size="sm"
+                      // text_font_size="text-md"
+                      // text_line_height="leading-md"
+                      // style={{ border: 'none', fontWeight: 'normal' }}
                       onClick={() => handleDrillDown(sector.sector)}
                     >
                       <Icon name="ExternalLink" size={12} />
                       <span className="ml-1">Details</span>
-                    </Button>
+                    </ButtonWithIcon>
                   </div>
                 </td>
               </tr>
@@ -356,15 +357,15 @@ const EmissionsSummaryTable: React.FC = () => {
                 : 'No sectors selected'}
             </span>
             {selectedSectors.length > 0 && (
-              <Button
+              <ButtonWithIcon
                 variant="outline"
-                size="small"
-                text_font_size="text-sm"
-                text_line_height="leading-md"
-                style={{ border: 'none' }}
+                size="sm"
+                // text_font_size="text-sm"
+                // text_line_height="leading-md"
+                // style={{ border: 'none' }}
               >
                 <span className="ml-1">Compare Selected</span>
-              </Button>
+              </ButtonWithIcon>
             )}
           </div>
 

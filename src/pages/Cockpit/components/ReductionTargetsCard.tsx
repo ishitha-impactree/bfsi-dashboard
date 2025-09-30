@@ -120,7 +120,7 @@ const ReductionTargetsCard = () => {
         </div>
         <Icon name="Target" size={20} className="text-muted-foreground" color="#22be8a" />
       </div>
-      <div className="space-y-6 p-2" style={{ height: 300, overflowY: 'scroll' }}>
+      <div className="space-y-6 p-2" style={{ height: 315, overflowY: 'scroll' }}>
         {targets?.map((target) => (
           <div key={target?.id} className="space-y-3">
             <div className="flex items-center justify-between">

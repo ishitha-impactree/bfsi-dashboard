@@ -790,8 +790,8 @@ const PortfolioClimateRisk = () => {
         </h3>
 
         <div
-          className="space-y-3 sm:space-y-6 lg:space-y-0 bg-card rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
-          style={{ height: 240, background: 'white' }}
+          className="space-y-3 sm:space-y-6 lg:space-y-0  rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+          style={{ height: 252, background: 'white' }}
         >
           {taskList?.map((task: any) => {
             return (

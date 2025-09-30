@@ -171,7 +171,7 @@ const ComplianceStatusCard = () => {
           </div>
         </div>
       </div>
-      <div className="space-y-4 p-2" style={{ height: 300, overflowY: 'scroll' }}>
+      <div className="space-y-4 p-2" style={{ height: 315, overflowY: 'scroll' }}>
         {complianceItems.map((item) => (
           <div key={item.id} className="space-y-3">
             <div className="flex items-start justify-between">
