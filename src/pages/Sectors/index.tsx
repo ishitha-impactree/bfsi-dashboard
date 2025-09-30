@@ -8,6 +8,7 @@ import ScopeMetricsSection from './components/ScopeMetricsSection';
 import RiskBreakdownSection from './components/RiskBreakdownSection';
 import ThambiInsights from './components/ThambiInsights';
 import MetricsCard from './components/MetricsCard';
+import FilterSection from './components/FilterSection';
 
 const SectorsPerformanceAnalysis = () => {
   const topCompany = {
@@ -100,36 +101,106 @@ const SectorsPerformanceAnalysis = () => {
 
       <main className="w-full" style={{ background: '#f8fafc' }}>
         <Header />
-        
+        <div
+          className="bg-card border-b border-border shadow-elevation-1 px-8"
+          style={{ background: 'white', marginTop: '70px' }}
+        >
+          <div className="w-100 mx-auto px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-2xl font-semibold text-foreground">Sectors Overview</h1>
+                <p className="text-md text-muted-foreground mt-1">
+                  Sector-wide carbon footprint monitoring and compliance tracking
+                </p>
+              </div>
+              {/* <div className="w-full lg:w-[26.5%] mt-4 lg:mt-0">
+                <div className="bg-background-light rounded-3xl p-2">
+                  <FilterSection />
+                </div>
+              </div> */}
+              <div className="flex flex-col sm:flex-row gap-3 justify-end items-start sm:items-center w-full lg:w-auto">
+                <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center">
+                  <select
+                    className="w-full sm:w-40 text-sm p-2 border border-gray-300 rounded-md"
+                    onChange={(e) => emptyStringFunction(e.target.value)}
+                  >
+                    <option value="" disabled>
+                      Sector
+                    </option>
+                    {sectorOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    className="w-full sm:w-48 text-sm p-2 border border-gray-300 rounded-md"
+                    onChange={(e) => emptyStringFunction(e.target.value)}
+                  >
+                    <option value="" disabled>
+                      Industry
+                    </option>
+                    {industryOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    // className="w-full sm:w-auto bg-gradient-to-r from-[#232538] to-[#62689e] text-white rounded-md px-4 py-2 text-sm"
+                    className="w-full sm:w-auto bg-accent-info text-white rounded-md px-4 py-2 text-sm"
+                    onClick={emptyFunction}
+                  >
+                    Apply Filters
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* </div>
+          </div> */}
+        </div>
+
         {/* Header Section with Filters */}
-        <div className="w-full bg-white border-b border-border shadow-elevation-1 px-8 py-4" style={{ marginTop: '70px' }}>
+        {/* <div
+          className="w-full bg-white border-b border-border shadow-elevation-1 px-8 py-4"
+          style={{ marginTop: '70px' }}
+        >
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
             <div>
               <h1 className="text-2xl font-semibold text-foreground">Sectors Overview</h1>
               <p className="text-md text-muted-foreground mt-1">
                 Sector-wide carbon footprint monitoring and compliance tracking
               </p>
-            </div>
-            
-            {/* Filters in Header */}
-            <div className="flex flex-col sm:flex-row gap-3 justify-end items-start sm:items-center w-full lg:w-auto">
+            </div> */}
+
+        {/* Filters in Header */}
+        {/* <div className="flex flex-col sm:flex-row gap-3 justify-end items-start sm:items-center w-full lg:w-auto">
               <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center">
                 <select
                   className="w-full sm:w-40 text-sm p-2 border border-gray-300 rounded-md"
                   onChange={(e) => emptyStringFunction(e.target.value)}
                 >
-                  <option value="" disabled>Sector</option>
-                  {sectorOptions.map(option => (
-                    <option key={option.value} value={option.value}>{option.label}</option>
+                  <option value="" disabled>
+                    Sector
+                  </option>
+                  {sectorOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
                   ))}
                 </select>
                 <select
                   className="w-full sm:w-48 text-sm p-2 border border-gray-300 rounded-md"
                   onChange={(e) => emptyStringFunction(e.target.value)}
                 >
-                  <option value="" disabled>Industry</option>
-                  {industryOptions.map(option => (
-                    <option key={option.value} value={option.value}>{option.label}</option>
+                  <option value="" disabled>
+                    Industry
+                  </option>
+                  {industryOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
                   ))}
                 </select>
                 <button
@@ -141,30 +212,29 @@ const SectorsPerformanceAnalysis = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
-        <section className="w-full px-8 py-4">
-          <div className="flex flex-col gap-4 justify-start items-center w-full">
-            {/* Sector Overview Info */}
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full gap-4 px-3">
-              <div className="flex flex-col sm:flex-row justify-start items-start sm:items-center gap-4">
-                <span className="text-lg font-medium text-[#29303f]">
-                  <span className="text-[#29303f7f]">Sector: </span>
-                  <span className="text-[#29303f]">All</span>
+        <section className="w-full px-10 mb-2">
+          <div className="flex flex-col gap-2 justify-start items-center w-full px-3 py-3">
+            <div className="flex flex-col sm:flex-row justify-between items-center w-full mb-4">
+              <div className="flex flex-col sm:flex-row justify-start items-start sm:items-center gap-4 sm:gap-6">
+                <span className="text-lg font-medium leading-lg text-left font-['Inter']">
+                  <span className="text-text-secondary">Sector : </span>
+                  <span className="text-text-primary">All</span>
                 </span>
-                <span className="text-lg font-medium text-[#29303f]">
-                  <span className="text-[#29303f7f]">Industry: </span>
-                  <span className="text-[#29303f]">All</span>
+                <span className="text-lg font-medium leading-lg text-left font-['Inter']">
+                  <span className="text-text-secondary">Industry : </span>
+                  <span className="text-text-primary">All</span>
                 </span>
               </div>
-              <span className="text-sm font-medium text-[#29303f7f]">
+              <span className="text-lg font-medium leading-lg text-right text-text-secondary font-['Inter'] mt-2 sm:mt-0">
                 Compared to previous 12 months
               </span>
             </div>
 
-            <div className="flex flex-col lg:flex-row gap-4 justify-start items-start w-full">
-              <div className="flex flex-col gap-4 justify-start items-center w-full lg:w-[65%]">
-                <div className="flex flex-col sm:flex-row gap-4 justify-start items-center w-full">
+            <div className="flex flex-col lg:flex-row gap-3 justify-start items-start w-full">
+              <div className="flex flex-col gap-3 justify-start items-center w-full lg:w-[65%]">
+                <div className="flex flex-col sm:flex-row gap-3 justify-start items-center w-full">
                   {/* Top Performing Company Card */}
                   <PerformingCompanyCard companyInfo={topCompany} />
                   {/* Lowest Performing Company Card */}
@@ -195,119 +265,124 @@ const SectorsPerformanceAnalysis = () => {
                           isPositive={true}
                           hasLeftBorder={true}
                         />
-                        <span className="text-sm font-normal text-black ml-1">
-                          19%
-                        </span>
-                      </div>
-                      <div className="px-2">
-                        <span className="text-2xl font-semibold text-[#232538]">
-                          ₹ 64,55,699
-                        </span>
-                        <span className="text-sm font-medium text-[#232538] ml-1">
-                          Million
-                        </span>
-                      </div>
-                      <div className="px-2 mt-2">
-                        <span className="text-sm font-medium text-[#232538]">
-                          Exposure
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row gap-4 w-full">
-                      <div className="flex flex-col gap-4 w-full sm:w-1/2">
-                        {/* Industry ESG Score */}
-                        <div className="w-full bg-white border-l-[3px] border-[#fba900] p-3 rounded-lg shadow-elevation-1">
-                          <div className="flex flex-row justify-end items-center w-full mb-2 px-1">
-                            <img
-                              src="/images/img_arrow_drop_up.svg"
-                              alt="Up arrow"
-                              className="w-3 h-3"
-                            />
-                            <span className="text-sm font-normal text-black ml-1">
-                              40%
-                            </span>
-                          </div>
-                          <div className="flex flex-col justify-center items-start w-full px-1">
-                            <div className="px-2">
-                              <span className="text-lg font-semibold text-[#232538]">
-                                Industry ESG Score
-                              </span>
-                            </div>
-                            <span className="text-2xl font-semibold text-[#232538] ml-2">
-                              68%
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* PCHI */}
-                        <div className="w-full bg-white border-l-[3px] border-[#fba900] p-3 rounded-lg shadow-elevation-1">
-                          <div className="flex flex-row justify-end items-center w-full mb-2 px-1">
-                            <img
-                              src="/images/img_arrow_drop_up.svg"
-                              alt="Up arrow"
-                              className="w-3 h-3"
-                            />
-                            <span className="text-sm font-normal text-black ml-1">
-                              40%
-                            </span>
-                          </div>
-                          <div className="flex flex-col justify-center items-start w-full px-2">
-                            <span className="text-lg font-semibold text-[#232538]">
-                              PCHI
-                            </span>
-                            <span className="text-2xl font-semibold text-[#232538]">
-                              28%
-                            </span>
-                          </div>
-                        </div>
+                        {/* </div> */}
+                        {/* <div className="w-full bg-background-light rounded-xl p-3"> */}
+                        <MetricsCard
+                          title="PCHI"
+                          value="28%"
+                          changePercentage="40%"
+                          isPositive={true}
+                          hasLeftBorder={true}
+                        />
+                        {/* </div> */}
                       </div>
 
-                      {/* ESG Ratings */}
-                      <div className="w-full sm:w-1/2 bg-white p-4 rounded-lg shadow-elevation-1">
-                        <div className="space-y-4">
-                          {esgRatings.map((rating, index) => (
-                            <div
-                              key={index}
-                              className="flex items-center gap-3 py-2 border-b border-gray-200 last:border-b-0"
-                            >
+                      {/* <div className="flex flex-col gap-4 w-full sm:w-1/2 bg-background-light rounded-xl p-3"> */}
+                      {/* <div className="flex gap-4 justify-start items-center w-full flex-1">
                               <img
-                                src={rating.icon}
-                                alt={rating.title}
-                                className="w-12 h-12"
+                                src="/images/img_group_1000003546.svg"
+                                alt="Environment icon"
+                                className="w-14 h-14"
                               />
-                              <div className="flex-1">
-                                <div className="text-lg font-normal text-[#232538]">
-                                  {rating.percentage}
-                                </div>
-                                <div className="text-sm font-bold text-[#232538]">
-                                  {rating.title}
-                                </div>
+                              <div className="flex flex-col justify-start items-start w-full">
+                                <span className="text-xl font-normal leading-xl text-left text-text-primary font-['Inter']">
+                                  72%
+                                </span>
+                                <span className="text-lg font-bold leading-lg text-left text-text-primary font-['DM Sans']">
+                                  Environment Rating
+                                </span>
                               </div>
                             </div>
-                          ))}
+
+                            <div className="flex gap-4 justify-start items-center w-full flex-1">
+                              <img
+                                src="/images/img_group_1000003546_light_blue_a200.svg"
+                                alt="Social icon"
+                                className="w-14 h-14"
+                              />
+                              <div className="flex flex-col justify-start items-start w-full">
+                                <span className="text-xl font-normal leading-xl text-left text-text-primary font-['Inter']">
+                                  45%
+                                </span>
+                                <span className="text-lg font-bold leading-lg text-left text-text-primary font-['DM Sans']">
+                                  Social Rating
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="flex gap-4 justify-start items-center w-full flex-1">
+                              <img
+                                src="/images/img_group_1000003546_amber_a700.svg"
+                                alt="Governance icon"
+                                className="w-14 h-14"
+                              />
+                              <div className="flex flex-col justify-start items-start w-full">
+                                <span className="text-xl font-normal leading-xl text-left text-text-primary font-['Inter']">
+                                  87%
+                                </span>
+                                <span className="text-lg font-bold leading-lg text-left text-text-primary font-['DM Sans']">
+                                  Governance Rating
+                                </span>
+                              </div>
+                            </div> */}
+                      <div className="space-y-3 sm:space-y-6 lg:space-y-3">
+                        <div
+                          className="border-l-[3px] border-purple-500 rounded-none p-2 sm:p-4 lg:p-3 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                          style={{ background: 'white' }}
+                        >
+                          <div className="space-y-2 sm:space-y-4 lg:space-y-3">
+                            {esgRatings?.map((rating, index) => (
+                              <div
+                                key={index}
+                                className="flex items-center gap-3 sm:gap-4 lg:gap-3 py-2 border-b border-border-light last:border-b-0"
+                              >
+                                <img
+                                  src={rating?.icon}
+                                  alt={rating?.title}
+                                  className="w-12 h-12 sm:w-14 sm:h-14"
+                                />
+                                <div className="flex-1">
+                                  <div className="text-lg sm:text-xl font-normal text-text-primary">
+                                    {rating?.percentage}
+                                  </div>
+                                  <div className="text-sm sm:text-lg font-bold text-text-primary">
+                                    {rating?.title}
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
                         </div>
                       </div>
+                      {/* </div> */}
                     </div>
                   </div>
 
                   <div className="flex flex-col justify-start items-center w-full lg:w-[50%]">
-                    <div className="w-full p-4 bg-white rounded-lg shadow-elevation-1">
+                    <div
+                      className="w-full p-2 bg-card rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                      style={{ background: 'white' }}
+                    >
                       <ESGChart />
                     </div>
                   </div>
                 </div>
 
-                <div className="w-full p-4 bg-white rounded-lg shadow-elevation-1">
+                <div
+                  // className="w-full bg-background-light rounded-xl p-3"
+                  className="w-full p-2 bg-card rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                  style={{ background: 'white' }}
+                >
                   <CompaniesTable />
                 </div>
               </div>
 
-              <div className="flex flex-col justify-start items-center w-full lg:w-[35%] gap-4">
-                <div className="w-full">
+              <div className="flex flex-col justify-start items-center w-full lg:w-[35%] gap-3">
+                <div className="w-full rounded-xl">
                   <ScopeMetricsSection />
                 </div>
 
+                {/* <div className="w-full bg-background-light rounded-xl p-3"> */}
                 <div className="w-full">
                   <RiskBreakdownSection />
                 </div>

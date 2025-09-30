@@ -28,7 +28,7 @@ const RiskBreakdownSection = ({ className }: RiskBreakdownSectionProps) => {
   return (
     <div className={`flex flex-col gap-3 justify-start items-center w-full ${className || ''}`}>
       {/* Header */}
-      <div className="w-full bg-background-light px-4 py-3 rounded-t-lg">
+      <div className="w-full bg-background-light px-1 py-0 rounded-t-lg">
         <span className="text-lg font-bold leading-md text-left text-primary-dark font-['Inter']">
           Pillar wise Risk Breakdown
         </span>
@@ -36,13 +36,13 @@ const RiskBreakdownSection = ({ className }: RiskBreakdownSectionProps) => {
 
       {/* Risk Categories */}
       <div
-        className="flex flex-col gap-4 justify-start items-center w-full p-4 bg-card rounded-b-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+        className="flex flex-col gap-3 justify-start items-center w-full p-3 bg-card rounded-b-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
         style={{ background: 'white' }}
       >
-        <div className="flex flex-col gap-4 justify-start items-center w-full">
+        <div className="flex flex-col gap-3 justify-start items-center w-full">
           {/* Environmental */}
           <div className="flex flex-col justify-start items-start w-full">
-            <span className="text-sm font-medium leading-md text-text-dark font-['DM Sans'] mb-2">
+            <span className="text-sm font-medium leading-md text-text-dark font-['DM Sans']">
               Environmental
             </span>
             <div className="flex gap-1 justify-start items-center w-full mt-2">
@@ -56,7 +56,7 @@ const RiskBreakdownSection = ({ className }: RiskBreakdownSectionProps) => {
 
           {/* Social */}
           <div className="flex flex-col justify-start items-start w-full">
-            <span className="text-sm font-medium leading-md text-text-dark font-['DM Sans'] mb-2">
+            <span className="text-sm font-medium leading-md text-text-dark font-['DM Sans']">
               Social
             </span>
             <div className="flex gap-1 justify-start items-center w-full mt-2">
@@ -70,7 +70,7 @@ const RiskBreakdownSection = ({ className }: RiskBreakdownSectionProps) => {
 
           {/* Governance */}
           <div className="flex flex-col justify-start items-start w-full">
-            <span className="text-sm font-medium leading-md text-text-dark font-['DM Sans'] mb-2">
+            <span className="text-sm font-medium leading-md text-text-dark font-['DM Sans']">
               Governance
             </span>
             <div className="flex gap-1 justify-start items-center w-full mt-2">
@@ -86,18 +86,12 @@ const RiskBreakdownSection = ({ className }: RiskBreakdownSectionProps) => {
         {/* Risk Level Indicator */}
         <div className="flex flex-col gap-2 justify-center items-center w-full mt-2">
           <div className="flex justify-between items-center w-full px-1">
-            <span className="text-xs font-normal text-text-dark font-['Inter']">
-              Low
-            </span>
-            <span className="text-xs font-normal text-text-dark font-['Inter']">
-              Medium
-            </span>
-            <span className="text-xs font-normal text-text-dark font-['Inter']">
-              High
-            </span>
+            <span className="text-xs font-normal text-text-dark font-['Inter']">Low</span>
+            <span className="text-xs font-normal text-text-dark font-['Inter']">Medium</span>
+            <span className="text-xs font-normal text-text-dark font-['Inter']">High</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
-            <div 
+            <div
               className="bg-gradient-to-r from-green-400 via-yellow-400 to-red-500 h-2 rounded-full"
               style={{ width: '100%' }}
             ></div>

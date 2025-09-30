@@ -199,7 +199,7 @@ const CompaniesTable = ({ className }: CompaniesTableProps) => {
         </span>
       </div>
 
-      <div className="flex flex-col justify-start items-center w-full  max-h-[460px] overflow-y-auto">
+      <div className="flex flex-col justify-start items-center w-full  max-h-[475px] overflow-y-auto">
         <div className="flex justify-start items-center w-full border-t border-l border-r border-border-primary">
           <div className="flex justify-center items-center w-full">
             {/* Company Header */}
