@@ -1,6 +1,6 @@
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
-import Icon from '../../components/ui/AppIcon';
+import Icon from '../../../components/ui/AppIcon';
 
 type RiskStatus = 'success' | 'warning' | 'error' | 'default';
 

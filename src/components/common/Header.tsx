@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Dropdown from '../ui/Dropdown';
+import Dropdown from './Dropdown';
 import Icon from '../ui/AppIcon';
 
 interface HeaderProps {
@@ -10,7 +10,9 @@ interface HeaderProps {
 const Header = ({ className }: HeaderProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation() as ReturnType<typeof useLocation> & { state?: { from?: string } };
+  const location = useLocation() as ReturnType<typeof useLocation> & {
+    state?: { from?: string };
+  };
 
   const navigationItems = [
     {
@@ -20,22 +22,35 @@ const Header = ({ className }: HeaderProps) => {
       icon: 'ChartColumn',
     },
     {
-      label: 'Sectors',
-      path: '/sectors',
-      isActive: location.pathname === '/sectors',
-      icon: 'Factory',
-    },
-    {
-      label: 'Companies',
-      path: '/companies',
-      isActive: location.pathname === '' && location.state?.from === 'Companies',
-      icon: 'Building2',
+      label: 'Categories',
+      path: '#',
+      icon: 'Layers',
+      children: [
+        {
+          label: 'Sectors',
+          path: '/sectors',
+          isActive: location.pathname === '/sectors',
+          icon: 'Factory',
+        },
+        {
+          label: 'Companies',
+          path: '/companies',
+          isActive: location.pathname === '/companies',
+          icon: 'Building2',
+        },
+        {
+          label: 'Portfolio',
+          path: '/portfolio',
+          isActive: location.pathname === '/portfolio',
+          icon: 'ChartPie',
+        },
+      ],
     },
     {
       label: 'Benchmarks',
       path: '/benchmarks',
       isActive: location.pathname === '/benchmarks',
-      icon: 'ChartPie',
+      icon: 'Briefcase',
     },
     {
       label: 'Risks',
@@ -61,21 +76,26 @@ const Header = ({ className }: HeaderProps) => {
   };
 
   const getCurrentPageTitle = () => {
-    const currentItem = navigationItems.find((item) => item.isActive);
+    const flatItems = navigationItems.flatMap((item) =>
+      item.children ? item.children : [item]
+    );
+    const currentItem = flatItems.find((item) => item.isActive);
     return currentItem?.label || 'Dashboard';
   };
 
   return (
     <header
-      // className={`w-full bg-header-background px-8 fixed top-0 left-0 right-0 z-50 ${className || ''}`}
       className={`w-full px-8 fixed top-0 left-0 right-0 z-50 bg-card border-b border-border shadow-elevation-1 ${className || ''}`}
       style={{ background: 'white' }}
     >
       <div className="w-full px-3 sm:px-6 lg:px-3">
         <div className="flex justify-between items-center py-4">
-          <div className="flex-shrink-0 cursor-pointer" onClick={() => navigate('/cockpit')}>
+       
+          <div
+            className="flex-shrink-0 cursor-pointer"
+            onClick={() => navigate('/cockpit')}
+          >
             <img
-              // src="/images/img_header_logo.png"
               src="/images/RubiCrLogo 2.png"
               alt="Logo"
               className="w-[116px] h-[28px] hover:opacity-80 transition-opacity"
@@ -87,7 +107,12 @@ const Header = ({ className }: HeaderProps) => {
             aria-label="Open menu"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -103,23 +128,29 @@ const Header = ({ className }: HeaderProps) => {
             <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-[74px] p-4 lg:p-0">
               {navigationItems.map((item, index) => (
                 <div key={index} className="relative">
-                  <button
-                    className={`flex text-lg font-normal leading-lg text-left transition-all duration-200 ease-in-out transform hover:scale-105 ${
-                      // item.isActive
-                      //   ? 'text-header-accent'
-                      //   : 'text-header-text hover:text-header-accent'
-                      item.isActive
-                        ? 'text-primary border-primary text-header-accent'
-                        : 'text-muted-foreground hover:text-foreground'
-                    } `}
-                    role="menuitem"
-                    onClick={() => handleNavigation(item.path, item.label)}
-                    disabled={item.path === '#'}
-                  >
-                    <Icon name={item.icon} size={16} className="me-1"></Icon>
-                    {item.label}
-                  </button>
-                  {item.isActive && (
+                  {item.children ? (
+                    <Dropdown
+                      label={item.label}
+                      icon={item.icon}
+                      items={item.children}
+                      onNavigate={handleNavigation}
+                    />
+                  ) : (
+                    <button
+                      className={`flex text-lg font-normal leading-lg text-left transition-all duration-200 ease-in-out transform hover:scale-105 ${
+                        item.isActive
+                          ? 'text-primary border-primary text-header-accent'
+                          : 'text-muted-foreground hover:text-foreground'
+                      }`}
+                      role="menuitem"
+                      onClick={() => handleNavigation(item.path, item.label)}
+                      disabled={item.path === '#'}
+                    >
+                      <Icon name={item.icon} size={16} className="me-1" />
+                      {item.label}
+                    </button>
+                  )}
+                  {item.isActive && !item.children && (
                     <div className="absolute -bottom-2 left-0 w-full h-0.5 bg-header-accent"></div>
                   )}
                 </div>
@@ -130,10 +161,10 @@ const Header = ({ className }: HeaderProps) => {
           <div className="hidden lg:flex items-center gap-[18px]">
             <div className="flex flex-col gap-1 items-end">
               <span className="text-md font-normal leading-md text-left text-primary">
-                Welcome Roxanne
+                Welcome User!
               </span>
               <span className="text-md font-normal leading-md text-right text-primary">
-                15 Sep, Mon
+                01 Oct, Wed
               </span>
             </div>
 
@@ -152,8 +183,12 @@ const Header = ({ className }: HeaderProps) => {
         >
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-1">
-              <span className="text-md font-bold leading-md text-header-text">Welcome Roxanne</span>
-              <span className="text-md font-normal leading-md text-header-text">15 Sep, Mon</span>
+              <span className="text-md font-bold leading-md text-header-text">
+                Welcome User!
+              </span>
+              <span className="text-md font-normal leading-md text-header-text">
+                1 Oct, Wed
+              </span>
             </div>
             <img
               src="/images/img_shape.png"
@@ -166,12 +201,14 @@ const Header = ({ className }: HeaderProps) => {
             <div className="flex items-center text-sm text-header-text">
               <span
                 className="hover:text-header-accent transition-colors cursor-pointer"
-                onClick={() => navigate('/portfolio-climate-risk')}
+                onClick={() => navigate('/portfolio')}
               >
                 Home
               </span>
               <span className="mx-2">/</span>
-              <span className="text-header-accent font-medium">{getCurrentPageTitle()}</span>
+              <span className="text-header-accent font-medium">
+                {getCurrentPageTitle()}
+              </span>
             </div>
           </div>
         </div>

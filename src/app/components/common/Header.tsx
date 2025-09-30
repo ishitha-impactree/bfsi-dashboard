@@ -148,10 +148,10 @@ const Header: React.FC<{ className?: string }> = ({ className }) => {
           }} className="desktop-only">
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
               <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#495057' }}>
-                Welcome Roxanne
+                Welcome User!
               </span>
               <span style={{ fontSize: '14px', color: '#6c757d' }}>
-                15 Sep, Mon
+                01 Oct, Wed
               </span>
             </div>
 
@@ -180,10 +180,10 @@ const Header: React.FC<{ className?: string }> = ({ className }) => {
           }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
               <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#495057' }}>
-                Welcome Roxanne
+                Welcome User!
               </span>
               <span style={{ fontSize: '14px', color: '#6c757d' }}>
-                15 Sep, Mon
+                1 Oct, Wed
               </span>
             </div>
             <div style={{

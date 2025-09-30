@@ -10,8 +10,8 @@ import {
   ReferenceLine,
   TooltipProps,
 } from 'recharts';
-import Icon from '../../components/ui/AppIcon';
-import Button from '../../components/ui/Button';
+import Icon from '../../../components/ui/AppIcon';
+import Button from '../../../components/ui/Button';
 import { ValueType, NameType } from 'recharts/types/component/DefaultTooltipContent';
 
 interface EmissionsData {
@@ -185,13 +185,14 @@ const EmissionsTrajectory = () => {
               />
             )}
 
-            <ReferenceLine
-              y={2000}
-              stroke="#10B981"
-              strokeDasharray="8 8"
-              strokeWidth={2}
-              label={{ value: '2030 Target', position: 'topRight' }}
-            />
+              <ReferenceLine
+            y={2000}
+            stroke="#10B981"
+            strokeDasharray="8 8"
+            strokeWidth={2}
+            label={{ value: '2030 Target', position: 'insideTopRight' }}
+          />
+
           </AreaChart>
         </ResponsiveContainer>
       </div>

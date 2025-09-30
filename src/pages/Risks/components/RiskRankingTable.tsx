@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Icon from '../../components/ui/AppIcon';
-import ButtonWithIcon from '../../components/ui/ButtonWithIcon';
+import Icon from '../../../components/ui/AppIcon';
+import ButtonWithIcon from '../../../components/ui/ButtonWithIcon';
 
 type Trend = 'up' | 'down' | 'stable';
 type Recommendation = 'Reduce' | 'Monitor' | 'Hold' | 'Increase';

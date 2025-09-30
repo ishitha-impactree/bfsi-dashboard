@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from '../../components/ui/AppIcon';
+import Icon from '../../../components/ui/AppIcon';
 
 // Define a type for a single target object to ensure type safety
 type Target = {
