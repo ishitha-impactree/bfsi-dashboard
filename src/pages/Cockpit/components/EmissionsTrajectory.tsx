@@ -109,7 +109,7 @@ const EmissionsTrajectory = () => {
               size="sm"
               // text_font_size="text-sm"
               // text_line_height="leading-md"
-              onClick={() => setShowBenchmark(showBenchmark)}
+              onClick={() => setShowBenchmark(!showBenchmark)}
               className={showBenchmark ? 'bg-violet-500 text-primary-foreground' : 'bg-muted'}
               style={{ border: 'none' }}
             >
