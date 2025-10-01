@@ -1029,6 +1029,52 @@ const CompaniesStatistics = () => {
                   </>
                 )}
 
+                {selectedCompany !== 'Toyota Motor Company' &&
+                  activeTab === 'Resource Footprint' && (
+                    <>
+                      <div className="flex flex-col lg:flex-row gap-3 justify-start items-start w-full">
+                        {/* <div className="flex flex-col gap-3 justify-start items-center w-full lg:w-[50%]"> */}
+                        <div className="flex flex-col gap-3 justify-start w-full lg:w-[50%]">
+                          {/* <div className="w-full bg-background-light rounded-xl p-3"> */}
+                          <MetricsCard
+                            title="Energy Used "
+                            value="40"
+                            unit="KWH"
+                            changePercentage="30%"
+                            isPositive={true}
+                            hasLeftBorder={true}
+                          />
+                          <MetricsCard
+                            title="EUI"
+                            value="2.8"
+                            unit="KWH / Unit"
+                            changePercentage="17%"
+                            isPositive={true}
+                            hasLeftBorder={true}
+                          />
+                          {/* </div> */}
+                        </div>
+
+                        <div className="flex flex-col justify-start items-center w-full lg:w-[50%]">
+                          <div
+                            className="w-full p-2 bg-card rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                            style={{ background: 'white' }}
+                          >
+                            <KeyEnergyConsumersChart />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Content Grid */}
+                      <div className="flex flex-col gap-0 justify-start items-center w-full">
+                        {/* Risk Breakdown Section */}
+                        <div className="w-full bg-primary-foreground border border-border rounded-lg p-4 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200">
+                          <EnergyUsageChart />
+                        </div>
+                      </div>
+                    </>
+                  )}
+
                 {selectedCompany === 'Toyota Motor Company' &&
                   activeTab === 'Resource Footprint' && (
                     <>
