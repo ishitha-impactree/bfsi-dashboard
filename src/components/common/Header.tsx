@@ -26,23 +26,23 @@ const Header = ({ className }: HeaderProps) => {
       path: '#',
       icon: 'Layers',
       children: [
-        {
-          label: 'Sectors',
-          path: '/sectors',
-          isActive: location.pathname === '/sectors',
-          icon: 'Factory',
+          {
+          label: 'Portfolio',
+          path: '/portfolio',
+          isActive: location.pathname === '/portfolio',
+          icon: 'ChartPie',
         },
-        {
+         {
           label: 'Companies',
           path: '/companies',
           isActive: location.pathname === '/companies',
           icon: 'Building2',
         },
         {
-          label: 'Portfolio',
-          path: '/portfolio',
-          isActive: location.pathname === '/portfolio',
-          icon: 'ChartPie',
+          label: 'Sectors',
+          path: '/sectors',
+          isActive: location.pathname === '/sectors',
+          icon: 'Factory',
         },
       ],
     },

@@ -13,6 +13,7 @@ import {
 import Icon from '../../../components/ui/AppIcon';
 import Button from '../../../components/ui/Button';
 import { ValueType, NameType } from 'recharts/types/component/DefaultTooltipContent';
+import ButtonWithIcon from '../../../components/ui/ButtonWithIcon';
 
 interface EmissionsData {
   year: string;
@@ -103,33 +104,34 @@ const EmissionsTrajectory = () => {
           </div>
 
           <div className="flex items-center space-x-2">
-            <Button
-              size="small"
-              text_font_size="text-sm"
-              text_line_height="leading-md"
-              onClick={() => setShowBenchmark(!showBenchmark)}
+            <ButtonWithIcon
+            variant="outline"
+              size="sm"
+              // text_font_size="text-sm"
+              // text_line_height="leading-md"
+              onClick={() => setShowBenchmark(showBenchmark)}
               className={showBenchmark ? 'bg-violet-500 text-primary-foreground' : 'bg-muted'}
               style={{ border: 'none' }}
             >
               <Icon name="BarChart3" size={12} />
               <span className="ml-1">Benchmark</span>
-            </Button>
+            </ButtonWithIcon>
 
-            <Button
-              // variant="outline"
-              size="small"
+            <ButtonWithIcon
+              variant="outline"
+              size="sm"
               // onClick={handleExport}
               onClick={() => setShowExport(!showExport)}
               className={showExport ? 'bg-violet-500 text-primary-foreground' : 'bg-muted'}
-              text_font_size="text-sm"
-              text_line_height="leading-md"
-              style={{ border: 'none' }}
+              // text_font_size="text-sm"
+              // text_line_height="leading-md"
+              // style={{ border: 'none' }}
               // iconName="Download"
               // iconSize={14}
             >
               <Icon name="Download" size={12} />
               <span className="ml-1">Export</span>
-            </Button>
+            </ButtonWithIcon>
           </div>
         </div>
       </div>
