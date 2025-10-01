@@ -299,19 +299,19 @@ const CompaniesStatistics = () => {
   const esgRatings = [
     {
       percentage: '72%',
-      title: 'Portfolio Environment Rating',
+      title: 'Environment Rating',
       color: '#4ade80',
       icon: '/images/img_group_1000003546.svg',
     },
     {
       percentage: '45%',
-      title: 'Portfolio Social Rating',
+      title: 'Social Rating',
       color: '#38bdf8',
       icon: '/images/img_group_1000003546_light_blue_a200.svg',
     },
     {
       percentage: '87%',
-      title: 'Portfolio Governance Rating',
+      title: 'Governance Rating',
       color: '#f59e0b',
       icon: '/images/img_group_1000003546_amber_a700.svg',
     },
@@ -320,19 +320,19 @@ const CompaniesStatistics = () => {
   const esgRatings2 = [
     {
       percentage: '62%',
-      title: 'Portfolio Environment Rating',
+      title: 'Environment Rating',
       color: '#4ade80',
       icon: '/images/img_group_1000003546.svg',
     },
     {
       percentage: '58%',
-      title: 'Portfolio Social Rating',
+      title: 'Social Rating',
       color: '#38bdf8',
       icon: '/images/img_group_1000003546_light_blue_a200.svg',
     },
     {
       percentage: '75%',
-      title: 'Portfolio Governance Rating',
+      title: 'Governance Rating',
       color: '#f59e0b',
       icon: '/images/img_group_1000003546_amber_a700.svg',
     },
@@ -519,7 +519,7 @@ const CompaniesStatistics = () => {
                           <div className="flex flex-col gap-3 w-full sm:w-1/2">
                             {/* <div className="w-full bg-background-light rounded-xl p-3"> */}
                             <MetricsCard
-                              title="Industry ESG Score"
+                              title="ESG Score"
                               value="68%"
                               changePercentage="40%"
                               isPositive={true}
@@ -594,7 +594,7 @@ const CompaniesStatistics = () => {
                                 {esgRatings?.map((rating, index) => (
                                   <div
                                     key={index}
-                                    className="flex items-center gap-3 sm:gap-4 lg:gap-3 py-2 border-b border-border-light last:border-b-0"
+                                    className="flex items-center gap-3 sm:gap-4 lg:gap-6 py-3.5 px-2.5 border-b border-border-light last:border-b-0"
                                   >
                                     <img
                                       src={rating?.icon}
@@ -784,7 +784,7 @@ const CompaniesStatistics = () => {
                           <div className="flex flex-col gap-3 w-full sm:w-1/2">
                             {/* <div className="w-full bg-background-light rounded-xl p-3"> */}
                             <MetricsCard
-                              title="Industry ESG Score"
+                              title="ESG Score"
                               value="72%"
                               changePercentage="45%"
                               isPositive={true}
@@ -859,7 +859,7 @@ const CompaniesStatistics = () => {
                                 {esgRatings2?.map((rating, index) => (
                                   <div
                                     key={index}
-                                    className="flex items-center gap-3 sm:gap-4 lg:gap-3 py-2 border-b border-border-light last:border-b-0"
+                                    className="flex items-center gap-3 sm:gap-4 lg:gap-6 py-3.5 px-2.5 border-b border-border-light last:border-b-0"
                                   >
                                     <img
                                       src={rating?.icon}
