@@ -19,7 +19,7 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5001,
+    port: 4000,
     host: "0.0.0.0",  // Allows external access
     strictPort: true,
     allowedHosts: ['rubicr.ai'],  // Add allowed host
