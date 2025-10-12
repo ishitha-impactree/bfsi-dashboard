@@ -11,24 +11,148 @@ import {
   ReferenceLine,
 } from 'recharts';
 
-interface ESGChartProps {
-  className?: string;
+interface DataPoint {
+  name: string;
+  [key: string]: number | string;
 }
 
-const data = [
-  { name: 'Jan', Energy: 55 },
-  { name: 'Feb', Energy: 45 },
-  { name: 'Mar', Energy: 44 },
-  { name: 'Apr', Energy: 38 },
-  { name: 'May', Energy: 52 },
-  { name: 'Jun', Energy: 45 },
-  { name: 'Jul', Energy: 64 },
-  { name: 'Aug', Energy: 42 },
-  { name: 'Sep', Energy: 56 },
-  { name: 'Oct', Energy: 60 },
-  { name: 'Nov', Energy: 70 },
-  { name: 'Dec', Energy: 65 },
+interface ESGChartProps {
+  className?: string;
+  data?: DataPoint[];
+  companyName?: string;
+}
+
+// Default data for Motherson Sumi Wiring India Ltd.
+export const defaultData = [
+  { name: 'Jan', Energy: 12400 },
+  { name: 'Feb', Energy: 12400 },
+  { name: 'Mar', Energy: 13175 },
+  { name: 'Apr', Energy: 13950 },
+  { name: 'May', Energy: 13950 },
+  { name: 'Jun', Energy: 13950 },
+  { name: 'Jul', Energy: 11625 },
+  { name: 'Aug', Energy: 11625 },
+  { name: 'Sep', Energy: 13175 },
 ];
+
+// Data for other companies
+export const energyUsageData1 = [ // Yazaki
+  { name: 'Jan', Energy: 14400 },
+  { name: 'Feb', Energy: 14400 },
+  { name: 'Mar', Energy: 15300 },
+  { name: 'Apr', Energy: 16200 },
+  { name: 'May', Energy: 16200 },
+  { name: 'Jun', Energy: 16200 },
+  { name: 'Jul', Energy: 13500 },
+  { name: 'Aug', Energy: 13500 },
+  { name: 'Sep', Energy: 15300 },
+];
+
+export const energyUsageData2 = [ // LEONI India
+  { name: 'Jan', Energy: 13200 },
+  { name: 'Feb', Energy: 13200 },
+  { name: 'Mar', Energy: 14025 },
+  { name: 'Apr', Energy: 14850 },
+  { name: 'May', Energy: 14850 },
+  { name: 'Jun', Energy: 14850 },
+  { name: 'Jul', Energy: 12375 },
+  { name: 'Aug', Energy: 12375 },
+  { name: 'Sep', Energy: 14025 },
+];
+
+export const energyUsageData3 = [ // Aptiv
+  { name: 'Jan', Energy: 13600 },
+  { name: 'Feb', Energy: 13600 },
+  { name: 'Mar', Energy: 14450 },
+  { name: 'Apr', Energy: 15300 },
+  { name: 'May', Energy: 15300 },
+  { name: 'Jun', Energy: 15300 },
+  { name: 'Jul', Energy: 12750 },
+  { name: 'Aug', Energy: 12750 },
+  { name: 'Sep', Energy: 14450 },
+];
+
+export const energyUsageData4 = [ // Bosch
+  { name: 'Jan', Energy: 68000 },
+  { name: 'Feb', Energy: 68000 },
+  { name: 'Mar', Energy: 72250 },
+  { name: 'Apr', Energy: 76500 },
+  { name: 'May', Energy: 76500 },
+  { name: 'Jun', Energy: 76500 },
+  { name: 'Jul', Energy: 63750 },
+  { name: 'Aug', Energy: 63750 },
+  { name: 'Sep', Energy: 72250 },
+];
+
+export const energyUsageData5 = [ // Sona Comstar
+  { name: 'Jan', Energy: 16800 },
+  { name: 'Feb', Energy: 16800 },
+  { name: 'Mar', Energy: 17850 },
+  { name: 'Apr', Energy: 18900 },
+  { name: 'May', Energy: 18900 },
+  { name: 'Jun', Energy: 18900 },
+  { name: 'Jul', Energy: 15750 },
+  { name: 'Aug', Energy: 15750 },
+  { name: 'Sep', Energy: 17850 },
+];
+
+export const energyUsageData6 = [ // Uno Minda
+  { name: 'Jan', Energy: 26400 },
+  { name: 'Feb', Energy: 26400 },
+  { name: 'Mar', Energy: 28050 },
+  { name: 'Apr', Energy: 29700 },
+  { name: 'May', Energy: 29700 },
+  { name: 'Jun', Energy: 29700 },
+  { name: 'Jul', Energy: 24750 },
+  { name: 'Aug', Energy: 24750 },
+  { name: 'Sep', Energy: 28050 },
+];
+
+export const energyUsageData7 = [ // Furukawa Minda
+  { name: 'Jan', Energy: 7600 },
+  { name: 'Feb', Energy: 7600 },
+  { name: 'Mar', Energy: 8075 },
+  { name: 'Apr', Energy: 8550 },
+  { name: 'May', Energy: 8550 },
+  { name: 'Jun', Energy: 8550 },
+  { name: 'Jul', Energy: 7125 },
+  { name: 'Aug', Energy: 7125 },
+  { name: 'Sep', Energy: 8075 },
+];
+
+export const energyUsageData8 = [ // Varroc
+  { name: 'Jan', Energy: 36000 },
+  { name: 'Feb', Energy: 36000 },
+  { name: 'Mar', Energy: 38250 },
+  { name: 'Apr', Energy: 40500 },
+  { name: 'May', Energy: 40500 },
+  { name: 'Jun', Energy: 40500 },
+  { name: 'Jul', Energy: 33750 },
+  { name: 'Aug', Energy: 33750 },
+  { name: 'Sep', Energy: 38250 },
+];
+
+export const energyUsageData9 = [ // Lumax
+  { name: 'Jan', Energy: 8800 },
+  { name: 'Feb', Energy: 8800 },
+  { name: 'Mar', Energy: 9350 },
+  { name: 'Apr', Energy: 9900 },
+  { name: 'May', Energy: 9900 },
+  { name: 'Jun', Energy: 9900 },
+  { name: 'Jul', Energy: 8250 },
+  { name: 'Aug', Energy: 8250 },
+  { name: 'Sep', Energy: 9350 },
+];
+
+// Format number with commas for Indian numbering system
+const formatNumberWithCommas = (value: number): string => {
+  return value.toLocaleString('en-IN');
+};
+
+// Custom tick formatter for YAxis
+const formatYAxisTick = (value: number): string => {
+  return formatNumberWithCommas(value);
+};
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -37,7 +161,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
         <p className="text-text-primary text-sm font-semibold">{`Month: ${label}`}</p>
         {payload.map((p: any) => (
           <p key={p.dataKey} className="text-sm" style={{ color: p.stroke }}>
-            {`${p.name}: ${p.value !== null ? `${p.value}%` : 'N/A'}`}
+            {`${p.name}: ${p.value !== null ? `${formatNumberWithCommas(p.value)} GJ` : 'N/A'}`}
           </p>
         ))}
       </div>
@@ -49,22 +173,25 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 const CustomDot = (props: any) => {
   const { cx, cy, stroke, value } = props;
   if (value === null) {
-    return null; // Don't render a dot for null values
+    return null;
   }
   return <circle cx={cx} cy={cy} r={4} stroke="black" strokeWidth={1} fill={stroke} />;
 };
 
-const EnergyUsageChart = ({ className }: ESGChartProps) => {
+const EnergyUsageChart = ({ className, data = defaultData, companyName }: ESGChartProps) => {
+  // Calculate max value for YAxis domain with some padding
+  const maxValue = Math.max(...data.map(item => item.Energy as number));
+  const yAxisMax = Math.ceil(maxValue * 1.1); // 10% padding
+
   return (
     <div className={`w-full flex flex-col ${className || ''}`}>
-      {/* Title "ESG Rating" */}
       <div className="flex justify-between items-center mb-4 px-3 sm:px-4">
-        <h2 className="text-lg font-bold text-primary-dark">Energy Usage By Day</h2>
+        <h2 className="text-lg font-bold text-primary-dark">
+          {companyName ? `${companyName} - Energy Usage By Month` : 'Energy Usage By Month'}
+        </h2>
       </div>
 
       <div className="w-full flex-grow" style={{ height: '300px' }}>
-        {' '}
-        {/* Increased height */}
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
             <CartesianGrid stroke="#f3f4f6" strokeDasharray="3 3" vertical={false} />
@@ -75,55 +202,25 @@ const EnergyUsageChart = ({ className }: ESGChartProps) => {
               tick={{ fontSize: 12, fill: '#6b7280' }}
             />
             <YAxis
-              domain={[0, 100]}
-              tickCount={11}
+              domain={[0, yAxisMax]}
+              tickCount={6}
               tickLine={false}
               axisLine={false}
               tick={{ fontSize: 12, fill: '#6b7280' }}
-              tickFormatter={(value) => `${value}%`}
+              tickFormatter={formatYAxisTick}
             />
             <Tooltip content={<CustomTooltip />} />
-            {/* <Legend
-              verticalAlign="top"
-              align="right"
-              height={36}
-              iconType="square"
-              iconSize={10}
-              wrapperStyle={{ top: -20, right: 0, paddingBottom: '10px' }}
-              formatter={(value) => <span className="text-sm text-text-primary">{value}</span>}
-            /> */}
             <Line
               type="linear"
               dataKey="Energy"
-              name="Energy"
+              name="Energy Usage"
               stroke="#10B981"
-              strokeWidth={2} // Increased stroke width
+              strokeWidth={2}
               dot={<CustomDot />}
-              activeDot={{ r: 6, stroke: '#fba900', strokeWidth: 2 }} // Larger active dot
+              activeDot={{ r: 6, stroke: '#fba900', strokeWidth: 2 }}
               connectNulls={false}
             />
-            {/* <Line
-              type="monotone"
-              dataKey="Social"
-              name="Social"
-              stroke="#38c4f7"
-              strokeWidth={2} // Increased stroke width
-              dot={<CustomDot />}
-              activeDot={{ r: 6, stroke: '#38c4f7', strokeWidth: 2 }} // Larger active dot
-              connectNulls={false}
-            /> */}
-            {/* <Line
-              type="monotone"
-              dataKey="Governance"
-              name="Governance"
-              stroke="#05ff00"
-              strokeWidth={2} // Increased stroke width
-              dot={<CustomDot />}
-              activeDot={{ r: 6, stroke: '#05ff00', strokeWidth: 2 }} // Larger active dot
-              connectNulls={false}
-            /> */}
-            <ReferenceLine y={50} stroke="#e5e7eb" strokeDasharray="3 3" />
-            <ReferenceLine x="Dec" stroke="#d1d5db" strokeDasharray="3 3" strokeWidth={2} />
+            <ReferenceLine y={maxValue / 2} stroke="#e5e7eb" strokeDasharray="3 3" />
           </LineChart>
         </ResponsiveContainer>
       </div>

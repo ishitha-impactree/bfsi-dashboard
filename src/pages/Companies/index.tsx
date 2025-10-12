@@ -2,12 +2,65 @@
 import { useState, useEffect } from 'react';
 import Header from '../../components/common/Header';
 import Icon from '../../components/ui/AppIcon';
-import ESGChart from '../../pages/Sectors/components/ESGChart';
 import MetricsCard from '../../pages/Sectors/components/MetricsCard';
-import CumulativeRatingsChart from './CumulativeRatingsChart';
-import KeyEnergyConsumersChart from './KeyEnergyConsumersChart';
-import EnergyUsageChart from './EnerygyUsageChart';
-
+import EnergyUsageChart, { defaultData as defaultEnergyUsageData,   
+  energyUsageData1,
+  energyUsageData2,
+  energyUsageData3,
+  energyUsageData4,
+  energyUsageData5,
+  energyUsageData6,
+  energyUsageData7,
+  energyUsageData8,
+  energyUsageData9 } from './EnerygyUsageChart';
+import CumulativeRatingsChart, { 
+  defaultData, 
+  data1, 
+  data2, 
+  data3, 
+  data4, 
+  data5, 
+  data6, 
+  data7, 
+  data8, 
+  data9 
+} from './CumulativeRatingsChart';
+import KeyEnergyConsumersChart, { 
+  defaultEnergyData, 
+  energyData1, 
+  energyData2, 
+  energyData3, 
+  energyData4, 
+  energyData5, 
+  energyData6, 
+  energyData7, 
+  energyData8, 
+  energyData9 
+} from './KeyEnergyConsumersChart';
+import EmployeeMetrics, { 
+  defaultEmployeeData, 
+  employeeData1, 
+  employeeData2, 
+  employeeData3, 
+  employeeData4, 
+  employeeData5, 
+  employeeData6, 
+  employeeData7, 
+  employeeData8, 
+  employeeData9 
+} from './HumanCapacity/EmployeeMetrics';
+import Hiring, { 
+  defaultHiringData, 
+  hiringData1, 
+  hiringData2, 
+  hiringData3, 
+  hiringData4, 
+  hiringData5, 
+  hiringData6, 
+  hiringData7, 
+  hiringData8, 
+  hiringData9 
+} from './HumanCapacity/HiringRates';
 interface DropdownOption {
   value: string;
   label: string;
@@ -162,7 +215,7 @@ const EditText = ({
 
 const CompaniesStatistics = () => {
   const [companies, setCompanies] = useState<Company[]>([]);
-  const [selectedCompany, setSelectedCompany] = useState<string>('Toyota Motor Company');
+  const [selectedCompany, setSelectedCompany] = useState<string>('Motherson Sumi Wiring India Ltd. (MSWIL)');
   const [activeTab, setActiveTab] = useState<string>('Overview');
   const [esgData, setESGData] = useState<ESGData | null>(null);
   const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
@@ -172,7 +225,6 @@ const CompaniesStatistics = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Filter modules based on search term
   const filteredCompanies = Array.isArray(companies)
     ? companies.filter((company: any) =>
         company?.name?.toLowerCase().includes(searchTerm.toLowerCase())
@@ -214,18 +266,20 @@ const CompaniesStatistics = () => {
   useEffect(() => {
     const loadDashboardData = () => {
       setCompanies([
-        { id: '1', name: 'Toyota Motor Company', selected: true },
-        { id: '2', name: 'Volkswagen AG' },
-        { id: '3', name: 'Mercedes-Benz Group' },
-        { id: '4', name: 'Ford Motor Company' },
-        { id: '5', name: 'General Motors Company' },
-        { id: '6', name: 'Hyundai Motor Group' },
-        { id: '7', name: 'Fiat Chrysler Automobiles N.V.' },
-        { id: '8', name: 'Mitsubishi Motors' },
+        { id: '1', name: 'Motherson Sumi Wiring India Ltd. (MSWIL)', selected: true },
+        { id: '2', name: 'Yazaki (Yazaki India)' },
+        { id: '4', name: 'LEONI India (LEONI Wiring Systems)' },
+        { id: '5', name: 'Aptiv Components India' },
+        { id: '6', name: 'Bosch Limited (India)' },
+        { id: '7', name: 'Sona Comstar (Sona BLW / Sona Comstar)' },
+        { id: '8', name: 'Uno Minda (Minda Corporation)' },
+        {id:  '9', name: 'Furukawa Minda Electric (FME)'},
+        {id: '10', name: 'Varroc Engineering Limited'},
+        {id: '11', name: 'Lumax Industries Limited (LIL)'},
       ]);
 
       setESGData({
-        exposure: '₹ 552.2 Million',
+        exposure: '₹552.2 Million',
         industryScore: '68%',
         pchi: '46%',
         environment: '54%',
@@ -270,7 +324,6 @@ const CompaniesStatistics = () => {
 
   const handleSectorChange = (value: string) => {
     setSelectedSector(value);
-    // Reset industry when sector changes
     setSelectedIndustry('all');
   };
 
@@ -298,28 +351,7 @@ const CompaniesStatistics = () => {
 
   const esgRatings = [
     {
-      percentage: '72%',
-      title: 'Environment Rating',
-      color: '#4ade80',
-      icon: '/images/img_group_1000003546.svg',
-    },
-    {
-      percentage: '45%',
-      title: 'Social Rating',
-      color: '#38bdf8',
-      icon: '/images/img_group_1000003546_light_blue_a200.svg',
-    },
-    {
-      percentage: '87%',
-      title: 'Governance Rating',
-      color: '#f59e0b',
-      icon: '/images/img_group_1000003546_amber_a700.svg',
-    },
-  ];
-
-  const esgRatings2 = [
-    {
-      percentage: '62%',
+      percentage: '74%',
       title: 'Environment Rating',
       color: '#4ade80',
       icon: '/images/img_group_1000003546.svg',
@@ -338,6 +370,378 @@ const CompaniesStatistics = () => {
     },
   ];
 
+  const esgRatings2 = [
+    {
+      percentage: '58%',
+      title: 'Environment Rating',
+      color: '#4ade80',
+      icon: '/images/img_group_1000003546.svg',
+    },
+    {
+      percentage: '74%',
+      title: 'Social Rating',
+      color: '#38bdf8',
+      icon: '/images/img_group_1000003546_light_blue_a200.svg',
+    },
+    {
+      percentage: '75%',
+      title: 'Governance Rating',
+      color: '#f59e0b',
+      icon: '/images/img_group_1000003546_amber_a700.svg',
+    },
+  ];
+
+  const esgRatings3 = [
+    {
+      percentage: '77%',
+      title: 'Environment Rating',
+      color: '#4ade80',
+      icon: '/images/img_group_1000003546.svg',
+    },
+    {
+      percentage: '62%',
+      title: 'Social Rating',
+      color: '#38bdf8',
+      icon: '/images/img_group_1000003546_light_blue_a200.svg',
+    },
+    {
+      percentage: '82%',
+      title: 'Governance Rating',
+      color: '#f59e0b',
+      icon: '/images/img_group_1000003546_amber_a700.svg',
+    },
+  ];
+
+  const esgRatings4 = [
+    {
+      percentage: '65%',
+      title: 'Environment Rating',
+      color: '#4ade80',
+      icon: '/images/img_group_1000003546.svg',
+    },
+    {
+      percentage: '71%',
+      title: 'Social Rating',
+      color: '#38bdf8',
+      icon: '/images/img_group_1000003546_light_blue_a200.svg',
+    },
+    {
+      percentage: '69%',
+      title: 'Governance Rating',
+      color: '#f59e0b',
+      icon: '/images/img_group_1000003546_amber_a700.svg',
+    },
+  ];
+
+  const esgRatings5 = [
+    {
+      percentage: '85%',
+      title: 'Environment Rating',
+      color: '#4ade80',
+      icon: '/images/img_group_1000003546.svg',
+    },
+    {
+      percentage: '75%',
+      title: 'Social Rating',
+      color: '#38bdf8',
+      icon: '/images/img_group_1000003546_light_blue_a200.svg',
+    },
+    {
+      percentage: '78%',
+      title: 'Governance Rating',
+      color: '#f59e0b',
+      icon: '/images/img_group_1000003546_amber_a700.svg',
+    },
+  ];
+
+  const esgRatings6 = [
+    {
+      percentage: '59%',
+      title: 'Environment Rating',
+      color: '#4ade80',
+      icon: '/images/img_group_1000003546.svg',
+    },
+    {
+      percentage: '67%',
+      title: 'Social Rating',
+      color: '#38bdf8',
+      icon: '/images/img_group_1000003546_light_blue_a200.svg',
+    },
+    {
+      percentage: '64%',
+      title: 'Governance Rating',
+      color: '#f59e0b',
+      icon: '/images/img_group_1000003546_amber_a700.svg',
+    },
+  ];
+
+  const esgRatings7 = [
+    {
+      percentage: '76%',
+      title: 'Environment Rating',
+      color: '#4ade80',
+      icon: '/images/img_group_1000003546.svg',
+    },
+    {
+      percentage: '68%',
+      title: 'Social Rating',
+      color: '#38bdf8',
+      icon: '/images/img_group_1000003546_light_blue_a200.svg',
+    },
+    {
+      percentage: '71%',
+      title: 'Governance Rating',
+      color: '#f59e0b',
+      icon: '/images/img_group_1000003546_amber_a700.svg',
+    },
+  ];
+
+  const esgRatings8 = [
+    {
+      percentage: '52%',
+      title: 'Environment Rating',
+      color: '#4ade80',
+      icon: '/images/img_group_1000003546.svg',
+    },
+    {
+      percentage: '58%',
+      title: 'Social Rating',
+      color: '#38bdf8',
+      icon: '/images/img_group_1000003546_light_blue_a200.svg',
+    },
+    {
+      percentage: '56%',
+      title: 'Governance Rating',
+      color: '#f59e0b',
+      icon: '/images/img_group_1000003546_amber_a700.svg',
+    },
+  ];
+
+  const esgRatings9 = [
+    {
+      percentage: '70%',
+      title: 'Environment Rating',
+      color: '#4ade80',
+      icon: '/images/img_group_1000003546.svg',
+    },
+    {
+      percentage: '65%',
+      title: 'Social Rating',
+      color: '#38bdf8',
+      icon: '/images/img_group_1000003546_light_blue_a200.svg',
+    },
+    {
+      percentage: '71%',
+      title: 'Governance Rating',
+      color: '#f59e0b',
+      icon: '/images/img_group_1000003546_amber_a700.svg',
+    },
+  ];
+
+  const esgRatings10 = [
+    {
+      percentage: '79%',
+      title: 'Environment Rating',
+      color: '#4ade80',
+      icon: '/images/img_group_1000003546.svg',
+    },
+    {
+      percentage: '72%',
+      title: 'Social Rating',
+      color: '#38bdf8',
+      icon: '/images/img_group_1000003546_light_blue_a200.svg',
+    },
+    {
+      percentage: '73%',
+      title: 'Governance Rating',
+      color: '#f59e0b',
+      icon: '/images/img_group_1000003546_amber_a700.svg',
+    },
+  ];
+
+  const getCompanyData = () => {
+  switch(selectedCompany) {
+    case 'Motherson Sumi Wiring India Ltd. (MSWIL)':
+      return {
+        exposure: { value: '55,699', unit: 'Million', change: '19%', positive: true },
+        esgScore: { value: '69%', change: '40%', positive: true },
+        pchi: { value: '26%', change: '40%', positive: true },
+        ratings: esgRatings,
+        chartData: defaultData,
+        energyUsed: { value: '155,000', unit: 'GJ', change: '30%', positive: true },
+        eui: { value: '21.5', unit: 'GJ / INR Cr', change: '17%', positive: true },
+        energyChartData: defaultEnergyData,
+        energyUsageData: defaultEnergyUsageData,
+        totalManpower: { value: '39,300', unit: 'Employees', change: '12%', positive: true },
+        ltifr: { value: '0.85', unit: 'per 200k hours', change: '-8%', positive: true },
+        employeeChartData: defaultEmployeeData,
+        hiringData: defaultHiringData
+      };
+    case 'Yazaki (Yazaki India)':
+      return {
+        exposure: { value: '37,679', unit: 'Million', change: '25%', positive: true },
+        esgScore: { value: '69%', change: '45%', positive: true },
+        pchi: { value: '42%', change: '30%', positive: true },
+        ratings: esgRatings2,
+        chartData: data1,
+        energyUsed: { value: '180,000', unit: 'GJ', change: '28%', positive: true },
+        eui: { value: '24.0', unit: 'GJ / INR Cr', change: '15%', positive: true },
+        energyChartData: energyData1,
+        energyUsageData: energyUsageData1,
+        totalManpower: { value: '47,000', unit: 'Employees', change: '15%', positive: true },
+        ltifr: { value: '0.92', unit: 'per 200k hours', change: '-6%', positive: true },
+        employeeChartData: employeeData1,
+        hiringData: hiringData1
+      };
+    case 'LEONI India (LEONI Wiring Systems)':
+      return {
+        exposure: { value: '25,450', unit: 'Million', change: '15%', positive: true },
+        esgScore: { value: '74%', change: '38%', positive: true },
+        pchi: { value: '23%', change: '25%', positive: true },
+        ratings: esgRatings3,
+        chartData: data2,
+        energyUsed: { value: '165,000', unit: 'GJ', change: '32%', positive: true },
+        eui: { value: '23.5', unit: 'GJ / INR Cr', change: '19%', positive: true },
+        energyChartData: energyData2,
+        energyUsageData: energyUsageData2,
+        totalManpower: { value: '33,600', unit: 'Employees', change: '10%', positive: true },
+        ltifr: { value: '0.78', unit: 'per 200k hours', change: '-12%', positive: true },
+        employeeChartData: employeeData2,
+        hiringData: hiringData2
+      };
+    case 'Aptiv Components India':
+      return {
+        exposure: { value: '41,200', unit: 'Million', change: '22%', positive: true },
+        esgScore: { value: '68%', change: '42%', positive: true },
+        pchi: { value: '35%', change: '28%', positive: true },
+        ratings: esgRatings4,
+        chartData: data3,
+        energyUsed: { value: '170,000', unit: 'GJ', change: '26%', positive: true },
+        eui: { value: '22.5', unit: 'GJ / INR Cr', change: '16%', positive: true },
+        energyChartData: energyData3,
+        energyUsageData: energyUsageData3,
+        totalManpower: { value: '42,600', unit: 'Employees', change: '14%', positive: true },
+        ltifr: { value: '0.88', unit: 'per 200k hours', change: '-9%', positive: true },
+        employeeChartData: employeeData3,
+        hiringData: hiringData3
+      };
+    case 'Bosch Limited (India)':
+      return {
+        exposure: { value: '78,930', unit: 'Million', change: '30%', positive: true },
+        esgScore: { value: '79%', change: '35%', positive: true },
+        pchi: { value: '15%', change: '32%', positive: true },
+        ratings: esgRatings5,
+        chartData: data4,
+        energyUsed: { value: '850,000', unit: 'GJ', change: '35%', positive: true },
+        eui: { value: '58.5', unit: 'GJ / INR Cr', change: '12%', positive: true },
+        energyChartData: energyData4,
+        energyUsageData: energyUsageData4,
+        totalManpower: { value: '109,000', unit: 'Employees', change: '18%', positive: true },
+        ltifr: { value: '0.95', unit: 'per 200k hours', change: '-5%', positive: true },
+        employeeChartData: employeeData4,
+        hiringData: hiringData4
+      };
+    case 'Sona Comstar (Sona BLW / Sona Comstar)':
+      return {
+        exposure: { value: '19,850', unit: 'Million', change: '18%', positive: true },
+        esgScore: { value: '63%', change: '36%', positive: true },
+        pchi: { value: '41%', change: '22%', positive: true },
+        ratings: esgRatings6,
+        chartData: data5,
+        energyUsed: { value: '210,000', unit: 'GJ', change: '24%', positive: true },
+        eui: { value: '75.0', unit: 'GJ / INR Cr', change: '18%', positive: true },
+        energyChartData: energyData5,
+        energyUsageData: energyUsageData5,
+        totalManpower: { value: '27,400', unit: 'Employees', change: '11%', positive: true },
+        ltifr: { value: '0.82', unit: 'per 200k hours', change: '-10%', positive: true },
+        employeeChartData: employeeData5,
+        hiringData: hiringData5
+      };
+    case 'Uno Minda (Minda Corporation)':
+      return {
+        exposure: { value: '33,100', unit: 'Million', change: '20%', positive: true },
+        esgScore: { value: '72%', change: '41%', positive: true },
+        pchi: { value: '24%', change: '26%', positive: true },
+        ratings: esgRatings7,
+        chartData: data6,
+        energyUsed: { value: '330,000', unit: 'GJ', change: '22%', positive: true },
+        eui: { value: '28.0', unit: 'GJ / INR Cr', change: '14%', positive: true },
+        energyChartData: energyData6,
+        energyUsageData: energyUsageData6,
+        totalManpower: { value: '51,000', unit: 'Employees', change: '16%', positive: true },
+        ltifr: { value: '0.89', unit: 'per 200k hours', change: '-7%', positive: true },
+        employeeChartData: employeeData6,
+        hiringData: hiringData6
+      };
+    case 'Furukawa Minda Electric (FME)':
+      return {
+        exposure: { value: '15,600', unit: 'Million', change: '16%', positive: true },
+        esgScore: { value: '55%', change: '28%', positive: true },
+        pchi: { value: '48%', change: '19%', positive: true },
+        ratings: esgRatings8,
+        chartData: data7,
+        energyUsed: { value: '95,000', unit: 'GJ', change: '20%', positive: true },
+        eui: { value: '35.0', unit: 'GJ / INR Cr', change: '21%', positive: true },
+        energyChartData: energyData7,
+        energyUsageData: energyUsageData7,
+        totalManpower: { value: '21,600', unit: 'Employees', change: '9%', positive: true },
+        ltifr: { value: '0.76', unit: 'per 200k hours', change: '-13%', positive: true },
+        employeeChartData: employeeData7,
+        hiringData: hiringData7
+      };
+    case 'Varroc Engineering Limited':
+      return {
+        exposure: { value: '29,750', unit: 'Million', change: '21%', positive: true },
+        esgScore: { value: '69%', change: '39%', positive: true },
+        pchi: { value: '30%', change: '24%', positive: true },
+        ratings: esgRatings9,
+        chartData: data8,
+        energyUsed: { value: '450,000', unit: 'GJ', change: '27%', positive: true },
+        eui: { value: '65.0', unit: 'GJ / INR Cr', change: '15%', positive: true },
+        energyChartData: energyData8,
+        energyUsageData: energyUsageData8,
+        totalManpower: { value: '59,300', unit: 'Employees', change: '17%', positive: true },
+        ltifr: { value: '0.91', unit: 'per 200k hours', change: '-6%', positive: true },
+        employeeChartData: employeeData8,
+        hiringData: hiringData8
+      };
+    case 'Lumax Industries Limited (LIL)':
+      return {
+        exposure: { value: '12,300', unit: 'Million', change: '17%', positive: true },
+        esgScore: { value: '75%', change: '43%', positive: true },
+        pchi: { value: '21%', change: '29%', positive: true },
+        ratings: esgRatings10,
+        chartData: data9,
+        energyUsed: { value: '110,000', unit: 'GJ', change: '19%', positive: true },
+        eui: { value: '48.0', unit: 'GJ / INR Cr', change: '17%', positive: true },
+        energyChartData: energyData9,
+        energyUsageData: energyUsageData9,
+        totalManpower: { value: '24,600', unit: 'Employees', change: '10%', positive: true },
+        ltifr: { value: '0.79', unit: 'per 200k hours', change: '-11%', positive: true },
+        employeeChartData: employeeData9,
+        hiringData: hiringData9
+      };
+    default:
+      return {
+        exposure: { value: '12,300', unit: 'Million', change: '19%', positive: true },
+        esgScore: { value: '69%', change: '40%', positive: true },
+        pchi: { value: '26%', change: '40%', positive: true },
+        ratings: esgRatings,
+        chartData: defaultData,
+        energyUsed: { value: '155,000', unit: 'GJ', change: '30%', positive: true },
+        eui: { value: '21.5', unit: 'GJ / INR Cr', change: '17%', positive: true },
+        energyChartData: defaultEnergyData,
+        energyUsageData: defaultEnergyUsageData,
+        totalManpower: { value: '39,300', unit: 'Employees', change: '12%', positive: true },
+        ltifr: { value: '0.85', unit: 'per 200k hours', change: '-8%', positive: true },
+        employeeChartData: defaultEmployeeData,
+        hiringData: defaultHiringData
+      };
+  }
+};
+
+  const companyData = getCompanyData();
+
   return (
     <div className="w-full bg-[#f8fafc]">
       <Header />
@@ -353,23 +757,6 @@ const CompaniesStatistics = () => {
                 Detailed ESG analysis and risk assessment for portfolio companies
               </p>
             </div>
-            {/* <div className="flex justify-end mb-0 sm:mb-8 lg:mb-0">
-                <div className="flex bg-gray-200 rounded-xl overflow-hidden w-[380px] h-[25px] p-1">
-                  {timeButtons.map((button, index) => (
-                    <button
-                      key={button.label}
-                      className={`flex-1 flex items-center justify-center text-sm font-semibold font-Inter text-center transition-all duration-200 ${
-                        button.active
-                          ? 'bg-primary-background text-text-white rounded-lg'
-                          : 'bg-transparent text-text-secondary hover:bg-purple-200'
-                      }`}
-                      onClick={() => handleTimeButtonClick(button.label)}
-                    >
-                      {button.label}
-                    </button>
-                  ))}
-                </div>
-              </div> */}
             {/* Filters in Header */}
             <div className="flex flex-col sm:flex-row gap-3 justify-end items-start sm:items-center w-full lg:w-auto">
               <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center">
@@ -387,7 +774,6 @@ const CompaniesStatistics = () => {
                 />
                 <Button
                   text="Apply Filters"
-                  // fill_background_color="bg-gradient-to-r from-[#232538] to-[#62689e]"
                   fill_background_color="bg-accent-info"
                   text_color="text-white"
                   layout_width="w-full sm:w-auto"
@@ -408,31 +794,6 @@ const CompaniesStatistics = () => {
                 <span className="text-md font-medium">Companies</span>
 
                 <div className="flex flex-col gap-3 justify-start items-center w-full">
-                  {/* Search field with icon on the right */}
-                  {/* <div className="relative w-full">
-                    <SearchView
-                      placeholder="Search"
-                      className="w-full pr-10" // Added right padding to make space for icon
-                      onSearch={emptyFunction}
-                      onChange={emptyFunction}
-                    />
-                    <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                      <svg
-                        className="h-4 w-4 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
-                      </svg>
-                    </div>
-                  </div> */}
-
                   <input
                     type="text"
                     placeholder="Search companies..."
@@ -499,99 +860,46 @@ const CompaniesStatistics = () => {
                     ))}
                   </div>
                 </div>
-                {selectedCompany === 'Toyota Motor Company' && activeTab === 'Overview' && (
+
+                {/* Overview Tab Content for ALL companies */}
+                {activeTab === 'Overview' && (
                   <>
                     <div className="flex flex-col lg:flex-row gap-3 justify-start items-start w-full">
-                      {/* <div className="flex flex-col gap-3 justify-start items-center w-full lg:w-[50%]"> */}
                       <div className="flex flex-col gap-3 justify-start w-full lg:w-[50%]">
-                        {/* <div className="w-full bg-background-light rounded-xl p-3"> */}
                         <MetricsCard
                           title="Exposure"
-                          value="$ 55,699"
-                          unit="Million"
-                          changePercentage="19%"
-                          isPositive={true}
+                          value={`$ ${companyData.exposure.value}`}
+                          unit={companyData.exposure.unit}
+                          changePercentage={companyData.exposure.change}
+                          isPositive={companyData.exposure.positive}
                           hasLeftBorder={true}
                         />
-                        {/* </div> */}
 
                         <div className="flex flex-col sm:flex-row gap-3 w-full">
                           <div className="flex flex-col gap-3 w-full sm:w-1/2">
-                            {/* <div className="w-full bg-background-light rounded-xl p-3"> */}
                             <MetricsCard
                               title="ESG Score"
-                              value="68%"
-                              changePercentage="40%"
-                              isPositive={true}
+                              value={companyData.esgScore.value}
+                              changePercentage={companyData.esgScore.change}
+                              isPositive={companyData.esgScore.positive}
                               hasLeftBorder={true}
                             />
-                            {/* </div> */}
-                            {/* <div className="w-full bg-background-light rounded-xl p-3"> */}
                             <MetricsCard
                               title="PCHI"
-                              value="28%"
-                              changePercentage="40%"
-                              isPositive={true}
+                              value={companyData.pchi.value}
+                              changePercentage={companyData.pchi.change}
+                              isPositive={companyData.pchi.positive}
                               hasLeftBorder={true}
                             />
-                            {/* </div> */}
                           </div>
-
-                          {/* <div className="flex flex-col gap-4 w-full sm:w-1/2 bg-background-light rounded-xl p-3"> */}
-                          {/* <div className="flex gap-4 justify-start items-center w-full flex-1">
-                              <img
-                                src="/images/img_group_1000003546.svg"
-                                alt="Environment icon"
-                                className="w-14 h-14"
-                              />
-                              <div className="flex flex-col justify-start items-start w-full">
-                                <span className="text-xl font-normal leading-xl text-left text-text-primary font-['Inter']">
-                                  72%
-                                </span>
-                                <span className="text-lg font-bold leading-lg text-left text-text-primary font-['DM Sans']">
-                                  Environment Rating
-                                </span>
-                              </div>
-                            </div>
-
-                            <div className="flex gap-4 justify-start items-center w-full flex-1">
-                              <img
-                                src="/images/img_group_1000003546_light_blue_a200.svg"
-                                alt="Social icon"
-                                className="w-14 h-14"
-                              />
-                              <div className="flex flex-col justify-start items-start w-full">
-                                <span className="text-xl font-normal leading-xl text-left text-text-primary font-['Inter']">
-                                  45%
-                                </span>
-                                <span className="text-lg font-bold leading-lg text-left text-text-primary font-['DM Sans']">
-                                  Social Rating
-                                </span>
-                              </div>
-                            </div>
-
-                            <div className="flex gap-4 justify-start items-center w-full flex-1">
-                              <img
-                                src="/images/img_group_1000003546_amber_a700.svg"
-                                alt="Governance icon"
-                                className="w-14 h-14"
-                              />
-                              <div className="flex flex-col justify-start items-start w-full">
-                                <span className="text-xl font-normal leading-xl text-left text-text-primary font-['Inter']">
-                                  87%
-                                </span>
-                                <span className="text-lg font-bold leading-lg text-left text-text-primary font-['DM Sans']">
-                                  Governance Rating
-                                </span>
-                              </div>
-                            </div> */}
-                          <div className="space-y-3 sm:space-y-6 lg:space-y-3">
+                          
+                          <div className="space-y-3 sm:space-y-6 lg:space-y-3 w-full sm:w-1/2">
                             <div
-                              className="border-l-[3px] border-purple-500 rounded-none p-2 sm:p-4 lg:p-3 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                              className="border-l-[3px] border-purple-500 rounded-none p-2 sm:p-4 lg:p-3 bg-card rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
                               style={{ background: 'white' }}
                             >
                               <div className="space-y-2 sm:space-y-4 lg:space-y-3">
-                                {esgRatings?.map((rating, index) => (
+                                {companyData.ratings?.map((rating, index) => (
                                   <div
                                     key={index}
                                     className="flex items-center gap-3 sm:gap-4 lg:gap-6 py-3.5 px-2.5 border-b border-border-light last:border-b-0"
@@ -614,7 +922,6 @@ const CompaniesStatistics = () => {
                               </div>
                             </div>
                           </div>
-                          {/* </div> */}
                         </div>
                       </div>
 
@@ -623,7 +930,7 @@ const CompaniesStatistics = () => {
                           className="w-full p-2 bg-card rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
                           style={{ background: 'white' }}
                         >
-                          <CumulativeRatingsChart />
+                          <CumulativeRatingsChart data={companyData.chartData} />
                         </div>
                       </div>
                     </div>
@@ -764,123 +1071,26 @@ const CompaniesStatistics = () => {
                   </>
                 )}
 
-                {selectedCompany !== 'Toyota Motor Company' && activeTab === 'Overview' && (
+                {activeTab === 'Resource Footprint' && (
                   <>
                     <div className="flex flex-col lg:flex-row gap-3 justify-start items-start w-full">
-                      {/* <div className="flex flex-col gap-3 justify-start items-center w-full lg:w-[50%]"> */}
                       <div className="flex flex-col gap-3 justify-start w-full lg:w-[50%]">
-                        {/* <div className="w-full bg-background-light rounded-xl p-3"> */}
                         <MetricsCard
-                          title="Exposure"
-                          value="$ 40,500"
-                          unit="Million"
-                          changePercentage="25%"
-                          isPositive={true}
+                          title="Energy Used"
+                          value={companyData.energyUsed.value}
+                          unit={companyData.energyUsed.unit}
+                          changePercentage={companyData.energyUsed.change}
+                          isPositive={companyData.energyUsed.positive}
                           hasLeftBorder={true}
                         />
-                        {/* </div> */}
-
-                        <div className="flex flex-col sm:flex-row gap-3 w-full">
-                          <div className="flex flex-col gap-3 w-full sm:w-1/2">
-                            {/* <div className="w-full bg-background-light rounded-xl p-3"> */}
-                            <MetricsCard
-                              title="ESG Score"
-                              value="72%"
-                              changePercentage="45%"
-                              isPositive={true}
-                              hasLeftBorder={true}
-                            />
-                            {/* </div> */}
-                            {/* <div className="w-full bg-background-light rounded-xl p-3"> */}
-                            <MetricsCard
-                              title="PCHI"
-                              value="35%"
-                              changePercentage="30%"
-                              isPositive={true}
-                              hasLeftBorder={true}
-                            />
-                            {/* </div> */}
-                          </div>
-
-                          {/* <div className="flex flex-col gap-4 w-full sm:w-1/2 bg-background-light rounded-xl p-3"> */}
-                          {/* <div className="flex gap-4 justify-start items-center w-full flex-1">
-                              <img
-                                src="/images/img_group_1000003546.svg"
-                                alt="Environment icon"
-                                className="w-14 h-14"
-                              />
-                              <div className="flex flex-col justify-start items-start w-full">
-                                <span className="text-xl font-normal leading-xl text-left text-text-primary font-['Inter']">
-                                  72%
-                                </span>
-                                <span className="text-lg font-bold leading-lg text-left text-text-primary font-['DM Sans']">
-                                  Environment Rating
-                                </span>
-                              </div>
-                            </div>
-
-                            <div className="flex gap-4 justify-start items-center w-full flex-1">
-                              <img
-                                src="/images/img_group_1000003546_light_blue_a200.svg"
-                                alt="Social icon"
-                                className="w-14 h-14"
-                              />
-                              <div className="flex flex-col justify-start items-start w-full">
-                                <span className="text-xl font-normal leading-xl text-left text-text-primary font-['Inter']">
-                                  45%
-                                </span>
-                                <span className="text-lg font-bold leading-lg text-left text-text-primary font-['DM Sans']">
-                                  Social Rating
-                                </span>
-                              </div>
-                            </div>
-
-                            <div className="flex gap-4 justify-start items-center w-full flex-1">
-                              <img
-                                src="/images/img_group_1000003546_amber_a700.svg"
-                                alt="Governance icon"
-                                className="w-14 h-14"
-                              />
-                              <div className="flex flex-col justify-start items-start w-full">
-                                <span className="text-xl font-normal leading-xl text-left text-text-primary font-['Inter']">
-                                  87%
-                                </span>
-                                <span className="text-lg font-bold leading-lg text-left text-text-primary font-['DM Sans']">
-                                  Governance Rating
-                                </span>
-                              </div>
-                            </div> */}
-                          <div className="space-y-3 sm:space-y-6 lg:space-y-3">
-                            <div
-                              className="border-l-[3px] border-purple-500 rounded-none p-2 sm:p-4 lg:p-3 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
-                              style={{ background: 'white' }}
-                            >
-                              <div className="space-y-2 sm:space-y-4 lg:space-y-3">
-                                {esgRatings2?.map((rating, index) => (
-                                  <div
-                                    key={index}
-                                    className="flex items-center gap-3 sm:gap-4 lg:gap-6 py-3.5 px-2.5 border-b border-border-light last:border-b-0"
-                                  >
-                                    <img
-                                      src={rating?.icon}
-                                      alt={rating?.title}
-                                      className="w-12 h-12 sm:w-14 sm:h-14"
-                                    />
-                                    <div className="flex-1">
-                                      <div className="text-lg sm:text-xl font-normal text-text-primary">
-                                        {rating?.percentage}
-                                      </div>
-                                      <div className="text-sm sm:text-lg font-bold text-text-primary">
-                                        {rating?.title}
-                                      </div>
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                          {/* </div> */}
-                        </div>
+                        <MetricsCard
+                          title="EUI"
+                          value={companyData.eui.value}
+                          unit={companyData.eui.unit}
+                          changePercentage={companyData.eui.change}
+                          isPositive={companyData.eui.positive}
+                          hasLeftBorder={true}
+                        />
                       </div>
 
                       <div className="flex flex-col justify-start items-center w-full lg:w-[50%]">
@@ -888,238 +1098,106 @@ const CompaniesStatistics = () => {
                           className="w-full p-2 bg-card rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
                           style={{ background: 'white' }}
                         >
-                          <CumulativeRatingsChart />
+                          <KeyEnergyConsumersChart data={companyData.energyChartData} />
                         </div>
                       </div>
                     </div>
 
                     {/* Content Grid */}
-                    <div className="flex flex-col gap-4 justify-start items-center w-full">
-                      {/* Risk Breakdown Section */}
+                    <div className="flex flex-col gap-0 justify-start items-center w-full">
                       <div className="w-full bg-primary-foreground border border-border rounded-lg p-4 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200">
-                        <div className="bg-white px-0">
-                          <span className="text-lg font-bold text-[#2b3674]">
-                            Pillar wise Risk Breakdown
-                          </span>
-                        </div>
-
-                        <div className="w-full py-2">
-                          <div className="flex flex-col gap-4 w-full mb-2">
-                            <div className="flex flex-col gap-1 justify-start items-start w-full">
-                              <span className="text-md font-normal text-black">Environmental</span>
-                              <div className="grid grid-cols-5 gap-2 justify-start items-center w-full">
-                                {[
-                                  'Resource Use',
-                                  'Climate Stewardship',
-                                  'Resource Footprint',
-                                  'Aspiration Need',
-                                  'Growth Need',
-                                ].map((item, index) => (
-                                  <Button
-                                    key={item}
-                                    text={item}
-                                    fill_background_color={
-                                      index === 0
-                                        ? 'bg-[#05ff00]'
-                                        : index === 1
-                                          ? 'bg-[#acff01]'
-                                          : index === 2
-                                            ? 'bg-[#ff8b00]'
-                                            : index === 3
-                                              ? 'bg-[#fe3c00]'
-                                              : 'bg-[#73ff01]'
-                                    }
-                                    text_color="text-black"
-                                    border_border_radius="rounded-xs"
-                                    layout_width="w-full"
-                                    padding="px-2 py-2"
-                                    onClick={emptyFunction}
-                                    className="w-full text-sm"
-                                  />
-                                ))}
-                              </div>
-                            </div>
-
-                            <div className="flex flex-col gap-1 justify-start items-start w-full">
-                              <span className="text-md font-normal text-black">Social</span>
-                              <div className="grid grid-cols-5 gap-2 justify-start items-center w-full">
-                                {[
-                                  'Human Capacity',
-                                  'Community Engagement',
-                                  'Customer Satisfaction',
-                                  'Quality Assurance',
-                                  'Data Risk',
-                                ].map((item, index) => (
-                                  <Button
-                                    key={item}
-                                    text={item}
-                                    fill_background_color={
-                                      index === 0
-                                        ? 'bg-[#05ff00]'
-                                        : index === 1
-                                          ? 'bg-[#76ff01]'
-                                          : index === 2
-                                            ? 'bg-[#ff9000]'
-                                            : index === 3
-                                              ? 'bg-[#ffa101]'
-                                              : 'bg-[#fed600]'
-                                    }
-                                    text_color="text-black"
-                                    border_border_radius="rounded-xs"
-                                    layout_width="w-full"
-                                    padding="px-2 py-2"
-                                    onClick={emptyFunction}
-                                    className="w-full text-sm"
-                                  />
-                                ))}
-                              </div>
-                            </div>
-
-                            <div className="flex flex-col gap-1 justify-start items-start w-full">
-                              <span className="text-md font-normal text-black">Governance</span>
-                              <div className="grid grid-cols-5 gap-2 justify-start items-center w-full">
-                                {[
-                                  'Legal Compliance',
-                                  'Board Performance',
-                                  'Executioner Risk',
-                                  'Competitor Risk',
-                                  'Financial Risk',
-                                ].map((item, index) => (
-                                  <Button
-                                    key={item}
-                                    text={item}
-                                    fill_background_color={
-                                      index === 0
-                                        ? 'bg-[#d4ff00]'
-                                        : index === 1
-                                          ? 'bg-[#86ff00]'
-                                          : index === 2
-                                            ? 'bg-[#fed600]'
-                                            : index === 3
-                                              ? 'bg-[#05ff00]'
-                                              : 'bg-[#ff2700]'
-                                    }
-                                    text_color="text-black"
-                                    border_border_radius="rounded-xs"
-                                    layout_width="w-full"
-                                    padding="px-2 py-2"
-                                    onClick={emptyFunction}
-                                    className="w-full text-sm"
-                                  />
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="flex flex-col gap-1 justify-center items-center w-full">
-                          <div className="flex flex-row justify-between items-center w-full px-3">
-                            <span className="text-sm font-normal text-black">Low</span>
-                            <span className="text-sm font-normal text-black">Medium</span>
-                            <span className="text-sm font-normal text-black">High</span>
-                          </div>
-                          <img
-                            src="/images/img_frame_1000003883.png"
-                            alt="Risk scale"
-                            className="w-full h-2 rounded-sm"
-                          />
-                        </div>
+                        <EnergyUsageChart 
+                          data={companyData.energyUsageData} 
+                          companyName={selectedCompany}
+                        />
                       </div>
                     </div>
                   </>
                 )}
-
-                {selectedCompany !== 'Toyota Motor Company' &&
-                  activeTab === 'Resource Footprint' && (
-                    <>
-                      <div className="flex flex-col lg:flex-row gap-3 justify-start items-start w-full">
-                        {/* <div className="flex flex-col gap-3 justify-start items-center w-full lg:w-[50%]"> */}
-                        <div className="flex flex-col gap-3 justify-start w-full lg:w-[50%]">
-                          {/* <div className="w-full bg-background-light rounded-xl p-3"> */}
-                          <MetricsCard
-                            title="Energy Used "
-                            value="40"
-                            unit="KWH"
-                            changePercentage="30%"
-                            isPositive={true}
-                            hasLeftBorder={true}
-                          />
-                          <MetricsCard
-                            title="EUI"
-                            value="2.8"
-                            unit="KWH / Unit"
-                            changePercentage="17%"
-                            isPositive={true}
-                            hasLeftBorder={true}
-                          />
-                          {/* </div> */}
-                        </div>
-
-                        <div className="flex flex-col justify-start items-center w-full lg:w-[50%]">
-                          <div
-                            className="w-full p-2 bg-card rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
-                            style={{ background: 'white' }}
-                          >
-                            <KeyEnergyConsumersChart />
-                          </div>
-                        </div>
+                  {activeTab === 'Human Capacity' && (
+                  <>
+                    <div className="flex flex-col lg:flex-row gap-3 justify-start items-start w-full">
+                      <div className="flex flex-col gap-3 justify-start w-full lg:w-[50%]">
+                        <MetricsCard
+                          title="Total Manpower"
+                          value={companyData.energyUsed.value}
+                          unit={companyData.energyUsed.unit}
+                          changePercentage={companyData.energyUsed.change}
+                          isPositive={companyData.energyUsed.positive}
+                          hasLeftBorder={true}
+                        />
+                        <MetricsCard
+                          title="LTIFR"
+                          value={companyData.eui.value}
+                          unit={companyData.eui.unit}
+                          changePercentage={companyData.eui.change}
+                          isPositive={companyData.eui.positive}
+                          hasLeftBorder={true}
+                        />
                       </div>
 
-                      {/* Content Grid */}
-                      <div className="flex flex-col gap-0 justify-start items-center w-full">
-                        {/* Risk Breakdown Section */}
-                        <div className="w-full bg-primary-foreground border border-border rounded-lg p-4 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200">
-                          <EnergyUsageChart />
+                      <div className="flex flex-col justify-start items-center w-full lg:w-[50%]">
+                        <div
+                          className="w-full p-2 bg-card rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                          style={{ background: 'white' }}
+                        >
+                          <KeyEnergyConsumersChart data={companyData.energyChartData} />
                         </div>
                       </div>
-                    </>
-                  )}
+                    </div>
 
-                {selectedCompany === 'Toyota Motor Company' &&
-                  activeTab === 'Resource Footprint' && (
-                    <>
-                      <div className="flex flex-col lg:flex-row gap-3 justify-start items-start w-full">
-                        {/* <div className="flex flex-col gap-3 justify-start items-center w-full lg:w-[50%]"> */}
-                        <div className="flex flex-col gap-3 justify-start w-full lg:w-[50%]">
-                          {/* <div className="w-full bg-background-light rounded-xl p-3"> */}
-                          <MetricsCard
-                            title="Energy Used "
-                            value="50"
-                            unit="KWH"
-                            changePercentage="40%"
-                            isPositive={true}
-                            hasLeftBorder={true}
-                          />
-                          <MetricsCard
-                            title="EUI"
-                            value="3.2"
-                            unit="KWH / Unit"
-                            changePercentage="22%"
-                            isPositive={true}
-                            hasLeftBorder={true}
-                          />
-                          {/* </div> */}
-                        </div>
-
-                        <div className="flex flex-col justify-start items-center w-full lg:w-[50%]">
-                          <div
-                            className="w-full p-2 bg-card rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
-                            style={{ background: 'white' }}
-                          >
-                            <KeyEnergyConsumersChart />
-                          </div>
-                        </div>
+                    <div className="flex flex-col gap-0 justify-start items-center w-full">
+                      <div className="w-full bg-primary-foreground border border-border rounded-lg p-4 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200">
+                        <HiringRates
+                          data={companyData.energyUsageData} 
+                          companyName={selectedCompany}
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
+                  {activeTab === 'Community Engegement' && (
+                  <>
+                    <div className="flex flex-col lg:flex-row gap-3 justify-start items-start w-full">
+                      <div className="flex flex-col gap-3 justify-start w-full lg:w-[50%]">
+                        <MetricsCard
+                          title="Total CSR Initiatives"
+                          value={companyData.energyUsed.value}
+                          unit={companyData.energyUsed.unit}
+                          changePercentage={companyData.energyUsed.change}
+                          isPositive={companyData.energyUsed.positive}
+                          hasLeftBorder={true}
+                        />
+                        <MetricsCard
+                          title="Total Beneficiaries"
+                          value={companyData.eui.value}
+                          unit={companyData.eui.unit}
+                          changePercentage={companyData.eui.change}
+                          isPositive={companyData.eui.positive}
+                          hasLeftBorder={true}
+                        />
                       </div>
 
-                      {/* Content Grid */}
-                      <div className="flex flex-col gap-0 justify-start items-center w-full">
-                        {/* Risk Breakdown Section */}
-                        <div className="w-full bg-primary-foreground border border-border rounded-lg p-4 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200">
-                          <EnergyUsageChart />
+                      <div className="flex flex-col justify-start items-center w-full lg:w-[50%]">
+                        <div
+                          className="w-full p-2 bg-card rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                          style={{ background: 'white' }}
+                        >
+                          <KeyEnergyConsumersChart data={companyData.energyChartData} />
                         </div>
                       </div>
-                    </>
-                  )}
+                    </div>
+
+                    <div className="flex flex-col gap-0 justify-start items-center w-full">
+                      <div className="w-full bg-primary-foreground border border-border rounded-lg p-4 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200">
+                        <EnergyUsageChart 
+                          data={companyData.energyUsageData} 
+                          companyName={selectedCompany}
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
