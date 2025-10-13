@@ -25,36 +25,10 @@ const PortfolioAnalytics: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [selectedPeriod, setSelectedPeriod] = useState('1 Year');
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 1000);
-
-  //   return () => clearTimeout(timer);
-  // }, [filters]);
-
   const handleFiltersChange = (newFilters: FiltersState) => {
     setFilters(newFilters);
     setIsLoading(true);
   };
-
-  // if (isLoading) {
-  //   return (
-  //     <div className="min-h-screen bg-background">
-  //       <Header />
-  //       <main className="pt-16">
-  //         <div className="container mx-auto px-6 py-8">
-  //           <div className="flex items-center justify-center h-64">
-  //             <div className="flex items-center gap-3">
-  //               <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
-  //               <span className="text-muted-foreground">Loading portfolio analytics...</span>
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </main>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="min-h-screen bg-background">
@@ -90,35 +64,28 @@ const PortfolioAnalytics: React.FC = () => {
       <main className="pt-0" style={{ background: '#f8fafc' }}>
         <div className="w-full px-8">
           <div className="rounded-none p-3 sm:p-6 lg:p-3 mb-3 overflow-y-auto">
-            {/* Global Filter Bar */}
             <div className="mb-3">
               <GlobalFilterBar onFiltersChange={handleFiltersChange} />
             </div>
 
-            {/* Primary Metrics Row */}
             <div className="mb-3">
-              <MetricsRow />
+              <MetricsRow filters={filters} />
             </div>
 
-            {/* Main Analytics Section */}
             <div className="grid grid-cols-1 xl:grid-cols-4 gap-3 mb-3">
-              {/* Scatter Plot Analysis - 3 columns */}
               <div className="xl:col-span-3">
                 <ScatterPlotAnalysis />
               </div>
 
-              {/* Top Emitters Sidebar - 1 column */}
               <div className="xl:col-span-1">
                 <TopEmittersSidebar />
               </div>
             </div>
 
-            {/* Holdings Data Grid */}
             <div className="mb-3">
               <HoldingsDataGrid />
             </div>
 
-            {/* Additional Analytics Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
               <div
                 className="bg-card border border-border rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"

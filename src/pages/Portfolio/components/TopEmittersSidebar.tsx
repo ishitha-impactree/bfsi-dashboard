@@ -11,7 +11,7 @@ type SectorType =
   | 'Technology'
   | 'Healthcare'
   | 'Financials';
-type PeriodType = '1m' | '3m' | '6m' | '1y';
+type PeriodType = '1 Month' | '3 Months' | '6 Months' | '1 Year';
 
 interface SparklineDataPoint {
   month: string;
@@ -34,24 +34,20 @@ interface ESGRating {
   rating: string;
   color: 'text-success' | 'text-warning' | 'text-error';
 }
-
-const TopEmittersSidebar: React.FC = () => {
-  const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>('3m');
-
-  const topEmitters: Emitter[] = [
+  
+const emitterData: Record<PeriodType, Emitter[]> = {
+  '1 Month': [
     {
       id: 1,
       company: 'ExxonMobil Corp.',
       sector: 'Energy',
       emissions: 89.4,
       portfolioImpact: 12.3,
-      trend: -2.1,
+      trend: 2.1,
       sparklineData: [
-        { month: 'Jan', value: 92.1 },
-        { month: 'Feb', value: 91.8 },
-        { month: 'Mar', value: 90.5 },
-        { month: 'Apr', value: 89.9 },
-        { month: 'May', value: 89.4 },
+        { month: 'Jan', value: 87.3 },
+        { month: 'Feb', value: 88.1 },
+        { month: 'Mar', value: 89.4 },
       ],
       weight: 2.1,
       esgScore: 42,
@@ -62,13 +58,11 @@ const TopEmittersSidebar: React.FC = () => {
       sector: 'Energy',
       emissions: 76.2,
       portfolioImpact: 8.7,
-      trend: -1.8,
+      trend: 1.8,
       sparklineData: [
-        { month: 'Jan', value: 78.5 },
-        { month: 'Feb', value: 77.9 },
-        { month: 'Mar', value: 77.1 },
-        { month: 'Apr', value: 76.8 },
-        { month: 'May', value: 76.2 },
+        { month: 'Jan', value: 74.4 },
+        { month: 'Feb', value: 75.3 },
+        { month: 'Mar', value: 76.2 },
       ],
       weight: 1.8,
       esgScore: 38,
@@ -79,13 +73,11 @@ const TopEmittersSidebar: React.FC = () => {
       sector: 'Industrials',
       emissions: 45.7,
       portfolioImpact: 5.2,
-      trend: -4.3,
+      trend: 4.3,
       sparklineData: [
-        { month: 'Jan', value: 48.9 },
-        { month: 'Feb', value: 47.8 },
-        { month: 'Mar', value: 46.9 },
-        { month: 'Apr', value: 46.1 },
-        { month: 'May', value: 45.7 },
+        { month: 'Jan', value: 41.4 },
+        { month: 'Feb', value: 43.5 },
+        { month: 'Mar', value: 45.7 },
       ],
       weight: 1.5,
       esgScore: 58,
@@ -96,13 +88,11 @@ const TopEmittersSidebar: React.FC = () => {
       sector: 'Materials',
       emissions: 42.3,
       portfolioImpact: 4.8,
-      trend: -3.7,
+      trend: 3.7,
       sparklineData: [
-        { month: 'Jan', value: 44.8 },
-        { month: 'Feb', value: 44.1 },
-        { month: 'Mar', value: 43.5 },
-        { month: 'Apr', value: 42.9 },
-        { month: 'May', value: 42.3 },
+        { month: 'Jan', value: 38.6 },
+        { month: 'Feb', value: 40.4 },
+        { month: 'Mar', value: 42.3 },
       ],
       weight: 1.2,
       esgScore: 51,
@@ -113,13 +103,11 @@ const TopEmittersSidebar: React.FC = () => {
       sector: 'Energy',
       emissions: 38.9,
       portfolioImpact: 4.1,
-      trend: -2.9,
+      trend: 2.9,
       sparklineData: [
-        { month: 'Jan', value: 40.8 },
-        { month: 'Feb', value: 40.2 },
-        { month: 'Mar', value: 39.7 },
-        { month: 'Apr', value: 39.3 },
-        { month: 'May', value: 38.9 },
+        { month: 'Jan', value: 36.0 },
+        { month: 'Feb', value: 37.4 },
+        { month: 'Mar', value: 38.9 },
       ],
       weight: 1.4,
       esgScore: 45,
@@ -130,18 +118,337 @@ const TopEmittersSidebar: React.FC = () => {
       sector: 'Materials',
       emissions: 35.6,
       portfolioImpact: 3.7,
-      trend: -5.2,
+      trend: 5.2,
       sparklineData: [
-        { month: 'Jan', value: 38.4 },
-        { month: 'Feb', value: 37.8 },
-        { month: 'Mar', value: 37.1 },
-        { month: 'Apr', value: 36.3 },
-        { month: 'May', value: 35.6 },
+        { month: 'Jan', value: 30.4 },
+        { month: 'Feb', value: 33.0 },
+        { month: 'Mar', value: 35.6 },
       ],
       weight: 1.1,
       esgScore: 54,
     },
-  ];
+  ],
+  '3 Months': [
+    {
+      id: 1,
+      company: 'ExxonMobil Corp.',
+      sector: 'Energy',
+      emissions: 87.2,
+      portfolioImpact: 11.9,
+      trend: 1.9,
+      sparklineData: [
+        { month: 'Oct', value: 85.3 },
+        { month: 'Nov', value: 86.1 },
+        { month: 'Dec', value: 86.8 },
+        { month: 'Jan', value: 87.2 },
+      ],
+      weight: 2.1,
+      esgScore: 42,
+    },
+    {
+      id: 2,
+      company: 'Chevron Corp.',
+      sector: 'Energy',
+      emissions: 74.5,
+      portfolioImpact: 8.4,
+      trend: 1.6,
+      sparklineData: [
+        { month: 'Oct', value: 72.9 },
+        { month: 'Nov', value: 73.5 },
+        { month: 'Dec', value: 74.1 },
+        { month: 'Jan', value: 74.5 },
+      ],
+      weight: 1.8,
+      esgScore: 38,
+    },
+    {
+      id: 3,
+      company: 'Caterpillar Inc.',
+      sector: 'Industrials',
+      emissions: 44.8,
+      portfolioImpact: 5.0,
+      trend: 3.8,
+      sparklineData: [
+        { month: 'Oct', value: 41.0 },
+        { month: 'Nov', value: 42.5 },
+        { month: 'Dec', value: 43.7 },
+        { month: 'Jan', value: 44.8 },
+      ],
+      weight: 1.5,
+      esgScore: 58,
+    },
+    {
+      id: 4,
+      company: 'ArcelorMittal SA',
+      sector: 'Materials',
+      emissions: 41.7,
+      portfolioImpact: 4.6,
+      trend: 3.5,
+      sparklineData: [
+        { month: 'Oct', value: 38.2 },
+        { month: 'Nov', value: 39.6 },
+        { month: 'Dec', value: 40.8 },
+        { month: 'Jan', value: 41.7 },
+      ],
+      weight: 1.2,
+      esgScore: 51,
+    },
+    {
+      id: 5,
+      company: 'ConocoPhillips',
+      sector: 'Energy',
+      emissions: 37.9,
+      portfolioImpact: 4.0,
+      trend: 2.5,
+      sparklineData: [
+        { month: 'Oct', value: 35.4 },
+        { month: 'Nov', value: 36.4 },
+        { month: 'Dec', value: 37.2 },
+        { month: 'Jan', value: 37.9 },
+      ],
+      weight: 1.4,
+      esgScore: 45,
+    },
+    {
+      id: 6,
+      company: 'Dow Inc.',
+      sector: 'Materials',
+      emissions: 34.9,
+      portfolioImpact: 3.5,
+      trend: 4.9,
+      sparklineData: [
+        { month: 'Oct', value: 30.0 },
+        { month: 'Nov', value: 31.8 },
+        { month: 'Dec', value: 33.5 },
+        { month: 'Jan', value: 34.9 },
+      ],
+      weight: 1.1,
+      esgScore: 54,
+    },
+  ],
+  '6 Months': [
+    {
+      id: 1,
+      company: 'ExxonMobil Corp.',
+      sector: 'Energy',
+      emissions: 80.5,
+      portfolioImpact: 11.3,
+      trend: 2.2,
+      sparklineData: [
+        { month: 'Jul', value: 78.3 },
+        { month: 'Aug', value: 79.1 },
+        { month: 'Sep', value: 79.8 },
+        { month: 'Oct', value: 80.2 },
+        { month: 'Nov', value: 80.4 },
+        { month: 'Dec', value: 80.5 },
+      ],
+      weight: 2.1,
+      esgScore: 42,
+    },
+    {
+      id: 2,
+      company: 'Chevron Corp.',
+      sector: 'Energy',
+      emissions: 72.1,
+      portfolioImpact: 8.0,
+      trend: 1.9,
+      sparklineData: [
+        { month: 'Jul', value: 70.2 },
+        { month: 'Aug', value: 70.9 },
+        { month: 'Sep', value: 71.5 },
+        { month: 'Oct', value: 71.8 },
+        { month: 'Nov', value: 72.0 },
+        { month: 'Dec', value: 72.1 },
+      ],
+      weight: 1.8,
+      esgScore: 38,
+    },
+    {
+      id: 3,
+      company: 'Caterpillar Inc.',
+      sector: 'Industrials',
+      emissions: 43.2,
+      portfolioImpact: 4.9,
+      trend: 3.6,
+      sparklineData: [
+        { month: 'Jul', value: 39.6 },
+        { month: 'Aug', value: 40.8 },
+        { month: 'Sep', value: 41.7 },
+        { month: 'Oct', value: 42.3 },
+        { month: 'Nov', value: 42.8 },
+        { month: 'Dec', value: 43.2 },
+      ],
+      weight: 1.5,
+      esgScore: 58,
+    },
+    {
+      id: 4,
+      company: 'ArcelorMittal SA',
+      sector: 'Materials',
+      emissions: 40.9,
+      portfolioImpact: 4.5,
+      trend: 3.2,
+      sparklineData: [
+        { month: 'Jul', value: 37.7 },
+        { month: 'Aug', value: 38.6 },
+        { month: 'Sep', value: 39.3 },
+        { month: 'Oct', value: 39.9 },
+        { month: 'Nov', value: 40.4 },
+        { month: 'Dec', value: 40.9 },
+      ],
+      weight: 1.2,
+      esgScore: 51,
+    },
+    {
+      id: 5,
+      company: 'ConocoPhillips',
+      sector: 'Energy',
+      emissions: 36.8,
+      portfolioImpact: 3.8,
+      trend: 2.7,
+      sparklineData: [
+        { month: 'Jul', value: 34.1 },
+        { month: 'Aug', value: 35.0 },
+        { month: 'Sep', value: 35.6 },
+        { month: 'Oct', value: 36.1 },
+        { month: 'Nov', value: 36.5 },
+        { month: 'Dec', value: 36.8 },
+      ],
+      weight: 1.4,
+      esgScore: 45,
+    },
+    {
+      id: 6,
+      company: 'Dow Inc.',
+      sector: 'Materials',
+      emissions: 33.1,
+      portfolioImpact: 3.4,
+      trend: 4.4,
+      sparklineData: [
+        { month: 'Jul', value: 28.7 },
+        { month: 'Aug', value: 29.9 },
+        { month: 'Sep', value: 30.9 },
+        { month: 'Oct', value: 31.7 },
+        { month: 'Nov', value: 32.4 },
+        { month: 'Dec', value: 33.1 },
+      ],
+      weight: 1.1,
+      esgScore: 54,
+    },
+  ],
+  '1 Year': [
+    {
+      id: 1,
+      company: 'ExxonMobil Corp.',
+      sector: 'Energy',
+      emissions: 39.7,
+      portfolioImpact: 0.75,
+      trend: -2.1,
+      sparklineData: [
+        { month: 'Jan', value: 41.8 },
+        { month: 'Feb', value: 41.2 },
+        { month: 'Mar', value: 40.7 },
+        { month: 'Apr', value: 40.3 },
+        { month: 'May', value: 39.9 },
+        { month: 'Jun', value: 39.7 },
+        { month: 'Jul', value: 39.6 },
+        { month: 'Aug', value: 39.5 },
+        { month: 'Sep', value: 39.5 },
+        { month: 'Oct', value: 39.6 },
+        { month: 'Nov', value: 39.7 },
+        { month: 'Dec', value: 39.7 },
+      ],
+      weight: 2.1,
+      esgScore: 42,
+    },
+    {
+      id: 2,
+      company: 'Chevron Corp.',
+      sector: 'Energy',
+      emissions: 38.3,
+      portfolioImpact: -0.89,
+      trend: -5.2,
+      sparklineData: [
+        { month: 'Jan', value: 43.5 },
+        { month: 'Feb', value: 42.8 },
+        { month: 'Mar', value: 41.9 },
+        { month: 'Apr', value: 41.1 },
+        { month: 'May', value: 40.3 },
+        { month: 'Jun', value: 39.6 },
+        { month: 'Jul', value: 39.0 },
+        { month: 'Aug', value: 38.6 },
+        { month: 'Sep', value: 38.4 },
+        { month: 'Oct', value: 38.3 },
+        { month: 'Nov', value: 38.3 },
+        { month: 'Dec', value: 38.3 },
+      ],
+      weight: 1.8,
+      esgScore: 38,
+    },
+    {
+      id: 3,
+      company: 'Caterpillar Inc.',
+      sector: 'Industrials',
+      emissions: 36.9,
+      portfolioImpact: -2.52,
+      trend: -5.74,
+      sparklineData: [
+        { month: 'Jan', value: 42.6 },
+        { month: 'Feb', value: 41.7 },
+        { month: 'Mar', value: 40.7 },
+        { month: 'Apr', value: 39.7 },
+        { month: 'May', value: 38.8 },
+        { month: 'Jun', value: 38.0 },
+        { month: 'Jul', value: 37.5 },
+        { month: 'Aug', value: 37.1 },
+        { month: 'Sep', value: 36.9 },
+        { month: 'Oct', value: 36.9 },
+        { month: 'Nov', value: 36.9 },
+        { month: 'Dec', value: 36.9 },
+      ],
+      weight: 1.5,
+      esgScore: 58,
+    },
+    {
+      id: 4,
+      company: 'ArcelorMittal SA',
+      sector: 'Materials',
+      emissions: 35.5,
+      portfolioImpact: -4.16,
+      trend: -6.28,
+      sparklineData: [
+        { month: 'Jan', value: 41.8 },
+        { month: 'Feb', value: 40.8 },
+        { month: 'Mar', value: 39.7 },
+        { month: 'Apr', value: 38.6 },
+        { month: 'May', value: 37.6 },
+        { month: 'Jun', value: 36.8 },
+        { month: 'Jul', value: 36.2 },
+        { month: 'Aug', value: 35.8 },
+        { month: 'Sep', value: 35.6 },
+        { month: 'Oct', value: 35.5 },
+        { month: 'Nov', value: 35.5 },
+        { month: 'Dec', value: 35.5 },
+      ],
+      weight: 1.2,
+      esgScore: 51,
+    },
+  ],
+};
+
+const avgReductionData: Record<PeriodType, number> = {
+  '1 Month': 3.2,
+  '3 Months': 3.0,
+  '6 Months': 3.3,
+  '1 Year': 103.2,
+};
+
+const TopEmittersSidebar: React.FC = () => {
+  const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>('1 Month');
+
+  const topEmitters: Emitter[] = useMemo(() => {
+    return emitterData[selectedPeriod];
+  }, [selectedPeriod]);
 
   const getSectorColor = (sector: SectorType): string => {
     const colors: Record<SectorType, string> = {
@@ -167,6 +474,10 @@ const TopEmittersSidebar: React.FC = () => {
     return topEmitters.reduce((sum: number, emitter: Emitter) => sum + emitter.portfolioImpact, 0);
   }, [topEmitters]);
 
+  const handlePeriodChange = (period: PeriodType) => {
+    setSelectedPeriod(period);
+  };
+
   return (
     <div className="bg-primary-foreground border border-border rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200">
       <div className="p-6 border-b border-border">
@@ -179,12 +490,12 @@ const TopEmittersSidebar: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          {(['1m', '3m', '6m', '1y'] as PeriodType[]).map((period: PeriodType) => (
+          {(['1 Month', '3 Months', '6 Months', '1 Year'] as PeriodType[]).map((period: PeriodType) => (
             <ButtonWithIcon
               key={period}
               variant={selectedPeriod === period ? 'destructive' : 'outline'}
               size="sm"
-              onClick={() => setSelectedPeriod(period)}
+              onClick={() => handlePeriodChange(period)}
             >
               {period}
             </ButtonWithIcon>
@@ -225,7 +536,7 @@ const TopEmittersSidebar: React.FC = () => {
                     <div className="text-sm text-muted-foreground">tCO2e/$M</div>
                   </div>
                 </div>
-                {/* <div className="h-8 mb-3">
+                <div className="h-8 mb-3">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={emitter.sparklineData}>
                       <Line
@@ -237,7 +548,7 @@ const TopEmittersSidebar: React.FC = () => {
                       />
                     </LineChart>
                   </ResponsiveContainer>
-                </div> */}
+                </div>
                 <div className="flex items-center justify-between text-sm">
                   <div className="flex items-center gap-3">
                     <div className="flex items-center gap-1">
@@ -282,7 +593,7 @@ const TopEmittersSidebar: React.FC = () => {
             <span className="text-muted-foreground">Avg Reduction:</span>
             <div className="flex items-center gap-1 text-accent-success">
               <Icon name="TrendingDown" size={12} />
-              <span className="font-medium">3.2%</span>
+              <span className="font-medium">{avgReductionData[selectedPeriod].toFixed(1)}%</span>
             </div>
           </div>
         </div>

@@ -39,16 +39,16 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
     { value: 'energy', label: 'Energy' },
     { value: 'technology', label: 'Technology' },
     { value: 'healthcare', label: 'Healthcare' },
-    { value: 'financials', label: 'Financials' },
-    { value: 'industrials', label: 'Industrials' },
+    { value: 'transportation', label: 'Transportation' },
     { value: 'materials', label: 'Materials' },
+    { value: 'industrial', label: 'Industrial' },
   ];
 
   const regionOptions: SelectOption[] = [
     { value: 'all', label: 'All Regions' },
-    { value: 'north-america', label: 'North America' },
-    { value: 'europe', label: 'Europe' },
     { value: 'asia-pacific', label: 'Asia Pacific' },
+    { value: 'americas', label: 'Americas' },
+    { value: 'europe', label: 'Europe' },
     { value: 'emerging-markets', label: 'Emerging Markets' },
     { value: 'developed-markets', label: 'Developed Markets' },
   ];
@@ -62,28 +62,35 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
   ];
 
   const handleFilterChange = (filterType: string, value: string) => {
-    // Update the state first
+    let updatedPortfolio = selectedPortfolio;
+    let updatedCategory = selectedCategory;
+    let updatedRegion = selectedRegion;
+    let updatedDateRange = dateRange;
+
     switch (filterType) {
       case 'portfolio':
+        updatedPortfolio = value;
         setSelectedPortfolio(value);
         break;
       case 'category':
+        updatedCategory = value;
         setSelectedCategory(value);
         break;
       case 'region':
+        updatedRegion = value;
         setSelectedRegion(value);
         break;
       case 'dateRange':
+        updatedDateRange = value;
         setDateRange(value);
         break;
     }
 
-    // Then call onFiltersChange with updated values
     const newFilters: FilterPayload = {
-      portfolio: filterType === 'portfolio' ? value : selectedPortfolio,
-      category: filterType === 'category' ? value : selectedCategory,
-      region: filterType === 'region' ? value : selectedRegion,
-      dateRange: filterType === 'dateRange' ? value : dateRange,
+      portfolio: updatedPortfolio,
+      category: updatedCategory,
+      region: updatedRegion,
+      dateRange: updatedDateRange,
     };
 
     onFiltersChange(newFilters);
@@ -103,7 +110,6 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
   };
 
   const handleExport = () => {
-    // Export functionality
     console.log('Exporting data with filters:', {
       portfolio: selectedPortfolio,
       category: selectedCategory,
@@ -120,7 +126,7 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
             label="Portfolio/Fund"
             options={portfolioOptions}
             value={selectedPortfolio}
-            onChange={(value: string) => handleFilterChange('portfolio', value)}
+            onChange={(value: string | number | (string | number)[]) => handleFilterChange('portfolio', typeof value === 'string' ? value : String(value))}
             className="w-full"
           />
 
@@ -128,7 +134,7 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
             label="Investment Category"
             options={categoryOptions}
             value={selectedCategory}
-            onChange={(value: string) => handleFilterChange('category', value)}
+            onChange={(value: string | number | (string | number)[]) => handleFilterChange('category', typeof value === 'string' ? value : String(value))}
             className="w-full"
           />
 
@@ -136,7 +142,7 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
             label="Geographic Region"
             options={regionOptions}
             value={selectedRegion}
-            onChange={(value: string) => handleFilterChange('region', value)}
+            onChange={(value: string | number | (string | number)[]) => handleFilterChange('region', typeof value === 'string' ? value : String(value))}
             className="w-full"
           />
 
@@ -144,7 +150,7 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
             label="Date Range"
             options={dateRangeOptions}
             value={dateRange}
-            onChange={(value: string) => handleFilterChange('dateRange', value)}
+            onChange={(value: string | number | (string | number)[]) => handleFilterChange('dateRange', typeof value === 'string' ? value : String(value))}
             className="w-full"
           />
         </div>
