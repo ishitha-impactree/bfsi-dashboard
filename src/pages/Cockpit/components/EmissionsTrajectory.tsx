@@ -11,12 +11,11 @@ import {
   TooltipProps,
 } from 'recharts';
 import Icon from '../../../components/ui/AppIcon';
-import Button from '../../../components/ui/Button';
-import { ValueType, NameType } from 'recharts/types/component/DefaultTooltipContent';
 import ButtonWithIcon from '../../../components/ui/ButtonWithIcon';
+import { ValueType, NameType } from 'recharts/types/component/DefaultTooltipContent';
 
 interface EmissionsData {
-  year: string;
+  month: string;
   emissions: number;
   benchmark: number;
   target: number;
@@ -28,22 +27,24 @@ interface TimeframeOption {
 }
 
 const EmissionsTrajectory = () => {
-  const [selectedTimeframe, setSelectedTimeframe] = useState<string>('yearly');
-  const [showBenchmark, setShowBenchmark] = useState<boolean>(false);
+  const [selectedTimeframe, setSelectedTimeframe] = useState<string>('monthly');
+  const [showBenchmark, setShowBenchmark] = useState<boolean>(true);
   const [showExport, setShowExport] = useState<boolean>(false);
 
   const emissionsData: EmissionsData[] = [
-    { year: '2024', emissions: 2850, benchmark: 3200, target: 2800 },
-    { year: '2025', emissions: 2650, benchmark: 3000, target: 2500 },
-    { year: '2026', emissions: 2400, benchmark: 2800, target: 2200 },
-    { year: '2027', emissions: 2150, benchmark: 2600, target: 1900 },
-    { year: '2028', emissions: 1900, benchmark: 2400, target: 1600 },
-    { year: '2029', emissions: 1650, benchmark: 2200, target: 1300 },
+    { month: 'Jan', emissions: 3050, benchmark: 3200, target: 2900 },
+    { month: 'Feb', emissions: 2950, benchmark: 3180, target: 2850 },
+    { month: 'Mar', emissions: 2870, benchmark: 3150, target: 2800 },
+    { month: 'Apr', emissions: 2750, benchmark: 3100, target: 2700 },
+    { month: 'May', emissions: 2680, benchmark: 3080, target: 2650 },
+    { month: 'Jun', emissions: 2600, benchmark: 3060, target: 2600 },
+    { month: 'Jul', emissions: 2550, benchmark: 3040, target: 2550 },
+    { month: 'Aug', emissions: 2500, benchmark: 3020, target: 2500 },
+    { month: 'Sept', emissions: 2480, benchmark: 3000, target: 2480 },
   ];
 
   const timeframeOptions: TimeframeOption[] = [
     { value: 'monthly', label: 'Monthly' },
-    { value: 'quarterly', label: 'Quarterly' },
     { value: 'yearly', label: 'Yearly' },
   ];
 
@@ -51,7 +52,7 @@ const EmissionsTrajectory = () => {
     if (active && payload && payload?.length) {
       return (
         <div className="bg-popover border border-border rounded-lg p-3 shadow-elevation-2">
-          <p className="text-sm font-medium text-popover-foreground mb-2">{`Year ${label}`}</p>
+          <p className="text-sm font-medium text-popover-foreground mb-2">{`Month: ${label}`}</p>
           {payload.map((entry, index) => (
             <div key={index} className="flex items-center space-x-2 text-sm">
               <div
@@ -70,20 +71,15 @@ const EmissionsTrajectory = () => {
     return null;
   };
 
-  const handleExport = () => {
-    console.log('Exporting chart data...');
-  };
-
   return (
     <div
-      // className="bg-card border border-border rounded-lg p-6 shadow-elevation-1"
       className="bg-background-light border border-border rounded-xl p-3 sm:p-6 lg:p-5 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
       style={{ background: 'white' }}
     >
       <div className="flex items-center justify-between mb-6">
         <div>
           <h2 className="text-lg font-semibold text-foreground">Emissions Trajectory</h2>
-          <p className="text-sm text-muted-foreground">Portfolio-wide carbon footprint over time</p>
+          <p className="text-sm text-muted-foreground">Monthly Emissions (FY 2024–25)</p>
         </div>
 
         <div className="flex items-center space-x-3">
@@ -105,10 +101,8 @@ const EmissionsTrajectory = () => {
 
           <div className="flex items-center space-x-2">
             <ButtonWithIcon
-            variant="outline"
+              variant="outline"
               size="sm"
-              // text_font_size="text-sm"
-              // text_line_height="leading-md"
               onClick={() => setShowBenchmark(!showBenchmark)}
               className={showBenchmark ? 'bg-violet-500 text-primary-foreground' : 'bg-muted'}
               style={{ border: 'none' }}
@@ -120,14 +114,8 @@ const EmissionsTrajectory = () => {
             <ButtonWithIcon
               variant="outline"
               size="sm"
-              // onClick={handleExport}
               onClick={() => setShowExport(!showExport)}
               className={showExport ? 'bg-violet-500 text-primary-foreground' : 'bg-muted'}
-              // text_font_size="text-sm"
-              // text_line_height="leading-md"
-              // style={{ border: 'none' }}
-              // iconName="Download"
-              // iconSize={14}
             >
               <Icon name="Download" size={12} />
               <span className="ml-1">Export</span>
@@ -135,6 +123,7 @@ const EmissionsTrajectory = () => {
           </div>
         </div>
       </div>
+
       <div className="h-80 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={emissionsData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
@@ -150,13 +139,7 @@ const EmissionsTrajectory = () => {
             </defs>
 
             <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" opacity={0.5} />
-            <XAxis
-              dataKey="year"
-              stroke="#64748B"
-              fontSize={12}
-              tickLine={false}
-              axisLine={false}
-            />
+            <XAxis dataKey="month" stroke="#64748B" fontSize={12} tickLine={false} axisLine={false} />
             <YAxis
               stroke="#64748B"
               fontSize={12}
@@ -187,17 +170,17 @@ const EmissionsTrajectory = () => {
               />
             )}
 
-              <ReferenceLine
-            y={2000}
-            stroke="#10B981"
-            strokeDasharray="8 8"
-            strokeWidth={2}
-            label={{ value: '2030 Target', position: 'insideTopRight' }}
-          />
-
+            <ReferenceLine
+              y={2500}
+              stroke="#10B981"
+              strokeDasharray="8 8"
+              strokeWidth={2}
+              label={{ value: 'Target Level', position: 'insideTopRight' }}
+            />
           </AreaChart>
         </ResponsiveContainer>
       </div>
+
       <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
         <div className="flex items-center space-x-6">
           <div className="flex items-center space-x-2">
@@ -212,7 +195,7 @@ const EmissionsTrajectory = () => {
           )}
           <div className="flex items-center space-x-2">
             <div className="w-3 h-1 bg-success" />
-            <span className="text-sm text-muted-foreground">2030 Target</span>
+            <span className="text-sm text-muted-foreground">Target Level</span>
           </div>
         </div>
 
