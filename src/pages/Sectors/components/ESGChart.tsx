@@ -13,22 +13,8 @@ import {
 
 interface ESGChartProps {
   className?: string;
+  data: any[]; 
 }
-
-const data = [
-  { name: 'Jan', Environment: 55, Social: 50, Governance: 42 },
-  { name: 'Feb', Environment: 45, Social: 55, Governance: 32 },
-  { name: 'Mar', Environment: 44, Social: 50, Governance: 36 },
-  { name: 'Apr', Environment: 38, Social: 56, Governance: 30 },
-  { name: 'May', Environment: 52, Social: 61, Governance: 39 },
-  { name: 'Jun', Environment: 45, Social: 56, Governance: 34 },
-  { name: 'Jul', Environment: 64, Social: 46, Governance: 34 },
-  { name: 'Aug', Environment: 42, Social: 36, Governance: 60 },
-  { name: 'Sep', Environment: 56, Social: 41, Governance: 29 },
-  { name: 'Oct', Environment: null, Social: null, Governance: null },
-  { name: 'Nov', Environment: null, Social: null, Governance: null },
-  { name: 'Dec', Environment: null, Social: null, Governance: null },
-];
 
 const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
@@ -54,17 +40,14 @@ const CustomDot = (props: any) => {
   return <circle cx={cx} cy={cy} r={4} stroke="black" strokeWidth={1} fill={stroke} />;
 };
 
-const ESGChart = ({ className }: ESGChartProps) => {
+const ESGChart = ({ className, data }: ESGChartProps) => {
   return (
     <div className={`w-full flex flex-col ${className || ''}`}>
-      {/* Title "ESG Rating" */}
       <div className="flex justify-between items-center mb-4 px-3 sm:px-6">
         <h2 className="text-lg font-bold text-primary-dark">ESG Rating</h2>
       </div>
 
       <div className="w-full flex-grow" style={{ height: '400px' }}>
-        {' '}
-        {/* Increased height */}
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 10, right: 30, left: 0, bottom: 5 }}>
             <CartesianGrid stroke="#f3f4f6" strokeDasharray="3 3" vertical={false} />
@@ -97,9 +80,9 @@ const ESGChart = ({ className }: ESGChartProps) => {
               dataKey="Environment"
               name="Environment"
               stroke="#fba900"
-              strokeWidth={2} // Increased stroke width
+              strokeWidth={2}
               dot={<CustomDot />}
-              activeDot={{ r: 6, stroke: '#fba900', strokeWidth: 2 }} // Larger active dot
+              activeDot={{ r: 6, stroke: '#fba900', strokeWidth: 2 }}
               connectNulls={false}
             />
             <Line
@@ -107,9 +90,9 @@ const ESGChart = ({ className }: ESGChartProps) => {
               dataKey="Social"
               name="Social"
               stroke="#38c4f7"
-              strokeWidth={2} // Increased stroke width
+              strokeWidth={2}
               dot={<CustomDot />}
-              activeDot={{ r: 6, stroke: '#38c4f7', strokeWidth: 2 }} // Larger active dot
+              activeDot={{ r: 6, stroke: '#38c4f7', strokeWidth: 2 }}
               connectNulls={false}
             />
             <Line
@@ -117,9 +100,9 @@ const ESGChart = ({ className }: ESGChartProps) => {
               dataKey="Governance"
               name="Governance"
               stroke="#05ff00"
-              strokeWidth={2} // Increased stroke width
+              strokeWidth={2}
               dot={<CustomDot />}
-              activeDot={{ r: 6, stroke: '#05ff00', strokeWidth: 2 }} // Larger active dot
+              activeDot={{ r: 6, stroke: '#05ff00', strokeWidth: 2 }}
               connectNulls={false}
             />
             <ReferenceLine y={50} stroke="#e5e7eb" strokeDasharray="3 3" />

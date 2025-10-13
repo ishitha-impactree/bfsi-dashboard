@@ -17,7 +17,6 @@ const ScopeMetricCard = ({
   isPositive,
 }: ScopeMetricProps) => (
   <div className="flex flex-col justify-start items-center w-full rounded-xl overflow-hidden border border-border-secondary">
-    {/* Header with gray background */}
     <div className="flex justify-between items-center w-full bg-gray-100 py-4 px-3">
       <span className="text-xs font-bold text-text-primary font-['Inter']">{title}</span>
       <div className="flex justify-end items-center gap-1">
@@ -38,7 +37,6 @@ const ScopeMetricCard = ({
       </div>
     </div>
 
-    {/* Value */}
     <div className="flex justify-center items-center w-full bg-white py-6 px-3">
       <div className="flex justify-center items-center">
         <span className="text-xl font-semibold text-center text-text-primary font-['DM Sans']">
@@ -61,7 +59,6 @@ interface MetricCardProps {
 
 const MetricCard = ({ title, value, changePercentage, isPositive }: MetricCardProps) => (
   <div className="flex flex-col justify-start items-center w-full rounded-xl overflow-hidden border border-border-secondary">
-    {/* Header with gray background */}
     <div className="flex justify-between items-center w-full bg-gray-100 py-4 px-3">
       <span className="text-xs font-bold text-text-primary font-['Inter']">{title}</span>
       <div className="flex justify-end items-center gap-1">
@@ -78,7 +75,6 @@ const MetricCard = ({ title, value, changePercentage, isPositive }: MetricCardPr
       </div>
     </div>
 
-    {/* Value */}
     <div className="flex justify-center items-center w-full bg-white py-6 px-3">
       <span className="text-xl font-semibold text-center text-text-primary font-['DM Sans']">
         {value}
@@ -89,10 +85,36 @@ const MetricCard = ({ title, value, changePercentage, isPositive }: MetricCardPr
 
 interface ScopeMetricsSectionProps {
   className?: string;
+  portfolioScopes?: Array<{
+    title: string;
+    value: string;
+    unit: string;
+    change: string;
+    isPositive: boolean;
+  }>;
+  scope3?: Array<{
+    title: string;
+    value: string;
+    unit: string;
+    change: string;
+    isPositive: boolean;
+  }>;
+  portfolioOthers?: Array<{
+    title: string;
+    value: string;
+    unit: string;
+    change: string;
+    isPositive: boolean;
+  }>;
 }
 
-const ScopeMetricsSection = ({ className }: ScopeMetricsSectionProps) => {
-  const portfolioScopes = [
+const ScopeMetricsSection = ({ 
+  className, 
+  portfolioScopes = [],
+  scope3 = [],
+  portfolioOthers = []
+}: ScopeMetricsSectionProps) => {
+  const defaultPortfolioScopes = [
     {
       title: 'Total Scope 1',
       value: '3,036,504',
@@ -109,7 +131,7 @@ const ScopeMetricsSection = ({ className }: ScopeMetricsSectionProps) => {
     },
   ];
 
-  const scope3 = [
+  const defaultScope3 = [
     {
       title: 'Total Scope 3',
       value: '60,730,080',
@@ -119,7 +141,7 @@ const ScopeMetricsSection = ({ className }: ScopeMetricsSectionProps) => {
     },
   ];
 
-  const portfolioOthers = [
+  const defaultPortfolioOthers = [
     {
       title: 'LTIFR',
       value: '2.4',
@@ -135,12 +157,17 @@ const ScopeMetricsSection = ({ className }: ScopeMetricsSectionProps) => {
       isPositive: false,
     },
   ];
+
+  const displayPortfolioScopes = portfolioScopes.length > 0 ? portfolioScopes : defaultPortfolioScopes;
+  const displayScope3 = scope3.length > 0 ? scope3 : defaultScope3;
+  const displayPortfolioOthers = portfolioOthers.length > 0 ? portfolioOthers : defaultPortfolioOthers;
+
   return (
     <div className={`flex flex-col gap-3 justify-start w-full ${className || ''}`}>
       <h3 className="text-lg font-bold text-primary-dark w-full text-left">Scope Metrics</h3>
 
       <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
-        {portfolioScopes?.map((scope, index) => (
+        {displayPortfolioScopes?.map((scope, index) => (
           <div key={index} className="flex-1">
             <div className="bg-background-light border border-border rounded-t-xl p-2 sm:p-4 lg:p-2">
               <div className="flex justify-between items-center">
@@ -169,11 +196,10 @@ const ScopeMetricsSection = ({ className }: ScopeMetricsSectionProps) => {
               </div>
             </div>
           </div>
-          // <MetricsCardWithUnit cardData={portfolioScopes} idx={index} />
         ))}
       </List>
       <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
-        {scope3?.map((scope, index) => (
+        {displayScope3?.map((scope, index) => (
           <div key={index} className="flex-1">
             <div className="bg-background-light border border-border rounded-t-xl p-2 sm:p-4 lg:p-2">
               <div className="flex justify-between items-center">
@@ -202,38 +228,10 @@ const ScopeMetricsSection = ({ className }: ScopeMetricsSectionProps) => {
               </div>
             </div>
           </div>
-          // <MetricsCardWithUnit cardData={portfolioScopes} idx={index} />
         ))}
       </List>
-      {/* Scope 1 & 2 Row */}
-      {/* <div className="flex gap-3 justify-start items-center w-full">
-        <div className="w-1/2">
-          <ScopeMetricCard
-            title="Total Scope 1"
-            value="3,036,504"
-            unit="t CO2e"
-            changePercentage="10%"
-            isPositive={false}
-          />
-        </div>
-      </div> */}
-
-      {/* LTIFR and Active Legal Cases */}
-      {/* <div className="flex gap-3 justify-start items-center w-full">
-        <div className="w-1/2">
-          <MetricCard title="LTIFR" value="2.4" changePercentage="20%" isPositive={true} />
-        </div>
-        <div className="w-1/2">
-          <MetricCard
-            title="Active Legal Cases"
-            value="57"
-            changePercentage="2.5%"
-            isPositive={false}
-          />
-        </div>
-      </div> */}
       <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
-        {portfolioOthers?.map((scope, index) => (
+        {displayPortfolioOthers?.map((scope, index) => (
           <div key={index} className="flex-1">
             <div className="bg-background-light border border-border rounded-t-xl p-2 sm:p-4 lg:p-2">
               <div className="flex justify-between items-center">
@@ -262,7 +260,6 @@ const ScopeMetricsSection = ({ className }: ScopeMetricsSectionProps) => {
               </div>
             </div>
           </div>
-          // <MetricsCardWithUnit cardData={portfolioScopes} idx={index} />
         ))}
       </List>
     </div>

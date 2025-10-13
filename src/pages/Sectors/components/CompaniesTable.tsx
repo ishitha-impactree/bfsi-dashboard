@@ -24,7 +24,7 @@ const CompanyRow = ({
   governanceColor,
 }: CompanyRowProps) => (
   <div className="flex justify-center items-center w-full border-b border-border-primary">
-    {/* Company Name */}
+    {/* company name */}
     <div className="flex justify-start items-center w-[32%] border-l border-r border-border-secondary px-3 py-2 bg-background-card">
       <div className="flex justify-start items-center px-2 py-2">
         <img src={companyLogo} alt={`${companyName} logo`} className="w-6 h-6 rounded-2xl" />
@@ -34,7 +34,7 @@ const CompanyRow = ({
       </div>
     </div>
 
-    {/* Environment Score */}
+    {/* environment score */}
     <div className="flex justify-center items-center w-[16%] border-r border-border-secondary px-3 py-2 bg-background-card">
       <div className="flex justify-center items-center px-[10px] py-[10px]">
         <div className="flex justify-center items-center gap-1">
@@ -49,7 +49,7 @@ const CompanyRow = ({
       </div>
     </div>
 
-    {/* Social Score */}
+    {/* social score */}
     <div className="flex justify-center items-center w-[16%] border-r border-border-secondary px-3 py-2 bg-background-card">
       <div className="flex justify-center items-center px-[10px] py-[10px]">
         <div className="flex justify-center items-center gap-1">
@@ -64,7 +64,7 @@ const CompanyRow = ({
       </div>
     </div>
 
-    {/* Governance Score */}
+    {/* governance score */}
     <div className="flex justify-center items-center w-[16%] border-r border-border-secondary px-3 py-2 bg-background-card">
       <div className="flex justify-center items-center px-[10px] py-[10px]">
         <div className="flex justify-center items-center gap-1">
@@ -79,7 +79,7 @@ const CompanyRow = ({
       </div>
     </div>
 
-    {/* Total Score */}
+    {/* total score */}
     <div className="flex justify-center items-center w-[20%] border-r border-border-secondary px-3 py-2 bg-background-card">
       <div className="flex gap-1 justify-center items-center px-2 py-[10px]">
         <img
@@ -97,99 +97,238 @@ const CompanyRow = ({
 
 interface CompaniesTableProps {
   className?: string;
+  isTransportationAutomobiles?: boolean;
 }
 
-const CompaniesTable = ({ className }: CompaniesTableProps) => {
-  const companies = [
+const CompaniesTable = ({ className, isTransportationAutomobiles = false }: CompaniesTableProps) => {
+  const defaultCompanies = [
     {
-      companyName: 'Eternal Limited',
-      companyLogo: '/images/eternal-ltd-logo.png',
-      environmentScore: '95%',
-      socialScore: '96%',
-      governanceScore: '93%',
-      totalScore: '94.6%',
+      companyName: 'Motherson Sumi Wiring India Ltd. (MSWIL)',
+      companyLogo: '/images/companies/motherson.jpg',
+      environmentScore: '74%',
+      socialScore: '58%',
+      governanceScore: '75%',
+      totalScore: '69%',
       environmentColor: '#fba900',
       socialColor: '#38c4f7',
       governanceColor: '#5ee55e',
     },
     {
-      companyName: 'Yum! Brands',
-      companyLogo: '/images/yum-logo.png',
-      environmentScore: '95%',
-      socialScore: '96%',
-      governanceScore: '93%',
-      totalScore: '94.6%',
+      companyName: 'Yazaki (Yazaki India)',
+      companyLogo: '/images/companies/yazaki.jpg',
+      environmentScore: '58%',
+      socialScore: '74%',
+      governanceScore: '75%',
+      totalScore: '69%',
       environmentColor: '#fba900',
       socialColor: '#38c4f7',
       governanceColor: '#5ee55e',
     },
     {
-      companyName: 'The Coca-Cola Company',
-      companyLogo: '/images/cc-logo.png',
-      environmentScore: '95%',
-      socialScore: '96%',
-      governanceScore: '93%',
-      totalScore: '94.6%',
+      companyName: 'LEONI India (LEONI Wiring Systems)',
+      companyLogo: '/images/companies/leoni.jpg',
+      environmentScore: '77%',
+      socialScore: '62%',
+      governanceScore: '82%',
+      totalScore: '74%',
       environmentColor: '#fba900',
       socialColor: '#38c4f7',
       governanceColor: '#5ee55e',
     },
     {
-      companyName: 'Nike, Inc.',
-      companyLogo: '/images/nike-logo.svg',
-      environmentScore: '95%',
-      socialScore: '96%',
-      governanceScore: '93%',
-      totalScore: '94.6%',
+      companyName: 'Aptiv Components India',
+      companyLogo: '/images/companies/aptiv.png',
+      environmentScore: '65%',
+      socialScore: '71%',
+      governanceScore: '69%',
+      totalScore: '68%',
       environmentColor: '#fba900',
       socialColor: '#38c4f7',
       governanceColor: '#5ee55e',
     },
     {
-      companyName: 'Airbnb',
-      companyLogo: '/images/airbnb-logo.svg',
-      environmentScore: '95%',
-      socialScore: '96%',
-      governanceScore: '93%',
-      totalScore: '94.6%',
+      companyName: 'Bosch Limited (India)',
+      companyLogo: '/images/companies/bosch.png',
+      environmentScore: '85%',
+      socialScore: '75%',
+      governanceScore: '78%',
+      totalScore: '79%',
       environmentColor: '#fba900',
       socialColor: '#38c4f7',
       governanceColor: '#5ee55e',
     },
     {
-      companyName: 'The Boeing Company',
-      companyLogo: '/images/boeing-logo.svg',
-      environmentScore: '95%',
-      socialScore: '96%',
-      governanceScore: '93%',
-      totalScore: '94.6%',
+      companyName: 'Sona Comstar (Sona BLW / Sona Comstar)',
+      companyLogo: '/images/companies/sona-comstar.jpg',
+      environmentScore: '59%',
+      socialScore: '67%',
+      governanceScore: '64%',
+      totalScore: '63%',
       environmentColor: '#fba900',
       socialColor: '#38c4f7',
       governanceColor: '#5ee55e',
     },
     {
-      companyName: 'Tata Sons Pvt. Ltd.',
-      companyLogo: '/images/tata-logo.svg',
-      environmentScore: '95%',
-      socialScore: '96%',
-      governanceScore: '93%',
-      totalScore: '94.6%',
+      companyName: 'Uno Minda (Minda Corporation)',
+      companyLogo: '/images/companies/uno-minda.png',
+      environmentScore: '76%',
+      socialScore: '68%',
+      governanceScore: '71%',
+      totalScore: '72%',
       environmentColor: '#fba900',
       socialColor: '#38c4f7',
       governanceColor: '#5ee55e',
     },
     {
-      companyName: 'Tesla, Inc.',
-      companyLogo: '/images/tesla-logo.svg',
-      environmentScore: '95%',
-      socialScore: '96%',
-      governanceScore: '93%',
-      totalScore: '94.6%',
+      companyName: 'Furukawa Minda Electric (FME)',
+      companyLogo: '/images/companies/furukawa.jpg',
+      environmentScore: '52%',
+      socialScore: '58%',
+      governanceScore: '56%',
+      totalScore: '55%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+     {
+      companyName: 'Varroc Engineering Limited',
+      companyLogo: '/images/companies/varroc.jpg',
+      environmentScore: '70%',
+      socialScore: '65%',
+      governanceScore: '71%',
+      totalScore: '69%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+     {
+      companyName: 'Lumax Industries Limited (LIL)',
+      companyLogo: '/images/companies/lumax.png',
+      environmentScore: '79%',
+      socialScore: '72%',
+      governanceScore: '73%',
+      totalScore: '75%',
       environmentColor: '#fba900',
       socialColor: '#38c4f7',
       governanceColor: '#5ee55e',
     },
   ];
+
+  // filter: transportation and autombile sector
+  const transportationAutomobilesCompanies = [
+    {
+      companyName: 'Motherson Sumi Wiring India Ltd. (MSWIL)',
+      companyLogo: '/images/companies/motherson.jpg',
+      environmentScore: '74%',
+      socialScore: '58%',
+      governanceScore: '75%',
+      totalScore: '69%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Yazaki (Yazaki India)',
+      companyLogo: '/images/companies/yazaki.jpg',
+      environmentScore: '58%',
+      socialScore: '74%',
+      governanceScore: '75%',
+      totalScore: '69%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'LEONI India (LEONI Wiring Systems)',
+      companyLogo: '/images/companies/leoni.jpg',
+      environmentScore: '77%',
+      socialScore: '62%',
+      governanceScore: '82%',
+      totalScore: '74%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Aptiv Components India',
+      companyLogo: '/images/companies/aptiv.png',
+      environmentScore: '65%',
+      socialScore: '71%',
+      governanceScore: '69%',
+      totalScore: '68%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Bosch Limited (India)',
+      companyLogo: '/images/companies/bosch.png',
+      environmentScore: '85%',
+      socialScore: '75%',
+      governanceScore: '78%',
+      totalScore: '79%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Sona Comstar (Sona BLW / Sona Comstar)',
+      companyLogo: '/images/companies/sona-comstar.jpg',
+      environmentScore: '59%',
+      socialScore: '67%',
+      governanceScore: '64%',
+      totalScore: '63%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Uno Minda (Minda Corporation)',
+      companyLogo: '/images/companies/uno-minda.png',
+      environmentScore: '76%',
+      socialScore: '68%',
+      governanceScore: '71%',
+      totalScore: '72%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Furukawa Minda Electric (FME)',
+      companyLogo: '/images/companies/furukawa.jpg',
+      environmentScore: '52%',
+      socialScore: '58%',
+      governanceScore: '56%',
+      totalScore: '55%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Varroc Engineering Limited',
+      companyLogo: '/images/companies/varroc.jpg',
+      environmentScore: '70%',
+      socialScore: '65%',
+      governanceScore: '71%',
+      totalScore: '69%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Lumax Industries Limited (LIL)',
+      companyLogo: '/images/companies/lumax.png',
+      environmentScore: '79%',
+      socialScore: '72%',
+      governanceScore: '73%',
+      totalScore: '75%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+  ];
+
+  const companies = isTransportationAutomobiles ? transportationAutomobilesCompanies : defaultCompanies;
 
   return (
     <div className={`flex flex-col gap-[10px] justify-start items-start w-full ${className || ''}`}>
@@ -202,35 +341,30 @@ const CompaniesTable = ({ className }: CompaniesTableProps) => {
       <div className="flex flex-col justify-start items-center w-full  max-h-[475px] overflow-y-auto">
         <div className="flex justify-start items-center w-full border-t border-l border-r border-border-primary">
           <div className="flex justify-center items-center w-full">
-            {/* Company Header */}
             <div className="flex justify-start items-center w-[32%] px-[18px] py-3 bg-[#ececec7f]">
               <span className="text-md font-semibold leading-sm text-left text-text-primary font-['Inter']">
                 Company
               </span>
             </div>
 
-            {/* Environment Header */}
             <div className="flex justify-center items-center w-[16%] border-l border-r border-border-primary px-3 py-3 bg-[#ececec7f]">
               <span className="text-md font-semibold leading-sm text-center text-text-primary font-['Inter']">
                 Environment
               </span>
             </div>
 
-            {/* Social Header */}
             <div className="flex justify-center items-center w-[16%] border-r border-border-primary px-3 py-3 bg-[#ececec7f]">
               <span className="text-md font-semibold leading-sm text-center text-text-primary font-['Inter']">
                 Social
               </span>
             </div>
 
-            {/* Governance Header */}
             <div className="flex justify-center items-center w-[16%] border-r border-border-primary px-3 py-3 bg-[#ececec7f]">
               <span className="text-md font-semibold leading-sm text-center text-text-primary font-['Inter']">
                 Governance
               </span>
             </div>
 
-            {/* Total Header */}
             <div className="flex justify-center items-center w-[20%] border-r border-border-primary px-3 py-3 bg-[#ececec7f]">
               <span className="text-md font-semibold leading-sm text-center text-text-primary font-['Inter']">
                 Total
@@ -239,7 +373,7 @@ const CompaniesTable = ({ className }: CompaniesTableProps) => {
           </div>
         </div>
 
-        <div className="flex flex-col w-full">
+        <div className="w-full">
           {companies.map((company, index) => (
             <CompanyRow
               key={index}
