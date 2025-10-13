@@ -22,7 +22,6 @@ const defaultEnergyData = [
   { category: 'R&D Stations', emissions: 4650, trend: -4.7, color: '#F59E0B' },
 ];
 
-// Company-specific energy data - use const instead of export const
 const energyData1 = [ // Yazaki
   { category: 'Corporate Office', emissions: 5400, trend: -2.1, color: '#5DD0A7' },
   { category: 'Warehouses', emissions: 1800, trend: -4.8, color: '#3B82F6' },
@@ -113,12 +112,10 @@ const energyData9 = [ // LIL
   { category: 'R&D Stations', emissions: 3300, trend: -3.0, color: '#F59E0B' },
 ];
 
-// Format number with commas for Indian numbering system
 const formatNumberWithCommas = (value: number): string => {
   return value.toLocaleString('en-IN');
 };
 
-// Custom XAxis tick formatter
 const formatXAxisTick = (value: number): string => {
   return formatNumberWithCommas(value);
 };

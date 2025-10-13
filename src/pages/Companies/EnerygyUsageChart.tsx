@@ -22,7 +22,6 @@ interface ESGChartProps {
   companyName?: string;
 }
 
-// Default data for Motherson Sumi Wiring India Ltd.
 export const defaultData = [
   { name: 'Jan', Energy: 12400 },
   { name: 'Feb', Energy: 12400 },
@@ -144,12 +143,10 @@ export const energyUsageData9 = [ // Lumax
   { name: 'Sep', Energy: 9350 },
 ];
 
-// Format number with commas for Indian numbering system
 const formatNumberWithCommas = (value: number): string => {
   return value.toLocaleString('en-IN');
 };
 
-// Custom tick formatter for YAxis
 const formatYAxisTick = (value: number): string => {
   return formatNumberWithCommas(value);
 };
@@ -179,10 +176,8 @@ const CustomDot = (props: any) => {
 };
 
 const EnergyUsageChart = ({ className, data = defaultData, companyName }: ESGChartProps) => {
-  // Calculate max value for YAxis domain with some padding
   const maxValue = Math.max(...data.map(item => item.Energy as number));
-  const yAxisMax = Math.ceil(maxValue * 1.1); // 10% padding
-
+  const yAxisMax = Math.ceil(maxValue * 1.1); 
   return (
     <div className={`w-full flex flex-col ${className || ''}`}>
       <div className="flex justify-between items-center mb-4 px-3 sm:px-4">

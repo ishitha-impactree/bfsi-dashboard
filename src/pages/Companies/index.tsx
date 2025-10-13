@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import Header from '../../components/common/Header';
 import Icon from '../../components/ui/AppIcon';
 import MetricsCard from '../../pages/Sectors/components/MetricsCard';
+import LoadingSpinner from '../../components/ui/LoadingSpinner';
+// resource-footprint charts
 import EnergyUsageChart, { defaultData as defaultEnergyUsageData,   
   energyUsageData1,
   energyUsageData2,
@@ -37,6 +39,7 @@ import KeyEnergyConsumersChart, {
   energyData8, 
   energyData9 
 } from './KeyEnergyConsumersChart';
+// human-capacity charts
 import EmployeeMetrics, { 
   defaultEmployeeData, 
   employeeData1, 
@@ -49,7 +52,7 @@ import EmployeeMetrics, {
   employeeData8, 
   employeeData9 
 } from './HumanCapacity/EmployeeMetrics';
-import Hiring, { 
+import HiringRates, { 
   defaultHiringData, 
   hiringData1, 
   hiringData2, 
@@ -61,6 +64,32 @@ import Hiring, {
   hiringData8, 
   hiringData9 
 } from './HumanCapacity/HiringRates';
+// community-engagement charts
+import TrainingSessions, {
+  defaultTrainingData,
+  trainingData1,
+  trainingData2,
+  trainingData3,
+  trainingData4,
+  trainingData5,
+  trainingData6,
+  trainingData7,
+  trainingData8,
+  trainingData9
+} from './Community-Engagement/TrainingSessions';
+import AttendeesTrainingSessions, {
+  defaultAttendeesData,
+  attendeesData1,
+  attendeesData2,
+  attendeesData3,
+  attendeesData4,
+  attendeesData5,
+  attendeesData6,
+  attendeesData7,
+  attendeesData8,
+  attendeesData9
+} from './Community-Engagement/AttendeesTrainingSessions';
+
 interface DropdownOption {
   value: string;
   label: string;
@@ -71,6 +100,7 @@ interface DropdownProps {
   options: DropdownOption[];
   className?: string;
   onChange: (value: string) => void;
+  value?: string;
 }
 
 interface ButtonProps {
@@ -87,19 +117,12 @@ interface ButtonProps {
   className?: string;
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ placeholder, options, className = '', onChange }) => {
-  const [selectedValue, setSelectedValue] = useState('');
-
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedValue(event.target.value);
-    onChange(event.target.value);
-  };
-
+const Dropdown: React.FC<DropdownProps> = ({ placeholder, options, className = '', onChange, value }) => {
   return (
     <select
       className={`p-2 border border-gray-300 rounded-md ${className}`}
-      value={selectedValue}
-      onChange={handleChange}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
     >
       <option value="" disabled>
         {placeholder}
@@ -220,8 +243,12 @@ const CompaniesStatistics = () => {
   const [esgData, setESGData] = useState<ESGData | null>(null);
   const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [selectedSector, setSelectedSector] = useState<string>('All');
-  const [selectedIndustry, setSelectedIndustry] = useState<string>('All');
+  const [selectedSector, setSelectedSector] = useState<string>('all');
+  const [selectedIndustry, setSelectedIndustry] = useState<string>('all');
+  const [appliedSector, setAppliedSector] = useState<string>('all');
+  const [appliedIndustry, setAppliedIndustry] = useState<string>('all');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isFilterApplied, setIsFilterApplied] = useState<boolean>(false);
 
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -265,44 +292,50 @@ const CompaniesStatistics = () => {
 
   useEffect(() => {
     const loadDashboardData = () => {
-      setCompanies([
-        { id: '1', name: 'Motherson Sumi Wiring India Ltd. (MSWIL)', selected: true },
-        { id: '2', name: 'Yazaki (Yazaki India)' },
-        { id: '4', name: 'LEONI India (LEONI Wiring Systems)' },
-        { id: '5', name: 'Aptiv Components India' },
-        { id: '6', name: 'Bosch Limited (India)' },
-        { id: '7', name: 'Sona Comstar (Sona BLW / Sona Comstar)' },
-        { id: '8', name: 'Uno Minda (Minda Corporation)' },
-        {id:  '9', name: 'Furukawa Minda Electric (FME)'},
-        {id: '10', name: 'Varroc Engineering Limited'},
-        {id: '11', name: 'Lumax Industries Limited (LIL)'},
-      ]);
+      setIsLoading(false);
+      
+      // Simulate API call delay
+      setTimeout(() => {
+        setCompanies([
+          { id: '1', name: 'Motherson Sumi Wiring India Ltd. (MSWIL)', selected: true },
+          { id: '2', name: 'Yazaki (Yazaki India)' },
+          { id: '4', name: 'LEONI India (LEONI Wiring Systems)' },
+          { id: '5', name: 'Aptiv Components India' },
+          { id: '6', name: 'Bosch Limited (India)' },
+          { id: '7', name: 'Sona Comstar (Sona BLW / Sona Comstar)' },
+          { id: '8', name: 'Uno Minda (Minda Corporation)' },
+          {id:  '9', name: 'Furukawa Minda Electric (FME)'},
+          {id: '10', name: 'Varroc Engineering Limited'},
+          {id: '11', name: 'Lumax Industries Limited (LIL)'},
+        ]);
 
-      setESGData({
-        exposure: '₹552.2 Million',
-        industryScore: '68%',
-        pchi: '46%',
-        environment: '54%',
-        social: '69%',
-        governance: '75%',
-      });
+        setESGData({
+          exposure: '₹552.2 Million',
+          industryScore: '68%',
+          pchi: '46%',
+          environment: '54%',
+          social: '69%',
+          governance: '75%',
+        });
 
-      setChartData([
-        { month: 'Jan', value: 70 },
-        { month: 'Feb', value: 75 },
-        { month: 'Mar', value: 72 },
-        { month: 'Apr', value: 78 },
-        { month: 'May', value: 80 },
-        { month: 'Jun', value: 76 },
-        { month: 'Jul', value: 82 },
-        { month: 'Aug', value: 85 },
-        { month: 'Sep', value: 83 },
-        { month: 'Oct', value: 88 },
-        { month: 'Nov', value: 86 },
-        { month: 'Dec', value: 90 },
-      ]);
+        setChartData([
+          { month: 'Jan', value: 70 },
+          { month: 'Feb', value: 75 },
+          { month: 'Mar', value: 72 },
+          { month: 'Apr', value: 78 },
+          { month: 'May', value: 80 },
+          { month: 'Jun', value: 76 },
+          { month: 'Jul', value: 82 },
+          { month: 'Aug', value: 85 },
+          { month: 'Sep', value: 83 },
+          { month: 'Oct', value: 88 },
+          { month: 'Nov', value: 86 },
+          { month: 'Dec', value: 90 },
+        ]);
 
-      setLoading(false);
+        setLoading(false);
+        setIsLoading(false);
+      }, 1500);
     };
 
     loadDashboardData();
@@ -324,30 +357,47 @@ const CompaniesStatistics = () => {
 
   const handleSectorChange = (value: string) => {
     setSelectedSector(value);
-    setSelectedIndustry('all');
+    if (value === 'all') {
+      setSelectedIndustry('all');
+    }
   };
 
   const handleIndustryChange = (value: string) => {
     setSelectedIndustry(value);
   };
 
-  const tabs = [
-    'Overview',
-    'Human Capacity',
-    'Resource Footprint',
-    'Resource Use',
-    'Climate Stewardship',
-    'Aspiration Need',
-    'Growth Need',
-    'Community Engagement',
-  ];
+  const handleApplyFilters = () => {
+    setIsLoading(true);
+    
+    // Simulate filter application delay
+    setTimeout(() => {
+      setAppliedSector(selectedSector);
+      setAppliedIndustry(selectedIndustry);
+      setIsFilterApplied(true);
+      setIsLoading(false);
+    }, 1200);
+  };
 
+  const handleResetFilters = () => {
+    setSelectedSector('all');
+    setSelectedIndustry('all');
+    setAppliedSector('all');
+    setAppliedIndustry('all');
+    setIsFilterApplied(false);
+  };
+
+const tabs = [
+  'Overview',
+  'Human Capacity',
+  'Resource Footprint',
+  'Resource Use',
+  'Climate Stewardship',
+  'Aspiration Need',
+  'Growth Need',
+  'Community Engagement', 
+];
   const emptyFunction = () => {};
   const emptyStringFunction = (value: string) => {};
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   const esgRatings = [
     {
@@ -559,192 +609,270 @@ const CompaniesStatistics = () => {
     },
   ];
 
-  const getCompanyData = () => {
-  switch(selectedCompany) {
-    case 'Motherson Sumi Wiring India Ltd. (MSWIL)':
-      return {
-        exposure: { value: '55,699', unit: 'Million', change: '19%', positive: true },
-        esgScore: { value: '69%', change: '40%', positive: true },
-        pchi: { value: '26%', change: '40%', positive: true },
-        ratings: esgRatings,
-        chartData: defaultData,
-        energyUsed: { value: '155,000', unit: 'GJ', change: '30%', positive: true },
-        eui: { value: '21.5', unit: 'GJ / INR Cr', change: '17%', positive: true },
-        energyChartData: defaultEnergyData,
-        energyUsageData: defaultEnergyUsageData,
-        totalManpower: { value: '39,300', unit: 'Employees', change: '12%', positive: true },
-        ltifr: { value: '0.85', unit: 'per 200k hours', change: '-8%', positive: true },
-        employeeChartData: defaultEmployeeData,
-        hiringData: defaultHiringData
+      const getCompanyData = () => {
+        switch(selectedCompany) {
+          case 'Motherson Sumi Wiring India Ltd. (MSWIL)':
+            return {
+              exposure: { value: '55,699', unit: 'Million', change: '19%', positive: true },
+              esgScore: { value: '69%', change: '40%', positive: true },
+              pchi: { value: '26%', change: '40%', positive: true },
+              ratings: esgRatings,
+              chartData: defaultData,
+              energyUsed: { value: '155,000', unit: 'GJ', change: '30%', positive: true },
+              eui: { value: '21.5', unit: 'GJ / INR Cr', change: '17%', positive: true },
+              energyChartData: defaultEnergyData,
+              energyUsageData: defaultEnergyUsageData,
+              // human capacity
+              totalManpower: { value: '39,300', unit: 'Employees', change: '12%', positive: true },
+              ltifr: { value: '0.35', unit: 'per 200k hours', change: '-8%', positive: true },
+              employeeChartData: defaultEmployeeData,
+              hiringData: defaultHiringData,
+              // community engagement
+              csrInitiatives: { value: '22', unit: 'Initiatives', change: '20%', positive: true },
+              beneficiaries: { value: '43,500', unit: 'People', change: '25%', positive: true },
+              trainingSessionsData: defaultTrainingData,
+              attendeesData: defaultAttendeesData
+            };
+          case 'Yazaki (Yazaki India)':
+            return {
+              exposure: { value: '37,679', unit: 'Million', change: '25%', positive: true },
+              esgScore: { value: '69%', change: '45%', positive: true },
+              pchi: { value: '42%', change: '30%', positive: true },
+              ratings: esgRatings2,
+              chartData: data1,
+              energyUsed: { value: '180,000', unit: 'GJ', change: '28%', positive: true },
+              eui: { value: '24.0', unit: 'GJ / INR Cr', change: '15%', positive: true },
+              energyChartData: energyData1,
+              energyUsageData: energyUsageData1,
+              totalManpower: { value: '31,600', unit: 'Employees', change: '15%', positive: true },
+              ltifr: { value: '0.38', unit: 'per 200k hours', change: '-6%', positive: true },
+              employeeChartData: employeeData1,
+              hiringData: hiringData1,
+              // community engagement
+              csrInitiatives: { value: '18', unit: 'Initiatives', change: '15%', positive: true },
+              beneficiaries: { value: '31,200', unit: 'People', change: '20%', positive: true },
+              trainingSessionsData: trainingData1,
+              attendeesData: attendeesData1
+            };
+          case 'LEONI India (LEONI Wiring Systems)':
+            return {
+              exposure: { value: '25,450', unit: 'Million', change: '15%', positive: true },
+              esgScore: { value: '74%', change: '38%', positive: true },
+              pchi: { value: '23%', change: '25%', positive: true },
+              ratings: esgRatings3,
+              chartData: data2,
+              energyUsed: { value: '165,000', unit: 'GJ', change: '32%', positive: true },
+              eui: { value: '23.5', unit: 'GJ / INR Cr', change: '19%', positive: true },
+              energyChartData: energyData2,
+              energyUsageData: energyUsageData2,
+              totalManpower: { value: '25,300', unit: 'Employees', change: '10%', positive: true },
+              ltifr: { value: '0.41', unit: 'per 200k hours', change: '-12%', positive: true },
+              employeeChartData: employeeData2,
+              hiringData: hiringData2,
+              // community engagement
+              csrInitiatives: { value: '15', unit: 'Initiatives', change: '12%', positive: true },
+              beneficiaries: { value: '26,800', unit: 'People', change: '18%', positive: true },
+              trainingSessionsData: trainingData2,
+              attendeesData: attendeesData2
+            };
+          case 'Aptiv Components India':
+            return {
+              exposure: { value: '41,200', unit: 'Million', change: '22%', positive: true },
+              esgScore: { value: '68%', change: '42%', positive: true },
+              pchi: { value: '35%', change: '28%', positive: true },
+              ratings: esgRatings4,
+              chartData: data3,
+              energyUsed: { value: '170,000', unit: 'GJ', change: '26%', positive: true },
+              eui: { value: '22.5', unit: 'GJ / INR Cr', change: '16%', positive: true },
+              energyChartData: energyData3,
+              energyUsageData: energyUsageData3,
+              totalManpower: { value: '27,400', unit: 'Employees', change: '14%', positive: true },
+              ltifr: { value: '0.32', unit: 'per 200k hours', change: '-9%', positive: true },
+              employeeChartData: employeeData3,
+              hiringData: hiringData3,
+              // community engagement
+              csrInitiatives: { value: '15', unit: 'Initiatives', change: '18%', positive: true },
+              beneficiaries: { value: '26,800', unit: 'People', change: '22%', positive: true },
+              trainingSessionsData: trainingData3,
+              attendeesData: attendeesData3
+            };
+          case 'Bosch Limited (India)':
+            return {
+              exposure: { value: '78,930', unit: 'Million', change: '30%', positive: true },
+              esgScore: { value: '79%', change: '35%', positive: true },
+              pchi: { value: '15%', change: '32%', positive: true },
+              ratings: esgRatings5,
+              chartData: data4,
+              energyUsed: { value: '850,000', unit: 'GJ', change: '35%', positive: true },
+              eui: { value: '58.5', unit: 'GJ / INR Cr', change: '12%', positive: true },
+              energyChartData: energyData4,
+              energyUsageData: energyUsageData4,
+              totalManpower: { value: '45,200', unit: 'Employees', change: '18%', positive: true },
+              ltifr: { value: '0.29', unit: 'per 200k hours', change: '-5%', positive: true },
+              employeeChartData: employeeData4,
+              hiringData: hiringData4,
+              // community engagement
+              csrInitiatives: { value: '19', unit: 'Initiatives', change: '25%', positive: true },
+              beneficiaries: { value: '35,500', unit: 'People', change: '30%', positive: true },
+              trainingSessionsData: trainingData4,
+              attendeesData: attendeesData4
+            };
+          case 'Sona Comstar (Sona BLW / Sona Comstar)':
+            return {
+              exposure: { value: '19,850', unit: 'Million', change: '18%', positive: true },
+              esgScore: { value: '63%', change: '36%', positive: true },
+              pchi: { value: '41%', change: '22%', positive: true },
+              ratings: esgRatings6,
+              chartData: data5,
+              energyUsed: { value: '210,000', unit: 'GJ', change: '24%', positive: true },
+              eui: { value: '75.0', unit: 'GJ / INR Cr', change: '18%', positive: true },
+              energyChartData: energyData5,
+              energyUsageData: energyUsageData5,
+              totalManpower: { value: '22,400', unit: 'Employees', change: '11%', positive: true },
+              ltifr: { value: '0.42', unit: 'per 200k hours', change: '-10%', positive: true },
+              employeeChartData: employeeData5,
+              hiringData: hiringData5,
+              // community engagement
+              csrInitiatives: { value: '25', unit: 'Initiatives', change: '10%', positive: true },
+              beneficiaries: { value: '48,200', unit: 'People', change: '15%', positive: true },
+              trainingSessionsData: trainingData5,
+              attendeesData: attendeesData5
+            };
+          case 'Uno Minda (Minda Corporation)':
+            return {
+              exposure: { value: '33,100', unit: 'Million', change: '20%', positive: true },
+              esgScore: { value: '72%', change: '41%', positive: true },
+              pchi: { value: '24%', change: '26%', positive: true },
+              ratings: esgRatings7,
+              chartData: data6,
+              energyUsed: { value: '330,000', unit: 'GJ', change: '22%', positive: true },
+              eui: { value: '28.0', unit: 'GJ / INR Cr', change: '14%', positive: true },
+              energyChartData: energyData6,
+              energyUsageData: energyUsageData6,
+              totalManpower: { value: '42,400', unit: 'Employees', change: '16%', positive: true },
+              ltifr: { value: '0.33', unit: 'per 200k hours', change: '-7%', positive: true },
+              employeeChartData: employeeData6,
+              hiringData: hiringData6,
+              // community engagement
+              csrInitiatives: { value: '14', unit: 'Initiatives', change: '17%', positive: true },
+              beneficiaries: { value: '19,800', unit: 'People', change: '24%', positive: true },
+              trainingSessionsData: trainingData6,
+              attendeesData: attendeesData6
+            };
+          case 'Furukawa Minda Electric (FME)':
+            return {
+              exposure: { value: '15,600', unit: 'Million', change: '16%', positive: true },
+              esgScore: { value: '55%', change: '28%', positive: true },
+              pchi: { value: '48%', change: '19%', positive: true },
+              ratings: esgRatings8,
+              chartData: data7,
+              energyUsed: { value: '95,000', unit: 'GJ', change: '20%', positive: true },
+              eui: { value: '35.0', unit: 'GJ / INR Cr', change: '21%', positive: true },
+              energyChartData: energyData7,
+              energyUsageData: energyUsageData7,
+              totalManpower: { value: '19,800', unit: 'Employees', change: '9%', positive: true },
+              ltifr: { value: '0.47', unit: 'per 200k hours', change: '-13%', positive: true },
+              employeeChartData: employeeData7,
+              hiringData: hiringData7,
+              // community engagement
+              csrInitiatives: { value: '23', unit: 'Initiatives', change: '8%', positive: true },
+              beneficiaries: { value: '42,900', unit: 'People', change: '12%', positive: true },
+              trainingSessionsData: trainingData7,
+              attendeesData: attendeesData7
+            };
+          case 'Varroc Engineering Limited':
+            return {
+              exposure: { value: '29,750', unit: 'Million', change: '21%', positive: true },
+              esgScore: { value: '69%', change: '39%', positive: true },
+              pchi: { value: '30%', change: '24%', positive: true },
+              ratings: esgRatings9,
+              chartData: data8,
+              energyUsed: { value: '450,000', unit: 'GJ', change: '27%', positive: true },
+              eui: { value: '65.0', unit: 'GJ / INR Cr', change: '15%', positive: true },
+              energyChartData: energyData8,
+              energyUsageData: energyUsageData8,
+              totalManpower: { value: '35,700', unit: 'Employees', change: '17%', positive: true },
+              ltifr: { value: '0.36', unit: 'per 200k hours', change: '-6%', positive: true },
+              employeeChartData: employeeData8,
+              hiringData: hiringData8,
+              // community engagement
+              csrInitiatives: { value: '12', unit: 'Initiatives', change: '16%', positive: true },
+              beneficiaries: { value: '15600', unit: 'People', change: '21%', positive: true },
+              trainingSessionsData: trainingData8,
+              attendeesData: attendeesData8
+            };
+          case 'Lumax Industries Limited (LIL)':
+            return {
+              exposure: { value: '12,300', unit: 'Million', change: '17%', positive: true },
+              esgScore: { value: '75%', change: '43%', positive: true },
+              pchi: { value: '21%', change: '29%', positive: true },
+              ratings: esgRatings10,
+              chartData: data9,
+              energyUsed: { value: '110,000', unit: 'GJ', change: '19%', positive: true },
+              eui: { value: '48.0', unit: 'GJ / INR Cr', change: '17%', positive: true },
+              energyChartData: energyData9,
+              energyUsageData: energyUsageData9,
+              totalManpower: { value: '22,500', unit: 'Employees', change: '10%', positive: true },
+              ltifr: { value: '0.44', unit: 'per 200k hours', change: '-11%', positive: true },
+              employeeChartData: employeeData9,
+              hiringData: hiringData9,
+              // community engagement
+              csrInitiatives: { value: '20', unit: 'Initiatives', change: '11%', positive: true },
+              beneficiaries: { value: '37200', unit: 'People', change: '16%', positive: true },
+              trainingSessionsData: trainingData9,
+              attendeesData: attendeesData9
+            };
+          default:
+            return {
+              exposure: { value: '12,300', unit: 'Million', change: '19%', positive: true },
+              esgScore: { value: '69%', change: '40%', positive: true },
+              pchi: { value: '26%', change: '40%', positive: true },
+              ratings: esgRatings,
+              chartData: defaultData,
+              energyUsed: { value: '155,000', unit: 'GJ', change: '30%', positive: true },
+              eui: { value: '21.5', unit: 'GJ / INR Cr', change: '17%', positive: true },
+              energyChartData: defaultEnergyData,
+              energyUsageData: defaultEnergyUsageData,
+              totalManpower: { value: '39,300', unit: 'Employees', change: '12%', positive: true },
+              ltifr: { value: '0.35', unit: 'per 200k hours', change: '-8%', positive: true },
+              employeeChartData: defaultEmployeeData,
+              hiringData: defaultHiringData,
+              // community engagement
+              csrInitiatives: { value: '16', unit: 'Initiatives', change: '20%', positive: true },
+              beneficiaries: { value: '24,100', unit: 'People', change: '25%', positive: true },
+              trainingSessionsData: defaultTrainingData,
+              attendeesData: defaultAttendeesData
+            };
+        }
       };
-    case 'Yazaki (Yazaki India)':
-      return {
-        exposure: { value: '37,679', unit: 'Million', change: '25%', positive: true },
-        esgScore: { value: '69%', change: '45%', positive: true },
-        pchi: { value: '42%', change: '30%', positive: true },
-        ratings: esgRatings2,
-        chartData: data1,
-        energyUsed: { value: '180,000', unit: 'GJ', change: '28%', positive: true },
-        eui: { value: '24.0', unit: 'GJ / INR Cr', change: '15%', positive: true },
-        energyChartData: energyData1,
-        energyUsageData: energyUsageData1,
-        totalManpower: { value: '47,000', unit: 'Employees', change: '15%', positive: true },
-        ltifr: { value: '0.92', unit: 'per 200k hours', change: '-6%', positive: true },
-        employeeChartData: employeeData1,
-        hiringData: hiringData1
-      };
-    case 'LEONI India (LEONI Wiring Systems)':
-      return {
-        exposure: { value: '25,450', unit: 'Million', change: '15%', positive: true },
-        esgScore: { value: '74%', change: '38%', positive: true },
-        pchi: { value: '23%', change: '25%', positive: true },
-        ratings: esgRatings3,
-        chartData: data2,
-        energyUsed: { value: '165,000', unit: 'GJ', change: '32%', positive: true },
-        eui: { value: '23.5', unit: 'GJ / INR Cr', change: '19%', positive: true },
-        energyChartData: energyData2,
-        energyUsageData: energyUsageData2,
-        totalManpower: { value: '33,600', unit: 'Employees', change: '10%', positive: true },
-        ltifr: { value: '0.78', unit: 'per 200k hours', change: '-12%', positive: true },
-        employeeChartData: employeeData2,
-        hiringData: hiringData2
-      };
-    case 'Aptiv Components India':
-      return {
-        exposure: { value: '41,200', unit: 'Million', change: '22%', positive: true },
-        esgScore: { value: '68%', change: '42%', positive: true },
-        pchi: { value: '35%', change: '28%', positive: true },
-        ratings: esgRatings4,
-        chartData: data3,
-        energyUsed: { value: '170,000', unit: 'GJ', change: '26%', positive: true },
-        eui: { value: '22.5', unit: 'GJ / INR Cr', change: '16%', positive: true },
-        energyChartData: energyData3,
-        energyUsageData: energyUsageData3,
-        totalManpower: { value: '42,600', unit: 'Employees', change: '14%', positive: true },
-        ltifr: { value: '0.88', unit: 'per 200k hours', change: '-9%', positive: true },
-        employeeChartData: employeeData3,
-        hiringData: hiringData3
-      };
-    case 'Bosch Limited (India)':
-      return {
-        exposure: { value: '78,930', unit: 'Million', change: '30%', positive: true },
-        esgScore: { value: '79%', change: '35%', positive: true },
-        pchi: { value: '15%', change: '32%', positive: true },
-        ratings: esgRatings5,
-        chartData: data4,
-        energyUsed: { value: '850,000', unit: 'GJ', change: '35%', positive: true },
-        eui: { value: '58.5', unit: 'GJ / INR Cr', change: '12%', positive: true },
-        energyChartData: energyData4,
-        energyUsageData: energyUsageData4,
-        totalManpower: { value: '109,000', unit: 'Employees', change: '18%', positive: true },
-        ltifr: { value: '0.95', unit: 'per 200k hours', change: '-5%', positive: true },
-        employeeChartData: employeeData4,
-        hiringData: hiringData4
-      };
-    case 'Sona Comstar (Sona BLW / Sona Comstar)':
-      return {
-        exposure: { value: '19,850', unit: 'Million', change: '18%', positive: true },
-        esgScore: { value: '63%', change: '36%', positive: true },
-        pchi: { value: '41%', change: '22%', positive: true },
-        ratings: esgRatings6,
-        chartData: data5,
-        energyUsed: { value: '210,000', unit: 'GJ', change: '24%', positive: true },
-        eui: { value: '75.0', unit: 'GJ / INR Cr', change: '18%', positive: true },
-        energyChartData: energyData5,
-        energyUsageData: energyUsageData5,
-        totalManpower: { value: '27,400', unit: 'Employees', change: '11%', positive: true },
-        ltifr: { value: '0.82', unit: 'per 200k hours', change: '-10%', positive: true },
-        employeeChartData: employeeData5,
-        hiringData: hiringData5
-      };
-    case 'Uno Minda (Minda Corporation)':
-      return {
-        exposure: { value: '33,100', unit: 'Million', change: '20%', positive: true },
-        esgScore: { value: '72%', change: '41%', positive: true },
-        pchi: { value: '24%', change: '26%', positive: true },
-        ratings: esgRatings7,
-        chartData: data6,
-        energyUsed: { value: '330,000', unit: 'GJ', change: '22%', positive: true },
-        eui: { value: '28.0', unit: 'GJ / INR Cr', change: '14%', positive: true },
-        energyChartData: energyData6,
-        energyUsageData: energyUsageData6,
-        totalManpower: { value: '51,000', unit: 'Employees', change: '16%', positive: true },
-        ltifr: { value: '0.89', unit: 'per 200k hours', change: '-7%', positive: true },
-        employeeChartData: employeeData6,
-        hiringData: hiringData6
-      };
-    case 'Furukawa Minda Electric (FME)':
-      return {
-        exposure: { value: '15,600', unit: 'Million', change: '16%', positive: true },
-        esgScore: { value: '55%', change: '28%', positive: true },
-        pchi: { value: '48%', change: '19%', positive: true },
-        ratings: esgRatings8,
-        chartData: data7,
-        energyUsed: { value: '95,000', unit: 'GJ', change: '20%', positive: true },
-        eui: { value: '35.0', unit: 'GJ / INR Cr', change: '21%', positive: true },
-        energyChartData: energyData7,
-        energyUsageData: energyUsageData7,
-        totalManpower: { value: '21,600', unit: 'Employees', change: '9%', positive: true },
-        ltifr: { value: '0.76', unit: 'per 200k hours', change: '-13%', positive: true },
-        employeeChartData: employeeData7,
-        hiringData: hiringData7
-      };
-    case 'Varroc Engineering Limited':
-      return {
-        exposure: { value: '29,750', unit: 'Million', change: '21%', positive: true },
-        esgScore: { value: '69%', change: '39%', positive: true },
-        pchi: { value: '30%', change: '24%', positive: true },
-        ratings: esgRatings9,
-        chartData: data8,
-        energyUsed: { value: '450,000', unit: 'GJ', change: '27%', positive: true },
-        eui: { value: '65.0', unit: 'GJ / INR Cr', change: '15%', positive: true },
-        energyChartData: energyData8,
-        energyUsageData: energyUsageData8,
-        totalManpower: { value: '59,300', unit: 'Employees', change: '17%', positive: true },
-        ltifr: { value: '0.91', unit: 'per 200k hours', change: '-6%', positive: true },
-        employeeChartData: employeeData8,
-        hiringData: hiringData8
-      };
-    case 'Lumax Industries Limited (LIL)':
-      return {
-        exposure: { value: '12,300', unit: 'Million', change: '17%', positive: true },
-        esgScore: { value: '75%', change: '43%', positive: true },
-        pchi: { value: '21%', change: '29%', positive: true },
-        ratings: esgRatings10,
-        chartData: data9,
-        energyUsed: { value: '110,000', unit: 'GJ', change: '19%', positive: true },
-        eui: { value: '48.0', unit: 'GJ / INR Cr', change: '17%', positive: true },
-        energyChartData: energyData9,
-        energyUsageData: energyUsageData9,
-        totalManpower: { value: '24,600', unit: 'Employees', change: '10%', positive: true },
-        ltifr: { value: '0.79', unit: 'per 200k hours', change: '-11%', positive: true },
-        employeeChartData: employeeData9,
-        hiringData: hiringData9
-      };
-    default:
-      return {
-        exposure: { value: '12,300', unit: 'Million', change: '19%', positive: true },
-        esgScore: { value: '69%', change: '40%', positive: true },
-        pchi: { value: '26%', change: '40%', positive: true },
-        ratings: esgRatings,
-        chartData: defaultData,
-        energyUsed: { value: '155,000', unit: 'GJ', change: '30%', positive: true },
-        eui: { value: '21.5', unit: 'GJ / INR Cr', change: '17%', positive: true },
-        energyChartData: defaultEnergyData,
-        energyUsageData: defaultEnergyUsageData,
-        totalManpower: { value: '39,300', unit: 'Employees', change: '12%', positive: true },
-        ltifr: { value: '0.85', unit: 'per 200k hours', change: '-8%', positive: true },
-        employeeChartData: defaultEmployeeData,
-        hiringData: defaultHiringData
-      };
-  }
-};
 
   const companyData = getCompanyData();
+
+  const getSectorDisplayName = () => {
+    const sector = sectorOptions.find(s => s.value === appliedSector);
+    return sector ? sector.label : 'All';
+  };
+
+  const getIndustryDisplayName = () => {
+    const industry = industryOptions.find(i => i.value === appliedIndustry);
+    return industry ? industry.label : 'All';
+  };
 
   return (
     <div className="w-full bg-[#f8fafc]">
       <Header />
+      
+      {/* Loading Overlay - Only for filter application */}
+      {isLoading && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 flex flex-col items-center gap-4 min-w-[200px]">
+            <LoadingSpinner size="lg" />
+            <p className="text-text-primary font-medium">Applying filters...</p>
+            <p className="text-text-secondary text-sm">Updating company data</p>
+          </div>
+        </div>
+      )}
+
       <div
         className="bg-card border-b border-border shadow-elevation-1 px-8"
         style={{ background: 'white', marginTop: '70px' }}
@@ -765,22 +893,38 @@ const CompaniesStatistics = () => {
                   options={sectorOptions}
                   className="w-full sm:w-40 text-sm"
                   onChange={handleSectorChange}
+                  value={selectedSector}
                 />
                 <Dropdown
                   placeholder="Industry"
                   options={industryOptions}
                   className="w-full sm:w-48 text-sm"
                   onChange={handleIndustryChange}
+                  value={selectedIndustry}
                 />
-                <Button
-                  text="Apply Filters"
-                  fill_background_color="bg-accent-info"
-                  text_color="text-white"
-                  layout_width="w-full sm:w-auto"
-                  padding="px-4 py-2"
-                  onClick={emptyFunction}
-                  className="text-sm"
-                />
+                <button
+                  className="w-full sm:w-auto bg-accent-info text-white rounded-md px-4 py-2 text-sm flex items-center justify-center gap-2 min-w-[120px] disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={handleApplyFilters}
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <>
+                      <LoadingSpinner size="sm" />
+                      <span>Applying...</span>
+                    </>
+                  ) : (
+                    'Apply Filters'
+                  )}
+                </button>
+                {isFilterApplied && (
+                  <button
+                    className="w-full sm:w-auto bg-gray-500 text-white rounded-md px-4 py-2 text-sm flex items-center justify-center gap-2 min-w-[100px] hover:bg-gray-600 transition-colors"
+                    onClick={handleResetFilters}
+                    disabled={isLoading}
+                  >
+                    Reset
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -826,15 +970,11 @@ const CompaniesStatistics = () => {
                   <div className="flex flex-col sm:flex-row justify-start items-start sm:items-center gap-4">
                     <span className="text-lg font-medium text-[#29303f]">
                       <span className="text-[#29303f7f]">Sector: </span>
-                      <span className="text-[#29303f]">
-                        {sectorOptions.find((s) => s.value === selectedSector)?.label || 'All'}
-                      </span>
+                      <span className="text-[#29303f]">{getSectorDisplayName()}</span>
                     </span>
                     <span className="text-lg font-medium text-[#29303f]">
                       <span className="text-[#29303f7f]">Industry: </span>
-                      <span className="text-[#29303f]">
-                        {industryOptions.find((i) => i.value === selectedIndustry)?.label || 'All'}
-                      </span>
+                      <span className="text-[#29303f]">{getIndustryDisplayName()}</span>
                     </span>
                   </div>
                   <span className="text-sm font-medium text-[#29303f7f]">
@@ -1103,7 +1243,6 @@ const CompaniesStatistics = () => {
                       </div>
                     </div>
 
-                    {/* Content Grid */}
                     <div className="flex flex-col gap-0 justify-start items-center w-full">
                       <div className="w-full bg-primary-foreground border border-border rounded-lg p-4 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200">
                         <EnergyUsageChart 
@@ -1114,90 +1253,90 @@ const CompaniesStatistics = () => {
                     </div>
                   </>
                 )}
-                  {activeTab === 'Human Capacity' && (
-                  <>
-                    <div className="flex flex-col lg:flex-row gap-3 justify-start items-start w-full">
-                      <div className="flex flex-col gap-3 justify-start w-full lg:w-[50%]">
-                        <MetricsCard
-                          title="Total Manpower"
-                          value={companyData.energyUsed.value}
-                          unit={companyData.energyUsed.unit}
-                          changePercentage={companyData.energyUsed.change}
-                          isPositive={companyData.energyUsed.positive}
-                          hasLeftBorder={true}
-                        />
-                        <MetricsCard
-                          title="LTIFR"
-                          value={companyData.eui.value}
-                          unit={companyData.eui.unit}
-                          changePercentage={companyData.eui.change}
-                          isPositive={companyData.eui.positive}
-                          hasLeftBorder={true}
-                        />
-                      </div>
-
-                      <div className="flex flex-col justify-start items-center w-full lg:w-[50%]">
-                        <div
-                          className="w-full p-2 bg-card rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
-                          style={{ background: 'white' }}
-                        >
-                          <KeyEnergyConsumersChart data={companyData.energyChartData} />
-                        </div>
-                      </div>
+                {activeTab === 'Human Capacity' && (
+                <>
+                  <div className="flex flex-col lg:flex-row gap-3 justify-start items-start w-full">
+                    <div className="flex flex-col gap-3 justify-start w-full lg:w-[50%]">
+                      <MetricsCard
+                        title="Total Manpower"
+                        value={companyData.totalManpower.value}
+                        unit={companyData.totalManpower.unit}
+                        changePercentage={companyData.totalManpower.change}
+                        isPositive={companyData.totalManpower.positive}
+                        hasLeftBorder={true}
+                      />
+                      <MetricsCard
+                        title="LTIFR"
+                        value={companyData.ltifr.value}
+                        unit={companyData.ltifr.unit}
+                        changePercentage={companyData.ltifr.change}
+                        isPositive={companyData.ltifr.positive}
+                        hasLeftBorder={true}
+                      />
                     </div>
 
-                    <div className="flex flex-col gap-0 justify-start items-center w-full">
-                      <div className="w-full bg-primary-foreground border border-border rounded-lg p-4 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200">
-                        <HiringRates
-                          data={companyData.energyUsageData} 
-                          companyName={selectedCompany}
-                        />
+                    <div className="flex flex-col justify-start items-center w-full lg:w-[50%]">
+                      <div
+                        className="w-full p-2 bg-card rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                        style={{ background: 'white' }}
+                      >
+                        <EmployeeMetrics data={companyData.employeeChartData} />
                       </div>
                     </div>
-                  </>
-                )}
-                  {activeTab === 'Community Engegement' && (
-                  <>
-                    <div className="flex flex-col lg:flex-row gap-3 justify-start items-start w-full">
-                      <div className="flex flex-col gap-3 justify-start w-full lg:w-[50%]">
-                        <MetricsCard
-                          title="Total CSR Initiatives"
-                          value={companyData.energyUsed.value}
-                          unit={companyData.energyUsed.unit}
-                          changePercentage={companyData.energyUsed.change}
-                          isPositive={companyData.energyUsed.positive}
-                          hasLeftBorder={true}
-                        />
-                        <MetricsCard
-                          title="Total Beneficiaries"
-                          value={companyData.eui.value}
-                          unit={companyData.eui.unit}
-                          changePercentage={companyData.eui.change}
-                          isPositive={companyData.eui.positive}
-                          hasLeftBorder={true}
-                        />
-                      </div>
+                  </div>
 
-                      <div className="flex flex-col justify-start items-center w-full lg:w-[50%]">
-                        <div
-                          className="w-full p-2 bg-card rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
-                          style={{ background: 'white' }}
-                        >
-                          <KeyEnergyConsumersChart data={companyData.energyChartData} />
-                        </div>
-                      </div>
+                  <div className="flex flex-col gap-0 justify-start items-center w-full">
+                    <div className="w-full bg-primary-foreground border border-border rounded-lg p-4 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200">
+                      <HiringRates
+                        data={companyData.hiringData} 
+                        companyName={selectedCompany}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
+              {activeTab === 'Community Engagement' && (
+                <>
+                  <div className="flex flex-col lg:flex-row gap-3 justify-start items-start w-full">
+                    <div className="flex flex-col gap-3 justify-start w-full lg:w-[50%]">
+                      <MetricsCard
+                        title="Total CSR Initiatives"
+                        value={companyData.csrInitiatives.value}
+                        unit={companyData.csrInitiatives.unit}
+                        changePercentage={companyData.csrInitiatives.change}
+                        isPositive={companyData.csrInitiatives.positive}
+                        hasLeftBorder={true}
+                      />
+                      <MetricsCard
+                        title="Total Beneficiaries"
+                        value={companyData.beneficiaries.value}
+                        unit={companyData.beneficiaries.unit}
+                        changePercentage={companyData.beneficiaries.change}
+                        isPositive={companyData.beneficiaries.positive}
+                        hasLeftBorder={true}
+                      />
                     </div>
 
-                    <div className="flex flex-col gap-0 justify-start items-center w-full">
-                      <div className="w-full bg-primary-foreground border border-border rounded-lg p-4 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200">
-                        <EnergyUsageChart 
-                          data={companyData.energyUsageData} 
-                          companyName={selectedCompany}
-                        />
+                    <div className="flex flex-col justify-start items-center w-full lg:w-[50%]">
+                      <div
+                        className="w-full p-2 bg-card rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                        style={{ background: 'white' }}
+                      >
+                        <TrainingSessions data={companyData.trainingSessionsData} />
                       </div>
                     </div>
-                  </>
-                )}
+                  </div>
+
+                  <div className="flex flex-col gap-0 justify-start items-center w-full">
+                    <div className="w-full bg-primary-foreground border border-border rounded-lg p-4 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200">
+                      <AttendeesTrainingSessions
+                        data={companyData.attendeesData} 
+                        companyName={selectedCompany}
+                      />
+                    </div>
+                  </div>
+                </>
+              )}
               </div>
             </div>
           </div>
