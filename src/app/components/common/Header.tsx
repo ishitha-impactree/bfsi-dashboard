@@ -151,7 +151,7 @@ const Header: React.FC<{ className?: string }> = ({ className }) => {
                 Welcome User!
               </span>
               <span style={{ fontSize: '14px', color: '#6c757d' }}>
-                01 Oct, Wed
+                15 Oct, Wed
               </span>
             </div>
 

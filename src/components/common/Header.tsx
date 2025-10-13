@@ -153,7 +153,7 @@ const Header = ({ className }: HeaderProps) => {
                 Welcome User!
               </span>
               <span className="text-md font-normal leading-md text-right text-primary">
-                01 Oct, Wed
+                15 Oct, Wed
               </span>
             </div>
 
