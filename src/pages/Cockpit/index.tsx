@@ -56,58 +56,458 @@ const PortfolioClimateRisk = () => {
     { value: 'yearly', label: 'Yearly View' },
   ];
 
-  const kpiData = [
-    {
-      title: 'Total Financed Emissions',
-      value: '2,850',
-      unit: 'tCO₂e',
-      change: -12.5,
-      changeType: 'positive',
-      icon: 'Zap',
-      trend: [65, 70, 68, 62, 58, 55, 52],
+  // data for different periods
+  const timePeriodData = {
+    '3 Months': {
+      kpiData: [
+        {
+          title: 'Total Financed Emissions',
+          value: '420,000',
+          unit: 'tCO₂e',
+          change: -12.5,
+          changeType: 'positive',
+          icon: 'Zap',
+          trend: [65, 70, 68, 62, 58, 55, 52],
+        },
+        {
+          title: 'Emissions Intensity',
+          value: '62',
+          unit: 'tCO₂e/M$',
+          change: -8.3,
+          changeType: 'positive',
+          icon: 'TrendingDown',
+          trend: [45, 48, 46, 42, 38, 35, 32],
+        },
+        {
+          title: 'Reduction Progress',
+          value: '8',
+          unit: '%',
+          change: 4.2,
+          changeType: 'positive',
+          icon: 'Target',
+          trend: [25, 28, 30, 32, 35, 38, 42],
+        },
+        {
+          title: 'Compliance Score',
+          value: '83',
+          unit: '/100',
+          change: 2.1,
+          changeType: 'positive',
+          icon: 'Shield',
+          trend: [75, 78, 80, 82, 84, 86, 87],
+        },
+      ],
+      portfolioExposure: {
+        percentage: '19%',
+        prefixUnit: '$',
+        value: '11,200',
+        suffixUnit: 'Million',
+        title: 'Total Portfolio Exposure',
+      },
+      ratingsCard: {
+        percentage: '15%',
+        title: 'Portfolio ESG Rating',
+        value: '68%',
+      },
+      pchiValue: 72,
+      portfolioScopes: [
+        {
+          title: 'Total Portfolio Scope 1',
+          value: '95,000',
+          unit: 't CO2e',
+          change: '10%',
+          isPositive: true,
+        },
+        {
+          title: 'Total Portfolio Scope 2',
+          value: '70,000',
+          unit: 't CO2e',
+          change: '2%',
+          isPositive: false,
+        },
+        {
+          title: 'Total Portfolio Scope 3',
+          value: '255,000',
+          unit: 't CO2e',
+          change: '4%',
+          isPositive: true,
+        },
+      ],
+      portfolioOthers: [
+        {
+          title: 'Portfolio LTIFR',
+          value: '0.85',
+          unit: '',
+          change: '20%',
+          isPositive: false,
+        },
+        {
+          title: 'Active Legal Cases in your Portfolio',
+          value: '9',
+          unit: '',
+          change: '2.5%',
+          isPositive: false,
+        },
+      ],
+      esgRatings: [
+        {
+          percentage: '65%',
+          title: 'Portfolio Environment Rating',
+          color: '#4ade80',
+          icon: '/images/img_group_1000003546.svg',
+        },
+        {
+          percentage: '69%',
+          title: 'Portfolio Social Rating',
+          color: '#38bdf8',
+          icon: '/images/img_group_1000003546_light_blue_a200.svg',
+        },
+        {
+          percentage: '71%',
+          title: 'Portfolio Governance Rating',
+          color: '#f59e0b',
+          icon: '/images/img_group_1000003546_amber_a700.svg',
+        },
+      ],
     },
-    {
-      title: 'Emissions Intensity',
-      value: '145.2',
-      unit: 'tCO₂e/M$',
-      change: -8.3,
-      changeType: 'positive',
-      icon: 'TrendingDown',
-      trend: [45, 48, 46, 42, 38, 35, 32],
+    '6 Months': {
+      kpiData: [
+        {
+          title: 'Total Financed Emissions',
+          value: '810,000',
+          unit: 'tCO₂e',
+          change: -12.5,
+          changeType: 'positive',
+          icon: 'Zap',
+          trend: [65, 70, 68, 62, 58, 55, 52],
+        },
+        {
+          title: 'Emissions Intensity',
+          value: '59',
+          unit: 'tCO₂e/M$',
+          change: -8.3,
+          changeType: 'positive',
+          icon: 'TrendingDown',
+          trend: [45, 48, 46, 42, 38, 35, 32],
+        },
+        {
+          title: 'Reduction Progress',
+          value: '14',
+          unit: '%',
+          change: 4.2,
+          changeType: 'positive',
+          icon: 'Target',
+          trend: [25, 28, 30, 32, 35, 38, 42],
+        },
+        {
+          title: 'Compliance Score',
+          value: '86',
+          unit: '/100',
+          change: 2.1,
+          changeType: 'positive',
+          icon: 'Shield',
+          trend: [75, 78, 80, 82, 84, 86, 87],
+        },
+      ],
+      portfolioExposure: {
+        percentage: '19%',
+        prefixUnit: '$',
+        value: '11,400',
+        suffixUnit: 'Million',
+        title: 'Total Portfolio Exposure',
+      },
+      ratingsCard: {
+        percentage: '15%',
+        title: 'Portfolio ESG Rating',
+        value: '70%',
+      },
+      pchiValue: 74,
+      portfolioScopes: [
+        {
+          title: 'Total Portfolio Scope 1',
+          value: '180,000',
+          unit: 't CO2e',
+          change: '10%',
+          isPositive: true,
+        },
+        {
+          title: 'Total Portfolio Scope 2',
+          value: '135,000',
+          unit: 't CO2e',
+          change: '2%',
+          isPositive: false,
+        },
+        {
+          title: 'Total Portfolio Scope 3',
+          value: '495,000',
+          unit: 't CO2e',
+          change: '4%',
+          isPositive: true,
+        },
+      ],
+      portfolioOthers: [
+        {
+          title: 'Portfolio LTIFR',
+          value: '0.8',
+          unit: '',
+          change: '20%',
+          isPositive: false,
+        },
+        {
+          title: 'Active Legal Cases in your Portfolio',
+          value: '11',
+          unit: '',
+          change: '2.5%',
+          isPositive: false,
+        },
+      ],
+      esgRatings: [
+        {
+          percentage: '68%',
+          title: 'Portfolio Environment Rating',
+          color: '#4ade80',
+          icon: '/images/img_group_1000003546.svg',
+        },
+        {
+          percentage: '70%',
+          title: 'Portfolio Social Rating',
+          color: '#38bdf8',
+          icon: '/images/img_group_1000003546_light_blue_a200.svg',
+        },
+        {
+          percentage: '73%',
+          title: 'Portfolio Governance Rating',
+          color: '#f59e0b',
+          icon: '/images/img_group_1000003546_amber_a700.svg',
+        },
+      ],
     },
-    {
-      title: 'Reduction Progress',
-      value: '26.8',
-      unit: '%',
-      change: 4.2,
-      changeType: 'positive',
-      icon: 'Target',
-      trend: [25, 28, 30, 32, 35, 38, 42],
+    '1 Year': {
+      kpiData: [
+        {
+          title: 'Total Financed Emissions',
+          value: '1,550,000',
+          unit: 'tCO₂e',
+          change: -12.5,
+          changeType: 'positive',
+          icon: 'Zap',
+          trend: [65, 70, 68, 62, 58, 55, 52],
+        },
+        {
+          title: 'Emissions Intensity',
+          value: '55',
+          unit: 'tCO₂e/M$',
+          change: -8.3,
+          changeType: 'positive',
+          icon: 'TrendingDown',
+          trend: [45, 48, 46, 42, 38, 35, 32],
+        },
+        {
+          title: 'Reduction Progress',
+          value: '27',
+          unit: '%',
+          change: 4.2,
+          changeType: 'positive',
+          icon: 'Target',
+          trend: [25, 28, 30, 32, 35, 38, 42],
+        },
+        {
+          title: 'Compliance Score',
+          value: '90',
+          unit: '/100',
+          change: 2.1,
+          changeType: 'positive',
+          icon: 'Shield',
+          trend: [75, 78, 80, 82, 84, 86, 87],
+        },
+      ],
+      portfolioExposure: {
+        percentage: '19%',
+        prefixUnit: '$',
+        value: '11,800',
+        suffixUnit: 'Million',
+        title: 'Total Portfolio Exposure',
+      },
+      ratingsCard: {
+        percentage: '15%',
+        title: 'Portfolio ESG Rating',
+        value: '74%',
+      },
+      pchiValue: 77,
+      portfolioScopes: [
+        {
+          title: 'Total Portfolio Scope 1',
+          value: '320,000',
+          unit: 't CO2e',
+          change: '10%',
+          isPositive: true,
+        },
+        {
+          title: 'Total Portfolio Scope 2',
+          value: '260,000',
+          unit: 't CO2e',
+          change: '2%',
+          isPositive: false,
+        },
+        {
+          title: 'Total Portfolio Scope 3',
+          value: '970,000',
+          unit: 't CO2e',
+          change: '4%',
+          isPositive: true,
+        },
+      ],
+      portfolioOthers: [
+        {
+          title: 'Portfolio LTIFR',
+          value: '0.74',
+          unit: '',
+          change: '20%',
+          isPositive: false,
+        },
+        {
+          title: 'Active Legal Cases in your Portfolio',
+          value: '8',
+          unit: '',
+          change: '2.5%',
+          isPositive: false,
+        },
+      ],
+      esgRatings: [
+        {
+          percentage: '73%',
+          title: 'Portfolio Environment Rating',
+          color: '#4ade80',
+          icon: '/images/img_group_1000003546.svg',
+        },
+        {
+          percentage: '74%',
+          title: 'Portfolio Social Rating',
+          color: '#38bdf8',
+          icon: '/images/img_group_1000003546_light_blue_a200.svg',
+        },
+        {
+          percentage: '76%',
+          title: 'Portfolio Governance Rating',
+          color: '#f59e0b',
+          icon: '/images/img_group_1000003546_amber_a700.svg',
+        },
+      ],
     },
-    {
-      title: 'Compliance Score',
-      value: '87',
-      unit: '/100',
-      change: 2.1,
-      changeType: 'positive',
-      icon: 'Shield',
-      trend: [75, 78, 80, 82, 84, 86, 87],
+    'All Time': {
+      kpiData: [
+        {
+          title: 'Total Financed Emissions',
+          value: '6,200,000',
+          unit: 'tCO₂e',
+          change: -12.5,
+          changeType: 'positive',
+          icon: 'Zap',
+          trend: [65, 70, 68, 62, 58, 55, 52],
+        },
+        {
+          title: 'Emissions Intensity',
+          value: '50',
+          unit: 'tCO₂e/M$',
+          change: -8.3,
+          changeType: 'positive',
+          icon: 'TrendingDown',
+          trend: [45, 48, 46, 42, 38, 35, 32],
+        },
+        {
+          title: 'Reduction Progress',
+          value: '45',
+          unit: '%',
+          change: 4.2,
+          changeType: 'positive',
+          icon: 'Target',
+          trend: [25, 28, 30, 32, 35, 38, 42],
+        },
+        {
+          title: 'Compliance Score',
+          value: '93',
+          unit: '/100',
+          change: 2.1,
+          changeType: 'positive',
+          icon: 'Shield',
+          trend: [75, 78, 80, 82, 84, 86, 87],
+        },
+      ],
+      portfolioExposure: {
+        percentage: '19%',
+        prefixUnit: '$',
+        value: '12,600',
+        suffixUnit: 'Million',
+        title: 'Total Portfolio Exposure',
+      },
+      ratingsCard: {
+        percentage: '15%',
+        title: 'Portfolio ESG Rating',
+        value: '78%',
+      },
+      pchiValue: 81,
+      portfolioScopes: [
+        {
+          title: 'Total Portfolio Scope 1',
+          value: '1,250,000',
+          unit: 't CO2e',
+          change: '10%',
+          isPositive: true,
+        },
+        {
+          title: 'Total Portfolio Scope 2',
+          value: '970,000',
+          unit: 't CO2e',
+          change: '2%',
+          isPositive: false,
+        },
+        {
+          title: 'Total Portfolio Scope 3',
+          value: '3,980,000',
+          unit: 't CO2e',
+          change: '4%',
+          isPositive: true,
+        },
+      ],
+      portfolioOthers: [
+        {
+          title: 'Portfolio LTIFR',
+          value: '0.68',
+          unit: '',
+          change: '20%',
+          isPositive: false,
+        },
+        {
+          title: 'Active Legal Cases in your Portfolio',
+          value: '4',
+          unit: '',
+          change: '2.5%',
+          isPositive: false,
+        },
+      ],
+      esgRatings: [
+        {
+          percentage: '78%',
+          title: 'Portfolio Environment Rating',
+          color: '#4ade80',
+          icon: '/images/img_group_1000003546.svg',
+        },
+        {
+          percentage: '77%',
+          title: 'Portfolio Social Rating',
+          color: '#38bdf8',
+          icon: '/images/img_group_1000003546_light_blue_a200.svg',
+        },
+        {
+          percentage: '80%',
+          title: 'Portfolio Governance Rating',
+          color: '#f59e0b',
+          icon: '/images/img_group_1000003546_amber_a700.svg',
+        },
+      ],
     },
-  ];
-
-  const portfolioExposure = {
-    percentage: '19%',
-    prefixUnit: '$',
-    value: '55,699',
-    suffixUnit: 'Million',
-    title: 'Total Portfolio Exposure',
   };
 
-  const ratingsCard = {
-    percentage: '15%',
-    title: 'Portfolio ESG Rating',
-    value: '68%',
-  };
   const taskList: any = [
     {
       id: 1,
@@ -413,78 +813,9 @@ const PortfolioClimateRisk = () => {
     );
   };
 
-  const portfolioScopes = [
-    {
-      title: 'Total Portfolio Scope 1',
-      value: '3,036,504',
-      unit: 't CO2e',
-      change: '10%',
-      isPositive: true,
-    },
-    {
-      title: 'Total Portfolio Scope 2',
-      value: '3,711,282',
-      unit: 't CO2e',
-      change: '2%',
-      isPositive: false,
-    },
-    {
-      title: 'Total Portfolio Scope 3',
-      value: '60,730,080',
-      unit: 't CO2e',
-      change: '4%',
-      isPositive: true,
-    },
-  ];
-
-  const portfolioOthers = [
-    {
-      title: 'Portfolio LTIFR',
-      value: '2.4',
-      unit: '',
-      change: '20%',
-      isPositive: false,
-    },
-    {
-      title: 'Active Legal Cases in your Portfolio',
-      value: '57',
-      unit: '',
-      change: '2.5%',
-      isPositive: false,
-    },
-  ];
-
-  const esgRatings = [
-    {
-      percentage: '72%',
-      title: 'Portfolio Environment Rating',
-      color: '#4ade80',
-      icon: '/images/img_group_1000003546.svg',
-    },
-    {
-      percentage: '45%',
-      title: 'Portfolio Social Rating',
-      color: '#38bdf8',
-      icon: '/images/img_group_1000003546_light_blue_a200.svg',
-    },
-    {
-      percentage: '87%',
-      title: 'Portfolio Governance Rating',
-      color: '#f59e0b',
-      icon: '/images/img_group_1000003546_amber_a700.svg',
-    },
-  ];
-
-  const pchiValue = 28;
-  const needleRotation = (pchiValue / 100) * 180 - 90;
-
-  // const top5Industries = [
-  //   'Software & IT Services',
-  //   'Drugs and Pharmaceuticals',
-  //   'Commercial Real Estate',
-  //   'Logistics and Auxiliary transport activities',
-  //   'Automobiles (Including Ancillaries)',
-  // ];
+  //get current data based on this period
+  const currentData = timePeriodData[selectedPeriod as keyof typeof timePeriodData];
+  const needleRotation = (currentData.pchiValue / 100) * 180 - 90;
 
   const top5Industries = {
     name: 'Top 5 Industries',
@@ -498,7 +829,7 @@ const PortfolioClimateRisk = () => {
   };
 
   const bottom5Industries = {
-    name: 'Top 5 Industries',
+    name: 'Bottom 5 Industries',
     list: [
       'Software & IT Services',
       'Drugs and Pharmaceuticals',
@@ -510,188 +841,17 @@ const PortfolioClimateRisk = () => {
 
   const topCompany = {
     performanceCategory: 'Top Performing Company',
-    avatar: '/images/eternal-ltd-logo.png',
-    name: 'Eternal Limited',
-    sector: 'Software and IT Services',
+    avatar: '/images/companies/bosch.png',
+    name: 'Bosch Limited India',
+    sector: 'Automotive Technology and Services',
   };
 
   const bottomCompany = {
     performanceCategory: 'Lowest Performing Company',
-    avatar: '/images/shell-logo.png',
-    name: 'Shell',
-    sector: 'Crude Oil Petroleum and Natural Gas',
+    avatar: '/images/companies/furukawa.jpg',
+    name: 'Furukawa Minda Electric (FME)',
+    sector: 'Automotive Parts Manufacturing',
   };
-
-  const rightSideContent = (
-    <div className="space-y-3 sm:space-y-6 lg:space-y-3">
-      <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
-        {portfolioScopes?.map((scope, index) => (
-          // <div key={index} className="flex-1">
-          //   <div className="bg-background-light border-b border-background-overlay rounded-t-xl p-4 sm:p-6 lg:p-4">
-          //     <div className="flex justify-between items-center">
-          //       <span className="text-sm sm:text-base font-semibold text-text-primary">
-          //         {scope?.title}
-          //       </span>
-          //       <div className="flex items-center">
-          //         <img
-          //           src={
-          //             scope?.isPositive
-          //               ? '/images/img_arrow_drop_up_red_500.svg'
-          //               : '/images/img_arrow_drop_down_green_500.svg'
-          //           }
-          //           alt={scope?.isPositive ? 'Increase' : 'Decrease'}
-          //           className="w-3 h-3 mr-1"
-          //         />
-          //         <span className="text-xs font-normal text-text-dark">{scope?.change}</span>
-          //       </div>
-          //     </div>
-          //   </div>
-
-          //   <div className="bg-background-card border-l border-r border-b border-background-overlay rounded-b-xl p-4 sm:p-6 lg:p-4">
-          //     <div className="text-2xl sm:text-3xl font-semibold text-text-primary text-center">
-          //       <span>{scope?.value} </span>
-          //       <span className="text-xs sm:text-base">{scope?.unit}</span>
-          //     </div>
-          //   </div>
-          // </div>
-          <MetricsCardWithUnit cardData={scope} idx={index} />
-        ))}
-      </List>
-
-      <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
-        <div className="flex-1">
-          <div className="bg-background-light border-b border-background-overlay rounded-t-xl p-4 sm:p-6 lg:p-4">
-            <div className="flex justify-between items-center">
-              <span className="text-sm sm:text-base font-semibold text-text-primary">
-                Portfolio LTIFR
-              </span>
-              <div className="flex items-center">
-                <img
-                  src="/images/img_arrow_drop_down_green_500.svg"
-                  alt="Decrease"
-                  className="w-3 h-3 mr-1"
-                />
-                <span className="text-xs font-normal text-text-dark">20%</span>
-              </div>
-            </div>
-          </div>
-
-          <Button
-            text="2.4"
-            text_font_size="text-3xl"
-            text_font_family="DM Sans"
-            text_font_weight="font-semibold"
-            text_line_height="leading-3xl"
-            text_text_align="center"
-            text_color="text-text-primary"
-            fill_background_color="bg-background-card"
-            border_border_radius="rounded-none rounded-b-xl"
-            border_border_right="border-r border-background-overlay"
-            border_border_left="border-l border-background-overlay"
-            border_border_bottom="border-b border-background-overlay"
-            padding="py-6 px-10"
-            className="w-full"
-          />
-        </div>
-
-        <div className="flex-1">
-          <div className="bg-background-light border-b border-background-overlay rounded-t-xl p-4 sm:p-6 lg:p-4">
-            <div className="flex justify-between items-center">
-              <span className="text-sm sm:text-base font-semibold text-text-primary">
-                Active Legal Cases in your Portfolio
-              </span>
-              <div className="flex items-center">
-                <img
-                  src="/images/img_arrow_drop_down_green_500.svg"
-                  alt="Decrease"
-                  className="w-3 h-3 mr-1"
-                />
-                <span className="text-xs font-normal text-text-dark">2.5%</span>
-              </div>
-            </div>
-          </div>
-
-          <Button
-            text="57"
-            text_font_size="text-3xl"
-            text_font_family="DM Sans"
-            text_font_weight="font-semibold"
-            text_line_height="leading-3xl"
-            text_text_align="center"
-            text_color="text-text-primary"
-            fill_background_color="bg-background-card"
-            border_border_radius="rounded-none rounded-b-xl"
-            border_border_right="border-r border-background-overlay"
-            border_border_left="border-l border-background-overlay"
-            border_border_bottom="border-b border-background-overlay"
-            padding="py-6 px-10"
-            className="w-full"
-          />
-        </div>
-      </List>
-
-      <List direction="row" className="gap-3 sm:gap-6 lg:gap-3">
-        <div className="flex-1 space-y-3 sm:space-y-6 lg:space-y-3">
-          <div className="bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2">
-            <div className="flex justify-end items-center mb-2">
-              <img src="/images/img_arrow_drop_up.svg" alt="Increase" className="w-3 h-3 mr-1" />
-              <span className="text-xs sm:text-sm font-normal text-text-dark">15%</span>
-            </div>
-
-            <div className="mb-4">
-              <div className="text-lg sm:text-xl font-semibold text-text-primary mb-1">
-                Portfolio ESG Rating
-              </div>
-              <div className="text-2xl sm:text-3xl lg:text-3xl font-semibold text-text-primary">
-                68%
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2">
-            <div className="space-y-2 sm:space-y-4 lg:space-y-2">
-              {esgRatings?.map((rating, index) => (
-                <div
-                  key={index}
-                  className="flex items-center gap-3 sm:gap-4 lg:gap-3 py-2 border-b border-border-light last:border-b-0"
-                >
-                  <img
-                    src={rating?.icon}
-                    alt={rating?.title}
-                    className="w-12 h-12 sm:w-14 sm:h-14"
-                  />
-                  <div className="flex-1">
-                    <div className="text-lg sm:text-xl font-normal text-text-primary">
-                      {rating?.percentage}
-                    </div>
-                    <div className="text-sm sm:text-lg font-bold text-text-primary">
-                      {rating?.title}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="flex-1 bg-background-light rounded-xl p-3 sm:p-6 lg:p-3">
-          <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">
-            Financed Emissions
-          </h3>
-          <div className="h-[450px]">
-            {typeof window !== 'undefined' && (
-              <ReactApexChart
-                options={financedEmissionsOptions}
-                series={financedEmissionsSeries}
-                type="area"
-                height="100%"
-              />
-            )}
-          </div>
-        </div>
-      </List>
-    </div>
-  );
 
   const DiamondCounter = ({ color, value }: { color: string; value: number | string }) => (
     <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -718,146 +878,8 @@ const PortfolioClimateRisk = () => {
           rx="1"
           ry="1"
         />
-        {/* <text x="0" y="4" textAnchor="middle" fontSize="10" fontWeight="700" fill="#FFFFFF">
-          {String(value)}
-        </text> */}
       </g>
     </svg>
-  );
-
-  const actionHubContent = (
-    <div className="space-y-3 sm:space-y-6 lg:space-y-3" style={{ background: '#f1f6ff' }}>
-      <Button
-        text="Action Hub"
-        text_font_size="text-md"
-        text_font_family="Inter"
-        text_font_weight="font-bold"
-        text_line_height="leading-lg"
-        text_text_align="center"
-        text_color="text-primary-dark"
-        fill_background_color="bg-background-light"
-        border_border_radius="rounded-none"
-        border_border_right=""
-        border_border_left=""
-        border_border_bottom=""
-        border_border_top="border-t-[1px] border-border-accent"
-        padding="py-3 px-8"
-        className="w-full"
-        style={{ background: 'white' }}
-      />
-      <div className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-0">
-        <List direction="row" className="gap-3 sm:gap-4 lg:gap-3 mb-4">
-          <div
-            className="flex-1 flex flex-col sm:flex-row justify-between items-center bg-[#ecf2ff7f] border-l-[3px] border-purple-500 rounded-none p-3 sm:p-4 lg:p-3 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
-            style={{ background: 'white' }}
-          >
-            <div>
-              <p className="text-sm sm:text-base font-semibold text-text-primary">Pending Items</p>
-              <p
-                className="text-2xl sm:text-base font-semibold text-text-primary"
-                style={{ fontSize: '24px' }}
-              >
-                5
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <DiamondCounter color="#8065B3" value="0" />
-            </div>
-          </div>
-          <div
-            className="flex-1 flex flex-col sm:flex-row justify-between items-center bg-[#ecf2ff7f] border-l-[3px] border-purple-500 rounded-none p-3 sm:p-4 lg:p-3 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
-            style={{ background: 'white' }}
-          >
-            <div>
-              <p className="text-sm sm:text-base font-semibold text-text-primary">
-                Critical Points
-              </p>
-              <p
-                className="text-2xl sm:text-base font-semibold text-text-primary"
-                style={{ fontSize: '24px' }}
-              >
-                3
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <DiamondCounter color="#EF4444" value={3} />
-            </div>
-          </div>
-        </List>
-
-        <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-2">
-          Task List
-        </h3>
-
-        <div
-          className="space-y-3 sm:space-y-6 lg:space-y-0  rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
-          style={{ height: 252, background: 'white' }}
-        >
-          {taskList?.map((task: any) => {
-            return (
-              <div
-                key={task?.id}
-                className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-3 sm:p-6 lg:p-3 border border-background-overlay rounded-base"
-              >
-                <img src="/images/purple-diamond.svg" alt="Review Pending" className="w-6 h-6" />
-                <div className="flex-1">
-                  <div className="text-md sm:text-base font-semibold text-text-primary">
-                    {task?.taskName}
-                  </div>
-                  <div className="text-sm sm:text-sm font-normal text-text-primary">
-                    {task?.taskDescription}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
-
-  const OldReductionTargetsCard = () => (
-    <div className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-3 space-y-4">
-      <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">
-        Reduction Targets
-      </h3>
-      <div className="space-y-2">
-        <div className="flex items-center justify-between p-2 border-b border-border-light last:border-b-0">
-          <div className="text-sm sm:text-base font-normal text-text-primary">Target 1</div>
-          <div className="text-sm sm:text-base font-semibold text-green-500">On Track</div>
-        </div>
-        <div className="flex items-center justify-between p-2 border-b border-border-light last:border-b-0">
-          <div className="text-sm sm:text-base font-normal text-text-primary">Target 2</div>
-          <div className="text-sm sm:text-base font-semibold text-yellow-500">At Risk</div>
-        </div>
-        <div className="flex items-center justify-between p-2 border-b border-border-light last:border-b-0">
-          <div className="text-sm sm:text-base font-normal text-text-primary">Target 3</div>
-          <div className="text-sm sm:text-base font-semibold text-green-500">On Track</div>
-        </div>
-      </div>
-    </div>
-  );
-
-  const OldComplianceStatusCard = () => (
-    <div className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-3 space-y-4">
-      <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-4">
-        Compliance Status
-      </h3>
-      <div className="space-y-2">
-        <div className="flex items-center justify-between p-2 border-b border-border-light last:border-b-0">
-          <div className="text-sm sm:text-base font-normal text-text-primary">Regulation A</div>
-          <div className="text-sm sm:text-base font-semibold text-green-500">In Compliance</div>
-        </div>
-        <div className="flex items-center justify-between p-2 border-b border-border-light last:border-b-0">
-          <div className="text-sm sm:text-base font-normal text-text-primary">Regulation B</div>
-          <div className="text-sm sm:text-base font-semibold text-red-500">Non-Compliant</div>
-        </div>
-        <div className="flex items-center justify-between p-2 border-b border-border-light last:border-b-0">
-          <div className="text-sm sm:text-base font-normal text-text-primary">Regulation C</div>
-          <div className="text-sm sm:text-base font-semibold text-green-500">In Compliance</div>
-        </div>
-      </div>
-    </div>
   );
 
   return (
@@ -912,13 +934,10 @@ const PortfolioClimateRisk = () => {
           </div>
         </div>
         <div className="w-full px-8" style={{ background: '#f8fafc' }}>
-          {/* <div className="bg-background-card rounded-none p-3 sm:p-6 lg:p-3 mb-3 overflow-y-auto"> */}
           <div className="rounded-none p-3 sm:p-6 lg:p-3 mb-3 overflow-y-auto">
             <div className="w-full py-3">
-              {/* <div className="w-100 py-4"> */}
-              {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-0"> */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-0">
-                {kpiData?.map((kpi: any, index: any) => (
+                {currentData.kpiData?.map((kpi: any, index: any) => (
                   <EmissionsKPICard
                     key={index}
                     title={kpi?.title}
@@ -937,7 +956,6 @@ const PortfolioClimateRisk = () => {
               <div className="space-y-3 sm:space-y-6 lg:space-y-3">
                 <List direction="row" className="gap-3 sm:gap-6 lg:gap-3">
                   <div
-                    // className="flex-1 bg-[#ecf2ff7f] border-l-[3px] border-amber-400 rounded-none p-2 sm:p-4 lg:p-2"
                     className="flex-1 bg-[#ecf2ff7f] border-l-[3px] border-purple-500 rounded-none p-2 sm:p-4 lg:p-2 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
                     style={{ background: 'white' }}
                   >
@@ -953,7 +971,7 @@ const PortfolioClimateRisk = () => {
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
                         <div className="text-2xl sm:text-3xl lg:text-3xl font-semibold text-gray-800 mb-0">
-                          28%
+                          {currentData.pchiValue}%
                         </div>
                         <div className="text-xs sm:text-base font-medium text-gray-800">
                           Portfolio Climate Hazard Index (PCHI)
@@ -1015,34 +1033,12 @@ const PortfolioClimateRisk = () => {
                       </div>
                     </div>
                   </div>
-                  <ExposureCard cardData={portfolioExposure} />
+                  <ExposureCard cardData={currentData.portfolioExposure} />
                 </List>
-                {/* <div
-                  // className="bg-[#ecf2ff7f] border-l-[3px] border-accent-warning rounded-none p-2 sm:p-4 lg:p-2"
-                  className="flex-1 bg-[#ecf2ff7f] border-l-[3px] border-purple-500 rounded-none p-2 sm:p-4 lg:p-2 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
-                  style={{ background: 'white' }}
-                >
-                  <div className="flex justify-end items-center mb-2">
-                    <img
-                      src="/images/img_arrow_drop_up.svg"
-                      alt="Increase"
-                      className="w-3 h-3 mr-1"
-                    />
-                    <span className="text-xs sm:text-sm font-normal text-text-dark">15%</span>
-                  </div>
-
-                  <div className="mb-2">
-                    <div className="text-lg sm:text-xl font-semibold text-text-primary mb-0">
-                      Portfolio ESG Rating
-                    </div>
-                    <div className="text-2xl sm:text-3xl lg:text-3xl font-semibold text-text-primary">
-                      68%
-                    </div>
-                  </div>
-                </div> */}
-                <RatingsCard cardData={ratingsCard} />
+                
+                <RatingsCard cardData={currentData.ratingsCard} />
+                
                 <div
-                  // className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-5"
                   className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-5 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
                   style={{ background: 'white' }}
                 >
@@ -1065,12 +1061,11 @@ const PortfolioClimateRisk = () => {
                   </div>
                 </div>
                 <EmissionsTrajectory />
-                {/* <ReductionTargetsCard /> */}
               </div>
 
               <div className="space-y-3 sm:space-y-6 lg:space-y-3">
                 <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
-                  {portfolioScopes?.map((scope, index) => (
+                  {currentData.portfolioScopes?.map((scope, index) => (
                     <div key={index} className="flex-1">
                       <div className="bg-background-light border border-border rounded-t-xl p-2 sm:p-4 lg:p-2">
                         <div className="flex justify-between items-center">
@@ -1101,12 +1096,11 @@ const PortfolioClimateRisk = () => {
                         </div>
                       </div>
                     </div>
-                    // <MetricsCardWithUnit cardData={portfolioScopes} idx={index} />
                   ))}
                 </List>
 
                 <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
-                  {portfolioOthers?.map((scope, index) => (
+                  {currentData.portfolioOthers?.map((scope, index) => (
                     <div key={index} className="flex-1">
                       <div className="bg-background-light border border-border rounded-t-xl p-2 sm:p-4 lg:p-2">
                         <div className="flex justify-between items-center">
@@ -1137,7 +1131,6 @@ const PortfolioClimateRisk = () => {
                         </div>
                       </div>
                     </div>
-                    // <MetricsCardWithUnit cardData={portfolioScopes} idx={index} />
                   ))}
                 </List>
 
@@ -1149,7 +1142,7 @@ const PortfolioClimateRisk = () => {
                         style={{ background: 'white' }}
                       >
                         <div className="space-y-2 sm:space-y-4 lg:space-y-4">
-                          {esgRatings?.map((rating, index) => (
+                          {currentData.esgRatings?.map((rating, index) => (
                             <div
                               key={index}
                               className="flex items-center gap-3 sm:gap-4 lg:gap-3 py-6 border-b border-border-light last:border-b-0"
@@ -1190,7 +1183,6 @@ const PortfolioClimateRisk = () => {
                           />
                         )}
                       </div>
-                      {/* <ComplianceStatusCard /> */}
                     </div>
                   </div>
                 </div>
@@ -1209,90 +1201,105 @@ const PortfolioClimateRisk = () => {
                 className="space-y-3 sm:space-y-6 lg:space-y-3"
                 style={{ background: '#f1f6ff' }}
               >
-                {/* Portfolio Risks & Opportunities section remains the same */}
-                <Button
-                  text="Portfolio Risks & Opportunities"
-                  text_font_size="text-md"
-                  text_font_family="Inter"
-                  text_font_weight="font-bold"
-                  text_line_height="leading-lg"
-                  text_text_align="center"
-                  text_color="text-primary-dark"
-                  fill_background_color="bg-background-light"
-                  border_border_radius="rounded-none"
-                  border_border_right=""
-                  border_border_left=""
-                  border_border_bottom=""
-                  border_border_top="border-t-[1px] border-border-accent"
-                  padding="py-3 px-8"
-                  className="w-full"
+                <div
+                  className="w-full py-3 px-8 text-center text-md font-bold text-primary-dark bg-white"
                   style={{ background: 'white' }}
-                />
+                >
+                  Portfolio Risks & Opportunities
+                </div>
 
                 <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
-                  {/* <div
-                    className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
-                    style={{ background: 'white' }}
-                  >
-                    <h4 className="text-md font-bold text-primary-dark mb-4">
-                      Top Performing Company
-                    </h4>
-                    <div className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-2 sm:p-4 lg:p-2 border border-background-overlay rounded-base">
-                      <div className="flex items-center gap-2 sm:gap-3 lg:gap-2">
-                        <img
-                          src={topCompany?.avatar}
-                          alt={topCompany?.name}
-                          className="w-6 h-6 rounded-2xl"
-                        />
-                        <span className="text-sm font-normal text-text-primary">
-                          {topCompany?.name}
-                        </span>
-                      </div>
-                      <Line
-                        fill_background_color="bg-background-overlay"
-                        {...{ 'w*h': '1*20' }}
-                        className="mx-2"
-                      />
-                      <div className="flex-1">
-                        <span className="text-base font-normal text-text-primary text-center block">
-                          {topCompany?.sector}
-                        </span>
-                      </div>
-                    </div>
-                  </div> */}
                   <PerformingCompanyCard companyInfo={topCompany} />
                   <PerformingCompanyCard companyInfo={bottomCompany} />
                 </List>
 
                 <List direction="row" className="gap-2 sm:gap-4 lg:gap-2">
-                  {/* <div
-                    className="flex-1 bg-white-A700 rounded-xl p-3 sm:p-6 lg:p-3 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
-                    style={{ background: 'white' }}
-                  >
-                    <h4 className="text-md font-bold text-primary-dark mb-4">Top 5 Industries</h4>
-                    <div className="mt-4 space-y-2">
-                      {top5Industries.map((industry, index) => (
-                        <div
-                          key={index}
-                          className="flex justify-between items-center py-2 border-b last:border-b-0 border-background-overlay"
-                        >
-                          <span className="text-sm font-normal text-text-primary">{industry}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div> */}
                   <IndustriesList industries={top5Industries} />
                   <IndustriesList industries={bottom5Industries} />
                 </List>
               </div>
 
-              <div className="space-y-3 sm:space-y-6 lg:space-y-3">{actionHubContent}</div>
+              <div className="space-y-3 sm:space-y-6 lg:space-y-3" style={{ background: '#f1f6ff' }}>
+                <div
+                  className="w-full py-3 px-8 text-center text-md font-bold text-primary-dark bg-white"
+                  style={{ background: 'white' }}
+                >
+                  Action Hub
+                </div>
+                <div className="bg-background-light rounded-xl p-3 sm:p-6 lg:p-0">
+                  <List direction="row" className="gap-3 sm:gap-4 lg:gap-3 mb-4">
+                    <div
+                      className="flex-1 flex flex-col sm:flex-row justify-between items-center bg-[#ecf2ff7f] border-l-[3px] border-purple-500 rounded-none p-3 sm:p-4 lg:p-3 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                      style={{ background: 'white' }}
+                    >
+                      <div>
+                        <p className="text-sm sm:text-base font-semibold text-text-primary">Pending Items</p>
+                        <p
+                          className="text-2xl sm:text-base font-semibold text-text-primary"
+                          style={{ fontSize: '24px' }}
+                        >
+                          5
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <DiamondCounter color="#8065B3" value="0" />
+                      </div>
+                    </div>
+                    <div
+                      className="flex-1 flex flex-col sm:flex-row justify-between items-center bg-[#ecf2ff7f] border-l-[3px] border-purple-500 rounded-none p-3 sm:p-4 lg:p-3 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                      style={{ background: 'white' }}
+                    >
+                      <div>
+                        <p className="text-sm sm:text-base font-semibold text-text-primary">
+                          Critical Points
+                        </p>
+                        <p
+                          className="text-2xl sm:text-base font-semibold text-text-primary"
+                          style={{ fontSize: '24px' }}
+                        >
+                          3
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <DiamondCounter color="#EF4444" value={3} />
+                      </div>
+                    </div>
+                  </List>
+
+                  <h3 className="text-md sm:text-lg font-bold text-primary-dark mb-4 sm:mb-6 lg:mb-2">
+                    Task List
+                  </h3>
+
+                  <div
+                    className="space-y-3 sm:space-y-6 lg:space-y-0  rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                    style={{ height: 252, background: 'white' }}
+                  >
+                    {taskList?.map((task: any) => {
+                      return (
+                        <div
+                          key={task?.id}
+                          className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-3 sm:p-6 lg:p-3 border border-background-overlay rounded-base"
+                        >
+                          <img src="/images/purple-diamond.svg" alt="Review Pending" className="w-6 h-6" />
+                          <div className="flex-1">
+                            <div className="text-md sm:text-base font-semibold text-text-primary">
+                              {task?.taskName}
+                            </div>
+                            <div className="text-sm sm:text-sm font-normal text-text-primary">
+                              {task?.taskDescription}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="mt-3 sm:mt-6 lg:mt-3">
               <EmissionsSummaryTable />
             </div>
-            {/* </div> */}
           </div>
         </div>
       </main>
