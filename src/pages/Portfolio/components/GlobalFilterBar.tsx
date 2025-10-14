@@ -20,17 +20,14 @@ interface GlobalFilterBarProps {
   onFiltersChange: (filters: FilterPayload) => void;
 }
 
-// 💡 KEY CHANGE: Exporting the sector-specific colors for use in MetricsRow.tsx
-// This ensures consistent coloring regardless of filter state.
 export const sectorColorMap: Record<string, string> = {
-  // These colors match the ones originally in MetricsRow.tsx
   'Energy': '#5DD0A7',
   'Technology': '#3B82F6',
   'Healthcare': '#10B981',
   'Transportation': '#F59E0B',
-  'Materials': '#EC4899', // Using a distinct color not present in original map
+  'Materials': '#EC4899',
   'Industrial': '#8B5CF6',
-  'primary': '#6366F1', // Backup general-purpose color
+  'primary': '#6366F1', 
 };
 
 const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) => {
@@ -124,7 +121,6 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
     
     onFiltersChange(resetFilters);
     
-    // NOTE: Removed unnecessary setTimeout which was compensating for the bug being fixed here.
     console.log('Filters reset - chart should maintain colors');
   };
 
