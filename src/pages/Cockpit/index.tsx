@@ -885,7 +885,7 @@ const PortfolioClimateRisk = () => {
   return (
     <>
       <Helmet>
-        <title>Cockpit | ESG Analytics Platform</title>
+        <title>Cockpit | BFSI</title>
         <meta
           name="description"
           content="Comprehensive climate risk assessment dashboard for investment portfolios. Monitor ESG ratings, emissions data, and climate hazard metrics for informed investment decisions."

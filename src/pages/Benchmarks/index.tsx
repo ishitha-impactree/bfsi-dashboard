@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Header from '../../components/common/Header';
 import Button from '../../components/ui/Button';
+import { Helmet } from 'react-helmet';
+
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface ChartDataPoint {
@@ -293,6 +295,23 @@ export default function BenchmarksPage() {
   const generalNews = newsItems.filter((item) => item.category === 'general');
 
   return (
+     <div className="w-full bg-[#f8fafc]">
+      <Helmet>
+        <title>Benchmarks | BFSI </title>
+        <meta
+          name="description"
+          content="Detailed ESG analysis and risk assessment for portfolio companies. Track company performance, sector insights, and industry benchmarks."
+        />
+        <meta
+          property="og:title"
+          content="Companies Statistics | ESG Analytics Platform"
+        />
+        <meta
+          property="og:description"
+          content="Detailed ESG analysis and risk assessment for portfolio companies"
+        />
+      </Helmet>
+      
     <div className="w-full" style={{ background: '#f8fafc' }}>
       <Header />
       <div
@@ -551,5 +570,6 @@ export default function BenchmarksPage() {
         </section>
       </main>
     </div>
+  </div>
   );
 }

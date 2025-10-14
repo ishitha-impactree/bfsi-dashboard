@@ -9,6 +9,7 @@ import RiskRankingTable from './components/RiskRankingTable';
 import ScenarioComparison from './components/ScenarioComparison';
 import StressTesting from './components/StressTesting';
 // import Icon from '../../components/AppIcon';
+import { Helmet } from 'react-helmet';
 
 // ---------- Types ----------
 interface Filters {
@@ -172,6 +173,23 @@ const Risks: React.FC = () => {
   };
 
   return (
+     <div className="w-full bg-[#f8fafc]">
+      <Helmet>
+        <title>Risks | BFSI </title>
+        <meta
+          name="description"
+          content="Detailed ESG analysis and risk assessment for portfolio companies. Track company performance, sector insights, and industry benchmarks."
+        />
+        <meta
+          property="og:title"
+          content="Companies Statistics | ESG Analytics Platform"
+        />
+        <meta
+          property="og:description"
+          content="Detailed ESG analysis and risk assessment for portfolio companies"
+        />
+      </Helmet>
+      
     <div className="min-h-screen" style={{ background: '#f8fafc' }}>
       <Header />
       <div
@@ -269,6 +287,7 @@ const Risks: React.FC = () => {
           {renderTabContent()}
         </div>
       </main>
+    </div>
     </div>
   );
 };

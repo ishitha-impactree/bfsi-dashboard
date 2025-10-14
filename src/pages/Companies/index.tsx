@@ -4,6 +4,7 @@ import Header from '../../components/common/Header';
 import Icon from '../../components/ui/AppIcon';
 import MetricsCard from '../../pages/Sectors/components/MetricsCard';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
+import { Helmet } from 'react-helmet';
 // resource-footprint charts
 import EnergyUsageChart, { 
   defaultData as defaultEnergyUsageData,   
@@ -226,13 +227,30 @@ const EditText = ({
   onChange: () => void;
 }) => {
   return (
-    <div
-      className={`flex justify-between items-center ${fill_background_color} border rounded-lg p-3 ${className} hover:bg-[#fffded]`}
-      style={{ border: border_border }}
-      onClick={onClick}
-    >
-      <span className="text-gray-700">{placeholder}</span>
-      <Icon name="ChevronsRight" size={14} />
+    <div className="w-full bg-[#f8fafc]">
+      <Helmet>
+        <title>Companies | BFSI</title>
+        <meta
+          name="description"
+          content="Detailed ESG analysis and risk assessment for portfolio companies. Track company performance, sector insights, and industry benchmarks."
+        />
+        <meta
+          property="og:title"
+          content="Companies Statistics | ESG Analytics Platform"
+        />
+        <meta
+          property="og:description"
+          content="Detailed ESG analysis and risk assessment for portfolio companies"
+        />
+      </Helmet>
+      <div
+        className={`flex justify-between items-center ${fill_background_color} border rounded-lg p-3 ${className} hover:bg-[#fffded]`}
+        style={{ border: border_border }}
+        onClick={onClick}
+      >
+        <span className="text-gray-700">{placeholder}</span>
+        <Icon name="ChevronsRight" size={14} />
+      </div>
     </div>
   );
 };

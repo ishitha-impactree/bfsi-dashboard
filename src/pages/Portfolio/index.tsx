@@ -45,7 +45,7 @@ const PortfolioAnalytics: React.FC = () => {
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>Portfolio Analytics | ESG Analytics Platform</title>
+        <title>Portfolio | BFSI</title>
         <meta
           name="description"
           content="Deep-dive emissions analysis across investment holdings for data-driven sustainable finance decisions"

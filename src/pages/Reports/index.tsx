@@ -9,6 +9,7 @@ import Icon from '../../components/ui/AppIcon';
 import Button from '../../components/reports/ui/Button';
 import Select from '../../components/ui/Select';
 import ButtonWithIcon from '../../components/ui/ButtonWithIcon';
+import { Helmet } from 'react-helmet';
 
 interface SelectOption {
   value: string;
@@ -89,6 +90,23 @@ const ComplianceReporting: React.FC = () => {
   ];
 
   return (
+     <div className="w-full bg-[#f8fafc]">
+      <Helmet>
+        <title>Reports | BFSI </title>
+        <meta
+          name="description"
+          content="Detailed ESG analysis and risk assessment for portfolio companies. Track company performance, sector insights, and industry benchmarks."
+        />
+        <meta
+          property="og:title"
+          content="Companies Statistics | ESG Analytics Platform"
+        />
+        <meta
+          property="og:description"
+          content="Detailed ESG analysis and risk assessment for portfolio companies"
+        />
+      </Helmet>
+      
     <div className="w-full" style={{ background: '#f8fafc' }}>
       <Header />
       <main>
@@ -296,6 +314,7 @@ const ComplianceReporting: React.FC = () => {
         </div>
       </main>
     </div>
+  </div>
   );
 };
 

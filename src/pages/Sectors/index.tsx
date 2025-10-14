@@ -441,7 +441,7 @@ const SectorsPerformanceAnalysis = () => {
   return (
     <>
       <Helmet>
-        <title>Sectors Performance Analysis Dashboard | ESG Portfolio Analytics Platform</title>
+        <title>Sectors | BFSI</title>
         <meta
           name="description"
           content="Comprehensive sector performance analysis with ESG ratings, climate risk metrics, and comparative industry benchmarks. Track environmental, social, and governance indicators across portfolio companies."
