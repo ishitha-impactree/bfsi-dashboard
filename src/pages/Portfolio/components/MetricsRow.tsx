@@ -30,6 +30,7 @@ const MetricsRow: React.FC<MetricsRowProps> = ({ filters }) => {
       'Industrial': '#8B5CF6',
     };
     
+    // Data provided by the user for the Global Equity Fund in Mt CO₂e, organized by region
     const globalEquityData: Record<string, Record<string, number>> = {
       'all': { 'Energy': 45.2, 'Technology': 28.7, 'Healthcare': 18.9, 'Transportation': 32.1, 'Materials': 15.4, 'Industrial': 24.6 },
       'asia-pacific': { 'Energy': 13.6, 'Technology': 10.2, 'Healthcare': 5.1, 'Transportation': 9.8, 'Materials': 4.5, 'Industrial': 7.4 },
@@ -39,6 +40,7 @@ const MetricsRow: React.FC<MetricsRowProps> = ({ filters }) => {
       'developed-markets': { 'Energy': 4.4, 'Technology': 2.7, 'Healthcare': 1.6, 'Transportation': 1.9, 'Materials': 1.8, 'Industrial': 2.5 },
     };
 
+    // Placeholder data for other funds (using 'tCO2e/$M' for placeholder values)
     const otherFundData: Record<string, EmissionData[]> = {
         'emerging-markets': [
             { category: 'Energy', emissions: 38.7, trend: -1.8, color: sectorColors.Energy },
@@ -75,14 +77,18 @@ const MetricsRow: React.FC<MetricsRowProps> = ({ filters }) => {
     };
 
     if (filters.portfolio !== 'global-equity') {
+        // When a non-Global Equity fund is selected, return its placeholder data.
+        // For simplicity, regional filters are ignored for other funds' placeholder data.
         return otherFundData[filters.portfolio] || otherFundData['emerging-markets'];
     }
 
+    // Logic for Global Equity Fund (uses the provided Mt CO₂e data)
     const regionEmissions = globalEquityData[filters.region];
     let data: EmissionData[] = [];
     let categories = Object.keys(regionEmissions);
 
     if (filters.category !== 'all') {
+      // Filter by specific category
       categories = [filters.category.charAt(0).toUpperCase() + filters.category.slice(1)];
     }
 
@@ -90,9 +96,11 @@ const MetricsRow: React.FC<MetricsRowProps> = ({ filters }) => {
       const categoryKey = cat.toLowerCase() as keyof typeof sectorColors; 
       const emissionsValue = regionEmissions[cat];
       
+      // Using dummy trend values for the Mt CO₂e data
       let trendValue = defaultTrend;
       if (cat === 'Energy') trendValue = -2.3;
       else if (cat === 'Technology') trendValue = -5.1;
+      
       data.push({
         category: cat,
         emissions: emissionsValue,
@@ -113,30 +121,9 @@ const MetricsRow: React.FC<MetricsRowProps> = ({ filters }) => {
       value: Math.abs(trend),
       isPositive,
       icon: isPositive ? 'TrendingUp' : 'TrendingDown',
+      // For emissions, UP is BAD (Danger/Red), DOWN is GOOD (Success/Green)
       color: isPositive ? 'text-accent-danger' : 'text-accent-success',
     };
-  };
-
-  const CustomTooltip = ({ active, payload, label }: any) => {
-    if (active && payload && payload.length) {
-      const unit = filters.portfolio === 'global-equity' ? 'Mt CO₂e' : 'tCO2e/$M';
-      return (
-        <div className="bg-card border border-border rounded-lg p-3 shadow-elevation-2">
-          <p className="font-medium text-foreground">{label}</p>
-          <p className="text-sm text-muted-foreground">
-            Emissions:{' '}
-            <span className="text-foreground font-medium">{payload[0].value.toFixed(1)} {unit}</span>
-          </p>
-          <p className="text-xs text-muted-foreground mt-1">
-            Portfolio: {portfolioLabels[filters.portfolio]}
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Region: {regionLabels[filters.region]}
-          </p>
-        </div>
-      );
-    }
-    return null;
   };
 
   const portfolioLabels: { [key: string]: string } = {
@@ -167,6 +154,29 @@ const MetricsRow: React.FC<MetricsRowProps> = ({ filters }) => {
   };
   
   const emissionsUnit = filters.portfolio === 'global-equity' ? 'Mt CO₂e' : 'tCO2e/$M';
+
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      const unit = filters.portfolio === 'global-equity' ? 'Mt CO₂e' : 'tCO2e/$M';
+      return (
+        <div className="bg-card border border-border rounded-lg p-3 shadow-elevation-2">
+          <p className="font-medium text-foreground">{label}</p>
+          <p className="text-sm text-muted-foreground">
+            Emissions:{' '}
+            <span className="text-foreground font-medium">{payload[0].value.toFixed(1)} {unit}</span>
+          </p>
+          <p className="text-xs text-muted-foreground mt-1">
+            Portfolio: {portfolioLabels[filters.portfolio]}
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Region: {regionLabels[filters.region]}
+          </p>
+        </div>
+      );
+    }
+    return null;
+  };
+
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-3">

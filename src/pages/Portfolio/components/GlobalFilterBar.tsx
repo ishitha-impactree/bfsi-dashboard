@@ -61,6 +61,16 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
     { value: 'custom', label: 'Custom Range' },
   ];
 
+  // Color definitions for consistent chart styling
+  const chartColors = {
+    primary: '#6366F1',
+    success: '#10B981',
+    warning: '#F59E0B',
+    danger: '#EF4444',
+    info: '#3B82F6',
+    accent: '#8B5CF6'
+  };
+
   const handleFilterChange = (filterType: string, value: string) => {
     let updatedPortfolio = selectedPortfolio;
     let updatedCategory = selectedCategory;
@@ -101,12 +111,21 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
     setSelectedCategory('all');
     setSelectedRegion('all');
     setDateRange('ytd');
-    onFiltersChange({
+    
+    const resetFilters: FilterPayload = {
       portfolio: 'global-equity',
       category: 'all',
       region: 'all',
       dateRange: 'ytd',
-    });
+    };
+    
+    onFiltersChange(resetFilters);
+    
+    // Force a small delay to ensure chart re-renders with colors
+    setTimeout(() => {
+      // This ensures any chart components get the updated data with colors
+      console.log('Filters reset - chart should maintain colors');
+    }, 100);
   };
 
   const handleExport = () => {

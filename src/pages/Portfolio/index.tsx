@@ -28,6 +28,18 @@ const PortfolioAnalytics: React.FC = () => {
   const handleFiltersChange = (newFilters: FiltersState) => {
     setFilters(newFilters);
     setIsLoading(true);
+    // Simulate loading completion
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+  };
+
+  // Color definitions for consistent styling across components
+  const metricCardColors = {
+    carbonIntensity: { bg: 'bg-primary/10', dot: 'bg-accent-info' },
+    esgCoverage: { bg: 'bg-success/10', dot: 'bg-accent-success' },
+    climateRisk: { bg: 'bg-warning/10', dot: 'bg-accent-warning' },
+    sbtiAlignment: { bg: 'bg-accent/10', dot: 'bg-accent-danger' }
   };
 
   return (
@@ -93,8 +105,8 @@ const PortfolioAnalytics: React.FC = () => {
               >
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="font-semibold text-foreground">Carbon Intensity</h4>
-                  <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <div className="w-3 h-3 bg-accent-info rounded-full"></div>
+                  <div className={`w-8 h-8 ${metricCardColors.carbonIntensity.bg} rounded-lg flex items-center justify-center`}>
+                    <div className={`w-3 h-3 ${metricCardColors.carbonIntensity.dot} rounded-full`}></div>
                   </div>
                 </div>
                 <div className="text-2xl font-bold text-foreground mb-1">24.7</div>
@@ -111,8 +123,8 @@ const PortfolioAnalytics: React.FC = () => {
               >
                 <div className="flex items-center justify-between mb-2">
                   <h4 className="font-semibold text-foreground">ESG Coverage</h4>
-                  <div className="w-8 h-8 bg-success/10 rounded-lg flex items-center justify-center">
-                    <div className="w-3 h-3 bg-accent-success rounded-full"></div>
+                  <div className={`w-8 h-8 ${metricCardColors.esgCoverage.bg} rounded-lg flex items-center justify-center`}>
+                    <div className={`w-3 h-3 ${metricCardColors.esgCoverage.dot} rounded-full`}></div>
                   </div>
                 </div>
                 <div className="text-2xl font-bold text-foreground mb-1">94.8%</div>
@@ -129,8 +141,8 @@ const PortfolioAnalytics: React.FC = () => {
               >
                 <div className="flex items-center justify-between mb-4">
                   <h4 className="font-semibold text-foreground">Climate Risk</h4>
-                  <div className="w-8 h-8 bg-warning/10 rounded-lg flex items-center justify-center">
-                    <div className="w-3 h-3 bg-accent-warning rounded-full"></div>
+                  <div className={`w-8 h-8 ${metricCardColors.climateRisk.bg} rounded-lg flex items-center justify-center`}>
+                    <div className={`w-3 h-3 ${metricCardColors.climateRisk.dot} rounded-full`}></div>
                   </div>
                 </div>
                 <div className="text-2xl font-bold text-foreground mb-1">Medium</div>
@@ -147,8 +159,8 @@ const PortfolioAnalytics: React.FC = () => {
               >
                 <div className="flex items-center justify-between mb-4">
                   <h4 className="font-semibold text-foreground">SBTi Alignment</h4>
-                  <div className="w-8 h-8 bg-accent/10 rounded-lg flex items-center justify-center">
-                    <div className="w-3 h-3 bg-accent-danger rounded-full"></div>
+                  <div className={`w-8 h-8 ${metricCardColors.sbtiAlignment.bg} rounded-lg flex items-center justify-center`}>
+                    <div className={`w-3 h-3 ${metricCardColors.sbtiAlignment.dot} rounded-full`}></div>
                   </div>
                 </div>
                 <div className="text-2xl font-bold text-foreground mb-1">67%</div>

@@ -134,7 +134,7 @@ const StressTesting: React.FC = () => {
     {
       title: 'Portfolio Impact',
       description: 'Expected loss under stress',
-      value: -12.5,
+      value: results.portfolioImpact,
       unit: '%',
       icon: 'TrendingDown',
       status: 'text-accent-danger',
@@ -142,7 +142,7 @@ const StressTesting: React.FC = () => {
     {
       title: 'Confidence Level',
       description: 'Statistical confidence',
-      value: 69,
+      value: results.confidence,
       unit: '%',
       icon: 'Target',
       status: 'text-accent-info',
@@ -150,7 +150,7 @@ const StressTesting: React.FC = () => {
     {
       title: 'Recovery Time',
       description: 'Expected recovery period',
-      value: 31,
+      value: results.timeToRecover,
       unit: 'mo',
       icon: 'Clock',
       status: 'text-accent-warning',
@@ -158,7 +158,7 @@ const StressTesting: React.FC = () => {
     {
       title: 'Worst Case',
       description: '5th percentile outcome',
-      value: -46.8,
+      value: results.worstCaseScenario,
       unit: '%',
       icon: 'AlertTriangle',
       status: 'text-accent-danger',
@@ -227,9 +227,10 @@ const StressTesting: React.FC = () => {
 
       {/* Results Summary */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-        {stressTestCard?.map((stressTest: any) => {
+        {stressTestCard?.map((stressTest: any, index: number) => {
           return (
             <div
+              key={index}
               className="bg-card border border-border rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
               style={{ background: 'white' }}
             >

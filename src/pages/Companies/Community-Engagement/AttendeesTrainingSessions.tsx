@@ -25,7 +25,7 @@ export const defaultAttendeesData = [
   { name: 'May', hiringRate: 590 },
   { name: 'Jun', hiringRate: 670 },
   { name: 'Jul', hiringRate: 710 },
-  { name: 'Aug', hiringRate: 590 },
+  { name: 'Aug', hiringRate: 690 },
   { name: 'Sep', hiringRate: 720 },
 ];
 
@@ -54,7 +54,7 @@ export const attendeesData2 = [ // LEONI India
 ];
 
 export const attendeesData3 = [ // Aptiv
-  { name: 'Jan', hiringRate: 550 },
+  { name: 'Jan', hiringRate: 500 },
   { name: 'Feb', hiringRate: 520 },
   { name: 'Mar', hiringRate: 540 },
   { name: 'Apr', hiringRate: 560 },
