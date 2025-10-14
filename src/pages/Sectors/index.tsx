@@ -7,8 +7,8 @@ import ESGChart from './components/ESGChart';
 import ScopeMetricsSection from './components/ScopeMetricsSection';
 import RiskBreakdownSection from './components/RiskBreakdownSection';
 import ThambiInsights from './components/ThambiInsights';
-import MetricsCard from './components/MetricsCard';
-import LoadingSpinner from '../../components/ui/LoadingSpinner';
+import MetricsCard from './components/MetricsCard'; 
+import LoadingSpinner from '../../components/ui/LoadingSpinner'; 
 
 interface ScopeMetricData {
   title: string;
@@ -24,12 +24,25 @@ interface ScopeMetricsData {
   portfolioOthers: ScopeMetricData[];
 }
 
+interface CompanyData {
+  companyName: string;
+  companyLogo: string;
+  environmentScore: string;
+  socialScore: string;
+  governanceScore: string;
+  totalScore: string;
+  environmentColor: string;
+  socialColor: string;
+  governanceColor: string;
+}
+
 interface FilterData {
   topCompany: any;
   bottomCompany: any;
   esgRatings: any[];
   scopeMetrics: ScopeMetricsData;
   esgChartData: any[];
+  companiesList: CompanyData[];
 }
 
 const defaultEsgChartData = [
@@ -62,6 +75,214 @@ const transportationAutomobilesEsgChartData = [
   { name: 'Dec', Environment: null, Social: null, Governance: null },
 ];
 
+//company data list 
+const baseCompanies: CompanyData[] = [
+    {
+      companyName: 'Eternal Limited',
+      companyLogo: '/images/companies/eternal-ltd-logo.png',
+      environmentScore: '95%',
+      socialScore: '96%',
+      governanceScore: '93%',
+      totalScore: '94.6%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Yum! Brands',
+      companyLogo: '/images/companies/yum-logo.png',
+      environmentScore: '95%',
+      socialScore: '96%',
+      governanceScore: '93%',
+      totalScore: '94.6%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'The Coca-Cola Company',
+      companyLogo: '/images/companies/cc-logo.png',
+      environmentScore: '95%',
+      socialScore: '96%',
+      governanceScore: '93%',
+      totalScore: '94.6%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Nike, Inc.',
+      companyLogo: '/images/companies/nike-logo.svg',
+      environmentScore: '95%',
+      socialScore: '96%',
+      governanceScore: '93%',
+      totalScore: '94.6%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Airbnb',
+      companyLogo: '/images/companies/airbnb-logo.svg',
+      environmentScore: '95%',
+      socialScore: '96%',
+      governanceScore: '93%',
+      totalScore: '94.6%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'The Boeing Company',
+      companyLogo: '/images/companies/boeing-logo.svg',
+      environmentScore: '95%',
+      socialScore: '96%',
+      governanceScore: '93%',
+      totalScore: '94.6%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Tata Sons Pvt. Ltd.',
+      companyLogo: '/images/companies/tata-logo.svg',
+      environmentScore: '95%',
+      socialScore: '96%',
+      governanceScore: '93%',
+      totalScore: '94.6%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Tesla, Inc.',
+      companyLogo: '/images/companies/tesla-logo.svg',
+      environmentScore: '95%',
+      socialScore: '96%',
+      governanceScore: '93%',
+      totalScore: '94.6%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+];
+
+/** List of companies from Motherson to LIL (for Transportation/Automobiles filter). */
+const transportationAutomobilesCompaniesList: CompanyData[] = [
+    {
+      companyName: 'Motherson Sumi Wiring India Ltd. (MSWIL)',
+      companyLogo: '/images/companies/motherson.jpg',
+      environmentScore: '74%',
+      socialScore: '58%',
+      governanceScore: '75%',
+      totalScore: '69%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Yazaki (Yazaki India)',
+      companyLogo: '/images/companies/yazaki.jpg',
+      environmentScore: '58%',
+      socialScore: '74%',
+      governanceScore: '75%',
+      totalScore: '69%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'LEONI India (LEONI Wiring Systems)',
+      companyLogo: '/images/companies/leoni.jpg',
+      environmentScore: '77%',
+      socialScore: '62%',
+      governanceScore: '82%',
+      totalScore: '74%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Aptiv Components India',
+      companyLogo: '/images/companies/aptiv.png',
+      environmentScore: '65%',
+      socialScore: '71%',
+      governanceScore: '69%',
+      totalScore: '68%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Bosch Limited (India)',
+      companyLogo: '/images/companies/bosch.png',
+      environmentScore: '85%',
+      socialScore: '75%',
+      governanceScore: '78%',
+      totalScore: '79%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Sona Comstar (Sona BLW / Sona Comstar)',
+      companyLogo: '/images/companies/sona-comstar.jpg',
+      environmentScore: '59%',
+      socialScore: '67%',
+      governanceScore: '64%',
+      totalScore: '63%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Uno Minda (Minda Corporation)',
+      companyLogo: '/images/companies/uno-minda.png',
+      environmentScore: '76%',
+      socialScore: '68%',
+      governanceScore: '71%',
+      totalScore: '72%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Furukawa Minda Electric (FME)',
+      companyLogo: '/images/companies/furukawa.jpg',
+      environmentScore: '52%',
+      socialScore: '58%',
+      governanceScore: '56%',
+      totalScore: '55%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Varroc Engineering Limited',
+      companyLogo: '/images/companies/varroc.jpg',
+      environmentScore: '70%',
+      socialScore: '65%',
+      governanceScore: '71%',
+      totalScore: '69%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+    {
+      companyName: 'Lumax Industries Limited (LIL)',
+      companyLogo: '/images/companies/lumax.png',
+      environmentScore: '79%',
+      socialScore: '72%',
+      governanceScore: '73%',
+      totalScore: '75%',
+      environmentColor: '#fba900',
+      socialColor: '#38c4f7',
+      governanceColor: '#5ee55e',
+    },
+];
+
+const masterCompaniesList: CompanyData[] = [...baseCompanies, ...transportationAutomobilesCompaniesList];
+
 const SectorsPerformanceAnalysis = () => {
   const [selectedSector, setSelectedSector] = useState('all');
   const [selectedIndustry, setSelectedIndustry] = useState('all');
@@ -70,84 +291,38 @@ const SectorsPerformanceAnalysis = () => {
 
   const defaultTopCompany = {
     performanceCategory: 'Top Performing Company',
-    avatar: '/images/companies/bosch.png',
+    avatar: '/images/companies/bosch.png', 
     name: 'Bosch Limited India',
-    sector: 'Automotive Technology and Services',
+    sector: 'Automobile Technology and Services ',
   };
 
   const defaultBottomCompany = {
     performanceCategory: 'Lowest Performing Company',
-    avatar: '/images/companies/furukawa.jpg',
+    avatar: '/images/companies/furukawa.jpg', 
     name: 'Furukawa Minda Electric (FME)',
     sector: 'Automotive Parts Manufacturing',
   };
 
   const defaultEsgRatings = [
-    {
-      percentage: '72%',
-      title: 'Sector Environment Rating',
-      color: '#4ade80',
-      icon: '/images/img_group_1000003546.svg',
-    },
-    {
-      percentage: '45%',
-      title: 'Sector Social Rating',
-      color: '#38bdf8',
-      icon: '/images/img_group_1000003546_light_blue_a200.svg',
-    },
-    {
-      percentage: '87%',
-      title: 'Sector Governance Rating',
-      color: '#f59e0b',
-      icon: '/images/img_group_1000003546_amber_a700.svg',
-    },
+    { percentage: '72%', title: 'Sector Environment Rating', color: '#4ade80', icon: '/images/img_group_1000003546.svg' },
+    { percentage: '45%', title: 'Sector Social Rating', color: '#38bdf8', icon: '/images/img_group_1000003546_light_blue_a200.svg' },
+    { percentage: '87%', title: 'Sector Governance Rating', color: '#f59e0b', icon: '/images/img_group_1000003546_amber_a700.svg' },
   ];
 
   const defaultScopeMetrics: ScopeMetricsData = {
     portfolioScopes: [
-      {
-        title: 'Total Scope 1',
-        value: '3,036,504',
-        unit: 't CO2e',
-        change: '10%',
-        isPositive: true,
-      },
-      {
-        title: 'Total Scope 2',
-        value: '3,711,282',
-        unit: 't CO2e',
-        change: '2%',
-        isPositive: false,
-      },
+      { title: 'Total Scope 1', value: '3,036,504', unit: 't CO2e', change: '10%', isPositive: true },
+      { title: 'Total Scope 2', value: '3,711,282', unit: 't CO2e', change: '2%', isPositive: false },
     ],
     scope3: [
-      {
-        title: 'Total Scope 3',
-        value: '60,730,080',
-        unit: 't CO2e',
-        change: '4%',
-        isPositive: true,
-      },
+      { title: 'Total Scope 3', value: '60,730,080', unit: 't CO2e', change: '4%', isPositive: true },
     ],
     portfolioOthers: [
-      {
-        title: 'LTIFR',
-        value: '2.4',
-        unit: '',
-        change: '20%',
-        isPositive: false,
-      },
-      {
-        title: 'Active Legal Cases',
-        value: '57',
-        unit: '',
-        change: '2.5%',
-        isPositive: false,
-      },
+      { title: 'LTIFR', value: '2.4', unit: '', change: '20%', isPositive: false },
+      { title: 'Active Legal Cases', value: '57', unit: '', change: '2.5%', isPositive: false },
     ],
   };
 
-  // Transportation/Automobiles filter data
   const transportationAutomobilesData: FilterData = {
     topCompany: {
       performanceCategory: 'Top Performing Company',
@@ -162,69 +337,25 @@ const SectorsPerformanceAnalysis = () => {
       sector: 'Automotive Parts Manufacturing',
     },
     esgRatings: [
-      {
-        percentage: '70%',
-        title: 'Sector Environment Rating',
-        color: '#4ade80',
-        icon: '/images/img_group_1000003546.svg',
-      },
-      {
-        percentage: '67%',
-        title: 'Sector Social Rating',
-        color: '#38bdf8',
-        icon: '/images/img_group_1000003546_light_blue_a200.svg',
-      },
-      {
-        percentage: '71%',
-        title: 'Sector Governance Rating',
-        color: '#f59e0b',
-        icon: '/images/img_group_1000003546_amber_a700.svg',
-      },
+      { percentage: '70%', title: 'Sector Environment Rating', color: '#4ade80', icon: '/images/img_group_1000003546.svg' },
+      { percentage: '67%', title: 'Sector Social Rating', color: '#38bdf8', icon: '/images/img_group_1000003546_light_blue_a200.svg' },
+      { percentage: '71%', title: 'Sector Governance Rating', color: '#f59e0b', icon: '/images/img_group_1000003546_amber_a700.svg' },
     ],
     scopeMetrics: {
       portfolioScopes: [
-        {
-          title: 'Total Scope 1',
-          value: '435,264',
-          unit: 't CO2e',
-          change: '10%',
-          isPositive: true,
-        },
-        {
-          title: 'Total Scope 2',
-          value: '931,212',
-          unit: 't CO2e',
-          change: '2%',
-          isPositive: false,
-        },
+        { title: 'Total Scope 1', value: '435,264', unit: 't CO2e', change: '10%', isPositive: true },
+        { title: 'Total Scope 2', value: '931,212', unit: 't CO2e', change: '2%', isPositive: false },
       ],
       scope3: [
-        {
-          title: 'Total Scope 3',
-          value: '2,450,380',
-          unit: 't CO2e',
-          change: '4%',
-          isPositive: true,
-        },
+        { title: 'Total Scope 3', value: '2,450,380', unit: 't CO2e', change: '4%', isPositive: true },
       ],
       portfolioOthers: [
-        {
-          title: 'LTIFR',
-          value: '3.7',
-          unit: '',
-          change: '20%',
-          isPositive: false,
-        },
-        {
-          title: 'Active Legal Cases',
-          value: '12',
-          unit: '',
-          change: '2.5%',
-          isPositive: false,
-        },
+        { title: 'LTIFR', value: '3.7', unit: '', change: '20%', isPositive: false },
+        { title: 'Active Legal Cases', value: '12', unit: '', change: '2.5%', isPositive: false },
       ],
     },
     esgChartData: transportationAutomobilesEsgChartData,
+    companiesList: transportationAutomobilesCompaniesList, 
   };
 
   const sectorOptions = [
@@ -262,6 +393,7 @@ const SectorsPerformanceAnalysis = () => {
   const handleApplyFilters = async () => {
     setIsLoading(true);
 
+    // Simulate API call or data processing delay
     await new Promise(resolve => setTimeout(resolve, 1500));
 
     setIsFilterApplied(true);
@@ -279,10 +411,10 @@ const SectorsPerformanceAnalysis = () => {
   };
 
   const handleResetFilters = () => {
-  setSelectedSector('all');
-  setSelectedIndustry('all');
-  setIsFilterApplied(false);
-};
+    setSelectedSector('all');
+    setSelectedIndustry('all');
+    setIsFilterApplied(false);
+  };
 
   const isTransportationAutomobiles =
     isFilterApplied && selectedSector === 'transportation' && selectedIndustry === 'automobiles';
@@ -293,16 +425,15 @@ const SectorsPerformanceAnalysis = () => {
     esgRatings: defaultEsgRatings,
     scopeMetrics: defaultScopeMetrics,
     esgChartData: defaultEsgChartData,
+    companiesList: masterCompaniesList, 
   };
 
   const getSectorDisplayName = () => {
-    if (!isFilterApplied && selectedSector === 'all') return 'All';
     const sector = sectorOptions.find(s => s.value === selectedSector);
     return sector ? sector.label : 'All';
   };
 
   const getIndustryDisplayName = () => {
-    if (!isFilterApplied && selectedIndustry === 'all') return 'All';
     const industry = industryOptions.find(i => i.value === selectedIndustry);
     return industry ? industry.label : 'All';
   };
@@ -374,7 +505,7 @@ const SectorsPerformanceAnalysis = () => {
                 <button
                   className="w-full sm:w-auto bg-accent-info text-white rounded-md px-4 py-2 text-sm flex items-center justify-center gap-2 min-w-[120px] disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={handleApplyFilters}
-                  disabled={isLoading}
+                  disabled={isLoading || (selectedSector === 'all' && selectedIndustry === 'all' && !isFilterApplied)}
                 >
                   {isLoading ? (
                     <>
@@ -491,7 +622,7 @@ const SectorsPerformanceAnalysis = () => {
                             hasLeftBorder={true}
                           />
                         </div>
-                        <div className="space-y-3 sm:space-y-6 lg:space-y-3">
+                        <div className="space-y-3 sm:space-y-6 lg:space-y-3 w-full sm:w-1/2">
                           <div
                             className="border-l-[3px] border-purple-500 rounded-none p-2 sm:p-4 lg:p-3 bg-card rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
                             style={{ background: 'white' }}
@@ -537,7 +668,8 @@ const SectorsPerformanceAnalysis = () => {
                     className="w-full p-2 bg-card rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
                     style={{ background: 'white' }}
                   >
-                    <CompaniesTable />
+                    {/* CompaniesTable now receives the filtered or default list */}
+                    <CompaniesTable companiesList={displayData.companiesList} />
                   </div>
                 </div>
 
