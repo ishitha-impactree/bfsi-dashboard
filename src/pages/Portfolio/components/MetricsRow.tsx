@@ -1,6 +1,8 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell, Tooltip } from 'recharts';
 import Icon from '../../../components/ui/AppIcon';
+// 💡 KEY CHANGE: Import the color map from the GlobalFilterBar component
+import { sectorColorMap } from './GlobalFilterBar'; 
 
 interface MetricsRowProps {
   filters: {
@@ -21,15 +23,9 @@ interface EmissionData {
 const MetricsRow: React.FC<MetricsRowProps> = ({ filters }) => {
   const getEmissionsData = (): EmissionData[] => {
     const defaultTrend = -3.8;
-    const sectorColors = {
-      'Energy': '#5DD0A7',
-      'Technology': '#3B82F6',
-      'Healthcare': '#10B981',
-      'Transportation': '#F59E0B',
-      'Materials': '#EC4899',
-      'Industrial': '#8B5CF6',
-    };
     
+    // ❌ REMOVED: Deleted the local sectorColors object to rely only on the imported sectorColorMap
+
     // Data provided by the user for the Global Equity Fund in Mt CO₂e, organized by region
     const globalEquityData: Record<string, Record<string, number>> = {
       'all': { 'Energy': 45.2, 'Technology': 28.7, 'Healthcare': 18.9, 'Transportation': 32.1, 'Materials': 15.4, 'Industrial': 24.6 },
@@ -43,42 +39,45 @@ const MetricsRow: React.FC<MetricsRowProps> = ({ filters }) => {
     // Placeholder data for other funds (using 'tCO2e/$M' for placeholder values)
     const otherFundData: Record<string, EmissionData[]> = {
         'emerging-markets': [
-            { category: 'Energy', emissions: 38.7, trend: -1.8, color: sectorColors.Energy },
-            { category: 'Technology', emissions: 22.4, trend: -6.5, color: sectorColors.Technology },
-            { category: 'Healthcare', emissions: 14.2, trend: -2.1, color: sectorColors.Healthcare },
-            { category: 'Transportation', emissions: 28.9, trend: -3.9, color: sectorColors.Transportation },
-            { category: 'Materials', emissions: 18.6, trend: -2.7, color: sectorColors.Materials },
-            { category: 'Industrial', emissions: 20.3, trend: -5.4, color: sectorColors.Industrial },
+            // 💡 Using imported sectorColorMap
+            { category: 'Energy', emissions: 38.7, trend: -1.8, color: sectorColorMap.Energy },
+            { category: 'Technology', emissions: 22.4, trend: -6.5, color: sectorColorMap.Technology },
+            { category: 'Healthcare', emissions: 14.2, trend: -2.1, color: sectorColorMap.Healthcare },
+            { category: 'Transportation', emissions: 28.9, trend: -3.9, color: sectorColorMap.Transportation },
+            { category: 'Materials', emissions: 18.6, trend: -2.7, color: sectorColorMap.Materials },
+            { category: 'Industrial', emissions: 20.3, trend: -5.4, color: sectorColorMap.Industrial },
         ],
         'sustainable-growth': [
-            { category: 'Energy', emissions: 22.1, trend: -4.2, color: sectorColors.Energy },
-            { category: 'Technology', emissions: 35.8, trend: -7.1, color: sectorColors.Technology },
-            { category: 'Healthcare', emissions: 25.4, trend: -3.5, color: sectorColors.Healthcare },
-            { category: 'Transportation', emissions: 18.7, trend: -5.8, color: sectorColors.Transportation },
-            { category: 'Materials', emissions: 12.3, trend: -4.1, color: sectorColors.Materials },
-            { category: 'Industrial', emissions: 16.9, trend: -6.9, color: sectorColors.Industrial },
+            // 💡 Using imported sectorColorMap
+            { category: 'Energy', emissions: 22.1, trend: -4.2, color: sectorColorMap.Energy },
+            { category: 'Technology', emissions: 35.8, trend: -7.1, color: sectorColorMap.Technology },
+            { category: 'Healthcare', emissions: 25.4, trend: -3.5, color: sectorColorMap.Healthcare },
+            { category: 'Transportation', emissions: 18.7, trend: -5.8, color: sectorColorMap.Transportation },
+            { category: 'Materials', emissions: 12.3, trend: -4.1, color: sectorColorMap.Materials },
+            { category: 'Industrial', emissions: 16.9, trend: -6.9, color: sectorColorMap.Industrial },
         ],
         'tech-innovation': [
-            { category: 'Energy', emissions: 8.4, trend: -1.2, color: sectorColors.Energy },
-            { category: 'Technology', emissions: 52.6, trend: -8.3, color: sectorColors.Technology },
-            { category: 'Healthcare', emissions: 12.8, trend: -2.8, color: sectorColors.Healthcare },
-            { category: 'Transportation', emissions: 15.2, trend: -4.5, color: sectorColors.Transportation },
-            { category: 'Materials', emissions: 6.9, trend: -3.1, color: sectorColors.Materials },
-            { category: 'Industrial', emissions: 11.4, trend: -5.7, color: sectorColors.Industrial },
+            // 💡 Using imported sectorColorMap
+            { category: 'Energy', emissions: 8.4, trend: -1.2, color: sectorColorMap.Energy },
+            { category: 'Technology', emissions: 52.6, trend: -8.3, color: sectorColorMap.Technology },
+            { category: 'Healthcare', emissions: 12.8, trend: -2.8, color: sectorColorMap.Healthcare },
+            { category: 'Transportation', emissions: 15.2, trend: -4.5, color: sectorColorMap.Transportation },
+            { category: 'Materials', emissions: 6.9, trend: -3.1, color: sectorColorMap.Materials },
+            { category: 'Industrial', emissions: 11.4, trend: -5.7, color: sectorColorMap.Industrial },
         ],
         'infrastructure': [
-            { category: 'Energy', emissions: 41.8, trend: -2.8, color: sectorColors.Energy },
-            { category: 'Technology', emissions: 15.3, trend: -3.4, color: sectorColors.Technology },
-            { category: 'Healthcare', emissions: 9.7, trend: -1.4, color: sectorColors.Healthcare },
-            { category: 'Transportation', emissions: 38.5, trend: -3.2, color: sectorColors.Transportation },
-            { category: 'Materials', emissions: 24.1, trend: -2.5, color: sectorColors.Materials },
-            { category: 'Industrial', emissions: 32.8, trend: -4.1, color: sectorColors.Industrial },
+            // 💡 Using imported sectorColorMap
+            { category: 'Energy', emissions: 41.8, trend: -2.8, color: sectorColorMap.Energy },
+            { category: 'Technology', emissions: 15.3, trend: -3.4, color: sectorColorMap.Technology },
+            { category: 'Healthcare', emissions: 9.7, trend: -1.4, color: sectorColorMap.Healthcare },
+            { category: 'Transportation', emissions: 38.5, trend: -3.2, color: sectorColorMap.Transportation },
+            { category: 'Materials', emissions: 24.1, trend: -2.5, color: sectorColorMap.Materials },
+            { category: 'Industrial', emissions: 32.8, trend: -4.1, color: sectorColorMap.Industrial },
         ],
     };
 
     if (filters.portfolio !== 'global-equity') {
         // When a non-Global Equity fund is selected, return its placeholder data.
-        // For simplicity, regional filters are ignored for other funds' placeholder data.
         return otherFundData[filters.portfolio] || otherFundData['emerging-markets'];
     }
 
@@ -93,7 +92,8 @@ const MetricsRow: React.FC<MetricsRowProps> = ({ filters }) => {
     }
 
     categories.forEach((cat) => {
-      const categoryKey = cat.toLowerCase() as keyof typeof sectorColors; 
+      // 💡 KEY FIX: Use the category name (capitalized) to look up the color in the map.
+      const categoryKey = cat as keyof typeof sectorColorMap; 
       const emissionsValue = regionEmissions[cat];
       
       // Using dummy trend values for the Mt CO₂e data
@@ -105,7 +105,8 @@ const MetricsRow: React.FC<MetricsRowProps> = ({ filters }) => {
         category: cat,
         emissions: emissionsValue,
         trend: trendValue,
-        color: sectorColors[categoryKey] || '#374151',
+        // 💡 Ensure a color is always assigned. Fallback to 'primary' if key not found.
+        color: sectorColorMap[categoryKey] || sectorColorMap.primary, 
       });
     });
 

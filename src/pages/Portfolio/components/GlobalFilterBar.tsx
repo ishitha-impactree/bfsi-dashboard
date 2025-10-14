@@ -20,6 +20,19 @@ interface GlobalFilterBarProps {
   onFiltersChange: (filters: FilterPayload) => void;
 }
 
+// 💡 KEY CHANGE: Exporting the sector-specific colors for use in MetricsRow.tsx
+// This ensures consistent coloring regardless of filter state.
+export const sectorColorMap: Record<string, string> = {
+  // These colors match the ones originally in MetricsRow.tsx
+  'Energy': '#5DD0A7',
+  'Technology': '#3B82F6',
+  'Healthcare': '#10B981',
+  'Transportation': '#F59E0B',
+  'Materials': '#EC4899', // Using a distinct color not present in original map
+  'Industrial': '#8B5CF6',
+  'primary': '#6366F1', // Backup general-purpose color
+};
+
 const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) => {
   const [selectedPortfolio, setSelectedPortfolio] = useState<string>('global-equity');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -60,17 +73,7 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
     { value: '5y', label: 'Last 5 Years' },
     { value: 'custom', label: 'Custom Range' },
   ];
-
-  // Color definitions for consistent chart styling
-  const chartColors = {
-    primary: '#6366F1',
-    success: '#10B981',
-    warning: '#F59E0B',
-    danger: '#EF4444',
-    info: '#3B82F6',
-    accent: '#8B5CF6'
-  };
-
+  
   const handleFilterChange = (filterType: string, value: string) => {
     let updatedPortfolio = selectedPortfolio;
     let updatedCategory = selectedCategory;
@@ -121,11 +124,8 @@ const GlobalFilterBar: React.FC<GlobalFilterBarProps> = ({ onFiltersChange }) =>
     
     onFiltersChange(resetFilters);
     
-    // Force a small delay to ensure chart re-renders with colors
-    setTimeout(() => {
-      // This ensures any chart components get the updated data with colors
-      console.log('Filters reset - chart should maintain colors');
-    }, 100);
+    // NOTE: Removed unnecessary setTimeout which was compensating for the bug being fixed here.
+    console.log('Filters reset - chart should maintain colors');
   };
 
   const handleExport = () => {
