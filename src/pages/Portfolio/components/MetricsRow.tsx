@@ -1,7 +1,6 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell, Tooltip } from 'recharts';
 import Icon from '../../../components/ui/AppIcon';
-// 💡 KEY CHANGE: Import the color map from the GlobalFilterBar component
 import { sectorColorMap } from './GlobalFilterBar'; 
 
 interface MetricsRowProps {
@@ -23,10 +22,6 @@ interface EmissionData {
 const MetricsRow: React.FC<MetricsRowProps> = ({ filters }) => {
   const getEmissionsData = (): EmissionData[] => {
     const defaultTrend = -3.8;
-    
-    // ❌ REMOVED: Deleted the local sectorColors object to rely only on the imported sectorColorMap
-
-    // Data provided by the user for the Global Equity Fund in Mt CO₂e, organized by region
     const globalEquityData: Record<string, Record<string, number>> = {
       'all': { 'Energy': 45.2, 'Technology': 28.7, 'Healthcare': 18.9, 'Transportation': 32.1, 'Materials': 15.4, 'Industrial': 24.6 },
       'asia-pacific': { 'Energy': 13.6, 'Technology': 10.2, 'Healthcare': 5.1, 'Transportation': 9.8, 'Materials': 4.5, 'Industrial': 7.4 },
@@ -36,10 +31,8 @@ const MetricsRow: React.FC<MetricsRowProps> = ({ filters }) => {
       'developed-markets': { 'Energy': 4.4, 'Technology': 2.7, 'Healthcare': 1.6, 'Transportation': 1.9, 'Materials': 1.8, 'Industrial': 2.5 },
     };
 
-    // Placeholder data for other funds (using 'tCO2e/$M' for placeholder values)
     const otherFundData: Record<string, EmissionData[]> = {
         'emerging-markets': [
-            // 💡 Using imported sectorColorMap
             { category: 'Energy', emissions: 38.7, trend: -1.8, color: sectorColorMap.Energy },
             { category: 'Technology', emissions: 22.4, trend: -6.5, color: sectorColorMap.Technology },
             { category: 'Healthcare', emissions: 14.2, trend: -2.1, color: sectorColorMap.Healthcare },
@@ -48,7 +41,6 @@ const MetricsRow: React.FC<MetricsRowProps> = ({ filters }) => {
             { category: 'Industrial', emissions: 20.3, trend: -5.4, color: sectorColorMap.Industrial },
         ],
         'sustainable-growth': [
-            // 💡 Using imported sectorColorMap
             { category: 'Energy', emissions: 22.1, trend: -4.2, color: sectorColorMap.Energy },
             { category: 'Technology', emissions: 35.8, trend: -7.1, color: sectorColorMap.Technology },
             { category: 'Healthcare', emissions: 25.4, trend: -3.5, color: sectorColorMap.Healthcare },
@@ -57,7 +49,6 @@ const MetricsRow: React.FC<MetricsRowProps> = ({ filters }) => {
             { category: 'Industrial', emissions: 16.9, trend: -6.9, color: sectorColorMap.Industrial },
         ],
         'tech-innovation': [
-            // 💡 Using imported sectorColorMap
             { category: 'Energy', emissions: 8.4, trend: -1.2, color: sectorColorMap.Energy },
             { category: 'Technology', emissions: 52.6, trend: -8.3, color: sectorColorMap.Technology },
             { category: 'Healthcare', emissions: 12.8, trend: -2.8, color: sectorColorMap.Healthcare },
@@ -66,7 +57,6 @@ const MetricsRow: React.FC<MetricsRowProps> = ({ filters }) => {
             { category: 'Industrial', emissions: 11.4, trend: -5.7, color: sectorColorMap.Industrial },
         ],
         'infrastructure': [
-            // 💡 Using imported sectorColorMap
             { category: 'Energy', emissions: 41.8, trend: -2.8, color: sectorColorMap.Energy },
             { category: 'Technology', emissions: 15.3, trend: -3.4, color: sectorColorMap.Technology },
             { category: 'Healthcare', emissions: 9.7, trend: -1.4, color: sectorColorMap.Healthcare },
@@ -77,26 +67,21 @@ const MetricsRow: React.FC<MetricsRowProps> = ({ filters }) => {
     };
 
     if (filters.portfolio !== 'global-equity') {
-        // When a non-Global Equity fund is selected, return its placeholder data.
         return otherFundData[filters.portfolio] || otherFundData['emerging-markets'];
     }
 
-    // Logic for Global Equity Fund (uses the provided Mt CO₂e data)
     const regionEmissions = globalEquityData[filters.region];
     let data: EmissionData[] = [];
     let categories = Object.keys(regionEmissions);
 
     if (filters.category !== 'all') {
-      // Filter by specific category
       categories = [filters.category.charAt(0).toUpperCase() + filters.category.slice(1)];
     }
 
     categories.forEach((cat) => {
-      // 💡 KEY FIX: Use the category name (capitalized) to look up the color in the map.
       const categoryKey = cat as keyof typeof sectorColorMap; 
       const emissionsValue = regionEmissions[cat];
-      
-      // Using dummy trend values for the Mt CO₂e data
+    
       let trendValue = defaultTrend;
       if (cat === 'Energy') trendValue = -2.3;
       else if (cat === 'Technology') trendValue = -5.1;
@@ -105,7 +90,6 @@ const MetricsRow: React.FC<MetricsRowProps> = ({ filters }) => {
         category: cat,
         emissions: emissionsValue,
         trend: trendValue,
-        // 💡 Ensure a color is always assigned. Fallback to 'primary' if key not found.
         color: sectorColorMap[categoryKey] || sectorColorMap.primary, 
       });
     });
@@ -122,7 +106,6 @@ const MetricsRow: React.FC<MetricsRowProps> = ({ filters }) => {
       value: Math.abs(trend),
       isPositive,
       icon: isPositive ? 'TrendingUp' : 'TrendingDown',
-      // For emissions, UP is BAD (Danger/Red), DOWN is GOOD (Success/Green)
       color: isPositive ? 'text-accent-danger' : 'text-accent-success',
     };
   };
