@@ -1,11 +1,12 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Header from '../../components/common/Header';
 import Icon from '../../components/ui/AppIcon';
 import MetricsCard from '../../pages/Sectors/components/MetricsCard';
 import LoadingSpinner from '../../components/ui/LoadingSpinner';
 // resource-footprint charts
-import EnergyUsageChart, { defaultData as defaultEnergyUsageData,   
+import EnergyUsageChart, { 
+  defaultData as defaultEnergyUsageData,   
   energyUsageData1,
   energyUsageData2,
   energyUsageData3,
@@ -238,7 +239,7 @@ const EditText = ({
 
 const CompaniesStatistics = () => {
   const [companies, setCompanies] = useState<Company[]>([]);
-  const [selectedCompany, setSelectedCompany] = useState<string>('Motherson Sumi Wiring India Ltd. (MSWIL)');
+  const [selectedCompany, setSelectedCompany] = useState<string>('Toyota Motor Company');
   const [activeTab, setActiveTab] = useState<string>('Overview');
   const [esgData, setESGData] = useState<ESGData | null>(null);
   const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
@@ -252,11 +253,41 @@ const CompaniesStatistics = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredCompanies = Array.isArray(companies)
-    ? companies.filter((company: any) =>
-        company?.name?.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : [];
+  const filteredCompaniesBySectorIndustry = useMemo(() => {
+    if (appliedSector === 'all' && appliedIndustry === 'all') {
+      return companies;
+    }
+    
+    // post filtering when transportation and automobile is chosen 
+    if (appliedSector === 'transportation' && appliedIndustry === 'automobiles') {
+      return companies.filter(company => 
+        [
+          'Motherson Sumi Wiring India Ltd. (MSWIL)',
+          'Yazaki (Yazaki India)',
+          'LEONI India (LEONI Wiring Systems)',
+          'Aptiv Components India',
+          'Bosch Limited (India)',
+          'Sona Comstar (Sona BLW / Sona Comstar)',
+          'Uno Minda (Minda Corporation)',
+          'Furukawa Minda Electric (FME)',
+          'Varroc Engineering Limited',
+          'Lumax Industries Limited (LIL)'
+        ].includes(company.name)
+      );
+    }
+    
+    return companies;
+  }, [companies, appliedSector, appliedIndustry]);
+
+  const filteredCompanies = useMemo(() => {
+    const baseCompanies = isFilterApplied ? filteredCompaniesBySectorIndustry : companies;
+    
+    return Array.isArray(baseCompanies)
+      ? baseCompanies.filter((company: any) =>
+          company?.name?.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      : [];
+  }, [companies, filteredCompaniesBySectorIndustry, searchTerm, isFilterApplied]);
 
   const sectorOptions = [
     { value: 'all', label: 'All' },
@@ -297,16 +328,24 @@ const CompaniesStatistics = () => {
       // Simulate API call delay
       setTimeout(() => {
         setCompanies([
-          { id: '1', name: 'Motherson Sumi Wiring India Ltd. (MSWIL)', selected: true },
-          { id: '2', name: 'Yazaki (Yazaki India)' },
-          { id: '4', name: 'LEONI India (LEONI Wiring Systems)' },
-          { id: '5', name: 'Aptiv Components India' },
-          { id: '6', name: 'Bosch Limited (India)' },
-          { id: '7', name: 'Sona Comstar (Sona BLW / Sona Comstar)' },
-          { id: '8', name: 'Uno Minda (Minda Corporation)' },
-          {id:  '9', name: 'Furukawa Minda Electric (FME)'},
-          {id: '10', name: 'Varroc Engineering Limited'},
-          {id: '11', name: 'Lumax Industries Limited (LIL)'},
+          { id: '1', name: 'Toyota Motor Company', selected: true },
+          { id: '2', name: 'Volkswagen AG' },
+          { id: '3', name: 'Mercedes-Benz Group' },
+          { id: '4', name: 'Ford Motor Company' },
+          { id: '5', name: 'General Motors Company' },
+          { id: '6', name: 'Hyundai Motor Group' },
+          { id: '7', name: 'Fiat Chrysler Automobiles N.V.' },
+          { id: '8', name: 'Mitsubishi Motors' },
+          { id: '9', name: 'Motherson Sumi Wiring India Ltd. (MSWIL)' },
+          { id: '10', name: 'Yazaki (Yazaki India)' },
+          { id: '11', name: 'LEONI India (LEONI Wiring Systems)' },
+          { id: '12', name: 'Aptiv Components India' },
+          { id: '13', name: 'Bosch Limited (India)' },
+          { id: '14', name: 'Sona Comstar (Sona BLW / Sona Comstar)' },
+          { id: '15', name: 'Uno Minda (Minda Corporation)' },
+          { id: '16', name: 'Furukawa Minda Electric (FME)' },
+          { id: '17', name: 'Varroc Engineering Limited' },
+          { id: '18', name: 'Lumax Industries Limited (LIL)' },
         ]);
 
         setESGData({
@@ -369,7 +408,7 @@ const CompaniesStatistics = () => {
   const handleApplyFilters = () => {
     setIsLoading(true);
     
-    // Simulate filter application delay
+    // filter application delay
     setTimeout(() => {
       setAppliedSector(selectedSector);
       setAppliedIndustry(selectedIndustry);
@@ -609,8 +648,336 @@ const tabs = [
     },
   ];
 
+  const esgRatingsToyota = [
+    {
+      percentage: '85%',
+      title: 'Environment Rating',
+      color: '#4ade80',
+      icon: '/images/img_group_1000003546.svg',
+    },
+    {
+      percentage: '78%',
+      title: 'Social Rating',
+      color: '#38bdf8',
+      icon: '/images/img_group_1000003546_light_blue_a200.svg',
+    },
+    {
+      percentage: '83%',
+      title: 'Governance Rating',
+      color: '#f59e0b',
+      icon: '/images/img_group_1000003546_amber_a700.svg',
+    },
+  ];
+
+  const esgRatingsVolkswagen = [
+    {
+      percentage: '72%',
+      title: 'Environment Rating',
+      color: '#4ade80',
+      icon: '/images/img_group_1000003546.svg',
+    },
+    {
+      percentage: '68%',
+      title: 'Social Rating',
+      color: '#38bdf8',
+      icon: '/images/img_group_1000003546_light_blue_a200.svg',
+    },
+    {
+      percentage: '75%',
+      title: 'Governance Rating',
+      color: '#f59e0b',
+      icon: '/images/img_group_1000003546_amber_a700.svg',
+    },
+  ];
+
+  const esgRatingsMercedes = [
+    {
+      percentage: '80%',
+      title: 'Environment Rating',
+      color: '#4ade80',
+      icon: '/images/img_group_1000003546.svg',
+    },
+    {
+      percentage: '74%',
+      title: 'Social Rating',
+      color: '#38bdf8',
+      icon: '/images/img_group_1000003546_light_blue_a200.svg',
+    },
+    {
+      percentage: '79%',
+      title: 'Governance Rating',
+      color: '#f59e0b',
+      icon: '/images/img_group_1000003546_amber_a700.svg',
+    },
+  ];
+
+  const esgRatingsFord = [
+    {
+      percentage: '70%',
+      title: 'Environment Rating',
+      color: '#4ade80',
+      icon: '/images/img_group_1000003546.svg',
+    },
+    {
+      percentage: '72%',
+      title: 'Social Rating',
+      color: '#38bdf8',
+      icon: '/images/img_group_1000003546_light_blue_a200.svg',
+    },
+    {
+      percentage: '76%',
+      title: 'Governance Rating',
+      color: '#f59e0b',
+      icon: '/images/img_group_1000003546_amber_a700.svg',
+    },
+  ];
+
+  const esgRatingsGM = [
+    {
+      percentage: '75%',
+      title: 'Environment Rating',
+      color: '#4ade80',
+      icon: '/images/img_group_1000003546.svg',
+    },
+    {
+      percentage: '70%',
+      title: 'Social Rating',
+      color: '#38bdf8',
+      icon: '/images/img_group_1000003546_light_blue_a200.svg',
+    },
+    {
+      percentage: '78%',
+      title: 'Governance Rating',
+      color: '#f59e0b',
+      icon: '/images/img_group_1000003546_amber_a700.svg',
+    },
+  ];
+
+  const esgRatingsHyundai = [
+    {
+      percentage: '78%',
+      title: 'Environment Rating',
+      color: '#4ade80',
+      icon: '/images/img_group_1000003546.svg',
+    },
+    {
+      percentage: '76%',
+      title: 'Social Rating',
+      color: '#38bdf8',
+      icon: '/images/img_group_1000003546_light_blue_a200.svg',
+    },
+    {
+      percentage: '74%',
+      title: 'Governance Rating',
+      color: '#f59e0b',
+      icon: '/images/img_group_1000003546_amber_a700.svg',
+    },
+  ];
+
+  const esgRatingsFiat = [
+    {
+      percentage: '65%',
+      title: 'Environment Rating',
+      color: '#4ade80',
+      icon: '/images/img_group_1000003546.svg',
+    },
+    {
+      percentage: '69%',
+      title: 'Social Rating',
+      color: '#38bdf8',
+      icon: '/images/img_group_1000003546_light_blue_a200.svg',
+    },
+    {
+      percentage: '71%',
+      title: 'Governance Rating',
+      color: '#f59e0b',
+      icon: '/images/img_group_1000003546_amber_a700.svg',
+    },
+  ];
+
+  const esgRatingsMitsubishi = [
+    {
+      percentage: '68%',
+      title: 'Environment Rating',
+      color: '#4ade80',
+      icon: '/images/img_group_1000003546.svg',
+    },
+    {
+      percentage: '72%',
+      title: 'Social Rating',
+      color: '#38bdf8',
+      icon: '/images/img_group_1000003546_light_blue_a200.svg',
+    },
+    {
+      percentage: '70%',
+      title: 'Governance Rating',
+      color: '#f59e0b',
+      icon: '/images/img_group_1000003546_amber_a700.svg',
+    },
+  ];
+
       const getCompanyData = () => {
         switch(selectedCompany) {
+          case 'Toyota Motor Company':
+            return {
+              exposure: { value: '275,000', unit: 'Million', change: '12%', positive: true },
+              esgScore: { value: '82%', change: '15%', positive: true },
+              pchi: { value: '18%', change: '25%', positive: true },
+              ratings: esgRatingsToyota,
+              chartData: defaultData,
+              energyUsed: { value: '2,500,000', unit: 'GJ', change: '-8%', positive: true },
+              eui: { value: '18.5', unit: 'GJ / INR Cr', change: '-12%', positive: true },
+              energyChartData: defaultEnergyData,
+              energyUsageData: defaultEnergyUsageData,
+              totalManpower: { value: '370,000', unit: 'Employees', change: '5%', positive: true },
+              ltifr: { value: '0.28', unit: 'per 200k hours', change: '-15%', positive: true },
+              employeeChartData: defaultEmployeeData,
+              hiringData: defaultHiringData,
+              csrInitiatives: { value: '45', unit: 'Initiatives', change: '18%', positive: true },
+              beneficiaries: { value: '125,000', unit: 'People', change: '22%', positive: true },
+              trainingSessionsData: defaultTrainingData,
+              attendeesData: defaultAttendeesData
+            };
+          case 'Volkswagen AG':
+            return {
+              exposure: { value: '280,500', unit: 'Million', change: '8%', positive: true },
+              esgScore: { value: '72%', change: '12%', positive: true },
+              pchi: { value: '22%', change: '18%', positive: true },
+              ratings: esgRatingsVolkswagen,
+              chartData: data1,
+              energyUsed: { value: '2,800,000', unit: 'GJ', change: '-5%', positive: true },
+              eui: { value: '20.1', unit: 'GJ / INR Cr', change: '-8%', positive: true },
+              energyChartData: energyData1,
+              energyUsageData: energyUsageData1,
+              totalManpower: { value: '330,000', unit: 'Employees', change: '3%', positive: true },
+              ltifr: { value: '0.32', unit: 'per 200k hours', change: '-12%', positive: true },
+              employeeChartData: employeeData1,
+              hiringData: hiringData1,
+              csrInitiatives: { value: '38', unit: 'Initiatives', change: '15%', positive: true },
+              beneficiaries: { value: '98,000', unit: 'People', change: '20%', positive: true },
+              trainingSessionsData: trainingData1,
+              attendeesData: attendeesData1
+            };
+          case 'Mercedes-Benz Group':
+            return {
+              exposure: { value: '148,200', unit: 'Million', change: '10%', positive: true },
+              esgScore: { value: '78%', change: '14%', positive: true },
+              pchi: { value: '16%', change: '22%', positive: true },
+              ratings: esgRatingsMercedes,
+              chartData: data2,
+              energyUsed: { value: '1,850,000', unit: 'GJ', change: '-10%', positive: true },
+              eui: { value: '16.8', unit: 'GJ / INR Cr', change: '-15%', positive: true },
+              energyChartData: energyData2,
+              energyUsageData: energyUsageData2,
+              totalManpower: { value: '172,000', unit: 'Employees', change: '4%', positive: true },
+              ltifr: { value: '0.25', unit: 'per 200k hours', change: '-18%', positive: true },
+              employeeChartData: employeeData2,
+              hiringData: hiringData2,
+              csrInitiatives: { value: '32', unit: 'Initiatives', change: '12%', positive: true },
+              beneficiaries: { value: '75,000', unit: 'People', change: '18%', positive: true },
+              trainingSessionsData: trainingData2,
+              attendeesData: attendeesData2
+            };
+          case 'Ford Motor Company':
+            return {
+              exposure: { value: '156,800', unit: 'Million', change: '6%', positive: true },
+              esgScore: { value: '73%', change: '11%', positive: true },
+              pchi: { value: '24%', change: '16%', positive: true },
+              ratings: esgRatingsFord,
+              chartData: data3,
+              energyUsed: { value: '2,100,000', unit: 'GJ', change: '-7%', positive: true },
+              eui: { value: '19.2', unit: 'GJ / INR Cr', change: '-10%', positive: true },
+              energyChartData: energyData3,
+              energyUsageData: energyUsageData3,
+              totalManpower: { value: '183,000', unit: 'Employees', change: '2%', positive: true },
+              ltifr: { value: '0.35', unit: 'per 200k hours', change: '-10%', positive: true },
+              employeeChartData: employeeData3,
+              hiringData: hiringData3,
+              csrInitiatives: { value: '28', unit: 'Initiatives', change: '10%', positive: true },
+              beneficiaries: { value: '65,000', unit: 'People', change: '15%', positive: true },
+              trainingSessionsData: trainingData3,
+              attendeesData: attendeesData3
+            };
+          case 'General Motors Company':
+            return {
+              exposure: { value: '157,300', unit: 'Million', change: '9%', positive: true },
+              esgScore: { value: '74%', change: '13%', positive: true },
+              pchi: { value: '20%', change: '20%', positive: true },
+              ratings: esgRatingsGM,
+              chartData: data4,
+              energyUsed: { value: '2,300,000', unit: 'GJ', change: '-6%', positive: true },
+              eui: { value: '21.5', unit: 'GJ / INR Cr', change: '-9%', positive: true },
+              energyChartData: energyData4,
+              energyUsageData: energyUsageData4,
+              totalManpower: { value: '167,000', unit: 'Employees', change: '3%', positive: true },
+              ltifr: { value: '0.30', unit: 'per 200k hours', change: '-14%', positive: true },
+              employeeChartData: employeeData4,
+              hiringData: hiringData4,
+              csrInitiatives: { value: '35', unit: 'Initiatives', change: '14%', positive: true },
+              beneficiaries: { value: '82,000', unit: 'People', change: '19%', positive: true },
+              trainingSessionsData: trainingData4,
+              attendeesData: attendeesData4
+            };
+          case 'Hyundai Motor Group':
+            return {
+              exposure: { value: '98,500', unit: 'Million', change: '11%', positive: true },
+              esgScore: { value: '76%', change: '16%', positive: true },
+              pchi: { value: '19%', change: '23%', positive: true },
+              ratings: esgRatingsHyundai,
+              chartData: data5,
+              energyUsed: { value: '1,650,000', unit: 'GJ', change: '-9%', positive: true },
+              eui: { value: '17.2', unit: 'GJ / INR Cr', change: '-13%', positive: true },
+              energyChartData: energyData5,
+              energyUsageData: energyUsageData5,
+              totalManpower: { value: '120,000', unit: 'Employees', change: '6%', positive: true },
+              ltifr: { value: '0.27', unit: 'per 200k hours', change: '-16%', positive: true },
+              employeeChartData: employeeData5,
+              hiringData: hiringData5,
+              csrInitiatives: { value: '40', unit: 'Initiatives', change: '17%', positive: true },
+              beneficiaries: { value: '95,000', unit: 'People', change: '21%', positive: true },
+              trainingSessionsData: trainingData5,
+              attendeesData: attendeesData5
+            };
+          case 'Fiat Chrysler Automobiles N.V.':
+            return {
+              exposure: { value: '132,400', unit: 'Million', change: '7%', positive: true },
+              esgScore: { value: '68%', change: '10%', positive: true },
+              pchi: { value: '26%', change: '14%', positive: true },
+              ratings: esgRatingsFiat,
+              chartData: data6,
+              energyUsed: { value: '1,950,000', unit: 'GJ', change: '-4%', positive: true },
+              eui: { value: '22.8', unit: 'GJ / INR Cr', change: '-7%', positive: true },
+              energyChartData: energyData6,
+              energyUsageData: energyUsageData6,
+              totalManpower: { value: '198,000', unit: 'Employees', change: '1%', positive: true },
+              ltifr: { value: '0.38', unit: 'per 200k hours', change: '-8%', positive: true },
+              employeeChartData: employeeData6,
+              hiringData: hiringData6,
+              csrInitiatives: { value: '25', unit: 'Initiatives', change: '8%', positive: true },
+              beneficiaries: { value: '58,000', unit: 'People', change: '12%', positive: true },
+              trainingSessionsData: trainingData6,
+              attendeesData: attendeesData6
+            };
+          case 'Mitsubishi Motors':
+            return {
+              exposure: { value: '45,200', unit: 'Million', change: '5%', positive: true },
+              esgScore: { value: '70%', change: '9%', positive: true },
+              pchi: { value: '28%', change: '12%', positive: true },
+              ratings: esgRatingsMitsubishi,
+              chartData: data7,
+              energyUsed: { value: '850,000', unit: 'GJ', change: '-3%', positive: true },
+              eui: { value: '25.4', unit: 'GJ / INR Cr', change: '-5%', positive: true },
+              energyChartData: energyData7,
+              energyUsageData: energyUsageData7,
+              totalManpower: { value: '34,000', unit: 'Employees', change: '0%', positive: true },
+              ltifr: { value: '0.42', unit: 'per 200k hours', change: '-6%', positive: true },
+              employeeChartData: employeeData7,
+              hiringData: hiringData7,
+              csrInitiatives: { value: '18', unit: 'Initiatives', change: '6%', positive: true },
+              beneficiaries: { value: '42,000', unit: 'People', change: '10%', positive: true },
+              trainingSessionsData: trainingData7,
+              attendeesData: attendeesData7
+            };
           case 'Motherson Sumi Wiring India Ltd. (MSWIL)':
             return {
               exposure: { value: '55,699', unit: 'Million', change: '19%', positive: true },
@@ -622,12 +989,10 @@ const tabs = [
               eui: { value: '21.5', unit: 'GJ / INR Cr', change: '17%', positive: true },
               energyChartData: defaultEnergyData,
               energyUsageData: defaultEnergyUsageData,
-              // human capacity
               totalManpower: { value: '39,300', unit: 'Employees', change: '12%', positive: true },
               ltifr: { value: '0.35', unit: 'per 200k hours', change: '-8%', positive: true },
               employeeChartData: defaultEmployeeData,
               hiringData: defaultHiringData,
-              // community engagement
               csrInitiatives: { value: '22', unit: 'Initiatives', change: '20%', positive: true },
               beneficiaries: { value: '43,500', unit: 'People', change: '25%', positive: true },
               trainingSessionsData: defaultTrainingData,
@@ -648,7 +1013,6 @@ const tabs = [
               ltifr: { value: '0.38', unit: 'per 200k hours', change: '-6%', positive: true },
               employeeChartData: employeeData1,
               hiringData: hiringData1,
-              // community engagement
               csrInitiatives: { value: '18', unit: 'Initiatives', change: '15%', positive: true },
               beneficiaries: { value: '31,200', unit: 'People', change: '20%', positive: true },
               trainingSessionsData: trainingData1,
@@ -669,7 +1033,6 @@ const tabs = [
               ltifr: { value: '0.41', unit: 'per 200k hours', change: '-12%', positive: true },
               employeeChartData: employeeData2,
               hiringData: hiringData2,
-              // community engagement
               csrInitiatives: { value: '15', unit: 'Initiatives', change: '12%', positive: true },
               beneficiaries: { value: '26,800', unit: 'People', change: '18%', positive: true },
               trainingSessionsData: trainingData2,
@@ -690,7 +1053,6 @@ const tabs = [
               ltifr: { value: '0.32', unit: 'per 200k hours', change: '-9%', positive: true },
               employeeChartData: employeeData3,
               hiringData: hiringData3,
-              // community engagement
               csrInitiatives: { value: '15', unit: 'Initiatives', change: '18%', positive: true },
               beneficiaries: { value: '26,800', unit: 'People', change: '22%', positive: true },
               trainingSessionsData: trainingData3,
@@ -711,7 +1073,6 @@ const tabs = [
               ltifr: { value: '0.29', unit: 'per 200k hours', change: '-5%', positive: true },
               employeeChartData: employeeData4,
               hiringData: hiringData4,
-              // community engagement
               csrInitiatives: { value: '19', unit: 'Initiatives', change: '25%', positive: true },
               beneficiaries: { value: '35,500', unit: 'People', change: '30%', positive: true },
               trainingSessionsData: trainingData4,
@@ -732,7 +1093,6 @@ const tabs = [
               ltifr: { value: '0.42', unit: 'per 200k hours', change: '-10%', positive: true },
               employeeChartData: employeeData5,
               hiringData: hiringData5,
-              // community engagement
               csrInitiatives: { value: '25', unit: 'Initiatives', change: '10%', positive: true },
               beneficiaries: { value: '48,200', unit: 'People', change: '15%', positive: true },
               trainingSessionsData: trainingData5,
@@ -753,7 +1113,6 @@ const tabs = [
               ltifr: { value: '0.33', unit: 'per 200k hours', change: '-7%', positive: true },
               employeeChartData: employeeData6,
               hiringData: hiringData6,
-              // community engagement
               csrInitiatives: { value: '14', unit: 'Initiatives', change: '17%', positive: true },
               beneficiaries: { value: '19,800', unit: 'People', change: '24%', positive: true },
               trainingSessionsData: trainingData6,
@@ -774,7 +1133,6 @@ const tabs = [
               ltifr: { value: '0.47', unit: 'per 200k hours', change: '-13%', positive: true },
               employeeChartData: employeeData7,
               hiringData: hiringData7,
-              // community engagement
               csrInitiatives: { value: '23', unit: 'Initiatives', change: '8%', positive: true },
               beneficiaries: { value: '42,900', unit: 'People', change: '12%', positive: true },
               trainingSessionsData: trainingData7,
@@ -795,7 +1153,6 @@ const tabs = [
               ltifr: { value: '0.36', unit: 'per 200k hours', change: '-6%', positive: true },
               employeeChartData: employeeData8,
               hiringData: hiringData8,
-              // community engagement
               csrInitiatives: { value: '12', unit: 'Initiatives', change: '16%', positive: true },
               beneficiaries: { value: '15600', unit: 'People', change: '21%', positive: true },
               trainingSessionsData: trainingData8,
@@ -816,7 +1173,6 @@ const tabs = [
               ltifr: { value: '0.44', unit: 'per 200k hours', change: '-11%', positive: true },
               employeeChartData: employeeData9,
               hiringData: hiringData9,
-              // community engagement
               csrInitiatives: { value: '20', unit: 'Initiatives', change: '11%', positive: true },
               beneficiaries: { value: '37200', unit: 'People', change: '16%', positive: true },
               trainingSessionsData: trainingData9,
@@ -837,7 +1193,6 @@ const tabs = [
               ltifr: { value: '0.35', unit: 'per 200k hours', change: '-8%', positive: true },
               employeeChartData: defaultEmployeeData,
               hiringData: defaultHiringData,
-              // community engagement
               csrInitiatives: { value: '16', unit: 'Initiatives', change: '20%', positive: true },
               beneficiaries: { value: '24,100', unit: 'People', change: '25%', positive: true },
               trainingSessionsData: defaultTrainingData,
@@ -861,8 +1216,7 @@ const tabs = [
   return (
     <div className="w-full bg-[#f8fafc]">
       <Header />
-      
-      {/* Loading Overlay - Only for filter application */}
+    
       {isLoading && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 flex flex-col items-center gap-4 min-w-[200px]">
@@ -885,7 +1239,8 @@ const tabs = [
                 Detailed ESG analysis and risk assessment for portfolio companies
               </p>
             </div>
-            {/* Filters in Header */}
+
+            {/*filters in header*/} 
             <div className="flex flex-col sm:flex-row gap-3 justify-end items-start sm:items-center w-full lg:w-auto">
               <div className="flex flex-col sm:flex-row gap-2 items-start sm:items-center">
                 <Dropdown
@@ -965,7 +1320,6 @@ const tabs = [
 
             <div className="w-full lg:w-3/4 border border-[#b7c1d77f] rounded-xl p-4">
               <div className="flex flex-col gap-4 justify-start items-center w-full">
-                {/* Company Overview Info */}
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full gap-4 px-3">
                   <div className="flex flex-col sm:flex-row justify-start items-start sm:items-center gap-4">
                     <span className="text-lg font-medium text-[#29303f]">
@@ -1001,7 +1355,6 @@ const tabs = [
                   </div>
                 </div>
 
-                {/* Overview Tab Content for ALL companies */}
                 {activeTab === 'Overview' && (
                   <>
                     <div className="flex flex-col lg:flex-row gap-3 justify-start items-start w-full">
