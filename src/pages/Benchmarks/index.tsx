@@ -356,7 +356,7 @@ export default function BenchmarksPage() {
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6">
                 <div className="flex-shrink-0">
                   <img
-                    src="/images/rbi-logo.png"
+                    src="/images/companies/rbi-logo.png"
                     alt="RB-CRIS Index"
                     className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] rounded-full"
                   />
