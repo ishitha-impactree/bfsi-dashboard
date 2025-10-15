@@ -49,9 +49,10 @@ interface CustomTooltipProps {
   label?: string | number;
 }
 
-// ------------------- Component -------------------
 const StressTesting: React.FC = () => {
   const [isRunning, setIsRunning] = useState(false);
+  const [isLoadingResults, setIsLoadingResults] = useState(false);
+  const [isLoadingCharts, setIsLoadingCharts] = useState(false);
   const [parameters, setParameters] = useState<Parameters>({
     carbonPrice: 150,
     policyShock: 25,
@@ -66,7 +67,7 @@ const StressTesting: React.FC = () => {
     worstCaseScenario: -28.3,
   });
 
-  const monteCarloData: MonteCarloPoint[] = [
+  const [monteCarloData, setMonteCarloData] = useState<MonteCarloPoint[]>([
     { scenario: 1, impact: -8.2, probability: 0.15 },
     { scenario: 2, impact: -12.5, probability: 0.25 },
     { scenario: 3, impact: -15.8, probability: 0.2 },
@@ -74,16 +75,36 @@ const StressTesting: React.FC = () => {
     { scenario: 5, impact: -22.1, probability: 0.12 },
     { scenario: 6, impact: -25.4, probability: 0.08 },
     { scenario: 7, impact: -28.3, probability: 0.05 },
-  ];
+  ]);
 
-  const distributionData: DistributionPoint[] = [
+  const [distributionData, setDistributionData] = useState<DistributionPoint[]>([
     { range: '-5 to 0%', frequency: 12, color: '#10B981' },
     { range: '-10 to -5%', frequency: 28, color: '#F59E0B' },
     { range: '-15 to -10%', frequency: 35, color: '#F59E0B' },
     { range: '-20 to -15%', frequency: 18, color: '#EF4444' },
     { range: '-25 to -20%', frequency: 5, color: '#EF4444' },
     { range: '-30 to -25%', frequency: 2, color: '#7C2D12' },
-  ];
+  ]);
+
+  // Generate dummy Monte Carlo data for loading state
+  const generateDummyMonteCarloData = (): MonteCarloPoint[] => {
+    return Array.from({ length: 7 }, (_, index) => ({
+      scenario: index + 1,
+      impact: -10 - Math.random() * 20,
+      probability: 0.1 + Math.random() * 0.2,
+    }));
+  };
+
+  const generateDummyDistributionData = (): DistributionPoint[] => {
+    const colors = ['#10B981', '#F59E0B', '#F59E0B', '#EF4444', '#EF4444', '#7C2D12'];
+    const ranges = ['-5 to 0%', '-10 to -5%', '-15 to -10%', '-20 to -15%', '-25 to -20%', '-30 to -25%'];
+    
+    return ranges.map((range, index) => ({
+      range,
+      frequency: Math.floor(Math.random() * 40),
+      color: colors[index],
+    }));
+  };
 
   const handleParameterChange = (param: keyof Parameters, value: string) => {
     setParameters((prev) => ({
@@ -94,6 +115,11 @@ const StressTesting: React.FC = () => {
 
   const runStressTest = async () => {
     setIsRunning(true);
+    setIsLoadingResults(true);
+    setIsLoadingCharts(true);
+
+    setMonteCarloData(generateDummyMonteCarloData());
+    setDistributionData(generateDummyDistributionData());
 
     setTimeout(() => {
       const baseImpact = -10;
@@ -104,15 +130,43 @@ const StressTesting: React.FC = () => {
 
       const totalImpact = baseImpact + carbonPriceImpact + policyImpact + demandImpact + techImpact;
 
-      setResults({
-        portfolioImpact: totalImpact,
-        confidence: Math.max(60, 95 - Math.abs(totalImpact)),
-        timeToRecover: Math.max(6, Math.abs(totalImpact) * 1.2),
-        worstCaseScenario: totalImpact * 1.8,
-      });
+      setTimeout(() => {
+        setResults({
+          portfolioImpact: totalImpact,
+          confidence: Math.max(60, 95 - Math.abs(totalImpact)),
+          timeToRecover: Math.max(6, Math.abs(totalImpact) * 1.2),
+          worstCaseScenario: totalImpact * 1.8,
+        });
+        setIsLoadingResults(false);
+      }, 1000);
 
-      setIsRunning(false);
-    }, 3000);
+      // Update charts with final data after longer delay
+      setTimeout(() => {
+        const finalMonteCarloData: MonteCarloPoint[] = [
+          { scenario: 1, impact: -5 - Math.random() * 5, probability: 0.15 + Math.random() * 0.1 },
+          { scenario: 2, impact: totalImpact * 0.8, probability: 0.25 + Math.random() * 0.1 },
+          { scenario: 3, impact: totalImpact, probability: 0.2 + Math.random() * 0.1 },
+          { scenario: 4, impact: totalImpact * 1.2, probability: 0.15 + Math.random() * 0.1 },
+          { scenario: 5, impact: totalImpact * 1.4, probability: 0.12 + Math.random() * 0.1 },
+          { scenario: 6, impact: totalImpact * 1.6, probability: 0.08 + Math.random() * 0.1 },
+          { scenario: 7, impact: totalImpact * 1.8, probability: 0.05 + Math.random() * 0.1 },
+        ];
+
+        const finalDistributionData: DistributionPoint[] = [
+          { range: '-5 to 0%', frequency: Math.floor(10 + Math.random() * 10), color: '#10B981' },
+          { range: '-10 to -5%', frequency: Math.floor(20 + Math.random() * 15), color: '#F59E0B' },
+          { range: '-15 to -10%', frequency: Math.floor(25 + Math.random() * 20), color: '#F59E0B' },
+          { range: '-20 to -15%', frequency: Math.floor(15 + Math.random() * 10), color: '#EF4444' },
+          { range: '-25 to -20%', frequency: Math.floor(5 + Math.random() * 8), color: '#EF4444' },
+          { range: '-30 to -25%', frequency: Math.floor(1 + Math.random() * 4), color: '#7C2D12' },
+        ];
+
+        setMonteCarloData(finalMonteCarloData);
+        setDistributionData(finalDistributionData);
+        setIsLoadingCharts(false);
+        setIsRunning(false);
+      }, 2000);
+    }, 500);
   };
 
   const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload }) => {
@@ -120,7 +174,7 @@ const StressTesting: React.FC = () => {
       const data = payload[0]?.payload as MonteCarloPoint;
       return (
         <div className="bg-popover border border-border rounded-lg p-3 shadow-elevation-2">
-          <p className="text-sm font-medium text-popover-foreground">Impact: {data?.impact}%</p>
+          <p className="text-sm font-medium text-popover-foreground">Impact: {data?.impact.toFixed(1)}%</p>
           <p className="text-sm text-muted-foreground">
             Probability: {(data?.probability * 100).toFixed(1)}%
           </p>
@@ -167,7 +221,6 @@ const StressTesting: React.FC = () => {
 
   return (
     <div className="space-y-3">
-      {/* Parameter Controls */}
       <div
         className="bg-card border border-border rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
         style={{ background: 'white' }}
@@ -225,21 +278,25 @@ const StressTesting: React.FC = () => {
         </div>
       </div>
 
-      {/* Results Summary */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         {stressTestCard?.map((stressTest: any, index: number) => {
           return (
             <div
               key={index}
-              className="bg-card border border-border rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+              className="bg-card border border-border rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200 relative overflow-hidden"
               style={{ background: 'white' }}
             >
+              {isLoadingResults && (
+                <div className="absolute inset-0 bg-white bg-opacity-80 flex items-center justify-center z-10">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                </div>
+              )}
               <div className="flex items-center space-x-2 mb-2">
                 <Icon name={stressTest?.icon} size={20} className={stressTest?.status} />
                 <h4 className="font-medium text-foreground">{stressTest?.title}</h4>
               </div>
               <p className={`text-2xl font-bold ${stressTest?.status}`}>
-                {stressTest?.value.toFixed(1)}
+                {isLoadingResults ? '...' : stressTest?.value.toFixed(1)}
                 {stressTest?.unit}
               </p>
               <p className="text-md text-muted-foreground" style={{ color: '#64748B' }}>
@@ -251,7 +308,6 @@ const StressTesting: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-        {/* Monte Carlo Results */}
         <div
           className="bg-card border border-border rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
           style={{ background: 'white' }}
@@ -264,7 +320,15 @@ const StressTesting: React.FC = () => {
             <Icon name="Scatter3D" size={20} className="text-primary" />
           </div>
 
-          <div className="h-64">
+          <div className="h-64 relative">
+            {isLoadingCharts && (
+              <div className="absolute inset-0 bg-white bg-opacity-80 flex items-center justify-center z-10">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+                  <p className="text-sm text-muted-foreground">Analyzing Scenarios...</p>
+                </div>
+              </div>
+            )}
             <ResponsiveContainer width="100%" height="100%">
               <ScatterChart>
                 <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
@@ -301,7 +365,6 @@ const StressTesting: React.FC = () => {
           </div>
         </div>
 
-        {/* Distribution Chart */}
         <div
           className="bg-card border border-border rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
           style={{ background: 'white' }}
@@ -314,7 +377,15 @@ const StressTesting: React.FC = () => {
             <Icon name="BarChart3" size={20} className="text-accent-info" />
           </div>
 
-          <div className="h-64">
+          <div className="h-64 relative">
+            {isLoadingCharts && (
+              <div className="absolute inset-0 bg-white bg-opacity-80 flex items-center justify-center z-10">
+                <div className="text-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+                  <p className="text-sm text-muted-foreground">Calculating Distribution...</p>
+                </div>
+              </div>
+            )}
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={distributionData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
@@ -348,7 +419,6 @@ const StressTesting: React.FC = () => {
         </div>
       </div>
 
-      {/* Risk Mitigation Recommendations */}
       <div
         className="bg-card border border-border rounded-lg p-6 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
         style={{ background: 'white' }}

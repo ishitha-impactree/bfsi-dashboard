@@ -13,7 +13,7 @@ const RiskHeatMap: React.FC = () => {
   const [selectedCell, setSelectedCell] = useState<SelectedCell | null>(null);
 
   const sectors: string[] = [
-    'Energy',
+    'Transport',
     'Utilities',
     'Materials',
     'Industrials',
@@ -48,10 +48,16 @@ const RiskHeatMap: React.FC = () => {
   ];
 
   const getRiskColor = (value: number): string => {
-    if (value >= 70) return 'bg-accent-danger';
-    if (value >= 50) return 'bg-accent-warning';
-    if (value >= 30) return 'bg-accent-info';
-    return 'bg-accent-success';
+    if (value >= 70) return 'bg-[#FF0000]'; // Pure Red for critical
+    if (value >= 50) return 'bg-[#FFA500]'; // Orange for high
+    if (value >= 30) return 'bg-[#006400]'; // Dark Green for medium
+    return 'bg-[#90EE90]'; // Light Green for low
+  };
+
+  const getTextColor = (value: number): string => {
+    if (value >= 70) return 'text-white'; // White text for red background
+    if (value >= 30) return 'text-white'; // White text for dark green background
+    return 'text-foreground'; // Default text color for light green
   };
 
   const handleCellClick = (sectorIndex: number, factorIndex: number, value: number) => {
@@ -80,13 +86,13 @@ const RiskHeatMap: React.FC = () => {
           <div className="flex items-center space-x-2 text-sm">
             <span className="text-muted-foreground">Risk Level:</span>
             <div className="flex items-center space-x-1">
-              <div className="w-3 h-3 bg-accent-success rounded"></div>
+              <div className="w-3 h-3 bg-[#90EE90] rounded"></div>
               <span className="text-sm">Low</span>
-              <div className="w-3 h-3 bg-accent-info rounded"></div>
+              <div className="w-3 h-3 bg-[#006400] rounded"></div>
               <span className="text-sm">Med</span>
-              <div className="w-3 h-3 bg-accent-warning rounded"></div>
+              <div className="w-3 h-3 bg-[#FFA500] rounded"></div>
               <span className="text-sm">High</span>
-              <div className="w-3 h-3 bg-accent-danger rounded"></div>
+              <div className="w-3 h-3 bg-[#FF0000] rounded"></div>
               <span className="text-sm">Critical</span>
             </div>
           </div>
@@ -129,7 +135,9 @@ const RiskHeatMap: React.FC = () => {
                   `}
                 >
                   <div className="text-center">
-                    <span className="text-sm font-semibold text-foreground">{value}</span>
+                    <span className={`text-sm font-semibold ${getTextColor(value)}`}>
+                      {value}
+                    </span>
                   </div>
                 </div>
               ))}
