@@ -95,7 +95,7 @@ const Header = ({ className }: HeaderProps) => {
           <div className="hidden lg:flex items-center gap-[18px]">
             <div className="flex flex-col gap-1 items-end">
               <span className="text-md font-bold leading-md text-left text-header-text">
-                Welcome User!
+                Welcome Vivek
               </span>
               <span className="text-md font-normal leading-md text-right text-header-text">
                 15 Oct, Wed

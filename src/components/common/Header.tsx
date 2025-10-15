@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Dropdown from './Dropdown';
 import Icon from '../ui/AppIcon';
@@ -9,10 +9,28 @@ interface HeaderProps {
 
 const Header = ({ className }: HeaderProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [currentDate, setCurrentDate] = useState('');
   const navigate = useNavigate();
   const location = useLocation() as ReturnType<typeof useLocation> & {
     state?: { from?: string };
   };
+
+  const updateDate = () => {
+    const now = new Date();
+    const options: Intl.DateTimeFormatOptions = { 
+      day: 'numeric', 
+      month: 'short', 
+      weekday: 'short' 
+    };
+    const formattedDate = now.toLocaleDateString('en-US', options);
+    setCurrentDate(formattedDate);
+  };
+
+  useEffect(() => {
+    updateDate();
+    const intervalId = setInterval(updateDate, 60000);
+    return () => clearInterval(intervalId);
+  }, []);
 
   const navigationItems = [
     {
@@ -150,10 +168,10 @@ const Header = ({ className }: HeaderProps) => {
           <div className="hidden lg:flex items-center gap-[18px]">
             <div className="flex flex-col gap-1 items-end">
               <span className="text-md font-normal leading-md text-left text-primary">
-                Welcome User!
+                Welcome, Vivek!
               </span>
               <span className="text-md font-normal leading-md text-right text-primary">
-                15 Oct, Wed
+                {currentDate || 'Loading...'}
               </span>
             </div>
 
@@ -172,8 +190,10 @@ const Header = ({ className }: HeaderProps) => {
         >
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-1">
-              <span className="text-md font-bold leading-md text-header-text">Welcome User!</span>
-              <span className="text-md font-normal leading-md text-header-text">1 Oct, Wed</span>
+              {/* <span className="text-md font-bold leading-md text-header-text">Welcome User!</span> */}
+              <span className="text-md font-normal leading-md text-header-text">
+                {currentDate || 'Loading...'}
+              </span>
             </div>
             <img
               src="/images/img_shape.png"
