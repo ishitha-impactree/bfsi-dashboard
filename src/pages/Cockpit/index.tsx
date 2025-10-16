@@ -90,7 +90,7 @@ const PortfolioClimateRisk = () => {
         {
           title: 'Compliance Score',
           value: '83',
-          unit: '/100',
+          unit: '%',
           change: 2.1,
           changeType: 'positive',
           icon: 'Shield',
@@ -202,7 +202,7 @@ const PortfolioClimateRisk = () => {
         {
           title: 'Compliance Score',
           value: '86',
-          unit: '/100',
+          unit: '%',
           change: 2.1,
           changeType: 'positive',
           icon: 'Shield',
@@ -314,7 +314,7 @@ const PortfolioClimateRisk = () => {
         {
           title: 'Compliance Score',
           value: '90',
-          unit: '/100',
+          unit: '%',
           change: 2.1,
           changeType: 'positive',
           icon: 'Shield',
@@ -426,7 +426,7 @@ const PortfolioClimateRisk = () => {
         {
           title: 'Compliance Score',
           value: '93',
-          unit: '/100',
+          unit: '%',
           change: 2.1,
           changeType: 'positive',
           icon: 'Shield',
@@ -820,22 +820,22 @@ const PortfolioClimateRisk = () => {
   const top5Industries = {
     name: 'Top 5 Industries',
     list: [
-      'Software & IT Services',
-      'Drugs and Pharmaceuticals',
-      'Commercial Real Estate',
-      'Logistics and Auxiliary transport activities',
-      'Automobiles (Including Ancillaries)',
+      '-',
+      '-',
+      '-',
+      '-',
+      '-',
     ],
   };
 
   const bottom5Industries = {
     name: 'Bottom 5 Industries',
     list: [
-      'Software & IT Services',
-      'Drugs and Pharmaceuticals',
-      'Commercial Real Estate',
-      'Logistics and Auxiliary transport activities',
-      'Automobiles (Including Ancillaries)',
+      '-',
+      '-',
+      '-',
+       '-',
+      '-',
     ],
   };
 

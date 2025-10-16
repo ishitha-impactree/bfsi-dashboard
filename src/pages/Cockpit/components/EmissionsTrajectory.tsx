@@ -28,7 +28,7 @@ interface TimeframeOption {
 
 const EmissionsTrajectory = () => {
   const [selectedTimeframe, setSelectedTimeframe] = useState<string>('monthly');
-  const [showBenchmark, setShowBenchmark] = useState<boolean>(true);
+  const [showBenchmark, setShowBenchmark] = useState<boolean>(false);
   const [showExport, setShowExport] = useState<boolean>(false);
 
   const emissionsData: EmissionsData[] = [
