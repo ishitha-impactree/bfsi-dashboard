@@ -262,21 +262,25 @@ const CompaniesStatistics = () => {
   const [esgData, setESGData] = useState<ESGData | null>(null);
   const [chartData, setChartData] = useState<ChartDataPoint[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [selectedSector, setSelectedSector] = useState<string>('all');
-  const [selectedIndustry, setSelectedIndustry] = useState<string>('all');
-  const [appliedSector, setAppliedSector] = useState<string>('all');
-  const [appliedIndustry, setAppliedIndustry] = useState<string>('all');
+  const [selectedSector, setSelectedSector] = useState<string>('transportation');
+  const [selectedIndustry, setSelectedIndustry] = useState<string>('automobiles');
+  const [appliedSector, setAppliedSector] = useState<string>('transportation');
+  const [appliedIndustry, setAppliedIndustry] = useState<string>('automobiles');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isFilterApplied, setIsFilterApplied] = useState<boolean>(false);
+  const [isFilterApplied, setIsFilterApplied] = useState<boolean>(true);
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredCompaniesBySectorIndustry = useMemo(() => {
-    if (appliedSector === 'all' && appliedIndustry === 'all') {
-      return companies;
+  // Block "All All" combination - default to transportation and automobiles
+  useEffect(() => {
+    if (selectedSector === 'all' && selectedIndustry === 'all') {
+      setSelectedSector('transportation');
+      setSelectedIndustry('automobiles');
     }
-    
-    // post filtering when transportation and automobile is chosen 
+  }, [selectedSector, selectedIndustry]);
+
+  const filteredCompaniesBySectorIndustry = useMemo(() => {
+    // Only allow specific sector-industry combinations
     if (appliedSector === 'transportation' && appliedIndustry === 'automobiles') {
       return companies.filter(company => 
         [
@@ -294,7 +298,33 @@ const CompaniesStatistics = () => {
       );
     }
     
-    return companies;
+    if (appliedSector === 'transportation' && appliedIndustry === 'aerospace') {
+      return companies.filter(company => 
+        [
+          'Toyota Motor Company',
+          'Volkswagen AG',
+          'Mercedes-Benz Group',
+          'Ford Motor Company',
+          'General Motors Company'
+        ].includes(company.name)
+      );
+    }
+    
+    // Default to transportation and automobiles
+    return companies.filter(company => 
+      [
+        'Motherson Sumi Wiring India Ltd. (MSWIL)',
+        'Yazaki (Yazaki India)',
+        'LEONI India (LEONI Wiring Systems)',
+        'Aptiv Components India',
+        'Bosch Limited (India)',
+        'Sona Comstar (Sona BLW / Sona Comstar)',
+        'Uno Minda (Minda Corporation)',
+        'Furukawa Minda Electric (FME)',
+        'Varroc Engineering Limited',
+        'Lumax Industries Limited (LIL)'
+      ].includes(company.name)
+    );
   }, [companies, appliedSector, appliedIndustry]);
 
   const filteredCompanies = useMemo(() => {
@@ -308,7 +338,6 @@ const CompaniesStatistics = () => {
   }, [companies, filteredCompaniesBySectorIndustry, searchTerm, isFilterApplied]);
 
   const sectorOptions = [
-    { value: 'all', label: 'All' },
     { value: 'transportation', label: 'Transportation' },
     { value: 'energy', label: 'Energy' },
     { value: 'technology', label: 'Technology' },
@@ -322,7 +351,6 @@ const CompaniesStatistics = () => {
   ];
 
   const industryOptions = [
-    { value: 'all', label: 'All' },
     { value: 'automobiles', label: 'Automobiles (Including Ancillaries)' },
     { value: 'aerospace', label: 'Aerospace & Defense' },
     { value: 'logistics', label: 'Logistics & Shipping' },
@@ -342,11 +370,9 @@ const CompaniesStatistics = () => {
   useEffect(() => {
     const loadDashboardData = () => {
       setIsLoading(false);
-      
-      // Simulate API call delay
-      setTimeout(() => {
+          setTimeout(() => {
         setCompanies([
-          { id: '1', name: 'Toyota Motor Company', selected: true },
+          { id: '1', name: 'Toyota Motor Company' },
           { id: '2', name: 'Volkswagen AG' },
           { id: '3', name: 'Mercedes-Benz Group' },
           { id: '4', name: 'Ford Motor Company' },
@@ -354,7 +380,7 @@ const CompaniesStatistics = () => {
           { id: '6', name: 'Hyundai Motor Group' },
           { id: '7', name: 'Fiat Chrysler Automobiles N.V.' },
           { id: '8', name: 'Mitsubishi Motors' },
-          { id: '9', name: 'Motherson Sumi Wiring India Ltd. (MSWIL)' },
+          { id: '9', name: 'Motherson Sumi Wiring India Ltd. (MSWIL)', selected: true },
           { id: '10', name: 'Yazaki (Yazaki India)' },
           { id: '11', name: 'LEONI India (LEONI Wiring Systems)' },
           { id: '12', name: 'Aptiv Components India' },
@@ -414,8 +440,10 @@ const CompaniesStatistics = () => {
 
   const handleSectorChange = (value: string) => {
     setSelectedSector(value);
-    if (value === 'all') {
-      setSelectedIndustry('all');
+    if (value === 'transportation') {
+      setSelectedIndustry('automobiles');
+    } else {
+      setSelectedIndustry(industryOptions[0].value);
     }
   };
 
@@ -436,12 +464,17 @@ const CompaniesStatistics = () => {
   };
 
   const handleResetFilters = () => {
-    setSelectedSector('all');
-    setSelectedIndustry('all');
-    setAppliedSector('all');
-    setAppliedIndustry('all');
-    setIsFilterApplied(false);
+    setSelectedSector('transportation');
+    setSelectedIndustry('automobiles');
+    setAppliedSector('transportation');
+    setAppliedIndustry('automobiles');
+    setIsFilterApplied(true);
   };
+
+  // disabled filter
+  const isApplyDisabled = useMemo(() => {
+    return selectedSector === 'all' && selectedIndustry === 'all';
+  }, [selectedSector, selectedIndustry]);
 
 const tabs = [
   'Overview',
@@ -1091,8 +1124,8 @@ const tabs = [
               ltifr: { value: '0.29', unit: 'per 200k hours', change: '-5%', positive: true },
               employeeChartData: employeeData4,
               hiringData: hiringData4,
-              csrInitiatives: { value: '19', unit: 'Initiatives', change: '25%', positive: true },
-              beneficiaries: { value: '35,500', unit: 'People', change: '30%', positive: true },
+              csrInitiatives: { value: '25', unit: 'Initiatives', change: '25%', positive: true },
+              beneficiaries: { value: '48,200', unit: 'People', change: '30%', positive: true },
               trainingSessionsData: trainingData4,
               attendeesData: attendeesData4
             };
@@ -1111,8 +1144,8 @@ const tabs = [
               ltifr: { value: '0.42', unit: 'per 200k hours', change: '-10%', positive: true },
               employeeChartData: employeeData5,
               hiringData: hiringData5,
-              csrInitiatives: { value: '25', unit: 'Initiatives', change: '10%', positive: true },
-              beneficiaries: { value: '48,200', unit: 'People', change: '15%', positive: true },
+              csrInitiatives: { value: '14', unit: 'Initiatives', change: '10%', positive: true },
+              beneficiaries: { value: '19,800', unit: 'People', change: '15%', positive: true },
               trainingSessionsData: trainingData5,
               attendeesData: attendeesData5
             };
@@ -1223,12 +1256,12 @@ const tabs = [
 
   const getSectorDisplayName = () => {
     const sector = sectorOptions.find(s => s.value === appliedSector);
-    return sector ? sector.label : 'All';
+    return sector ? sector.label : 'Transportation';
   };
 
   const getIndustryDisplayName = () => {
     const industry = industryOptions.find(i => i.value === appliedIndustry);
-    return industry ? industry.label : 'All';
+    return industry ? industry.label : 'Automobiles (Including Ancillaries)';
   };
 
   return (
@@ -1278,7 +1311,7 @@ const tabs = [
                 <button
                   className="w-full sm:w-auto bg-accent-info text-white rounded-md px-4 py-2 text-sm flex items-center justify-center gap-2 min-w-[120px] disabled:opacity-50 disabled:cursor-not-allowed"
                   onClick={handleApplyFilters}
-                  disabled={isLoading}
+                  disabled={isLoading || isApplyDisabled}
                 >
                   {isLoading ? (
                     <>
@@ -1449,135 +1482,213 @@ const tabs = [
                     {/* Content Grid */}
                     <div className="flex flex-col gap-4 justify-start items-center w-full">
                       {/* Risk Breakdown Section */}
-                      <div className="w-full bg-primary-foreground border border-border rounded-lg p-4 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200">
-                        <div className="bg-white px-0">
-                          <span className="text-lg font-bold text-[#2b3674]">
-                            Pillar wise Risk Breakdown
-                          </span>
-                        </div>
+                     <div className="w-full bg-primary-foreground border border-border rounded-lg p-4 shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200">
+                  <div className="bg-white px-0">
+                    <span className="text-lg font-bold text-[#2b3674]">
+                      Pillar wise Risk Breakdown
+                    </span>
+                  </div>
 
-                        <div className="w-full py-2">
-                          <div className="flex flex-col gap-4 w-full mb-2">
-                            <div className="flex flex-col gap-1 justify-start items-start w-full">
-                              <span className="text-md font-normal text-black">Environmental</span>
-                              <div className="grid grid-cols-5 gap-2 justify-start items-center w-full">
-                                {[
-                                  'Resource Use',
-                                  'Climate Stewardship',
-                                  'Resource Footprint',
-                                  'Aspiration Need',
-                                  'Growth Need',
-                                ].map((item, index) => (
-                                  <Button
-                                    key={item}
-                                    text={item}
-                                    fill_background_color={
-                                      index === 0
-                                        ? 'bg-[#05ff00]'
-                                        : index === 1
-                                          ? 'bg-[#acff01]'
-                                          : index === 2
-                                            ? 'bg-[#ff8b00]'
-                                            : index === 3
-                                              ? 'bg-[#fe3c00]'
-                                              : 'bg-[#73ff01]'
-                                    }
-                                    text_color="text-black"
-                                    border_border_radius="rounded-xs"
-                                    layout_width="w-full"
-                                    padding="px-2 py-2"
-                                    onClick={emptyFunction}
-                                    className="w-full text-sm"
-                                  />
-                                ))}
-                              </div>
-                            </div>
-
-                            <div className="flex flex-col gap-1 justify-start items-start w-full">
-                              <span className="text-md font-normal text-black">Social</span>
-                              <div className="grid grid-cols-5 gap-2 justify-start items-center w-full">
-                                {[
-                                  'Human Capacity',
-                                  'Community Engagement',
-                                  'Customer Satisfaction',
-                                  'Quality Assurance',
-                                  'Data Risk',
-                                ].map((item, index) => (
-                                  <Button
-                                    key={item}
-                                    text={item}
-                                    fill_background_color={
-                                      index === 0
-                                        ? 'bg-[#05ff00]'
-                                        : index === 1
-                                          ? 'bg-[#76ff01]'
-                                          : index === 2
-                                            ? 'bg-[#ff9000]'
-                                            : index === 3
-                                              ? 'bg-[#ffa101]'
-                                              : 'bg-[#fed600]'
-                                    }
-                                    text_color="text-black"
-                                    border_border_radius="rounded-xs"
-                                    layout_width="w-full"
-                                    padding="px-2 py-2"
-                                    onClick={emptyFunction}
-                                    className="w-full text-sm"
-                                  />
-                                ))}
-                              </div>
-                            </div>
-
-                            <div className="flex flex-col gap-1 justify-start items-start w-full">
-                              <span className="text-md font-normal text-black">Governance</span>
-                              <div className="grid grid-cols-5 gap-2 justify-start items-center w-full">
-                                {[
-                                  'Legal Compliance',
-                                  'Board Performance',
-                                  'Executioner Risk',
-                                  'Competitor Risk',
-                                  'Financial Risk',
-                                ].map((item, index) => (
-                                  <Button
-                                    key={item}
-                                    text={item}
-                                    fill_background_color={
-                                      index === 0
-                                        ? 'bg-[#d4ff00]'
-                                        : index === 1
-                                          ? 'bg-[#86ff00]'
-                                          : index === 2
-                                            ? 'bg-[#fed600]'
-                                            : index === 3
-                                              ? 'bg-[#05ff00]'
-                                              : 'bg-[#ff2700]'
-                                    }
-                                    text_color="text-black"
-                                    border_border_radius="rounded-xs"
-                                    layout_width="w-full"
-                                    padding="px-2 py-2"
-                                    onClick={emptyFunction}
-                                    className="w-full text-sm"
-                                  />
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="flex flex-col gap-1 justify-center items-center w-full">
-                          <div className="flex flex-row justify-between items-center w-full px-3">
-                            <span className="text-sm font-normal text-black">Low</span>
-                            <span className="text-sm font-normal text-black">Medium</span>
-                            <span className="text-sm font-normal text-black">High</span>
-                          </div>
-                          <img
-                            src="/images/img_frame_1000003883.png"
-                            alt="Risk scale"
-                            className="w-full h-2 rounded-sm"
-                          />
+                  <div className="w-full py-2">
+                    <div className="flex flex-col gap-4 w-full mb-2">
+                      <div className="flex flex-col gap-1 justify-start items-start w-full">
+                        <span className="text-md font-normal text-black">Environmental</span>
+                        <div className="grid grid-cols-5 gap-2 justify-start items-center w-full">
+                          {[
+                            'Resource Use',
+                            'Climate Stewardship',
+                            'Resource Footprint',
+                            'Aspiration Need',
+                            'Growth Need',
+                          ].map((item, index) => {
+                            // Extract numeric ESG score from company data
+                            const esgScore = parseInt(companyData.esgScore.value);
+                            let bgColor = 'bg-[#05ff00]'; // Default green
+                            
+                            if (esgScore >= 0 && esgScore <= 25) {
+                              // Color mapping for 0-25% score range
+                              if (index === 0) bgColor = 'bg-[#05ff00]'; // Green
+                              else if (index === 1) bgColor = 'bg-[#acff01]'; // Light Green
+                              else if (index === 2) bgColor = 'bg-[#ff8b00]'; // Orange
+                              else if (index === 3) bgColor = 'bg-[#fe3c00]'; // Red
+                              else bgColor = 'bg-[#73ff01]'; // Lime Green
+                            } else if (esgScore > 25 && esgScore <= 50) {
+                              // Color mapping for 26-50% score range
+                              if (index === 0) bgColor = 'bg-[#acff01]';
+                              else if (index === 1) bgColor = 'bg-[#ff8b00]';
+                              else if (index === 2) bgColor = 'bg-[#fe3c00]';
+                              else if (index === 3) bgColor = 'bg-[#73ff01]';
+                              else bgColor = 'bg-[#05ff00]';
+                            } else if (esgScore > 50 && esgScore <= 75) {
+                              // Color mapping for 51-75% score range
+                              if (index === 0) bgColor = 'bg-[#ff8b00]';
+                              else if (index === 1) bgColor = 'bg-[#fe3c00]';
+                              else if (index === 2) bgColor = 'bg-[#73ff01]';
+                              else if (index === 3) bgColor = 'bg-[#05ff00]';
+                              else bgColor = 'bg-[#acff01]';
+                            } else {
+                              // Color mapping for 76-100% score range
+                              if (index === 0) bgColor = 'bg-[#fe3c00]';
+                              else if (index === 1) bgColor = 'bg-[#73ff01]';
+                              else if (index === 2) bgColor = 'bg-[#05ff00]';
+                              else if (index === 3) bgColor = 'bg-[#acff01]';
+                              else bgColor = 'bg-[#ff8b00]';
+                            }
+                            
+                            return (
+                              <Button
+                                key={item}
+                                text={item}
+                                fill_background_color={bgColor}
+                                text_color="text-black"
+                                border_border_radius="rounded-xs"
+                                layout_width="w-full"
+                                padding="px-2 py-2"
+                                onClick={emptyFunction}
+                                className="w-full text-sm"
+                              />
+                            );
+                          })}
                         </div>
                       </div>
+
+                      <div className="flex flex-col gap-1 justify-start items-start w-full">
+                        <span className="text-md font-normal text-black">Social</span>
+                        <div className="grid grid-cols-5 gap-2 justify-start items-center w-full">
+                          {[
+                            'Human Capacity',
+                            'Community Engagement',
+                            'Customer Satisfaction',
+                            'Quality Assurance',
+                            'Data Risk',
+                          ].map((item, index) => {
+                            // Extract numeric ESG score from company data
+                            const esgScore = parseInt(companyData.esgScore.value);
+                            let bgColor = 'bg-[#05ff00]'; // Default green
+                            
+                            if (esgScore >= 0 && esgScore <= 25) {
+                              // Color mapping for 0-25% score range
+                              if (index === 0) bgColor = 'bg-[#05ff00]'; // Green
+                              else if (index === 1) bgColor = 'bg-[#76ff01]'; // Light Green
+                              else if (index === 2) bgColor = 'bg-[#ff9000]'; // Orange
+                              else if (index === 3) bgColor = 'bg-[#ffa101]'; // Amber
+                              else bgColor = 'bg-[#fed600]'; // Yellow
+                            } else if (esgScore > 25 && esgScore <= 50) {
+                              // Color mapping for 26-50% score range
+                              if (index === 0) bgColor = 'bg-[#76ff01]';
+                              else if (index === 1) bgColor = 'bg-[#ff9000]';
+                              else if (index === 2) bgColor = 'bg-[#ffa101]';
+                              else if (index === 3) bgColor = 'bg-[#fed600]';
+                              else bgColor = 'bg-[#05ff00]';
+                            } else if (esgScore > 50 && esgScore <= 75) {
+                              // Color mapping for 51-75% score range
+                              if (index === 0) bgColor = 'bg-[#ff9000]';
+                              else if (index === 1) bgColor = 'bg-[#ffa101]';
+                              else if (index === 2) bgColor = 'bg-[#fed600]';
+                              else if (index === 3) bgColor = 'bg-[#05ff00]';
+                              else bgColor = 'bg-[#76ff01]';
+                            } else {
+                              // Color mapping for 76-100% score range
+                              if (index === 0) bgColor = 'bg-[#ffa101]';
+                              else if (index === 1) bgColor = 'bg-[#fed600]';
+                              else if (index === 2) bgColor = 'bg-[#05ff00]';
+                              else if (index === 3) bgColor = 'bg-[#76ff01]';
+                              else bgColor = 'bg-[#ff9000]';
+                            }
+                            
+                            return (
+                              <Button
+                                key={item}
+                                text={item}
+                                fill_background_color={bgColor}
+                                text_color="text-black"
+                                border_border_radius="rounded-xs"
+                                layout_width="w-full"
+                                padding="px-2 py-2"
+                                onClick={emptyFunction}
+                                className="w-full text-sm"
+                              />
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col gap-1 justify-start items-start w-full">
+                        <span className="text-md font-normal text-black">Governance</span>
+                        <div className="grid grid-cols-5 gap-2 justify-start items-center w-full">
+                          {[
+                            'Legal Compliance',
+                            'Board Performance',
+                            'Executioner Risk',
+                            'Competitor Risk',
+                            'Financial Risk',
+                          ].map((item, index) => {
+                            // Extract numeric ESG score from company data
+                            const esgScore = parseInt(companyData.esgScore.value);
+                            let bgColor = 'bg-[#d4ff00]'; // Default green
+                            
+                            if (esgScore >= 0 && esgScore <= 25) {
+                              // Color mapping for 0-25% score range
+                              if (index === 0) bgColor = 'bg-[#d4ff00]'; // Lime
+                              else if (index === 1) bgColor = 'bg-[#86ff00]'; // Green
+                              else if (index === 2) bgColor = 'bg-[#fed600]'; // Yellow
+                              else if (index === 3) bgColor = 'bg-[#05ff00]'; // Green
+                              else bgColor = 'bg-[#ff2700]'; // Red
+                            } else if (esgScore > 25 && esgScore <= 50) {
+                              // Color mapping for 26-50% score range
+                              if (index === 0) bgColor = 'bg-[#86ff00]';
+                              else if (index === 1) bgColor = 'bg-[#fed600]';
+                              else if (index === 2) bgColor = 'bg-[#05ff00]';
+                              else if (index === 3) bgColor = 'bg-[#ff2700]';
+                              else bgColor = 'bg-[#d4ff00]';
+                            } else if (esgScore > 50 && esgScore <= 75) {
+                              // Color mapping for 51-75% score range
+                              if (index === 0) bgColor = 'bg-[#fed600]';
+                              else if (index === 1) bgColor = 'bg-[#05ff00]';
+                              else if (index === 2) bgColor = 'bg-[#ff2700]';
+                              else if (index === 3) bgColor = 'bg-[#d4ff00]';
+                              else bgColor = 'bg-[#86ff00]';
+                            } else {
+                              // Color mapping for 76-100% score range
+                              if (index === 0) bgColor = 'bg-[#05ff00]';
+                              else if (index === 1) bgColor = 'bg-[#ff2700]';
+                              else if (index === 2) bgColor = 'bg-[#d4ff00]';
+                              else if (index === 3) bgColor = 'bg-[#86ff00]';
+                              else bgColor = 'bg-[#fed600]';
+                            }
+                            
+                            return (
+                              <Button
+                                key={item}
+                                text={item}
+                                fill_background_color={bgColor}
+                                text_color="text-black"
+                                border_border_radius="rounded-xs"
+                                layout_width="w-full"
+                                padding="px-2 py-2"
+                                onClick={emptyFunction}
+                                className="w-full text-sm"
+                              />
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-1 justify-center items-center w-full">
+                    <div className="flex flex-row justify-between items-center w-full px-3">
+                      <span className="text-sm font-normal text-black">Low</span>
+                      <span className="text-sm font-normal text-black">Medium</span>
+                      <span className="text-sm font-normal text-black">High</span>
+                    </div>
+                    <img
+                      src="/images/img_frame_1000003883.png"
+                      alt="Risk scale"
+                      className="w-full h-2 rounded-sm"
+                    />
+                  </div>
+                </div>
                     </div>
                   </>
                 )}
