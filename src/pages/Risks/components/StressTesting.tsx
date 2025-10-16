@@ -138,7 +138,7 @@ const StressTesting: React.FC = () => {
           worstCaseScenario: totalImpact * 1.8,
         });
         setIsLoadingResults(false);
-      }, 1000);
+      }, 5000);
 
       // Update charts with final data after longer delay
       setTimeout(() => {
