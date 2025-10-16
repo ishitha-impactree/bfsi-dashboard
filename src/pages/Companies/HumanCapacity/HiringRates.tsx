@@ -163,7 +163,7 @@ const Hiring = ({ data = defaultHiringData, companyName }: HiringProps) => {
     <div className="w-full flex flex-col">
       <div className="flex justify-between items-center mb-4 px-3 sm:px-4">
         <h2 className="text-lg font-bold text-primary-dark">
-          {companyName ? `${companyName} - Monthly Hiring Rate` : 'Monthly Hiring Rate'}
+          {companyName ? `${companyName} -  Hiring Rates` : 'Hiring Rate'}
         </h2>
       </div>
 
