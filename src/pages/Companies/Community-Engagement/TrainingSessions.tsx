@@ -13,7 +13,7 @@ export const defaultTrainingData = [
   { category: 'Time Management', employees: 28, color: '#5DD0A7' },
   { category: 'Health & Safety', employees: 42, color: '#3B82F6' },
   { category: 'Sexual Harassment', employees: 15, color: '#F97316' },
-  { category: 'Project Management', employees: 25, color: '#8B5CF6' },
+  { category: 'Project Mgmt', employees: 25, color: '#8B5CF6' },
   { category: 'Cybersecurity', employees: 30, color: '#8B5CF6' },
 ];
 
@@ -21,7 +21,7 @@ export const trainingData1 = [ // Yazaki
   { category: 'Time Management', employees: 24, color: '#5DD0A7' },
   { category: 'Health & Safety', employees: 38, color: '#3B82F6' },
   { category: 'Sexual Harassment', employees: 14, color: '#F97316' },
-  { category: 'Project Management', employees: 20, color: '#8B5CF6' },
+  { category: 'Project Mgmt', employees: 20, color: '#8B5CF6' },
   { category: 'Cybersecurity', employees: 26, color: '#8B5CF6' },
 ];
 
@@ -29,7 +29,7 @@ export const trainingData2 = [ // LEONI India
   { category: 'Time Management', employees: 20, color: '#5DD0A7' },
   { category: 'Health & Safety', employees: 35, color: '#3B82F6' },
   { category: 'Sexual Harassment', employees: 12, color: '#F97316' },
-  { category: 'Project Management', employees: 18, color: '#8B5CF6' },
+  { category: 'Project Mgmt', employees: 18, color: '#8B5CF6' },
   { category: 'Cybersecurity', employees: 22, color: '#8B5CF6' },
 ];
 
@@ -37,7 +37,7 @@ export const trainingData3 = [ // Aptiv
   { category: 'Time Management', employees: 25, color: '#5DD0A7' },
   { category: 'Health & Safety', employees: 40, color: '#3B82F6' },
   { category: 'Sexual Harassment', employees: 16, color: '#F97316' },
-  { category: 'Project Management', employees: 23, color: '#8B5CF6' },
+  { category: 'Project Mgmt', employees: 23, color: '#8B5CF6' },
   { category: 'Cybersecurity', employees: 28, color: '#8B5CF6' },
 ];
 
@@ -45,7 +45,7 @@ export const trainingData4 = [ // Bosch
   { category: 'Time Management', employees: 32, color: '#5DD0A7' },
   { category: 'Health & Safety', employees: 48, color: '#3B82F6' },
   { category: 'Sexual Harassment', employees: 20, color: '#F97316' },
-  { category: 'Project Management', employees: 28, color: '#8B5CF6' },
+  { category: 'Project Mgmt', employees: 28, color: '#8B5CF6' },
   { category: 'Cybersecurity', employees: 35, color: '#8B5CF6' },
 ];
 
@@ -53,7 +53,7 @@ export const trainingData5 = [ // Sona Comstar
   { category: 'Time Management', employees: 18, color: '#5DD0A7' },
   { category: 'Health & Safety', employees: 30, color: '#3B82F6' },
   { category: 'Sexual Harassment', employees: 11, color: '#F97316' },
-  { category: 'Project Management', employees: 15, color: '#8B5CF6' },
+  { category: 'Project Mgmt', employees: 15, color: '#8B5CF6' },
   { category: 'Cybersecurity', employees: 20, color: '#8B5CF6' },
 ];
 
@@ -61,7 +61,7 @@ export const trainingData6 = [ // Uno Minda
   { category: 'Time Management', employees: 27, color: '#5DD0A7' },
   { category: 'Health & Safety', employees: 43, color: '#3B82F6' },
   { category: 'Sexual Harassment', employees: 17, color: '#F97316' },
-  { category: 'Project Management', employees: 24, color: '#8B5CF6' },
+  { category: 'Project Mgmt', employees: 24, color: '#8B5CF6' },
   { category: 'Cybersecurity', employees: 31, color: '#8B5CF6' },
 ];
 
@@ -69,7 +69,7 @@ export const trainingData7 = [ // Furukawa Minda
   { category: 'Time Management', employees: 16, color: '#5DD0A7' },
   { category: 'Health & Safety', employees: 26, color: '#3B82F6' },
   { category: 'Sexual Harassment', employees: 9, color: '#F97316' },
-  { category: 'Project Management', employees: 13, color: '#8B5CF6' },
+  { category: 'Project Mgmt', employees: 13, color: '#8B5CF6' },
   { category: 'Cybersecurity', employees: 18, color: '#8B5CF6' },
 ];
 
@@ -77,7 +77,7 @@ export const trainingData8 = [ // Varroc
   { category: 'Time Management', employees: 24, color: '#5DD0A7' },
   { category: 'Health & Safety', employees: 39, color: '#3B82F6' },
   { category: 'Sexual Harassment', employees: 14, color: '#F97316' },
-  { category: 'Project Management', employees: 21, color: '#8B5CF6' },
+  { category: 'Project Mgmt', employees: 21, color: '#8B5CF6' },
   { category: 'Cybersecurity', employees: 27, color: '#8B5CF6' },
 ];
 
@@ -85,7 +85,7 @@ export const trainingData9 = [ // Lumax
   { category: 'Time Management', employees: 19, color: '#5DD0A7' },
   { category: 'Health & Safety', employees: 32, color: '#3B82F6' },
   { category: 'Sexual Harassment', employees: 12, color: '#F97316' },
-  { category: 'Project Management', employees: 16, color: '#8B5CF6' },
+  { category: 'Project Mgmt', employees: 16, color: '#8B5CF6' },
   { category: 'Cybersecurity', employees: 22, color: '#8B5CF6' },
 ];
 

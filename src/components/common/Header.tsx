@@ -23,7 +23,7 @@ const Header = ({ className }: HeaderProps) => {
     const day = now.getDate();
     const month = now.toLocaleDateString('en-US', { month: 'short' });
     const weekday = now.toLocaleDateString('en-US', { weekday: 'short' });
-    const formattedDate = `${month} ${day}, ${weekday}`; // Changed to "Oct 16, Wed" format
+    const formattedDate = `${month} ${day}, ${weekday}`; 
     setCurrentDate(formattedDate);
   };
 
@@ -101,7 +101,6 @@ const Header = ({ className }: HeaderProps) => {
   };
 
   const handleLogout = () => {
-    // Logout logic will be handled in the Logout component
     setLogoutOpen(true);
     setProfileDropdownOpen(false);
   };
@@ -216,7 +215,6 @@ const Header = ({ className }: HeaderProps) => {
                   onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
                 />
                 
-                {/* Profile Dropdown Menu */}
                 {profileDropdownOpen && (
                   <div
                     className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50"
@@ -271,7 +269,6 @@ const Header = ({ className }: HeaderProps) => {
                 <span className="text-header-accent font-medium">{getCurrentPageTitle()}</span>
               </div>
               
-              {/* Mobile Logout Button */}
               <button
                 onClick={handleLogout}
                 className="w-full mt-3 px-4 py-2 text-sm text-red-600 border border-red-200 rounded-lg hover:bg-red-50 transition-colors flex items-center justify-center gap-2"
@@ -284,7 +281,6 @@ const Header = ({ className }: HeaderProps) => {
         </div>
       </header>
 
-      {/* Logout Confirmation Popup */}
       <Logout
         isOpen={logoutOpen}
         onClose={() => setLogoutOpen(false)}

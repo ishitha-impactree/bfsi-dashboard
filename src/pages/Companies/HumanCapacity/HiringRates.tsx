@@ -66,27 +66,19 @@ export const hiringData3 = [ // Aptiv
 ];
 
 export const hiringData4 = [ // Bosch
-  { name: 'Jan', hiringRate: 1.00 },
-  { name: 'Feb', hiringRate: 0.80 },
-  { name: 'Mar', hiringRate: 1.00 },
-  { name: 'Apr', hiringRate: 0.70 },
-  { name: 'May', hiringRate: 0.90 },
-  { name: 'Jun', hiringRate: 1.10 },
-  { name: 'Jul', hiringRate: 0.80 },
-  { name: 'Aug', hiringRate: 0.90 },
-  { name: 'Sep', hiringRate: 1.00 },
+  { name: 'FY21', hiringRate: 395034 },
+  { name: 'FY22', hiringRate: 402614 },
+  { name: 'FY23', hiringRate: 421338 },
+  { name: 'FY24', hiringRate: 429416 },
+  { name: 'FY25', hiringRate: 417859 },
 ];
 
 export const hiringData5 = [ // Sona Comstar
-  { name: 'Jan', hiringRate: 0.90 },
-  { name: 'Feb', hiringRate: 0.80},
-  { name: 'Mar', hiringRate: 1.00 },
-  { name: 'Apr', hiringRate: 0.80 },
-  { name: 'May', hiringRate: 1.10 },
-  { name: 'Jun', hiringRate: 1.20 },
-  { name: 'Jul', hiringRate: 0.90 },
-  { name: 'Aug', hiringRate: 1.00 },
-  { name: 'Sep', hiringRate: 1.30},
+  { name: 'FY21', hiringRate: 3143 },
+  { name: 'FY22', hiringRate: 3555 },
+  { name: 'FY23', hiringRate: 4064 },
+  { name: 'FY24', hiringRate: 4674 },
+  { name: 'FY25', hiringRate: 5019 },
 ];
 
 export const hiringData6 = [ // Uno Minda
@@ -137,13 +129,28 @@ export const hiringData9 = [ // Lumax
   { name: 'Sep', hiringRate: 1.30 },
 ];
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+const formatNumberWithCommas = (value: number): string => {
+  return value.toLocaleString('en-US');
+};
+
+const CustomTooltip = ({ active, payload, label, companyName }: any) => {
   if (active && payload && payload.length) {
+    const isManpowerCompany = companyName && (companyName.includes('Bosch') || companyName.includes('Sona Comstar'));
+    
+    const formatValue = (value: number) => {
+      if (isManpowerCompany) {
+        return `$${formatNumberWithCommas(value)}`;
+      }
+      return `${value}%`;
+    };
+
+    const valueName = isManpowerCompany ? 'Total Manpower' : 'Hiring Rate';
+
     return (
       <div className="bg-background-card p-3 border border-border-primary rounded-lg shadow-lg">
-        <p className="text-text-primary text-sm font-semibold">{`Month: ${label}`}</p>
+        <p className="text-text-primary text-sm font-semibold">{`Period: ${label}`}</p>
         <p className="text-sm" style={{ color: '#10B981' }}>
-          {`Hiring Rate: ${payload[0].value}%`}
+          {`${valueName}: ${formatValue(payload[0].value)}`}
         </p>
       </div>
     );
@@ -152,18 +159,27 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 const Hiring = ({ data = defaultHiringData, companyName }: HiringProps) => {
+  const isManpowerCompany = companyName && (companyName.includes('Bosch') || companyName.includes('Sona Comstar'));
+  
   const maxValue = Math.max(...data.map(item => item.hiringRate));
-  const yAxisMax = Math.ceil(maxValue * 1.2); 
+  const yAxisMax = isManpowerCompany 
+    ? Math.ceil(maxValue * 1.1)
+    : Math.ceil(maxValue * 1.2); 
 
   const formatYAxisTick = (value: number): string => {
+    if (isManpowerCompany) {
+      return `$${formatNumberWithCommas(value)}`;
+    }
     return `${value}%`;
   };
+
+  const lineName = isManpowerCompany ? 'Total Manpower' : 'Hiring Rate';
 
   return (
     <div className="w-full flex flex-col">
       <div className="flex justify-between items-center mb-4 px-3 sm:px-4">
         <h2 className="text-lg font-bold text-primary-dark">
-          {companyName ? `${companyName} -  Hiring Rates` : 'Hiring Rate'}
+          {companyName ? `${companyName} - ${isManpowerCompany ? 'Total Manpower' : 'Hiring Rate'}` : 'Hiring Rate'}
         </h2>
       </div>
 
@@ -185,11 +201,11 @@ const Hiring = ({ data = defaultHiringData, companyName }: HiringProps) => {
               tick={{ fontSize: 12, fill: '#6b7280' }}
               tickFormatter={formatYAxisTick}
             />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={<CustomTooltip companyName={companyName} />} />
             <Line
               type="linear"
               dataKey="hiringRate"
-              name="Hiring Rate"
+              name={lineName}
               stroke="#10B981"
               strokeWidth={2}
               dot={{ r: 4, stroke: '#10B981', strokeWidth: 2, fill: 'white' }}

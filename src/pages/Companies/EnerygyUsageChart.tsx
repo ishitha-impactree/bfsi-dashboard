@@ -34,7 +34,6 @@ export const defaultData = [
   { name: 'Sep', Energy: 13175 },
 ];
 
-// Data for other companies
 export const energyUsageData1 = [ // Yazaki
   { name: 'Jan', Energy: 14400 },
   { name: 'Feb', Energy: 14400 },
@@ -72,27 +71,19 @@ export const energyUsageData3 = [ // Aptiv
 ];
 
 export const energyUsageData4 = [ // Bosch
-  { name: 'Jan', Energy: 68000 },
-  { name: 'Feb', Energy: 68000 },
-  { name: 'Mar', Energy: 72250 },
-  { name: 'Apr', Energy: 76500 },
-  { name: 'May', Energy: 76500 },
-  { name: 'Jun', Energy: 76500 },
-  { name: 'Jul', Energy: 63750 },
-  { name: 'Aug', Energy: 63750 },
-  { name: 'Sep', Energy: 72250 },
+  { name: 'FY21', Energy: 0.9 }, // M tCO₂e
+  { name: 'FY22', Energy: 0.85 },
+  { name: 'FY23', Energy: 0.7 },
+  { name: 'FY24', Energy: 0.581 },
+  { name: 'FY25', Energy: 0.5313 },
 ];
 
 export const energyUsageData5 = [ // Sona Comstar
-  { name: 'Jan', Energy: 16800 },
-  { name: 'Feb', Energy: 16800 },
-  { name: 'Mar', Energy: 17850 },
-  { name: 'Apr', Energy: 18900 },
-  { name: 'May', Energy: 18900 },
-  { name: 'Jun', Energy: 18900 },
-  { name: 'Jul', Energy: 15750 },
-  { name: 'Aug', Energy: 15750 },
-  { name: 'Sep', Energy: 17850 },
+  { name: 'FY21', Energy: 0.031171 }, 
+  { name: 'FY22', Energy: 0.047729 }, 
+  { name: 'FY23', Energy: 0.043707 },
+  { name: 'FY24', Energy: 0.058317 },
+  { name: 'FY25', Energy: 0.064659 },
 ];
 
 export const energyUsageData6 = [ // Uno Minda
@@ -151,14 +142,17 @@ const formatYAxisTick = (value: number): string => {
   return formatNumberWithCommas(value);
 };
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload, label, companyName }: any) => {
   if (active && payload && payload.length) {
+    const isEmissionsCompany = companyName && (companyName.includes('Bosch') || companyName.includes('Sona Comstar'));
+    const unit = isEmissionsCompany ? 'M tCO₂e' : 'GJ';
+    
     return (
       <div className="bg-background-card p-3 border border-border-primary rounded-lg shadow-lg">
-        <p className="text-text-primary text-sm font-semibold">{`Month: ${label}`}</p>
+        <p className="text-text-primary text-sm font-semibold">{`Period: ${label}`}</p>
         {payload.map((p: any) => (
           <p key={p.dataKey} className="text-sm" style={{ color: p.stroke }}>
-            {`${p.name}: ${p.value !== null ? `${formatNumberWithCommas(p.value)} GJ` : 'N/A'}`}
+            {`${p.name}: ${p.value !== null ? `${isEmissionsCompany ? p.value.toFixed(6) : formatNumberWithCommas(p.value)} ${unit}` : 'N/A'}`}
           </p>
         ))}
       </div>
@@ -176,13 +170,27 @@ const CustomDot = (props: any) => {
 };
 
 const EnergyUsageChart = ({ className, data = defaultData, companyName }: ESGChartProps) => {
+  const isEmissionsCompany = companyName && (companyName.includes('Bosch') || companyName.includes('Sona Comstar'));
+  
   const maxValue = Math.max(...data.map(item => item.Energy as number));
-  const yAxisMax = Math.ceil(maxValue * 1.1); 
+  const yAxisMax = isEmissionsCompany 
+    ? Math.ceil(maxValue * 1.2 * 10) / 10
+    : Math.ceil(maxValue * 1.1); 
+
+  const lineName = isEmissionsCompany ? 'Scope 1 & 2 Emissions' : 'Scope 1 & 2 Emissions';
+
+  const formatYAxisTickCustom = (value: number): string => {
+    if (isEmissionsCompany) {
+      return value.toFixed(3);
+    }
+    return formatNumberWithCommas(value);
+  };
+
   return (
     <div className={`w-full flex flex-col ${className || ''}`}>
       <div className="flex justify-between items-center mb-4 px-3 sm:px-4">
         <h2 className="text-lg font-bold text-primary-dark">
-          {companyName ? `${companyName} - Energy Usage By Month` : 'Energy Usage By Month'}
+          {companyName ? `${companyName} - ${isEmissionsCompany ? 'Scope 1 & 2 Emissions' : 'Scope 1 & 2 Emissions'}` : 'Scope 1 & 2 Emissions'}
         </h2>
       </div>
 
@@ -202,13 +210,13 @@ const EnergyUsageChart = ({ className, data = defaultData, companyName }: ESGCha
               tickLine={false}
               axisLine={false}
               tick={{ fontSize: 12, fill: '#6b7280' }}
-              tickFormatter={formatYAxisTick}
+              tickFormatter={formatYAxisTickCustom}
             />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={<CustomTooltip companyName={companyName} />} />
             <Line
               type="linear"
               dataKey="Energy"
-              name="Energy Usage"
+              name={lineName}
               stroke="#10B981"
               strokeWidth={2}
               dot={<CustomDot />}

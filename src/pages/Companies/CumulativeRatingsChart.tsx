@@ -70,28 +70,22 @@ const data3 = [
   { name: 'Sep', Environment: 66, Social: 73, Governance: 69 },
 ];
 
+//bosch limited
 const data4 = [
-  { name: 'Jan', Environment: 82, Social: 72, Governance: 79 }, 
-  { name: 'Feb', Environment: 88, Social: 78, Governance: 75 },
-  { name: 'Mar', Environment: 85, Social: 74, Governance: 80 },
-  { name: 'Apr', Environment: 86, Social: 76, Governance: 76 },
-  { name: 'May', Environment: 83, Social: 71, Governance: 77 },
-  { name: 'Jun', Environment: 84, Social: 79, Governance: 81 },
-  { name: 'Jul', Environment: 89, Social: 73, Governance: 74 },
-  { name: 'Aug', Environment: 81, Social: 75, Governance: 78 },
-  { name: 'Sep', Environment: 87, Social: 77, Governance: 82 },
+  { name: 'FY 21', Environment: 68, Social: 71, Governance: 65 }, 
+  { name: 'FY 22', Environment: 70, Social: 72, Governance: 67 },
+  { name: 'FY 23', Environment: 72, Social: 74, Governance: 70 },
+  { name: 'FY 24', Environment: 74, Social: 76, Governance: 74 },
+  { name: 'FY 25', Environment: 76, Social: 78, Governance: 76 },
 ];
 
+//sona comstar
 const data5 = [
-  { name: 'Jan', Environment: 55, Social: 65, Governance: 60 }, 
-  { name: 'Feb', Environment: 60, Social: 68, Governance: 66 },
-  { name: 'Mar', Environment: 58, Social: 66, Governance: 63 },
-  { name: 'Apr', Environment: 62, Social: 70, Governance: 67 },
-  { name: 'May', Environment: 57, Social: 64, Governance: 61 },
-  { name: 'Jun', Environment: 61, Social: 69, Governance: 68 },
-  { name: 'Jul', Environment: 56, Social: 63, Governance: 62 },
-  { name: 'Aug', Environment: 59, Social: 67, Governance: 65 },
-  { name: 'Sep', Environment: 63, Social: 71, Governance: 69 },
+  { name: 'FY 21', Environment: 50, Social: 55, Governance: 60 }, 
+  { name: 'FY 22', Environment: 56, Social: 60, Governance: 62 },
+  { name: 'FY 23', Environment: 62, Social: 66, Governance: 68 },
+  { name: 'FY 24', Environment: 66, Social: 70, Governance: 74 },
+  { name: 'FY 25', Environment: 68, Social: 72, Governance: 65 },
 ];
 
 const data6 = [

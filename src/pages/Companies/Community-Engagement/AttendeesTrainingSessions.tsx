@@ -66,27 +66,19 @@ export const attendeesData3 = [ // Aptiv
 ];
 
 export const attendeesData4 = [ // Bosch
-  { name: 'Jan', hiringRate: 610 },
-  { name: 'Feb', hiringRate: 640 },
-  { name: 'Mar', hiringRate: 660 },
-  { name: 'Apr', hiringRate: 680 },
-  { name: 'May', hiringRate: 650 },
-  { name: 'Jun', hiringRate: 710 },
-  { name: 'Jul', hiringRate: 750 },
-  { name: 'Aug', hiringRate: 740 },
-  { name: 'Sep', hiringRate: 780 },
+  { name: 'FY21', hiringRate: 100 },
+  { name: 'FY22', hiringRate: 100 },
+  { name: 'FY23', hiringRate: 100 },
+  { name: 'FY24', hiringRate: 100 },
+  { name: 'FY25', hiringRate: 100 },
 ];
 
 export const attendeesData5 = [ // Sona Comstar
-  { name: 'Jan', hiringRate: 370 },
-  { name: 'Feb', hiringRate: 390 },
-  { name: 'Mar', hiringRate: 420 },
-  { name: 'Apr', hiringRate: 440 },
-  { name: 'May', hiringRate: 410 },
-  { name: 'Jun', hiringRate: 470 },
-  { name: 'Jul', hiringRate: 490 },
-  { name: 'Aug', hiringRate: 480 },
-  { name: 'Sep', hiringRate: 500 },
+  { name: 'FY21', hiringRate: 100 },
+  { name: 'FY22', hiringRate: 82 },
+  { name: 'FY23', hiringRate: 90 },
+  { name: 'FY24', hiringRate: 100 },
+  { name: 'FY25', hiringRate: 100 },
 ];
 
 export const attendeesData6 = [ // Uno Minda
@@ -137,13 +129,28 @@ export const attendeesData9 = [ // Lumax
   { name: 'Sep', hiringRate: 520 },
 ];
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+const formatNumberWithCommas = (value: number): string => {
+  return value.toLocaleString('en-US');
+};
+
+const CustomTooltip = ({ active, payload, label, companyName }: any) => {
   if (active && payload && payload.length) {
+    const isTrainingCoverageCompany = companyName && (companyName.includes('Bosch') || companyName.includes('Sona Comstar'));
+    
+    const formatValue = (value: number) => {
+      if (isTrainingCoverageCompany) {
+        return `${value}%`;
+      }
+      return formatNumberWithCommas(value);
+    };
+
+    const valueName = isTrainingCoverageCompany ? 'Training Coverage' : 'Attendees';
+
     return (
       <div className="bg-background-card p-3 border border-border-primary rounded-lg shadow-lg">
-        <p className="text-text-primary text-sm font-semibold">{`Month: ${label}`}</p>
+        <p className="text-text-primary text-sm font-semibold">{`Period: ${label}`}</p>
         <p className="text-sm" style={{ color: '#10B981' }}>
-          {`Hiring Rate: ${payload[0].value}%`}
+          {`${valueName}: ${formatValue(payload[0].value)}`}
         </p>
       </div>
     );
@@ -152,18 +159,27 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 const AttendeesTrainingSessions = ({ data = defaultAttendeesData, companyName }: HiringProps) => {
+  const isTrainingCoverageCompany = companyName && (companyName.includes('Bosch') || companyName.includes('Sona Comstar'));
+  
   const maxValue = Math.max(...data.map(item => item.hiringRate));
-  const yAxisMax = Math.ceil(maxValue * 1.2); 
+  const yAxisMax = isTrainingCoverageCompany 
+    ? 100 // For training coverage, max is always 100%
+    : Math.ceil(maxValue * 1.2);
 
   const formatYAxisTick = (value: number): string => {
-    return `${value}%`;
+    if (isTrainingCoverageCompany) {
+      return `${value}%`;
+    }
+    return formatNumberWithCommas(value);
   };
+
+  const lineName = isTrainingCoverageCompany ? 'Training Coverage' : 'Attendees';
 
   return (
     <div className="w-full flex flex-col">
       <div className="flex justify-between items-center mb-4 px-3 sm:px-4">
         <h2 className="text-lg font-bold text-primary-dark">
-          {companyName ? `${companyName} - Monthly Hiring Rate` : 'Monthly Hiring Rate'}
+          {companyName ? `${companyName} - ${isTrainingCoverageCompany ? 'Training Coverage' : 'Training Attendees'}` : 'Training Attendees'}
         </h2>
       </div>
 
@@ -185,11 +201,11 @@ const AttendeesTrainingSessions = ({ data = defaultAttendeesData, companyName }:
               tick={{ fontSize: 12, fill: '#6b7280' }}
               tickFormatter={formatYAxisTick}
             />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={<CustomTooltip companyName={companyName} />} />
             <Line
               type="linear"
               dataKey="hiringRate"
-              name="Hiring Rate"
+              name={lineName}
               stroke="#10B981"
               strokeWidth={2}
               dot={{ r: 4, stroke: '#10B981', strokeWidth: 2, fill: 'white' }}
