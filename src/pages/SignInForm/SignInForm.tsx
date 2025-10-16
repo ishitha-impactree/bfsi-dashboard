@@ -1,5 +1,5 @@
 import { Form, Formik, FormikHelpers, useField } from 'formik';
-import { useState, ReactNode, CSSProperties } from 'react';
+import { useState, ReactNode, CSSProperties, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { object, string, boolean } from 'yup';
 
@@ -108,6 +108,7 @@ interface FormikFieldProps {
   className: string;
   style: CSSProperties;
   placeholder?: string;
+  disabled?: boolean;
 }
 
 const FormikField: React.FC<FormikFieldProps> = ({
@@ -119,6 +120,7 @@ const FormikField: React.FC<FormikFieldProps> = ({
   style,
   placeholder,
   errors,
+  disabled = false,
 }) => {
   const [field] = useField(name); // connects input with Formik
   const isError = errors[name];
@@ -136,18 +138,21 @@ const FormikField: React.FC<FormikFieldProps> = ({
           border: `1px solid ${isError ? '#dc3545' : '#ccc'}`,
           width: '100%',
           boxSizing: 'border-box',
+          backgroundColor: disabled ? '#f5f5f5' : 'white',
+          cursor: disabled ? 'not-allowed' : 'text',
         }}
+        disabled={disabled}
       />
       {isPassword && setPasswordIcon && (
         <div
-          onClick={() => setPasswordIcon(!passwordIcon)}
+          onClick={() => !disabled && setPasswordIcon(!passwordIcon)}
           style={{
             position: 'absolute',
             right: '10px',
             top: '50%',
             transform: 'translateY(-50%)',
-            cursor: 'pointer',
-            color: '#6c757d',
+            cursor: disabled ? 'not-allowed' : 'pointer',
+            color: disabled ? '#ccc' : '#6c757d',
           }}
         >
           {passwordIcon ? <EyeOffIcon /> : <EyeIcon />}
@@ -209,7 +214,8 @@ const FormCheck: React.FC<{
   checked: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   style: CSSProperties;
-}> = ({ id, label, checked, onChange, style }) => (
+  disabled?: boolean;
+}> = ({ id, label, checked, onChange, style, disabled = false }) => (
   <div style={{ display: 'flex', alignItems: 'center' }}>
     <input
       type="checkbox"
@@ -217,8 +223,9 @@ const FormCheck: React.FC<{
       checked={checked}
       onChange={onChange}
       style={{ marginRight: '8px' }}
+      disabled={disabled}
     />
-    <label htmlFor={id} style={style}>
+    <label htmlFor={id} style={{ ...style, color: disabled ? '#ccc' : style.color }}>
       {label}
     </label>
   </div>
@@ -230,7 +237,13 @@ const yourAuthFunction = async (credentials: {
   slug?: string;
 }) => {
   await new Promise((resolve) => setTimeout(resolve, 500));
-  return { success: true };
+  
+  // Only allow vivek@impactree.ai with the simple password
+  if (credentials.email === 'vivek@impactree.ai' && credentials.password === 'simple123') {
+    return { success: true };
+  }
+  
+  return { success: false };
 };
 
 const showToast = (message: string, type: 'success' | 'error', setToast: Function) => {
@@ -380,9 +393,13 @@ export default function App({ slug }: { slug?: string }) {
   });
   const [hideEyeIcon, setHideEyeIcon] = useState(false);
 
+  // Simple random password
+  const simplePassword = 'simple123';
+  
+  // Pre-filled values for vivek@impactree.ai
   const [values, setValues] = useState<SignInValues>({
-    email: '',
-    password: '',
+    email: 'vivek@impactree.ai',
+    password: simplePassword,
     rememberMe: false,
   });
 
@@ -396,6 +413,14 @@ export default function App({ slug }: { slug?: string }) {
     setSubmitting(true);
 
     try {
+      // Additional validation to ensure only vivek@impactree.ai can login
+      if (values.email !== 'vivek@impactree.ai') {
+        setFieldError('email', 'Only vivek@impactree.ai is allowed to login');
+        showToast('Login failed: Only specific email allowed', 'error', setToast);
+        setSubmitting(false);
+        return;
+      }
+
       const res = await yourAuthFunction({
         email: values.email,
         password: values.password,
@@ -419,8 +444,8 @@ export default function App({ slug }: { slug?: string }) {
   };
 
   const validationSchema = object({
-    email: string(),
-    password: string(),
+    email: string().email('Invalid email format'),
+    password: string().min(1, 'Password is required'),
     rememberMe: boolean(),
   });
 
@@ -459,6 +484,7 @@ export default function App({ slug }: { slug?: string }) {
         }}
       >
         <div style={{ width: '100%', padding: '16px', maxWidth: '500px' }}>
+     
           <Formik
             initialValues={values}
             validationSchema={validationSchema}
@@ -510,9 +536,10 @@ export default function App({ slug }: { slug?: string }) {
                     label=""
                     type="email"
                     value={values.email}
-                    placeholder="e.g., john.doe@example.com"
+                    placeholder="vivek@impactree.ai"
                     className="w-100"
                     style={{ borderRadius: '6px', padding: '10px 15px' }}
+                    disabled={true} // Email is pre-filled and disabled
                   />
                 </div>
 
@@ -576,7 +603,7 @@ export default function App({ slug }: { slug?: string }) {
                   </a>
                 </div>
 
-                <Stack>
+                <Stack className="">
                   <Button
                     text={isSubmitting ? 'Logging in...' : 'Login to account'}
                     isDisabled={isSubmitting}
