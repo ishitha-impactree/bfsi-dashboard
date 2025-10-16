@@ -106,7 +106,7 @@ const EmployeeMetrics = ({ data = defaultEmployeeData }: EmployeeMetricsProps) =
     <div className="grid grid-cols-1 lg:grid-cols-1 gap-3 mb-3 p-3">
       <div className="flex items-center justify-between mb-2">
         <div>
-          <h3 className="text-lg font-semibold text-foreground">Employee Distribution</h3>
+          <h3 className="text-lg font-semibold text-foreground">Employee Metrics</h3>
           <p className="text-sm text-muted-foreground">
             Total: {formatNumberWithCommas(totalEmployees || 0)} Employees
           </p>
