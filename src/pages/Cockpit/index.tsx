@@ -509,25 +509,25 @@ const PortfolioClimateRisk = () => {
   };
 
   const taskList: any = [
-    {
+      {
       id: 1,
-      taskName: 'Review Pending',
-      taskDescription: 'Q3 Emissions Report for Pama Sports.',
+      taskName: 'Risk Score Alert',
+      taskDescription: "Haldisita's risk score increased 15% to High Risk.",
     },
     {
       id: 2,
+      taskName: 'High Emissions Alert',
+      taskDescription: 'Q2 Emissions Report for XYZ Company is too High.',
+    },
+    {
+      id: 3,
       taskName: 'Task Due',
       taskDescription: 'Quarterly Risk Review for the "Chemicals" Sector.',
     },
     {
-      id: 3,
+      id: 4,
       taskName: 'Data Gap',
       taskDescription: 'Missing Scope 3 emissions data for Abibas.',
-    },
-    {
-      id: 4,
-      taskName: 'Risk Score Alert',
-      taskDescription: "Haldisita's risk score increased 15% to High Risk.",
     },
   ];
 
@@ -820,22 +820,22 @@ const PortfolioClimateRisk = () => {
   const top5Industries = {
     name: 'Top 5 Industries',
     list: [
-      '-',
-      '-',
-      '-',
-      '-',
-      '-',
+      'Software & IT Services',
+      'Drugs and Pharmaceuticals',
+      'Commercial Real Estate',
+      'Logistics and Auxiliary transport activities',
+      'Automobiles (Including Ancillaries)',
     ],
   };
 
   const bottom5Industries = {
     name: 'Bottom 5 Industries',
     list: [
-      '-',
-      '-',
-      '-',
-       '-',
-      '-',
+      'Iron & Steel Producers',
+      'Metals & Mining',
+      'Alcoholic Beverages',	
+      'Tobacco',
+      'Waste Management'
     ],
   };
 
@@ -1257,7 +1257,7 @@ const PortfolioClimateRisk = () => {
                           className="text-2xl sm:text-base font-semibold text-text-primary"
                           style={{ fontSize: '24px' }}
                         >
-                          3
+                          2
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
@@ -1271,28 +1271,32 @@ const PortfolioClimateRisk = () => {
                   </h3>
 
                   <div
-                    className="space-y-3 sm:space-y-6 lg:space-y-0  rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
-                    style={{ height: 252, background: 'white' }}
-                  >
-                    {taskList?.map((task: any) => {
-                      return (
-                        <div
-                          key={task?.id}
-                          className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-3 sm:p-6 lg:p-3 border border-background-overlay rounded-base"
-                        >
-                          <img src="/images/purple-diamond.svg" alt="Review Pending" className="w-6 h-6" />
-                          <div className="flex-1">
-                            <div className="text-md sm:text-base font-semibold text-text-primary">
-                              {task?.taskName}
-                            </div>
-                            <div className="text-sm sm:text-sm font-normal text-text-primary">
-                              {task?.taskDescription}
-                            </div>
+                  className="space-y-3 sm:space-y-6 lg:space-y-0 rounded-lg shadow-elevation-1 hover:shadow-elevation-2 transition-shadow duration-200"
+                  style={{ height: 252, background: 'white' }}
+                >
+                  {taskList?.map((task: any, index: number) => {
+                    const isRedIcon = index < 2; // First two items (index 0 and 1)
+                    const iconSrc = isRedIcon ? "/images/red-diamond.svg" : "/images/purple-diamond.svg";
+                    const iconAlt = isRedIcon ? "Risk Score Alert" : "Task Alert";
+                    
+                    return (
+                      <div
+                        key={task?.id}
+                        className="flex items-center gap-3 sm:gap-4 lg:gap-3 p-3 sm:p-6 lg:p-3 border border-background-overlay rounded-base"
+                      >
+                        <img src={iconSrc} alt={iconAlt} className="w-6 h-6" />
+                        <div className="flex-1">
+                          <div className="text-md sm:text-base font-semibold text-text-primary">
+                            {task?.taskName}
+                          </div>
+                          <div className="text-sm sm:text-sm font-normal text-text-primary">
+                            {task?.taskDescription}
                           </div>
                         </div>
-                      );
-                    })}
-                  </div>
+                      </div>
+                    );
+                  })}
+                </div>
                 </div>
               </div>
             </div>
