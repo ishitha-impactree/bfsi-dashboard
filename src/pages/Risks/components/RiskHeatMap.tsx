@@ -17,8 +17,6 @@ const RiskHeatMap: React.FC = () => {
     'Utilities',
     'Materials',
     'Industrials',
-    'Consumer Disc.',
-    'Consumer Staples',
     'Healthcare',
     'Financials',
     'Technology',
