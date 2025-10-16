@@ -1285,7 +1285,7 @@ const tabs = [
         <div className="w-100 mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-semibold text-foreground">Companies Statistics</h1>
+              <h1 className="text-2xl font-semibold text-foreground">Key Sustainability Indicators</h1>
               <p className="text-md text-muted-foreground mt-1">
                 Detailed ESG analysis and risk assessment for portfolio companies
               </p>
